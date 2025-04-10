@@ -2,9 +2,9 @@
 
 {% block title %}Sobre Mim{% endblock %}
 
-{% load static %}
 
 {% block content %}
+{% load static %}
 
 <div class="card shadow-sm p-4 bg-white text-dark" id="card-sobre">
 
@@ -13,7 +13,7 @@
   <h1 class="display-5 fw-bold">João Marcos Maia</h1>
   <h2 class="fs-4 text-primary">Desenvolvedor</h2>
   <p class="fs-4" >Goiânia, Goiás, Brasil</p>
-  <a href="{% static 'core/files/curriculo.pdf' %}" style="margin-bottom: 10px;" class="btn btn-outline-primary" download >
+  <a href="{% static 'core/curriculo.pdf' %}" style="margin-bottom: 10px;" class="btn btn-outline-primary" download >
     <i class="bi bi-download me-1"></i> Baixar currículo
   </a>
  
