@@ -1,0 +1,230 @@
+{% extends "base.html" %}
+
+{% block title %}Sobre Mim{% endblock %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="card shadow-sm p-4 bg-white text-dark" id="card-sobre">
+
+
+
+  <h1 class="display-5 fw-bold">João Marcos Maia</h1>
+  <h2 class="fs-4 text-primary">Desenvolvedor</h2>
+  <p class="fs-4" >Goiânia, Goiás, Brasil</p>
+  <a href="{% static 'core/files/curriculo.pdf' %}" style="margin-bottom: 10px;" class="btn btn-outline-primary" download >
+    <i class="bi bi-download me-1"></i> Baixar currículo
+  </a>
+ 
+  <div class="accordion"   >
+    <div class="accordion-item"  >
+      <h2 class="accordion-header"   >
+        <button class="accordion-button"   type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+          Minha jornada na tecnologia
+        </button>
+      </h2>
+      <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+         <strong> Desde cedo me encantei com tecnologia e sua capacidade de transformar realidades. Iniciei minha trajetória de forma autodidata, e hoje atuo como desenvolvedor full-stack e coordenador de tecnologia. Minha vivência combina prática de desenvolvimento com liderança e visão de produto, sempre buscando soluções eficientes e acessíveis.</strong>
+        </div>
+      </div>
+    </div>
+    <div class="accordion-item"  >
+      <h2 class="accordion-header"  >
+        <button class="accordion-button collapsed"  type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+          Experiência profissional na prática
+        </button>
+      </h2>
+      <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample"  >
+        <div class="accordion-body"  >
+          <strong> Já atuei em ambientes acadêmicos e corporativos, como na UFG com o sistema SISDIM, onde trabalhei com modelagem de banco de dados, desenvolvimento web e até produção de vídeo aulas. Atualmente, na Flex ON, lidero uma equipe multidisciplinar no desenvolvimento de aplicativos multiplataforma, conciliando engenharia de software com gestão de produto.</strong>
+        </div>
+      </div>
+    </div>
+    <div class="accordion-item"  >
+      <h2 class="accordion-header"  >
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+        O que me motiva?
+        </button>
+      </h2>
+      <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample"  >
+        <div class="accordion-body">
+        <strong> Sou movido pela curiosidade, pelo desafio, pela vontade de aprender e por desenvolver soluções que tenham impacto real. Gosto de unir áreas técnicas com visão estratégica, e meu foco é construir produtos escaláveis, úteis e com uma experiência de uso clara e intuitiva.</strong>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Experiência -->
+  <div class="mt-4 animate__animated animate__fadeIn"  id="card-sobre">
+    <h3 class="fw-semibold">Experiência Profissional</h3>
+    <div class="mt-2 animate__animated animate__fadeIn"  id="card-sobre">
+      <h5 class="mb-1">
+        Flex ON — Coordenador de tecnologia e desenvolvimento
+      </h5>
+      <p class="text-muted">Março de 2024 - Atual</p>
+      <ul>
+        <li>Desenvolvedor de aplicativo multiplataforma</li>
+        <li>Coordenação de equipe</li>
+        <li>Product Manager</li>
+        <li>Engenheiro de Software</li>
+        <li>Designer</li>
+      </ul>
+    </div>
+    <div class="mt-3 animate__animated animate__fadeIn"  id="card-sobre">
+      <h5 class="mb-1">SISDIM (UFG) — Programador full-stack</h5>
+      <p class="text-muted">Julho de 2023 - Fevereiro de 2024</p>
+      <ul>
+        <li>Desenvolvimento Web</li>
+        <li>Modelagem e documentação do banco de dados</li>
+        <li>Edição de vídeo aulas</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Formação -->
+  <div class="mt-5 animate__animated animate__fadeIn"  id="card-sobre">
+    <h3 class="fw-semibold">Formação</h3>
+    <ul>
+      <li>
+        <strong>Universidade Federal de Goiás (UFG)</strong> — Superior
+        (Cursando)
+      </li>
+      <li>
+        <strong>Colégio Einstein</strong> — Ensino Médio (Concluído em 2020)
+      </li>
+    </ul>
+  </div>
+
+  <!-- Competências -->
+  <div class="mt-5 animate__animated animate__fadeIn"  id="card-sobre">
+    <h3 class="fw-semibold">Competências</h3>
+
+    <ul>
+      <div  id="card-sobre">
+        <li class="list-group-item d-flex align-items-center animate__animated animate__fadeIn" id="card-sobre">
+          <img
+            src="{% static 'core/icons/django.svg'%}"
+            alt="Django framework"
+            width="60"
+            class="me-2"
+          />Django
+        </li>
+      </div>
+    </ul>
+    <ul>
+      <div  id="card-sobre">
+        <li class="list-group-item d-flex align-items-center animate__animated animate__fadeIn">
+          <img
+            src="{% static 'core/icons/python.svg'%}"
+            alt="Python"
+            width="60"
+            class="me-2"
+          />Python
+        </li>
+      </div>
+    </ul>
+    <ul>
+        <div  id="card-sobre">
+          <li class="list-group-item d-flex align-items-center animate__animated animate__fadeIn">
+            <img
+              src="data:image/png;base64,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"
+              alt="Bubble"
+              width="60"
+              class="me-2"
+            style="border-radius: 20%"
+            />Bubble
+          </li>
+        </div>
+      </ul>
+      <ul>
+        <div  id="card-sobre">
+          <li class="list-group-item d-flex align-items-center animate__animated animate__fadeIn">
+            <img
+              src=" https://raw.githubusercontent.com/tandpfun/skill-icons/65dea6c4eaca7da319e552c09f4cf5a9a8dab2c8/icons/C.svg"
+              alt="C"
+              width="60"
+              class="me-2"
+            />C
+          </li>
+        </div>
+      </ul>
+      <ul>
+        <div  id="card-sobre">
+          <li class="list-group-item d-flex align-items-center">
+            <img
+              src="{% static 'core/icons/html.svg'%}"
+              alt="HTML"
+           
+              width="60"
+              class="me-2"
+            />Html 5
+          </li>
+        </div>
+      </ul>
+      <ul>
+        <div  id="card-sobre">
+          <li class="list-group-item d-flex align-items-center">
+            <img
+              src="{% static 'core/icons/css.svg'%}"
+              alt="CSS"
+           
+              width="60"
+              class="me-2"
+            />CSS
+          </li>
+        </div>
+      </ul>
+      <ul>
+        <div  id="card-sobre">
+          <li class="list-group-item d-flex align-items-center">
+            <img
+              src="{% static 'core/icons/supabase.svg'%}"
+              alt="Supabase"
+           
+              width="60"
+              class="me-2"
+            />Supabase
+          </li>
+        </div>
+      </ul>
+      <ul>
+        <div  id="card-sobre">
+          <li class="list-group-item d-flex align-items-center">
+            <img
+              src="https://raw.githubusercontent.com/tandpfun/skill-icons/65dea6c4eaca7da319e552c09f4cf5a9a8dab2c8/icons/JavaScript.svg"
+              alt="JS"
+           
+              width="60"
+              class="me-2"
+        />JavaScript
+          </li>
+        </div>
+      </ul>
+  </div>
+  <!-- Idiomas -->
+  <div class="mt-5"  id="card-sobre">
+    <h3 class="fw-semibold">Idiomas</h3>
+    <ul>
+      <li>
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Brazilian_flag_icon_round.svg/1200px-Brazilian_flag_icon_round.svg.png"
+          width="24"
+          class="me-2"
+        />
+        Português - Nativo
+      </li>
+      <li>
+        <img
+          src="https://cdn-icons-png.flaticon.com/512/3909/3909383.png"
+          width="24"
+          class="me-2"
+        />Inglês — Intermediário
+      </li>
+    </ul>
+  </div>
+
+</div>
+{% endblock %}
+
