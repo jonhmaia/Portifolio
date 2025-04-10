@@ -1,4 +1,7 @@
 {% load static %}
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
 <head>
   <meta charset="UTF-8">
   <title>{% block title %}Portfólio - João Marcos{% endblock %}</title>
@@ -12,10 +15,6 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 
-
-  <!-- Estilos -->
-
-</head>
   <style>
     body {
       background-color: #121212;
@@ -36,7 +35,7 @@
     }
 
     .accordion-button::after {
-      filter: invert(1); /* seta branca */
+      filter: invert(1);
     }
 
     .accordion-button:not(.collapsed) {
@@ -64,11 +63,45 @@
       transition: background-color 0.3s ease, color 0.3s ease;
     }
   </style>
+</head>
+
 <body class="bg-dark text-white">
 
   <nav class="navbar navbar-expand-lg shadow-sm">
     <div class="container">
       <a class="navbar-brand fw-bold" href="#">João Marcos Maia</a>
+
+      <div class="d-flex ms-auto align-items-center gap-2">
+
+        <div class="d-flex ms-auto align-items-center gap-2">
+
+          <!-- Botão para português (seta explicitamente pt-br) -->
+          <form action="{% url 'set_language' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="language" value="pt-br">
+            <input type="hidden" name="next" value="{{ request.path }}">
+            <button type="submit" class="btn btn-link p-0 border-0" title="Português">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Brazilian_flag_icon_round.svg/1200px-Brazilian_flag_icon_round.svg.png" alt="Português" width="32">
+            </button>
+          </form>
+        
+          <!-- Botão para inglês -->
+          <form action="{% url 'set_language' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="language" value="en">
+            <input type="hidden" name="next" value="{{ request.path }}">
+            <button type="submit" class="btn btn-link p-0 border-0" title="English">
+              <img src="https://cdn-icons-png.flaticon.com/512/3909/3909383.png" alt="English" width="32">
+            </button>
+          </form>
+        
+        </div>
+      
+        
+      </form>
+      
+      
+      
     </div>
   </nav>
 
@@ -76,7 +109,7 @@
     {% block content %}{% endblock %}
   </main>
 
-  <footer class="text-center py-4  text-white">
+  <footer class="text-center py-4 text-white">
     © {{ now|date:"Y" }} João Marcos Maia. Todos os direitos reservados.
   </footer>
 

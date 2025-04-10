@@ -1,105 +1,92 @@
 {% extends "base.html" %}
+{% load i18n %}
 
-{% block title %}Sobre Mim{% endblock %}
-
+{% block title %}{% trans "Sobre Mim" %}{% endblock %}
 
 {% block content %}
 {% load static %}
+{% load i18n %}
 
 <div class="card shadow-sm p-4 bg-white text-dark" id="card-sobre">
-
-
-
-  <h1 class="display-5 fw-bold">João Marcos Maia</h1>
-  <h2 class="fs-4 text-primary">Desenvolvedor</h2>
-  <p class="fs-4" >Goiânia, Goiás, Brasil</p>
-  <a href="{% static 'core/curriculo.pdf' %}" style="margin-bottom: 10px;" class="btn btn-outline-primary" download >
-    <i class="bi bi-download me-1"></i> Baixar currículo
+  <h1 class="display-5 fw-bold">{% trans "João Marcos Maia" %}</h1>
+  <h2 class="fs-4 text-primary">{% trans "Desenvolvedor" %}</h2>
+  <p class="fs-4">{% trans "Goiânia, Goiás, Brasil" %}</p>
+  <a href="{% static 'core/curriculo.pdf' %}" style="margin-bottom: 10px;" class="btn btn-outline-primary" download>
+    <i class="bi bi-download me-1"></i> {% trans "Baixar currículo" %}
   </a>
- 
-  <div class="accordion"   >
-    <div class="accordion-item"  >
-      <h2 class="accordion-header"   >
-        <button class="accordion-button"   type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-          Minha jornada na tecnologia
+
+  <div class="accordion">
+    <div class="accordion-item">
+      <h2 class="accordion-header">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+          {% trans "Minha jornada na tecnologia" %}
         </button>
       </h2>
       <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
         <div class="accordion-body">
-         <strong> Desde cedo me encantei com tecnologia e sua capacidade de transformar realidades. Iniciei minha trajetória de forma autodidata, e hoje atuo como desenvolvedor full-stack e coordenador de tecnologia. Minha vivência combina prática de desenvolvimento com liderança e visão de produto, sempre buscando soluções eficientes e acessíveis.</strong>
+          <strong>{% trans "Desde cedo me encantei com tecnologia e sua capacidade de transformar realidades. Iniciei minha trajetória de forma autodidata, e hoje atuo como desenvolvedor full-stack e coordenador de tecnologia. Minha vivência combina prática de desenvolvimento com liderança e visão de produto, sempre buscando soluções eficientes e acessíveis." %}</strong>
         </div>
       </div>
     </div>
-    <div class="accordion-item"  >
-      <h2 class="accordion-header"  >
-        <button class="accordion-button collapsed"  type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-          Experiência profissional na prática
+    <div class="accordion-item">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+          {% trans "Experiência profissional na prática" %}
         </button>
       </h2>
-      <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample"  >
-        <div class="accordion-body"  >
-          <strong> Já atuei em ambientes acadêmicos e corporativos, como na UFG com o sistema SISDIM, onde trabalhei com modelagem de banco de dados, desenvolvimento web e até produção de vídeo aulas. Atualmente, na Flex ON, lidero uma equipe multidisciplinar no desenvolvimento de aplicativos multiplataforma, conciliando engenharia de software com gestão de produto.</strong>
-        </div>
-      </div>
-    </div>
-    <div class="accordion-item"  >
-      <h2 class="accordion-header"  >
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-        O que me motiva?
-        </button>
-      </h2>
-      <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample"  >
+      <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
         <div class="accordion-body">
-        <strong> Sou movido pela curiosidade, pelo desafio, pela vontade de aprender e por desenvolver soluções que tenham impacto real. Gosto de unir áreas técnicas com visão estratégica, e meu foco é construir produtos escaláveis, úteis e com uma experiência de uso clara e intuitiva.</strong>
-
+          <strong>{% trans "Já atuei em ambientes acadêmicos e corporativos, como na UFG com o sistema SISDIM, onde trabalhei com modelagem de banco de dados, desenvolvimento web e até produção de vídeo aulas. Atualmente, na Flex ON, lidero uma equipe multidisciplinar no desenvolvimento de aplicativos multiplataforma, conciliando engenharia de software com gestão de produto." %}</strong>
+        </div>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+          {% trans "O que me motiva?" %}
+        </button>
+      </h2>
+      <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+          <strong>{% trans "Sou movido pela curiosidade, pelo desafio, pela vontade de aprender e por desenvolver soluções que tenham impacto real. Gosto de unir áreas técnicas com visão estratégica, e meu foco é construir produtos escaláveis, úteis e com uma experiência de uso clara e intuitiva." %}</strong>
         </div>
       </div>
     </div>
   </div>
-  <!-- Experiência -->
-  <div class="mt-4 animate__animated animate__fadeIn"  id="card-sobre">
-    <h3 class="fw-semibold">Experiência Profissional</h3>
-    <div class="mt-2 animate__animated animate__fadeIn"  id="card-sobre">
-      <h5 class="mb-1">
-        Flex ON — Coordenador de tecnologia e desenvolvimento
-      </h5>
-      <p class="text-muted">Março de 2024 - Atual</p>
+
+  <div class="mt-4 animate__animated animate__fadeIn" id="card-sobre">
+    <h3 class="fw-semibold">{% trans "Experiência Profissional" %}</h3>
+    <div class="mt-2 animate__animated animate__fadeIn" id="card-sobre">
+      <h5 class="mb-1">{% trans "Flex ON — Coordenador de tecnologia e desenvolvimento" %}</h5>
+      <p class="text-white">{% trans "Março de 2024 - Atual" %}</p>
       <ul>
-        <li>Desenvolvedor de aplicativo multiplataforma</li>
-        <li>Coordenação de equipe</li>
-        <li>Product Manager</li>
-        <li>Engenheiro de Software</li>
-        <li>Designer</li>
+        <li>{% trans "Desenvolvedor de aplicativo multiplataforma" %}</li>
+        <li>{% trans "Coordenação de equipe" %}</li>
+        <li>{% trans "Product Manager" %}</li>
+        <li>{% trans "Engenheiro de Software" %}</li>
+        <li>{% trans "Designer" %}</li>
       </ul>
     </div>
-    <div class="mt-3 animate__animated animate__fadeIn"  id="card-sobre">
-      <h5 class="mb-1">SISDIM (UFG) — Programador full-stack</h5>
-      <p class="text-muted">Julho de 2023 - Fevereiro de 2024</p>
+    <div class="mt-3 animate__animated animate__fadeIn" id="card-sobre">
+      <h5 class="mb-1">{% trans "SISDIM (UFG) — Programador full-stack" %}</h5>
+      <p class="text-muted">{% trans "Julho de 2023 - Fevereiro de 2024" %}</p>
       <ul>
-        <li>Desenvolvimento Web</li>
-        <li>Modelagem e documentação do banco de dados</li>
-        <li>Edição de vídeo aulas</li>
+        <li>{% trans "Desenvolvimento Web" %}</li>
+        <li>{% trans "Modelagem e documentação do banco de dados" %}</li>
+        <li>{% trans "Edição de vídeo aulas" %}</li>
       </ul>
     </div>
   </div>
 
-  <!-- Formação -->
-  <div class="mt-5 animate__animated animate__fadeIn"  id="card-sobre">
-    <h3 class="fw-semibold">Formação</h3>
+  <div class="mt-5 animate__animated animate__fadeIn" id="card-sobre">
+    <h3 class="fw-semibold">{% trans "Formação" %}</h3>
     <ul>
-      <li>
-        <strong>Universidade Federal de Goiás (UFG)</strong> — Superior
-        (Cursando)
-      </li>
-      <li>
-        <strong>Colégio Einstein</strong> — Ensino Médio (Concluído em 2020)
-      </li>
+      <li><strong>{% trans "Universidade Federal de Goiás (UFG) — Superior (Cursando)" %}</strong></li>
+      <li><strong>{% trans "Colégio Einstein — Ensino Médio (Concluído em 2020)" %}</strong></li>
     </ul>
   </div>
-
-  <!-- Competências -->
   <div class="mt-5 animate__animated animate__fadeIn"  id="card-sobre">
-    <h3 class="fw-semibold">Competências</h3>
+    <h3 class="fw-semibold">{% trans "Competências" %}</h3>
 
     <ul>
       <div  id="card-sobre">
@@ -204,28 +191,18 @@
         </div>
       </ul>
   </div>
-  <!-- Idiomas -->
-  <div class="mt-5"  id="card-sobre">
-    <h3 class="fw-semibold">Idiomas</h3>
+  <div class="mt-5" id="card-sobre">
+    <h3 class="fw-semibold">{% trans "Idiomas" %}</h3>
     <ul>
       <li>
-        <img
-          src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Brazilian_flag_icon_round.svg/1200px-Brazilian_flag_icon_round.svg.png"
-          width="24"
-          class="me-2"
-        />
-        Português - Nativo
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Brazilian_flag_icon_round.svg/1200px-Brazilian_flag_icon_round.svg.png" width="24" class="me-2" />
+        {% trans "Português - Nativo" %}
       </li>
       <li>
-        <img
-          src="https://cdn-icons-png.flaticon.com/512/3909/3909383.png"
-          width="24"
-          class="me-2"
-        />Inglês — Intermediário
+        <img src="https://cdn-icons-png.flaticon.com/512/3909/3909383.png" width="24" class="me-2" />
+        {% trans "Inglês — Intermediário" %}
       </li>
     </ul>
   </div>
-
 </div>
 {% endblock %}
-

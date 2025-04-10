@@ -1,61 +1,58 @@
-# 🧠 Portfólio – João Marcos Maia
+# 🚀 Portfólio Pessoal
 
-Bem-vindo ao meu portfólio pessoal! Este projeto marca meu **retorno ao desenvolvimento com código**, após um período focado no universo **no-code**, especialmente com a plataforma **Bubble**, onde atuei profissionalmente e pude evoluir bastante em lógica, produto e prototipação.
-
-Este repositório é uma vitrine do meu perfil profissional, desenvolvido com **Django**, **Bootstrap**, e hospedado na plataforma **Render**.
-
----
-
-## 🚀 Tecnologias utilizadas
-
-- **Python** & **Django** (back-end)
-- **Bootstrap 5** (estilização responsiva)
-- **HTML5 + CSS3 + JavaScript**
-- **Render** (deploy)
-- **Gunicorn** (servidor WSGI)
-- **Supabase** (planejado como back-end alternativo / banco de dados futuro)
-- **Git & GitHub**
+Bem-vindo(a) ao meu portfólio pessoal desenvolvido com Django!  
+Esse projeto representa minha volta ao código — depois de um tempo trabalhando com ferramentas **low-code/no-code**, resolvi reaprender a stack tradicional e criar uma presença online técnica e personalizada.
 
 ---
 
-## 🎯 Objetivos do projeto
+## 🧰 Tecnologias Utilizadas
 
-- Reaprender e consolidar conhecimentos em **Django** após um tempo longe da stack tradicional.
-- Criar uma presença online profissional com foco técnico.
-- Integrar com banco de dados externo (ex: Supabase) futuramente.
-- Mostrar minhas habilidades tanto **low-code/no-code** quanto **full-stack**.
-
----
-
-## 🛠️ Próximas atualizações
-
-- [ ] Página de **projetos interativos** com integração via API
-- [ ] Formulário de **contato funcional com envio por email**
-- [ ] Área para downloads de **CV em PDF**
-- [ ] Suporte a **tradução 🇧🇷/🇺🇸**
-- [ ] Integração com **Supabase** para gerenciamento dinâmico de conteúdo
-- [ ] Adicionar mais **animações** e efeitos visuais
+- **Python & Django** – back-end web framework
+- **Bootstrap 5** – estilização responsiva
+- **HTML5 + CSS3 + JavaScript** – base da interface
+- **Render** – plataforma de deploy
+- **Gunicorn** – servidor WSGI
+- **Supabase** – (planejado) back-end alternativo / banco de dados externo
+- **Git & GitHub** – versionamento
 
 ---
 
-## 💡 Sobre mim
+## 🎯 Objetivos do Projeto
 
-Meu nome é **João Marcos Maia**. Atuo em meu trabalho atual principalmente com tecnologia no-code e low-code, mas andei sentindo falta de "codar de verdade" (frase polêmica) então resolvi tirar do papel um projeto básico que, na minha opinião todo programador deve ter que é o seu portifólio pessoal.
+- Consolidar conhecimentos em **Django**
+- Criar uma presença online com foco técnico
+- Integrar com banco de dados externo (Supabase)
+- Mostrar habilidades tanto **full-stack** quanto **no-code/low-code**
 
-Esse projeto representa minha  volta ao código (confesso estou enferrujado, até o deploy foi difícil rsrs) com foco em:
+---
 
-- Soluções mais robustas
-- Integração de ferramentas modernas
+## 🛠️ Próximas Atualizações
+
+- Página de **projetos interativos** com integração via API
+- **Formulário de contato funcional** com envio de email
+- Área para **download de CV em PDF**
+- Suporte à **tradução 🇧🇷 / 🇺🇸**
+- Integração com **Supabase** para gerenciamento dinâmico de conteúdo
+- Adição de **animações e efeitos visuais**
+
+---
+
+## 💡 Sobre Mim
+
+Meu nome é **João Marcos Maia**, atuo profissionalmente com **tecnologias no-code/low-code**, mas senti falta de "codar de verdade" (frase polêmica, eu sei 😅). Esse projeto é meu jeito de voltar ao código, com foco em:
+
+- Soluções mais robustas  
+- Integração com ferramentas modernas  
 - Combinação entre **visão de produto** e **capacidade técnica**
 
 ---
 
 ## 📬 Contato
 
-- Email: [joaomarcosaraujomaia14@gmail.com]
-- LinkedIn: www.linkedin.com/in/joaomarcosmaia
-- Site: [Em breve...)
+- **Email:** joaomarcosaraujomaia14@gmail.com  
+- **LinkedIn:** [linkedin.com/in/joaomarcosmaia](https://www.linkedin.com/in/joaomarcosmaia)  
+- **Site:** *[joaomarcos.dev.br]*
 
 ---
 
-> Feito com ❤ e muitos `git push` e 'deploy failed' na jornada de volta ao código.
+> Feito com ❤️ e muitos `git push` & `deploy failed` na jornada de volta ao código.
