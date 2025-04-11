@@ -127,7 +127,6 @@ msgid "Julho de 2023 - Fevereiro de 2024"
 msgstr "July 2023 - February 2024"
 
 #: .\core\templates\sobre_mim.html:74 .\core\templates\sobre_mim.html:75
-#, fuzzy
 #| msgid "Desenvolvedor"
 msgid "Desenvolvimento Web"
 msgstr "Web Developer"
