@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-04-10 16:50-0300\n"
+"POT-Creation-Date: 2025-04-10 22:57-0300\n"
 "PO-Revision-Date: 2024-04-10 12:00+0000\n"
 "Last-Translator: João Marcos Maia <joaomarcosaraujomaia14@gmail.com>\n"
 "Language-Team: English\n"
@@ -11,11 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: .\core\templates\sobre_mim.html:4
-msgid "Sobre Mim"
-msgstr "About Me"
-
-#: .\core\templates\sobre_mim.html:11
+#: .\core\templates\sobre_mim.html:4 .\core\templates\sobre_mim.html:11
 msgid "João Marcos Maia"
 msgstr "João Marcos Maia"
 
@@ -23,22 +19,15 @@ msgstr "João Marcos Maia"
 msgid "Desenvolvedor"
 msgstr "Developer"
 
-msgid "Olá mundo traduzido"
-msgstr "Hello translated world"
-
 #: .\core\templates\sobre_mim.html:13
 msgid "Goiânia, Goiás, Brasil"
 msgstr "Goiânia, Goiás, Brazil"
 
-#: .\core\templates\sobre_mim.html:15
-msgid "Baixar currículo"
-msgstr "Download resume"
-
-#: .\core\templates\sobre_mim.html:22
+#: .\core\templates\sobre_mim.html:20
 msgid "Minha jornada na tecnologia"
 msgstr "My journey in technology"
 
-#: .\core\templates\sobre_mim.html:27
+#: .\core\templates\sobre_mim.html:25
 msgid ""
 "Desde cedo me encantei com tecnologia e sua capacidade de transformar "
 "realidades. Iniciei minha trajetória de forma autodidata, e hoje atuo como "
@@ -52,28 +41,29 @@ msgstr ""
 "experience combines hands-on development with leadership and product vision, "
 "always seeking efficient and accessible solutions."
 
-#: .\core\templates\sobre_mim.html:34
+#: .\core\templates\sobre_mim.html:32
 msgid "Experiência profissional na prática"
 msgstr "Hands-on professional experience"
 
-#: .\core\templates\sobre_mim.html:39
+#: .\core\templates\sobre_mim.html:37
 msgid ""
 "Já atuei em ambientes acadêmicos e corporativos, como na UFG com o sistema "
 "SISDIM, onde trabalhei com modelagem de banco de dados, desenvolvimento web "
-"e até produção de vídeo aulas. Atualmente, na Flex ON, lidero o"
-"desenvolvimento de aplicativos multiplataforma, "
-"conciliando engenharia de software com gestão de produto."
+"e até produção de vídeo aulas. Atualmente, na Flex ON, lidero o "
+"desenvolvimento de aplicativos multiplataforma, conciliando engenharia de "
+"software com gestão de produto."
 msgstr ""
-"I have worked in academic and corporate environments, such as at UFG with the SISDIM system, where I worked with database modeling, web development and even video class production. Currently, at Flex ON, I lead the development of multiplatform applications, combining software engineering with product management."
+"I have worked in academic and corporate environments, such as at UFG with "
+"the SISDIM system, where I worked with database modeling, web development, "
+"and even video lesson production. Currently, at Flex ON, I lead the "
+"development of cross-platform applications, combining software engineering "
+"with product management."
 
-
-
-
-#: .\core\templates\sobre_mim.html:46
+#: .\core\templates\sobre_mim.html:44
 msgid "O que me motiva?"
 msgstr "What motivates me?"
 
-#: .\core\templates\sobre_mim.html:51
+#: .\core\templates\sobre_mim.html:49
 msgid ""
 "Sou movido pela curiosidade, pelo desafio, pela vontade de aprender e por "
 "desenvolver soluções que tenham impacto real. Gosto de unir áreas técnicas "
@@ -85,83 +75,85 @@ msgstr ""
 "strategic vision, and my focus is on building scalable, useful products with "
 "a clear and intuitive user experience."
 
-#: .\core\templates\sobre_mim.html:58
+#: .\core\templates\sobre_mim.html:56
 msgid "Experiência Profissional"
 msgstr "Professional Experience"
 
-#: .\core\templates\sobre_mim.html:60
+#: .\core\templates\sobre_mim.html:58
 msgid "Flex ON — Coordenador de tecnologia e desenvolvimento"
 msgstr "Flex ON — Technology and Development Coordinator"
 
-#: .\core\templates\sobre_mim.html:61
+#: .\core\templates\sobre_mim.html:59
 msgid "Março de 2024 - Atual"
 msgstr "March 2024 - Present"
 
-#: .\core\templates\sobre_mim.html:63
+#: .\core\templates\sobre_mim.html:61
 msgid "Desenvolvedor de aplicativo multiplataforma"
-msgstr "Multiplataform applications developer"
+msgstr "Cross-platform application developer"
 
-#: .\core\templates\sobre_mim.html:64
+#: .\core\templates\sobre_mim.html:62
 msgid "Coordenação de equipe"
-msgstr "Team coordinates"
+msgstr "Team coordination"
 
-#: .\core\templates\sobre_mim.html:65
+#: .\core\templates\sobre_mim.html:63
 msgid "Product Manager"
 msgstr "Product Manager"
 
-#: .\core\templates\sobre_mim.html:66
+#: .\core\templates\sobre_mim.html:64
 msgid "Engenheiro de Software"
 msgstr "Software Engineer"
 
-#: .\core\templates\sobre_mim.html:67
+#: .\core\templates\sobre_mim.html:65
 msgid "Designer"
 msgstr "Designer"
 
-#: .\core\templates\sobre_mim.html:71
+#: .\core\templates\sobre_mim.html:69
 msgid "SISDIM (UFG) — Programador full-stack"
 msgstr "SISDIM (UFG) — Full-stack developer"
 
-#: .\core\templates\sobre_mim.html:72
+#: .\core\templates\sobre_mim.html:70
 msgid "Julho de 2023 - Fevereiro de 2024"
 msgstr "July 2023 - February 2024"
 
-#: .\core\templates\sobre_mim.html:74 .\core\templates\sobre_mim.html:75
-#| msgid "Desenvolvedor"
+#: .\core\templates\sobre_mim.html:72
 msgid "Desenvolvimento Web"
-msgstr "Web Developer"
+msgstr "Web Development"
 
-#: .\core\templates\sobre_mim.html:76
+#: .\core\templates\sobre_mim.html:73
 msgid "Modelagem e documentação do banco de dados"
 msgstr "Database modeling and documentation"
 
-#: .\core\templates\sobre_mim.html:77
+#: .\core\templates\sobre_mim.html:74
 msgid "Edição de vídeo aulas"
 msgstr "Video lesson editing"
 
-#: .\core\templates\sobre_mim.html:83
+#: .\core\templates\sobre_mim.html:80
 msgid "Formação"
 msgstr "Education"
 
-#: .\core\templates\sobre_mim.html:85
+#: .\core\templates\sobre_mim.html:82
 msgid "Universidade Federal de Goiás (UFG) — Superior (Cursando)"
 msgstr "Federal University of Goiás (UFG) — Undergraduate (Ongoing)"
 
-#: .\core\templates\sobre_mim.html:86
+#: .\core\templates\sobre_mim.html:83
 msgid "Colégio Einstein — Ensino Médio (Concluído em 2020)"
 msgstr "Einstein High School — High School (Completed in 2020)"
 
-#: .\core\templates\sobre_mim.html:90
+#: .\core\templates\sobre_mim.html:87
 msgid "Competências"
 msgstr "Skills"
 
-#: .\core\templates\sobre_mim.html:196
+#: .\core\templates\sobre_mim.html:193
 msgid "Idiomas"
 msgstr "Languages"
 
-#: .\core\templates\sobre_mim.html:200
+#: .\core\templates\sobre_mim.html:197
 msgid "Português - Nativo"
 msgstr "Portuguese - Native"
 
-#: .\core\templates\sobre_mim.html:204
+#: .\core\templates\sobre_mim.html:201
 msgid "Inglês — Intermediário"
 msgstr "English — Intermediate"
+
+#~ msgid "Baixar currículo"
+#~ msgstr "Download resume"
