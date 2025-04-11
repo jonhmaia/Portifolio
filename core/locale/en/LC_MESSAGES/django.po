@@ -67,7 +67,7 @@ msgstr ""
 "I have worked in both academic and corporate environments, such as at UFG "
 "with the SISDIM system, where I worked on database modeling, web "
 "development, and even video lesson production. Currently, at Flex ON, I lead "
-"a multidisciplinary team in developing cross-platform applications, "
+"a developing cross-platform applications, "
 "combining software engineering with product management."
 
 #: .\core\templates\sobre_mim.html:46
