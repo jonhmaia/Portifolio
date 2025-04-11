@@ -4,6 +4,8 @@ from django.conf import settings
 from .models import SobreMim
 
 
+def home(request):
+    return render(request, 'home.html')
 
 def sobre_mim(request):
     # Se não houver cookie de idioma, ativa pt-br manualmente
