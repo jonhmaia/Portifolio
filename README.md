@@ -56,3 +56,31 @@ Meu nome é **João Marcos Maia**, atuo profissionalmente com **tecnologias no-c
 ---
 
 > Feito com ❤️ e muitos `git push` & `deploy failed` na jornada de volta ao código.
+
+Data: 11/04/2025
+## 📝 Commit: melhorias no portfólio pessoal Django
+
+### ✨ Novidades
+- Criação da **página inicial (`home`)** com animações usando Animate.css
+- Adição de um **carrossel centralizado de tecnologias** com Swiper.js
+- Ícones definidos diretamente no `home.html` com `href`, `label` e `class`
+
+### 💄 Estilo e Interface
+- Aplicação de **hover laranja** em botões (`primary`, `outline-light`, `dark`) para seguir o esquema de cores preto/laranja
+- Melhorias no `footer` com:
+  - Ícones sociais de GitHub, LinkedIn e Email
+  - Layout centralizado e responsivo
+  - Estilo limpo e profissional
+
+### ⚙️ Funcionalidade e Organização
+- Ajustes na estrutura de `urls.py` com rota para a home
+- Correção na estrutura do Swiper para que todos os ícones carreguem corretamente
+- Atualização da biblioteca Devicon para versão estável via CDN confiável
+
+### 🌍 Internacionalização
+- Atualização do arquivo `.po` com correções de tradução e novas mensagens
+- Garantia de que o idioma `pt-br` é usado por padrão ao recarregar o site
+
+---
+
+Tudo isso deixa o projeto mais funcional, elegante e pronto para crescer com novas páginas como **Projetos**, **Contato**, e integração com o **Supabase** 🚀
