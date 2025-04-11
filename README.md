@@ -83,4 +83,3 @@ Data: 11/04/2025
 
 ---
 
-Tudo isso deixa o projeto mais funcional, elegante e pronto para crescer com novas páginas como **Projetos**, **Contato**, e integração com o **Supabase** 🚀
