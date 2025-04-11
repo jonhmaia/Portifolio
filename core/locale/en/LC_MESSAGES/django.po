@@ -64,11 +64,7 @@ msgid ""
 "desenvolvimento de aplicativos multiplataforma, "
 "conciliando engenharia de software com gestão de produto."
 msgstr ""
-"I have worked in both academic and corporate environments, such as at UFG "
-"with the SISDIM system, where I worked on database modeling, web "
-"development, and even video lesson production. Currently, at Flex ON, I lead "
-"a developing cross-platform applications, "
-"combining software engineering with product management."
+"I have worked in academic and corporate environments, such as at UFG with the SISDIM system, where I worked with database modeling, web development and even video class production. Currently, at Flex ON, I lead the development of multiplatform applications, combining software engineering with product management."
 
 
 
