@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-04-10 22:57-0300\n"
+"POT-Creation-Date: 2025-04-12 17:55-0300\n"
 "PO-Revision-Date: 2024-04-10 12:00+0000\n"
 "Last-Translator: João Marcos Maia <joaomarcosaraujomaia14@gmail.com>\n"
 "Language-Team: English\n"
@@ -10,6 +10,38 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: .\core\templates\home.html:9
+msgid "Início"
+msgstr "Home"
+
+#: .\core\templates\home.html:27
+msgid "Engenheiro de Software Full-stack."
+msgstr "Full-stack Software Engineer."
+
+#: .\core\templates\home.html:84
+msgid "Curriculo"
+msgstr "Resume"
+
+#: .\core\templates\home.html:85
+msgid "Veja meu currículo profissional"
+msgstr "See my professional résumé"
+
+#: .\core\templates\home.html:87
+msgid "Ver Curriculo"
+msgstr "View résumé"
+
+#: .\core\templates\home.html:96
+msgid "Projetos"
+msgstr "Projects"
+
+#: .\core\templates\home.html:97
+msgid "Em breve"
+msgstr "Coming soon"
+
+#: .\core\templates\home.html:99
+msgid "Ver projetos"
+msgstr "View projects"
 
 #: .\core\templates\sobre_mim.html:4 .\core\templates\sobre_mim.html:11
 msgid "João Marcos Maia"
@@ -19,15 +51,15 @@ msgstr "João Marcos Maia"
 msgid "Desenvolvedor"
 msgstr "Developer"
 
-#: .\core\templates\sobre_mim.html:13
+#: .\core\templates\sobre_mim.html:14
 msgid "Goiânia, Goiás, Brasil"
 msgstr "Goiânia, Goiás, Brazil"
 
-#: .\core\templates\sobre_mim.html:20
+#: .\core\templates\sobre_mim.html:21
 msgid "Minha jornada na tecnologia"
 msgstr "My journey in technology"
 
-#: .\core\templates\sobre_mim.html:25
+#: .\core\templates\sobre_mim.html:26
 msgid ""
 "Desde cedo me encantei com tecnologia e sua capacidade de transformar "
 "realidades. Iniciei minha trajetória de forma autodidata, e hoje atuo como "
@@ -41,11 +73,11 @@ msgstr ""
 "experience combines hands-on development with leadership and product vision, "
 "always seeking efficient and accessible solutions."
 
-#: .\core\templates\sobre_mim.html:32
+#: .\core\templates\sobre_mim.html:33
 msgid "Experiência profissional na prática"
 msgstr "Hands-on professional experience"
 
-#: .\core\templates\sobre_mim.html:37
+#: .\core\templates\sobre_mim.html:38
 msgid ""
 "Já atuei em ambientes acadêmicos e corporativos, como na UFG com o sistema "
 "SISDIM, onde trabalhei com modelagem de banco de dados, desenvolvimento web "
@@ -59,11 +91,11 @@ msgstr ""
 "development of cross-platform applications, combining software engineering "
 "with product management."
 
-#: .\core\templates\sobre_mim.html:44
+#: .\core\templates\sobre_mim.html:45
 msgid "O que me motiva?"
 msgstr "What motivates me?"
 
-#: .\core\templates\sobre_mim.html:49
+#: .\core\templates\sobre_mim.html:50
 msgid ""
 "Sou movido pela curiosidade, pelo desafio, pela vontade de aprender e por "
 "desenvolver soluções que tenham impacto real. Gosto de unir áreas técnicas "
@@ -75,83 +107,83 @@ msgstr ""
 "strategic vision, and my focus is on building scalable, useful products with "
 "a clear and intuitive user experience."
 
-#: .\core\templates\sobre_mim.html:56
+#: .\core\templates\sobre_mim.html:57
 msgid "Experiência Profissional"
 msgstr "Professional Experience"
 
-#: .\core\templates\sobre_mim.html:58
+#: .\core\templates\sobre_mim.html:59
 msgid "Flex ON — Coordenador de tecnologia e desenvolvimento"
 msgstr "Flex ON — Technology and Development Coordinator"
 
-#: .\core\templates\sobre_mim.html:59
+#: .\core\templates\sobre_mim.html:60
 msgid "Março de 2024 - Atual"
 msgstr "March 2024 - Present"
 
-#: .\core\templates\sobre_mim.html:61
+#: .\core\templates\sobre_mim.html:62
 msgid "Desenvolvedor de aplicativo multiplataforma"
 msgstr "Cross-platform application developer"
 
-#: .\core\templates\sobre_mim.html:62
+#: .\core\templates\sobre_mim.html:63
 msgid "Coordenação de equipe"
 msgstr "Team coordination"
 
-#: .\core\templates\sobre_mim.html:63
+#: .\core\templates\sobre_mim.html:64
 msgid "Product Manager"
 msgstr "Product Manager"
 
-#: .\core\templates\sobre_mim.html:64
+#: .\core\templates\sobre_mim.html:65
 msgid "Engenheiro de Software"
 msgstr "Software Engineer"
 
-#: .\core\templates\sobre_mim.html:65
+#: .\core\templates\sobre_mim.html:66
 msgid "Designer"
 msgstr "Designer"
 
-#: .\core\templates\sobre_mim.html:69
+#: .\core\templates\sobre_mim.html:70
 msgid "SISDIM (UFG) — Programador full-stack"
 msgstr "SISDIM (UFG) — Full-stack developer"
 
-#: .\core\templates\sobre_mim.html:70
+#: .\core\templates\sobre_mim.html:71
 msgid "Julho de 2023 - Fevereiro de 2024"
 msgstr "July 2023 - February 2024"
 
-#: .\core\templates\sobre_mim.html:72
+#: .\core\templates\sobre_mim.html:73
 msgid "Desenvolvimento Web"
 msgstr "Web Development"
 
-#: .\core\templates\sobre_mim.html:73
+#: .\core\templates\sobre_mim.html:74
 msgid "Modelagem e documentação do banco de dados"
 msgstr "Database modeling and documentation"
 
-#: .\core\templates\sobre_mim.html:74
+#: .\core\templates\sobre_mim.html:75
 msgid "Edição de vídeo aulas"
 msgstr "Video lesson editing"
 
-#: .\core\templates\sobre_mim.html:80
+#: .\core\templates\sobre_mim.html:81
 msgid "Formação"
 msgstr "Education"
 
-#: .\core\templates\sobre_mim.html:82
+#: .\core\templates\sobre_mim.html:83
 msgid "Universidade Federal de Goiás (UFG) — Superior (Cursando)"
 msgstr "Federal University of Goiás (UFG) — Undergraduate (Ongoing)"
 
-#: .\core\templates\sobre_mim.html:83
+#: .\core\templates\sobre_mim.html:84
 msgid "Colégio Einstein — Ensino Médio (Concluído em 2020)"
 msgstr "Einstein High School — High School (Completed in 2020)"
 
-#: .\core\templates\sobre_mim.html:87
+#: .\core\templates\sobre_mim.html:88
 msgid "Competências"
 msgstr "Skills"
 
-#: .\core\templates\sobre_mim.html:193
+#: .\core\templates\sobre_mim.html:194
 msgid "Idiomas"
 msgstr "Languages"
 
-#: .\core\templates\sobre_mim.html:197
+#: .\core\templates\sobre_mim.html:198
 msgid "Português - Nativo"
 msgstr "Portuguese - Native"
 
-#: .\core\templates\sobre_mim.html:201
+#: .\core\templates\sobre_mim.html:202
 msgid "Inglês — Intermediário"
 msgstr "English — Intermediate"
 
