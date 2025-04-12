@@ -25,11 +25,11 @@ msgstr "Resume"
 
 #: .\core\templates\home.html:85
 msgid "Veja meu currículo profissional"
-msgstr "See my professional résumé"
+msgstr "See my professional resume"
 
 #: .\core\templates\home.html:87
 msgid "Ver Curriculo"
-msgstr "View résumé"
+msgstr "View resume"
 
 #: .\core\templates\home.html:96
 msgid "Projetos"
