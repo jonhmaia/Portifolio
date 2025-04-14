@@ -12,7 +12,8 @@ Esse projeto representa minha volta ao código — depois de um tempo trabalhand
 - **HTML5 + CSS3 + JavaScript** – base da interface
 - **Render** – plataforma de deploy
 - **Gunicorn** – servidor WSGI
-- **Supabase** – (planejado) back-end alternativo / banco de dados externo
+- **Supabase** – back-end externo via API REST
+- **Animate.css** – animações visuais
 - **Git & GitHub** – versionamento
 
 ---
@@ -26,24 +27,32 @@ Esse projeto representa minha volta ao código — depois de um tempo trabalhand
 
 ---
 
-## 🛠️ Próximas Atualizações
+## ✅ Funcionalidades Implementadas
 
-- Página de **projetos interativos** com integração via API
-- **Formulário de contato funcional** com envio de email
-- Área para **download de CV em PDF**
-- Suporte à **tradução 🇧🇷 / 🇺🇸**
-- Integração com **Supabase** para gerenciamento dinâmico de conteúdo
-- Adição de **animações e efeitos visuais**
+### 📄 Estrutura
+- Página inicial com animações e carrossel de tecnologias
+- Página de currículo traduzida
+- Página de projetos com dados dinâmicos do Supabase
+- Navegação com seleção de idioma por bandeiras (🇧🇷 / 🇺🇸)
+
+### 🌍 Internacionalização
+- Suporte a i18n com `{% trans %}` e arquivos `.po/.mo`
+
+### 💡 Página de Projetos
+- Cards responsivos com:
+  - Nome, descrição, tipo e tecnologias
+  - Ícones de tipo (🎓, 💼 etc.)
+  - Badges com cores específicas para cada tecnologia
+- Integração com Supabase via API REST
+- Animações de entrada com `Animate.css`
 
 ---
 
-## 💡 Sobre Mim
-
-Meu nome é **João Marcos Maia**, atuo profissionalmente com **tecnologias no-code/low-code**, mas senti falta de "codar de verdade" (frase polêmica, eu sei 😅). Esse projeto é meu jeito de voltar ao código, com foco em:
-
-- Soluções mais robustas  
-- Integração com ferramentas modernas  
-- Combinação entre **visão de produto** e **capacidade técnica**
+## 🛠️ Próximas Atualizações
+- Filtros de projeto, por tecnologias ou tipos de projetos
+- Traduções multilíngues completas com campos dinâmicos (`*_en`)
+- Formulário de contato funcional com envio por email
+- Painel para editar conteúdo no Supabase (CMS/admin simplificado)
 
 ---
 
@@ -57,29 +66,15 @@ Meu nome é **João Marcos Maia**, atuo profissionalmente com **tecnologias no-c
 
 > Feito com ❤️ e muitos `git push` & `deploy failed` na jornada de volta ao código.
 
-Data: 11/04/2025
-## 📝 Commit: melhorias no portfólio pessoal Django
-
-### ✨ Novidades
-- Criação da **página inicial (`home`)** com animações usando Animate.css
-- Adição de um **carrossel centralizado de tecnologias** com Swiper.js
-- Ícones definidos diretamente no `home.html` com `href`, `label` e `class`
-
-### 💄 Estilo e Interface
-- Aplicação de **hover laranja** em botões (`primary`, `outline-light`, `dark`) para seguir o esquema de cores preto/laranja
-- Melhorias no `footer` com:
-  - Ícones sociais de GitHub, LinkedIn e Email
-  - Layout centralizado e responsivo
-  - Estilo limpo e profissional
-
-### ⚙️ Funcionalidade e Organização
-- Ajustes na estrutura de `urls.py` com rota para a home
-- Correção na estrutura do Swiper para que todos os ícones carreguem corretamente
-- Atualização da biblioteca Devicon para versão estável via CDN confiável
-
-### 🌍 Internacionalização
-- Atualização do arquivo `.po` com correções de tradução e novas mensagens
-- Garantia de que o idioma `pt-br` é usado por padrão ao recarregar o site
-
 ---
+
+
+## 📝 Commit: atualização com recursos avançados
+
+### ✨ Novas funcionalidades 13/04/2025
+- Campo `tipo` renderizado com badge e ícone por categoria
+- Tradução de categorias dinâmicas com dicionário no template
+- Sistema de cores vibrantes para cada tecnologia (badges)
+- Adição de projetos reais via integração com Supabase
+=======
 
