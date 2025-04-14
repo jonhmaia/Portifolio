@@ -142,3 +142,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+SUPABASE_URL = 'https://zixvekycedfltzsbsjfy.supabase.co'
+SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InppeHZla3ljZWRmbHR6c2JzamZ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQxMjM4MDAsImV4cCI6MjA1OTY5OTgwMH0.yLb7D3YvNFX_KE9Ldftdl8vsHQzYhCLiQkpwqgKiazI'
+SUPABASE_TABLE = 'projetos'
