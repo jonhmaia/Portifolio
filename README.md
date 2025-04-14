@@ -68,10 +68,13 @@ Esse projeto representa minha volta ao código — depois de um tempo trabalhand
 
 ---
 
+
 ## 📝 Commit: atualização com recursos avançados
 
-### ✨ Novas funcionalidades 13/04
+### ✨ Novas funcionalidades 13/04/2025
 - Campo `tipo` renderizado com badge e ícone por categoria
 - Tradução de categorias dinâmicas com dicionário no template
 - Sistema de cores vibrantes para cada tecnologia (badges)
 - Adição de projetos reais via integração com Supabase
+=======
+
