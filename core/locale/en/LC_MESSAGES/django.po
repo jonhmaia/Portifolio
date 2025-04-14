@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-04-12 17:55-0300\n"
+"POT-Creation-Date: 2025-04-14 09:31-0300\n"
 "PO-Revision-Date: 2024-04-10 12:00+0000\n"
 "Last-Translator: João Marcos Maia <joaomarcosaraujomaia14@gmail.com>\n"
 "Language-Team: English\n"
@@ -31,17 +31,21 @@ msgstr "See my professional resume"
 msgid "Ver Curriculo"
 msgstr "View resume"
 
-#: .\core\templates\home.html:96
+#: .\core\templates\home.html:96 .\core\templates\projetos.html:4
 msgid "Projetos"
 msgstr "Projects"
 
-#: .\core\templates\home.html:97
-msgid "Em breve"
-msgstr "Coming soon"
-
-#: .\core\templates\home.html:99
+#: .\core\templates\home.html:97 .\core\templates\home.html:99
 msgid "Ver projetos"
 msgstr "View projects"
+
+#: .\core\templates\projetos.html:8
+msgid "Projetos em Destaque"
+msgstr "Featured Projects"
+
+#: .\core\templates\projetos.html:57
+msgid "Nenhum projeto disponível no momento."
+msgstr ""
 
 #: .\core\templates\sobre_mim.html:4 .\core\templates\sobre_mim.html:11
 msgid "João Marcos Maia"
