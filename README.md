@@ -78,3 +78,11 @@ Esse projeto representa minha volta ao código — depois de um tempo trabalhand
 - Adição de projetos reais via integração com Supabase
 =======
 
+## 🛠️ Atualização 16/04/2025
+O painel administrativo foi implementado com Django e integrado ao Supabase via API REST. Agora é possível:
+
+- ✅ Criar projetos integrado ao supabase
+- 📝 Editar projetos existentes com formulário pré-preenchido
+- ❌ Excluir projetos com confirmação de segurança
+- 🔐 Acesso restrito a usuários logados
+- 🔔 Toasts visuais com feedback (sucesso e erro) 
