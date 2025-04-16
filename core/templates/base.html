@@ -166,6 +166,29 @@
     {% block content %}{% endblock %}
   </main>
 
+<!-- Toasts -->
+<div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1055">
+  {% for message in messages %}
+    <div class="toast align-items-center text-white bg-{% if message.tags == 'success' %}success{% elif message.tags == 'error' %}danger{% else %}secondary{% endif %} border-0 fade show" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body">
+          {{ message }}
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const toasts = document.querySelectorAll('.toast');
+    toasts.forEach(function (toastEl) {
+      const toast = new bootstrap.Toast(toastEl, { delay: 3000 });
+      toast.show();
+    });
+  });
+</script>
   <footer class="text-center py-4 bg-dark shadow-sm text-white mt-auto">
     <div class="container mb-2">
       <a href="https://github.com/jonhmaia" target="_blank" class="text-white mx-2 fs-4" title="GitHub">
@@ -186,6 +209,7 @@
   style="position: fixed; bottom: 20px; right: 20px; z-index: 9999; width: 60px; height: 60px; background-color: #ff9800;">
   <i class="bi bi-robot fs-4"></i>
 </button>
+
 
 <!-- Caixa com o iframe (inicialmente oculta) -->
 <div id="chatbotBox" style="

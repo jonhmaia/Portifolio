@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-04-14 09:31-0300\n"
+"POT-Creation-Date: 2025-04-16 11:02-0300\n"
 "PO-Revision-Date: 2024-04-10 12:00+0000\n"
 "Last-Translator: João Marcos Maia <joaomarcosaraujomaia14@gmail.com>\n"
 "Language-Team: English\n"
@@ -168,8 +168,9 @@ msgid "Formação"
 msgstr "Education"
 
 #: .\core\templates\sobre_mim.html:83
-msgid "Universidade Federal de Goiás (UFG) — Superior (Cursando)"
-msgstr "Federal University of Goiás (UFG) — Undergraduate (Ongoing)"
+msgid "Universidade Federal de Goiás (UFG) - Ciência da Computação — Superior (Cursando)"
+msgstr "Federal University of Goiás (UFG) – Bachelor's in Computer Science (In progress)"
+
 
 #: .\core\templates\sobre_mim.html:84
 msgid "Colégio Einstein — Ensino Médio (Concluído em 2020)"
