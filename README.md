@@ -76,5 +76,9 @@ Esse projeto representa minha volta ao código — depois de um tempo trabalhand
 - Tradução de categorias dinâmicas com dicionário no template
 - Sistema de cores vibrantes para cada tecnologia (badges)
 - Adição de projetos reais via integração com Supabase
-=======
+
+
+### ✨ Novas funcionalidades 16/04/2025
+-Agora temos o Mailer, agente contratado para falar bem de mim
+
 
