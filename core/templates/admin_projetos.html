@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}Admin - Projetos{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+  <h2 class="mb-4">Gerenciar Projetos</h2>
+
+  <div class="mb-3 text-end">
+    <a href="{% url 'criar_projeto' %}" class="btn btn-success btn-sm">
+        <i class="bi bi-plus-lg me-1"></i> Criar Novo Projeto
+      </a>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-dark table-bordered align-middle">
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Tipo</th>
+          <th>Techs</th>
+          <th>Status</th>
+          <th class="text-center">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for projeto in projetos %}
+          <tr>
+            <td>{{ projeto.nome }}</td>
+            <td>{{ projeto.Tipo }}</td>
+            <td>{{ projeto.techs|join:", " }}</td>
+            <td>
+              {% if projeto.ativo %}
+                <span class="badge bg-success">Ativo</span>
+              {% else %}
+                <span class="badge bg-secondary">Inativo</span>
+              {% endif %}
+            </td>
+            <td class="text-center">
+              <a href="{% url 'editar_projeto' projeto.id %}" class="btn btn-sm btn-outline-warning me-1">
+                <i class="bi bi-pencil-square"></i> Editar
+              </a>
+              
+              <a href="{% url 'excluir_projeto' projeto.id %}" class="btn btn-sm btn-outline-danger"
+              onclick="return confirm('Tem certeza que deseja excluir este projeto?');">
+             <i class="bi bi-trash"></i> Excluir
+           </a>
+           
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

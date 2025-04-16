@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="height: 80vh;">
+  <div class="card bg-dark text-white shadow p-4" style="min-width: 300px; max-width: 400px;">
+    <h3 class="text-center mb-4">Login</h3>
+    <form method="post">
+      {% csrf_token %}
+      <div class="mb-3">
+        <label for="id_username" class="form-label">Usuário</label>
+        <input type="text" name="username" autofocus required class="form-control bg-dark text-white border-secondary" id="id_username">
+      </div>
+      <div class="mb-3">
+        <label for="id_password" class="form-label">Senha</label>
+        <input type="password" name="password" required class="form-control bg-dark text-white border-secondary" id="id_password">
+      </div>
+      <div class="d-grid">
+        <button type="submit" class="btn btn-warning">Entrar</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

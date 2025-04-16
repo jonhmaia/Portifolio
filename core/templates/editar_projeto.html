@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Editar Projeto{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+  <a href="{% url 'admin_projetos' %}" class="btn btn-outline-light">Voltar</a>
+  <h2 class="mb-4">Editar Projeto</h2>
+  <form method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label for="nome" class="form-label">Nome</label>
+      <input type="text" class="form-control bg-dark text-white border-secondary" id="nome" name="nome" value="{{ projeto.nome }}" required>
+    </div>
+    <div class="mb-3">
+      <label for="descricao" class="form-label">Descrição</label>
+      <textarea class="form-control bg-dark text-white border-secondary" id="descricao" name="descricao" rows="4" required>{{ projeto.descricao }}</textarea>
+    </div>
+    <div class="mb-3">
+      <label for="tipo" class="form-label">Tipo</label>
+      <input type="text" class="form-control bg-dark text-white border-secondary" id="tipo" name="tipo" value="{{ projeto.Tipo }}">
+    </div>
+    <div class="mb-3">
+      <label for="repo_url" class="form-label">Repositório</label>
+      <input type="url" class="form-control bg-dark text-white border-secondary" id="repo_url" name="repo_url" value="{{ projeto.repo_url }}">
+    </div>
+    <div class="mb-3">
+      <label for="demo_url" class="form-label">Site</label>
+      <input type="url" class="form-control bg-dark text-white border-secondary" id="demo_url" name="demo_url" value="{{ projeto.demo_url }}">
+    </div>
+    <div class="mb-3">
+      <label for="techs" class="form-label">Techs (separadas por vírgula)</label>
+      <input type="text" class="form-control bg-dark text-white border-secondary" id="techs" name="techs" value="{{ projeto.techs|join:", " }}">
+    </div>
+    <div class="form-check mb-4">
+      <input class="form-check-input" type="checkbox" id="ativo" name="ativo" {% if projeto.ativo %}checked{% endif %}>
+      <label class="form-check-label" for="ativo">
+        Projeto Ativo
+      </label>
+    </div>
+    <button type="submit" class="btn btn-warning">
+      <i class="bi bi-pencil me-1"></i> Atualizar Projeto
+    </button>
+    <a href="{% url 'admin_projetos' %}" class="btn btn-outline-light ms-2">Cancelar</a>
+  </form>
+</div>
+{% endblock %}
