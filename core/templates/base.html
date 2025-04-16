@@ -178,10 +178,40 @@
         <i class="bi bi-envelope-fill"></i>
       </a>
     </div>
-    <div>
+    
       © {{ now|date:"Y" }} João Marcos Maia. All rights reserved.
     </div>
   </footer>
+  <button id="chatbotToggle" class="btn btn rounded-circle shadow-lg"
+  style="position: fixed; bottom: 20px; right: 20px; z-index: 9999; width: 60px; height: 60px; background-color: #ff9800;">
+  <i class="bi bi-robot fs-4"></i>
+</button>
+
+<!-- Caixa com o iframe (inicialmente oculta) -->
+<div id="chatbotBox" style="
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  width: 400px;
+  height: 600px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 0 15px rgba(0,0,0,0.5);
+  display: none;
+  z-index: 9998;
+">
+  <iframe src="https://dash.superagentes.ai/agents/cm9jc55h100guhfij9fow5wpx/iframe"
+          width="100%" height="100%" frameborder="0" allow="clipboard-write"></iframe>
+</div>
+
+<script>
+  const toggleBtn = document.getElementById('chatbotToggle');
+  const chatbotBox = document.getElementById('chatbotBox');
+
+  toggleBtn.addEventListener('click', () => {
+    chatbotBox.style.display = chatbotBox.style.display === 'none' ? 'block' : 'none';
+  });
+</script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <!-- Swiper JS -->
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
