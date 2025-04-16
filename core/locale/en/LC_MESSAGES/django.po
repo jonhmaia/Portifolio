@@ -188,8 +188,8 @@ msgid "Português - Nativo"
 msgstr "Portuguese - Native"
 
 #: .\core\templates\sobre_mim.html:202
-msgid "Inglês — Intermediário"
-msgstr "English — Intermediate"
+msgid "Inglês — Avançado"
+msgstr "English — Advanced"
 
 #~ msgid "Baixar currículo"
 #~ msgstr "Download resume"
