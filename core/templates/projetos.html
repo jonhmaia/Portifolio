@@ -7,8 +7,8 @@
 <div class="container my-5">
   <h2 class="text-center mb-4 animate__animated animate__fadeInDown">{% trans "Projetos em Destaque" %}</h2>
   <div class="row g-4">
-    {% for projeto in projetos %}
-      {% if projeto.ativo %}
+    {% for projeto in active_projects %}
+      {# {% if projeto.ativo %} #} Removed condition
       <div class="col-md-6 col-lg-4 animate__animated animate__fadeInUp animate__delay-{{ forloop.counter0|add:"1" }}s">
         <div class="card h-100 bg-dark text-white border border-warning-subtle rounded-4 shadow-sm project-card">
           <div class="card-body d-flex flex-column">
@@ -50,14 +50,14 @@
           </div>
         </div>
       </div>
-      {% endif %}
+      {# {% endif %} #} Removed condition
     {% endfor %}
   </div>
 
   <h2 class="text-center mt-5 mb-4 animate__animated animate__fadeInDown">{% trans "Outros Projetos" %}</h2>
   <div class="row g-4">
-    {% for projeto in projetos %}
-      {% if not projeto.ativo %}
+    {% for projeto in inactive_projects %}
+      {# {% if not projeto.ativo %} #} Removed condition
       <div class="col-md-6 col-lg-4 animate__animated animate__fadeInUp animate__delay-{{ forloop.counter0|add:"1" }}s">
         <div class="card h-100 bg-dark text-white border border-secondary rounded-4 shadow-sm project-card">
           <div class="card-body d-flex flex-column">
@@ -91,7 +91,7 @@
           </div>
         </div>
       </div>
-      {% endif %}
+      {# {% endif %} #} Removed condition
     {% endfor %}
   </div>
 </div>

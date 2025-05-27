@@ -5,7 +5,7 @@
 <head>
   <meta charset="UTF-8">
   <title>{% block title %}Portfólio - João Marcos{% endblock %}</title>
-  <link rel="icon" type="image/png" href="https://img.icons8.com/windows/32/dev.png">
+  <link rel="icon" type="image/png" href="{% static 'core/img/favicon.ico' %}">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Portfólio de João Marcos Maia - Desenvolvedor Full Stack com experiência em liderança técnica e soluções digitais.">
   <meta property="og:title" content="João Marcos Maia – Desenvolvedor Full Stack">
@@ -15,118 +15,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@master/devicon.min.css">
-
-
-  <style>
-    body {
-      background-color: #121212;
-      color: #fff;
-    }
-
-    .card,
-    .accordion-item,
-    .accordion-button,
-    .accordion-body,
-    .list-group-item,
-    footer,
-    nav,
-    .navbar {
-      background-color: #181818 !important;
-      color: #ffffff !important;
-      border-color: #333 !important;
-    }
-
-    .accordion-button::after {
-      filter: invert(1);
-    }
-
-    .accordion-button:not(.collapsed) {
-      box-shadow: none;
-    }
-
-    .btn {
-      color: #fff;
-      border-color: #ccc;
-    }
-
-    .btn:hover {
-      background-color: #333;
-    }
-
-    .navbar-brand {
-      color: #fff !important;
-    }
-
-    footer {
-      border-top: 1px solid #333;
-    }
-
-    body, .card, .accordion-item, .accordion-button, .accordion-body, .list-group-item {
-      transition: background-color 0.3s ease, color 0.3s ease;
-    }
-     /* Hover personalizado para botões */
-  .btn-primary:hover,
-  .btn-outline-light:hover,
-  .btn-dark:hover {
-    background-color: #ff8c00 !important;
-    border-color: #ff8c00 !important;
-    color: #fff !important;
-  }
-
-  /* Para manter coerência com bordas claras */
-  .btn-outline-light {
-    color: #fff;
-    border-color: #ccc;
-  }
-
-  .btn-outline-light:hover {
-    background-color: #ff8c00;
-    border-color: #ff8c00;
-    color: #fff;
-  }
-  a:hover{
-    color: #ff8c00 !important;
-    
-  }
-
-  .project-card {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-
-  .project-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 0 20px rgba(255, 140, 0, 0.5);
-  }
-
-  .badge {
-    font-size: 0.75rem;
-    border-radius: 12px;
-  }
-  .python-badge           { background-color: #306998; color: #fff; }
-  .django-badge           { background-color: #092E20; color: #fff; }
-  .tailwind-badge         { background-color: #38BDF8; color: #000; }
-  .bootstrap-badge        { background-color: #7952B3; color: #fff; }
-  .supabase-badge         { background-color: #3ECF8E; color: #000; }
-  .gcc-badge              { background-color: #FF5733; color: #fff; }
-  .terminal-badge         { background-color: #009439; color: #fff; }
-  .c-badge                { background-color: #0156b8; color: #000; }
-  .notacao-cientifica-badge { background-color: #ff9800; color: #000; }
-  .uiux-badge             { background-color: #ff69b4; color: #000; }
-  .tad-badge              { background-color: #FFB703; color: #000; }
-  .matemática-badge       { background-color: #FF6F61; color: #fff; }
-  .godot-badge           { background-color: #58B368; color: #fff; }
-  .pixelart-badge         { background-color: #FF6F61; color: #fff; }
-  .jogos-badge           { background-color: #f201fa; color: #fff; }
-  .bubble-badge           { background-color: #0196fa; color: #fff; }
-  .html-badge           { background-color: #E44D26; color: #fff; }
-  .css-badge           { background-color: #264de4; color: #fff; }
-  .android-badge           { background-color: #3DDC84; color: #fff; }
-  .ios-badge           { background-color: #007AFF; color: #fff; }
-  .js-badge          { background-color: #F7DF1E; color: #000; }
-  .web-badge          { background-color: #4CAF50; color: #fff; }
-.fullstack-badge { background-color: #5cc7b9; color: #fff; }
-  
-  </style>
+  <link rel="stylesheet" href="{% static 'core/css/custom_styles.css' %}">
 </head>
 
 <body class="bg-black text-white d-flex flex-column min-vh-100">
@@ -187,15 +76,7 @@
   {% endfor %}
 </div>
 
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const toasts = document.querySelectorAll('.toast');
-    toasts.forEach(function (toastEl) {
-      const toast = new bootstrap.Toast(toastEl, { delay: 3000 });
-      toast.show();
-    });
-  });
-</script>
+{# Removed toast notification script, moved to custom_scripts.js #}
   <footer class="text-center py-4 bg-dark shadow-sm text-white mt-auto">
     <div class="container mb-2">
       <a href="https://github.com/jonhmaia" target="_blank" class="text-white mx-2 fs-4" title="GitHub">
@@ -235,30 +116,12 @@
           width="100%" height="100%" frameborder="0" allow="clipboard-write"></iframe>
 </div>
 
-<script>
-  const toggleBtn = document.getElementById('chatbotToggle');
-  const chatbotBox = document.getElementById('chatbotBox');
-
-  toggleBtn.addEventListener('click', () => {
-    chatbotBox.style.display = chatbotBox.style.display === 'none' ? 'block' : 'none';
-  });
-</script>
+{# Removed chatbot toggle script, moved to custom_scripts.js #}
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <!-- Swiper JS -->
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-<script>
-  const swiper = new Swiper('.swiper', {
-    slidesPerView: 'auto',
-    spaceBetween: 30,
-    centeredSlides: true,
-    loop: true,
-    autoplay: {
-      delay: 2000,
-      disableOnInteraction: false,
-    },
-  });
-</script>
+{# Removed Swiper initialization script, moved to custom_scripts.js #}
 
-
+<script src="{% static 'core/js/custom_scripts.js' %}"></script>
 </body>
 </html>
