@@ -1,0 +1,77 @@
+/* Bandeiras dos idiomas em SVG */
+.flag-icon {
+    width: 20px;
+    height: 15px;
+    display: inline-block;
+    margin-right: 8px;
+    border-radius: 2px;
+    vertical-align: middle;
+}
+
+/* Bandeira do Brasil */
+.flag-br {
+    background: linear-gradient(to bottom, #009739 0%, #009739 25%, #FEDD00 25%, #FEDD00 75%, #009739 75%, #009739 100%);
+    position: relative;
+}
+
+.flag-br::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 12px;
+    height: 8px;
+    background: #012169;
+    border-radius: 50%;
+    border: 1px solid #FEDD00;
+}
+
+/* Bandeira dos Estados Unidos */
+.flag-us {
+    background: linear-gradient(to bottom, 
+        #B22234 0%, #B22234 7.7%, 
+        #FFFFFF 7.7%, #FFFFFF 15.4%, 
+        #B22234 15.4%, #B22234 23.1%, 
+        #FFFFFF 23.1%, #FFFFFF 30.8%, 
+        #B22234 30.8%, #B22234 38.5%, 
+        #FFFFFF 38.5%, #FFFFFF 46.2%, 
+        #B22234 46.2%, #B22234 53.9%, 
+        #FFFFFF 53.9%, #FFFFFF 61.6%, 
+        #B22234 61.6%, #B22234 69.3%, 
+        #FFFFFF 69.3%, #FFFFFF 77%, 
+        #B22234 77%, #B22234 84.7%, 
+        #FFFFFF 84.7%, #FFFFFF 92.4%, 
+        #B22234 92.4%, #B22234 100%);
+    position: relative;
+}
+
+.flag-us::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 40%;
+    height: 53.8%;
+    background: #3C3B6E;
+}
+
+/* Estilos para o select customizado */
+.language-option {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+}
+
+.language-select {
+    appearance: none;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 5"><path fill="%23666" d="M2 0L0 2h4zm0 5L0 3h4z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    background-size: 12px;
+    padding-right: 32px;
+}
+
+.dark .language-select {
+    background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 5"><path fill="%23ccc" d="M2 0L0 2h4zm0 5L0 3h4z"/></svg>');
+}

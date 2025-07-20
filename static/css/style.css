@@ -1,5 +1,11 @@
 /* Custom styles for the portfolio */
 
+/* CSS Variables for lightsaber colors */
+:root {
+    --jedi-blade-color: #00ff00; /* Verde para modo claro (Jedi) */
+    --sith-blade-color: #ff0000; /* Vermelho para modo escuro (Sith) */
+}
+
 /* Smooth transitions */
 * {
     transition: color 0.3s ease, background-color 0.3s ease;
@@ -139,4 +145,96 @@ code {
         background: white;
         color: black;
     }
+}
+
+/* --- ESTILOS DO SABRE DE LUZ (BASE PARA AMBOS) --- */
+.lightsaber-toggle {
+    position: relative;
+    width: 200px;
+    height: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.hilt {
+    cursor: pointer;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 88;
+    width: 40px;
+    height: 15px;
+    border-left: solid 3px #555;
+    border-right: solid 3px #555;
+    border-radius: 3px;
+    background: linear-gradient(to bottom, #e2e2e2 0%, #dbdbdb 50%, #d1d1d1 51%, #fefefe 100%);
+}
+
+.lightsaber-toggle input[type=checkbox] {
+    position: absolute;
+    right: 0;
+    top: 0;
+    opacity: 0;
+    z-index: 99;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.lightsaber-toggle .plasma {
+    position: absolute;
+    right: 40px;
+    top: 2.5px;
+    height: 10px;
+    display: block;
+    border-radius: 12px 0 0 12px;
+    width: 0; /* Começa desligado */
+    transition: all 0.4s ease;
+    background: linear-gradient(to bottom, var(--jedi-blade-color) 0%, #ffffff 40%, #ffffff 60%, var(--jedi-blade-color) 100%);
+}
+
+/* Efeito de ligar o sabre */
+.lightsaber-toggle input[type=checkbox] ~ .plasma {
+    width: 150px;
+    animation: jedi-glow 2s infinite;
+}
+
+.lightsaber-toggle input[type=checkbox]:checked ~ .plasma {
+    background: linear-gradient(to bottom, var(--sith-blade-color) 0%, #ffffff 40%, #ffffff 60%, var(--sith-blade-color) 100%);
+    animation-name: sith-glow;
+}
+
+/* Animações de brilho */
+@keyframes jedi-glow {
+    from { box-shadow: 0 0 12px var(--jedi-blade-color); }
+    50% { box-shadow: 0 0 20px var(--jedi-blade-color); }
+    to { box-shadow: 0 0 12px var(--jedi-blade-color); }
+}
+
+@keyframes sith-glow {
+    from { box-shadow: 0 0 12px var(--sith-blade-color); }
+    50% { box-shadow: 0 0 20px var(--sith-blade-color); }
+    to { box-shadow: 0 0 12px var(--sith-blade-color); }
+}
+
+/* Ajustes para mobile */
+.mobile-saber .lightsaber-toggle {
+    width: 120px;
+    height: 12px;
+}
+
+.mobile-saber .hilt {
+    width: 25px;
+    height: 12px;
+}
+
+.mobile-saber .plasma {
+    right: 25px;
+    top: 1px;
+    height: 10px;
+    width: 0;
+}
+
+.mobile-saber .lightsaber-toggle input[type=checkbox] ~ .plasma {
+    width: 90px;
 }
