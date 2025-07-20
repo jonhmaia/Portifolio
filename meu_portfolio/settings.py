@@ -39,6 +39,13 @@ ALLOWED_HOSTS = [
     config('ALLOWED_HOST', default=''),
 ]
 
+# CSRF settings for Railway
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.railway.app',
+    'http://localhost:8000',
+    'http://127.0.0.1:8000',
+]
+
 
 # Application definition
 
