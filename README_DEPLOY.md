@@ -92,6 +92,11 @@ python manage.py createsuperuser
 - Execute: `python manage.py collectstatic --noinput`
 - Verifique se Whitenoise está configurado
 
+### Erro CSRF (403 Forbidden):
+- Verifique se `CSRF_TRUSTED_ORIGINS` está configurado no settings.py
+- Confirme se o domínio do Railway está incluído nas origens confiáveis
+- Exemplo: `https://seu-app.railway.app`
+
 ## 📞 Suporte
 
 Se encontrar problemas:
