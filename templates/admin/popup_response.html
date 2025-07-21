@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% if action == 'add' %}Adicionar{% elif action == 'change' %}Alterar{% endif %} {{ opts.verbose_name }} | {{ site_title|default:"Django site admin" }}</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #3b82f6;
+            --primary-dark: #1e40af;
+            --secondary-color: #64748b;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --light-bg: #f8fafc;
+            --border-color: #e2e8f0;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--light-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            font-size: 14px;
+        }
+        
+        .popup-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        
+        .popup-content {
+            background: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            max-width: 500px;
+            width: 100%;
+            overflow: hidden;
+            animation: slideIn 0.3s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        
+        .popup-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .popup-header h2 {
+            margin: 0;
+            font-size: 1.25rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .popup-header p {
+            margin: 0.5rem 0 0 0;
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+        
+        .popup-body {
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--success-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            color: white;
+            font-size: 2rem;
+            animation: pulse 2s infinite;
+        }
+        
+        .error-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--danger-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            color: white;
+            font-size: 2rem;
+            animation: shake 0.5s ease-in-out;
+        }
+        
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(16, 185, 129, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+            }
+        }
+        
+        @keyframes shake {
+            0%, 100% {
+                transform: translateX(0);
+            }
+            25% {
+                transform: translateX(-5px);
+            }
+            75% {
+                transform: translateX(5px);
+            }
+        }
+        
+        .popup-message {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+        
+        .popup-details {
+            background: var(--light-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            text-align: left;
+        }
+        
+        .popup-details h4 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0 0 0.75rem 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .detail-item:last-child {
+            border-bottom: none;
+        }
+        
+        .detail-label {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+        
+        .detail-value {
+            color: var(--text-secondary);
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            background: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            border: 1px solid var(--border-color);
+        }
+        
+        .popup-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1.5rem;
+        }
+        
+        .btn-primary {
+            background: var(--primary-color);
+            border: none;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            color: white;
+            text-decoration: none;
+            transform: translateY(-1px);
+        }
+        
+        .btn-secondary {
+            background: var(--secondary-color);
+            border: none;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-secondary:hover {
+            background: #475569;
+            color: white;
+            text-decoration: none;
+            transform: translateY(-1px);
+        }
+        
+        .auto-close-timer {
+            background: var(--light-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        .timer-bar {
+            width: 100%;
+            height: 4px;
+            background: var(--border-color);
+            border-radius: 2px;
+            margin-top: 0.5rem;
+            overflow: hidden;
+        }
+        
+        .timer-progress {
+            height: 100%;
+            background: var(--primary-color);
+            border-radius: 2px;
+            animation: countdown 5s linear;
+        }
+        
+        @keyframes countdown {
+            from {
+                width: 100%;
+            }
+            to {
+                width: 0%;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .popup-container {
+                padding: 0.5rem;
+            }
+            
+            .popup-body {
+                padding: 1.5rem;
+            }
+            
+            .popup-actions {
+                flex-direction: column;
+            }
+            
+            .detail-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="popup-container">
+        <div class="popup-content">
+            <div class="popup-header">
+                <h2>
+                    {% if action == 'add' %}
+                        <i class="fas fa-plus"></i>
+                        Objeto Adicionado
+                    {% elif action == 'change' %}
+                        <i class="fas fa-edit"></i>
+                        Objeto Alterado
+                    {% elif action == 'delete' %}
+                        <i class="fas fa-trash"></i>
+                        Objeto Excluído
+                    {% else %}
+                        <i class="fas fa-check"></i>
+                        Ação Concluída
+                    {% endif %}
+                </h2>
+                <p>{{ opts.verbose_name|capfirst }}</p>
+            </div>
+            
+            <div class="popup-body">
+                {% if action == 'add' %}
+                    <div class="success-icon">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <div class="popup-message">
+                        {{ opts.verbose_name|capfirst }} adicionado com sucesso!
+                    </div>
+                {% elif action == 'change' %}
+                    <div class="success-icon">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <div class="popup-message">
+                        {{ opts.verbose_name|capfirst }} alterado com sucesso!
+                    </div>
+                {% elif action == 'delete' %}
+                    <div class="success-icon">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <div class="popup-message">
+                        {{ opts.verbose_name|capfirst }} excluído com sucesso!
+                    </div>
+                {% endif %}
+                
+                {% if obj %}
+                    <div class="popup-details">
+                        <h4>Detalhes do Objeto</h4>
+                        <div class="detail-item">
+                            <span class="detail-label">Identificação:</span>
+                            <span class="detail-value">{{ obj|escape }}</span>
+                        </div>
+                        {% if obj.pk %}
+                        <div class="detail-item">
+                            <span class="detail-label">ID:</span>
+                            <span class="detail-value">{{ obj.pk }}</span>
+                        </div>
+                        {% endif %}
+                        <div class="detail-item">
+                            <span class="detail-label">Tipo:</span>
+                            <span class="detail-value">{{ opts.verbose_name|capfirst }}</span>
+                        </div>
+                    </div>
+                {% endif %}
+                
+                <div class="popup-actions">
+                    {% if action != 'delete' and obj %}
+                        <a href="{% url opts|admin_urlname:'change' obj.pk|admin_urlquote %}" class="btn-primary" target="_parent">
+                            <i class="fas fa-edit"></i>
+                            Editar Novamente
+                        </a>
+                    {% endif %}
+                    
+                    <button type="button" class="btn-secondary" onclick="window.close()">
+                        <i class="fas fa-times"></i>
+                        Fechar
+                    </button>
+                </div>
+                
+                <div class="auto-close-timer">
+                    <i class="fas fa-clock me-2"></i>
+                    Esta janela será fechada automaticamente em 5 segundos
+                    <div class="timer-bar">
+                        <div class="timer-progress"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Auto-close popup after 5 seconds
+        setTimeout(function() {
+            window.close();
+        }, 5000);
+        
+        // Handle escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                window.close();
+            }
+        });
+        
+        // Focus management
+        document.addEventListener('DOMContentLoaded', function() {
+            // Focus the first button
+            const firstButton = document.querySelector('.popup-actions button, .popup-actions a');
+            if (firstButton) {
+                firstButton.focus();
+            }
+        });
+        
+        // Handle parent window communication
+        if (window.opener) {
+            try {
+                // Notify parent window of successful action
+                window.opener.postMessage({
+                    type: 'admin_popup_response',
+                    action: '{{ action }}',
+                    object_id: '{% if obj %}{{ obj.pk }}{% endif %}',
+                    object_repr: '{% if obj %}{{ obj|escape }}{% endif %}'
+                }, '*');
+            } catch (e) {
+                console.log('Could not communicate with parent window:', e);
+            }
+        }
+    </script>
+</body>
+</html>
