@@ -1,0 +1,233 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{{ article.title }} - {% trans "Blog" %} - {% trans "Meu Portfólio" %}{% endblock %}
+
+{% block extra_css %}
+<link href="https://fonts.googleapis.com/css?family=Fira+Sans:400,500,600,700,800" rel="stylesheet">
+<style>
+.article-page {
+    min-height: 100vh;
+    font-family: 'Fira Sans', sans-serif;
+    padding: 2rem 0;
+    transition: background-color 0.3s ease;
+}
+
+
+
+.article-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.dark .article-container {
+    background: #1e293b;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+}
+
+.article-header {
+    position: relative;
+    height: 400px;
+    background: linear-gradient(147deg, #3b82f6 0%, #1d4ed8 74%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+}
+
+.dark .article-header {
+    background: linear-gradient(147deg, #6366f1 0%, #4338ca 74%);
+}
+
+.article-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.article-header-content {
+    position: relative;
+    z-index: 2;
+    padding: 2rem;
+}
+
+.article-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.article-meta {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    margin-bottom: 1rem;
+}
+
+.article-tags {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.article-tag {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    backdrop-filter: blur(10px);
+}
+
+.article-content {
+    padding: 3rem;
+    line-height: 1.8;
+    color: #1e293b;
+}
+
+.dark .article-content {
+    color: #e2e8f0;
+}
+
+.article-content h2 {
+    color: #3b82f6;
+    font-weight: 600;
+    margin: 2rem 0 1rem 0;
+    font-size: 1.8rem;
+}
+
+.dark .article-content h2 {
+    color: #60a5fa;
+}
+
+.article-content h3 {
+    color: #1d4ed8;
+    font-weight: 600;
+    margin: 1.5rem 0 1rem 0;
+    font-size: 1.4rem;
+}
+
+.dark .article-content h3 {
+    color: #93c5fd;
+}
+
+.article-content p {
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+    color: #475569;
+}
+
+.dark .article-content p {
+    color: #cbd5e1;
+}
+
+.article-content ul, .article-content ol {
+    margin: 1.5rem 0;
+    padding-left: 2rem;
+    color: #475569;
+}
+
+.dark .article-content ul, .dark .article-content ol {
+    color: #cbd5e1;
+}
+
+.article-content li {
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+    color: #475569;
+}
+
+.dark .article-content li {
+    color: #cbd5e1;
+}
+
+.back-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: linear-gradient(147deg, #3b82f6 0%, #1d4ed8 74%);
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 500;
+    margin: 2rem 3rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+}
+
+.dark .back-button {
+    background: linear-gradient(147deg, #6366f1 0%, #4338ca 74%);
+    box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+}
+
+.back-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 40px rgba(59, 130, 246, 0.4);
+    color: white;
+    text-decoration: none;
+}
+
+.dark .back-button:hover {
+    box-shadow: 0 15px 40px rgba(99, 102, 241, 0.4);
+}
+
+@media (max-width: 768px) {
+    .article-title {
+        font-size: 2rem;
+    }
+    
+    .article-content {
+        padding: 2rem;
+    }
+    
+    .back-button {
+        margin: 1rem 2rem;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="article-page bg-base-300">
+    <div class="article-container">
+        <div class="article-header">
+            <div class="article-header-content">
+                <h1 class="article-title">{{ article.title }}</h1>
+                <div class="article-meta">
+                    {% trans "Por" %} {{ article.author }} • {{ article.published_date|date:"d \d\e F \d\e Y" }}
+                    {% if article.reading_time %}
+                        • {{ article.reading_time }} {% trans "min de leitura" %}
+                    {% endif %}
+                </div>
+                {% if article.tags %}
+                <div class="article-tags">
+                    {% for tag in article.tags %}
+                        <span class="article-tag">{{ tag }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <div class="article-content">
+            {{ article.content|safe }}
+        </div>
+        
+        <a href="{% url 'blog:articles' %}" class="back-button">
+            <i class="fas fa-arrow-left"></i>
+            {% trans "Voltar ao Blog" %}
+        </a>
+    </div>
+</div>
+{% endblock %}

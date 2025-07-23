@@ -1,6 +1,39 @@
 @import "tailwindcss";
 @plugin "daisyui";
 
+/* DaisyUI Themes */
+@theme {
+  --color-primary: #152026;
+  --color-secondary: #253840;
+  --color-accent: #516973;
+  --color-neutral: #92A4A6;
+  --color-base-100: #0D0D0D;
+  --color-base-200: #152026;
+  --color-base-300: #253840;
+  --color-base-content: #92A4A6;
+  --color-info: #516973;
+  --color-success: #516973;
+  --color-warning: #253840;
+  --color-error: #152026;
+}
+
+[data-theme="modern"] {
+  --color-primary: #152026;
+  --color-secondary: #253840;
+  --color-accent: #516973;
+  --color-neutral: #92A4A6;
+  --color-base-100: #0D0D0D;
+  --color-base-200: #152026;
+  --color-base-300: #253840;
+  --color-base-content: #92A4A6;
+  --color-info: #516973;
+  --color-success: #516973;
+  --color-warning: #253840;
+  --color-error: #152026;
+}
+
+
+
 /**
   * A catch-all path to Django template files, JavaScript, and Python files
   * that contain Tailwind CSS classes and will be scanned by Tailwind to generate the final CSS file.
@@ -45,5 +78,163 @@
   }
   .dark .hover\:bg-gray-300:hover {
     background-color: var(--color-gray-600);
+  }
+}
+
+/* Sophisticated Effects Styles */
+@layer utilities {
+  /* Fade-in Animation */
+  .animate-fade-in {
+    animation: fadeIn 0.8s ease-out forwards;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Hover Effects with Glow and Scale */
+  .hover-glow {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .hover-glow:hover {
+    transform: scale(1.05);
+    box-shadow: 0 20px 25px -5px rgba(146, 164, 166, 0.3), 0 10px 10px -5px rgba(146, 164, 166, 0.2);
+  }
+  
+  /* Animated Gradients */
+  .animated-gradient {
+    background: linear-gradient(-45deg, var(--color-primary), var(--color-secondary), var(--color-accent), var(--color-primary));
+    background-size: 400% 400%;
+    transition: all 0.3s ease;
+  }
+  
+  @keyframes gradientShift {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+  
+  /* Parallax Background */
+  .parallax-bg {
+    will-change: transform;
+    backface-visibility: hidden;
+  }
+  
+  /* 3D Perspective Effects */
+  .perspective-section {
+    perspective: 1000px;
+  }
+  
+  .flip-card {
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+  }
+  
+  .flip-card:hover {
+    transform: rotateY(180deg);
+  }
+  
+  .flip-card-front,
+  .flip-card-back {
+    backface-visibility: hidden;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .flip-card-back {
+    transform: rotateY(180deg);
+  }
+  
+  /* Tilt Card Styles */
+  .tilt-card {
+    transform-style: preserve-3d;
+    transition: all 0.3s ease;
+  }
+  
+  /* Particles Container */
+  #particles-js {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 0;
+  }
+  
+  .particles-container {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .particles-content {
+    position: relative;
+    z-index: 1;
+  }
+  
+  /* Reduced Motion Support */
+  @media (prefers-reduced-motion: reduce) {
+    .animate-fade-in,
+    .hover-glow,
+    .animated-gradient,
+    .parallax-bg,
+    .flip-card,
+    .tilt-card {
+      animation: none !important;
+      transition: none !important;
+      transform: none !important;
+    }
+  }
+  
+  .reduced-motion .animate-fade-in,
+  .reduced-motion .hover-glow,
+  .reduced-motion .animated-gradient,
+  .reduced-motion .parallax-bg,
+  .reduced-motion .flip-card,
+  .reduced-motion .tilt-card {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+  
+  /* Custom Button Hover Effects */
+  .btn-glow {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+  
+  .btn-glow::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(146, 164, 166, 0.3), transparent);
+    transition: left 0.5s;
+  }
+  
+  .btn-glow:hover::before {
+    left: 100%;
+  }
+  
+  .btn-glow:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(146, 164, 166, 0.2);
   }
 }

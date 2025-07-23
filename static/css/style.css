@@ -1,9 +1,65 @@
 /* Custom styles for the portfolio */
 
-/* CSS Variables for lightsaber colors */
-:root {
-    --jedi-blade-color: #00ff00; /* Verde para modo claro (Jedi) */
-    --sith-blade-color: #ff0000; /* Vermelho para modo escuro (Sith) */
+/* Glass Navigation Bar */
+.glass-nav {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.glass-nav:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Dark mode glass effect */
+[data-theme="dark"] .glass-nav {
+    background: rgba(0, 0, 0, 0.2);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .glass-nav:hover {
+    background: rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Glass navbar elements */
+.glass-nav .language-btn {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+}
+
+.glass-nav .language-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-1px);
+}
+
+[data-theme="dark"] .glass-nav .language-btn {
+    background: rgba(0, 0, 0, 0.2);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .glass-nav .language-btn:hover {
+    background: rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Mobile menu glass effect */
+.glass-nav #mobile-menu {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+[data-theme="dark"] .glass-nav #mobile-menu {
+    background: rgba(0, 0, 0, 0.2);
+    border-top-color: rgba(255, 255, 255, 0.1);
 }
 
 /* Smooth transitions */
@@ -17,32 +73,138 @@
 }
 
 ::-webkit-scrollbar-track {
-    background: #f1f1f1;
+    background: #2a2a2a;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #888;
+    background: #555;
     border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #555;
+    background: #777;
 }
 
-/* Dark mode scrollbar */
-.dark ::-webkit-scrollbar-track {
-    background: #374151;
+/* Language selector styles */
+.language-btn {
+    transition: all 0.3s ease;
 }
 
-.dark ::-webkit-scrollbar-thumb {
-    background: #6b7280;
+.language-btn:hover {
+    transform: translateY(-1px);
 }
 
-.dark ::-webkit-scrollbar-thumb:hover {
-    background: #9ca3af;
+/* Navigation styles */
+.nav-item {
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s ease;
+    margin: 0 8px;
 }
 
-/* Custom animations */
+.nav-item:hover {
+    border-bottom-color: white;
+}
+
+.nav-item.nav-active {
+    border-bottom-color: white;
+}
+
+/* Mobile navigation styles */
+.mobile-nav {
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s ease;
+    margin: 4px 0;
+}
+
+.mobile-nav:hover {
+    border-bottom-color: white;
+}
+
+.mobile-nav.nav-active {
+    border-bottom-color: white;
+}
+
+/* Mobile menu animations */
+#mobile-menu {
+    transition: all 0.3s ease;
+}
+
+/* Card hover effects */
+.card {
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+}
+
+/* Button animations */
+.btn {
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+}
+
+/* Flag icons */
+.flag-icon {
+    width: 16px;
+    height: 12px;
+    display: inline-block;
+    background-size: cover;
+    background-position: center;
+    border-radius: 2px;
+}
+
+.flag-br {
+    background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjEiIGhlaWdodD0iMTUiIHZpZXdCb3g9IjAgMCAyMSAxNSIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjIxIiBoZWlnaHQ9IjE1IiBmaWxsPSIjMDA5NzM5Ii8+Cjxwb2x5Z29uIHBvaW50cz0iMTAuNSw3LjUgMTguMzc1LDEyIDIuNjI1LDEyIiBmaWxsPSIjRkZERjAwIi8+Cjxwb2x5Z29uIHBvaW50cz0iMTAuNSw3LjUgMTguMzc1LDMgMi42MjUsMyIgZmlsbD0iI0ZGREYwMCIvPgo8Y2lyY2xlIGN4PSIxMC41IiBjeT0iNy41IiByPSIzIiBmaWxsPSIjMDAyNzc2Ii8+Cjwvc3ZnPgo=');
+}
+
+.flag-us {
+    background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjEiIGhlaWdodD0iMTUiIHZpZXdCb3g9IjAgMCAyMSAxNSIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjIxIiBoZWlnaHQ9IjE1IiBmaWxsPSIjQjIyMjM0Ii8+CjxyZWN0IHdpZHRoPSIyMSIgaGVpZ2h0PSIxLjE1NCIgZmlsbD0iI0ZGRkZGRiIvPgo8cmVjdCB5PSIyLjMwOCIgd2lkdGg9IjIxIiBoZWlnaHQ9IjEuMTU0IiBmaWxsPSIjRkZGRkZGIi8+CjxyZWN0IHk9IjQuNjE1IiB3aWR0aD0iMjEiIGhlaWdodD0iMS4xNTQiIGZpbGw9IiNGRkZGRkYiLz4KPHJlY3QgeT0iNi45MjMiIHdpZHRoPSIyMSIgaGVpZ2h0PSIxLjE1NCIgZmlsbD0iI0ZGRkZGRiIvPgo8cmVjdCB5PSI5LjIzMSIgd2lkdGg9IjIxIiBoZWlnaHQ9IjEuMTU0IiBmaWxsPSIjRkZGRkZGIi8+CjxyZWN0IHk9IjExLjUzOCIgd2lkdGg9IjIxIiBoZWlnaHQ9IjEuMTU0IiBmaWxsPSIjRkZGRkZGIi8+CjxyZWN0IHk9IjEzLjg0NiIgd2lkdGg9IjIxIiBoZWlnaHQ9IjEuMTU0IiBmaWxsPSIjRkZGRkZGIi8+CjxyZWN0IHdpZHRoPSI5IiBoZWlnaHQ9IjguMDc3IiBmaWxsPSIjM0MzQjZFIi8+Cjwvc3ZnPgo=');
+}
+
+/* Advanced Effects CSS */
+
+/* Typing Animation */
+@keyframes blink {
+    0%, 50% { border-color: transparent; }
+    51%, 100% { border-color: currentColor; }
+}
+
+.typing-effect {
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 2px solid;
+    animation: blink 1s infinite;
+}
+
+/* Floating Elements */
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(var(--float-amplitude, -20px));
+    }
+}
+
+.floating-element {
+    animation: float 3s ease-in-out infinite;
+}
+
+/* Magnetic Cursor Effect */
+.magnetic {
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    cursor: pointer;
+}
+
+/* Scroll-Triggered Animations */
+.scroll-animate {
+    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
 @keyframes fadeInUp {
     from {
         opacity: 0;
@@ -54,187 +216,245 @@
     }
 }
 
-.fade-in-up {
-    animation: fadeInUp 0.6s ease-out;
+@keyframes fadeInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
 
-/* Hover effects */
-.hover-scale {
-    transition: transform 0.3s ease;
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
 
-.hover-scale:hover {
-    transform: scale(1.05);
+@keyframes zoomIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
-/* Custom gradient backgrounds */
-.gradient-bg {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+@keyframes slideInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-/* Code syntax highlighting */
-pre {
-    background-color: #f8f9fa;
-    border: 1px solid #e9ecef;
-    border-radius: 0.375rem;
-    padding: 1rem;
-    overflow-x: auto;
+.animate-fadeInUp {
+    animation: fadeInUp 0.8s ease-out forwards;
 }
 
-.dark pre {
-    background-color: #1f2937;
-    border-color: #374151;
+.animate-fadeInLeft {
+    animation: fadeInLeft 0.8s ease-out forwards;
 }
 
-code {
-    background-color: #f8f9fa;
-    color: #e83e8c;
-    padding: 0.125rem 0.25rem;
-    border-radius: 0.25rem;
-    font-size: 0.875em;
+.animate-fadeInRight {
+    animation: fadeInRight 0.8s ease-out forwards;
 }
 
-.dark code {
-    background-color: #374151;
-    color: #f472b6;
+.animate-zoomIn {
+    animation: zoomIn 0.8s ease-out forwards;
 }
 
-/* Custom button styles */
-.btn-primary {
-    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-    border: none;
-    transition: all 0.3s ease;
+.animate-slideInDown {
+    animation: slideInDown 0.8s ease-out forwards;
 }
 
-.btn-primary:hover {
-    background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
-    transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+/* Morphing Shapes */
+.morph-shape {
+    transition: clip-path 1s ease-in-out;
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
 }
 
-/* Loading animation */
-.loading {
+/* Glassmorphism Effect */
+.glass-effect {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+/* Custom Button Styles - Updated for grayish-blue palette */
+.neon-btn {
     display: inline-block;
-    width: 20px;
-    height: 20px;
-    border: 3px solid #f3f3f3;
-    border-top: 3px solid #3498db;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-/* Responsive utilities */
-@media (max-width: 768px) {
-    .mobile-hidden {
-        display: none;
-    }
-}
-
-/* Print styles */
-@media print {
-    .no-print {
-        display: none;
-    }
-    
-    body {
-        background: white;
-        color: black;
-    }
-}
-
-/* --- ESTILOS DO SABRE DE LUZ (BASE PARA AMBOS) --- */
-.lightsaber-toggle {
+    padding: 12px 24px;
+    margin: 10px 5px;
+    background-color: #152026 !important;
+    color: #92A4A6 !important;
+    border: 2px solid #92A4A6 !important;
+    border-radius: 0 !important;
+    text-decoration: none !important;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 1px;
+    transition: all 0.3s ease-in-out !important;
+    cursor: pointer;
+    font-family: 'Arial', sans-serif;
     position: relative;
-    width: 200px;
-    height: 15px;
-    display: flex;
-    align-items: center;
+    overflow: hidden;
+    box-sizing: border-box;
 }
 
-.hilt {
-    cursor: pointer;
-    position: absolute;
-    right: 0;
-    top: 0;
-    z-index: 88;
-    width: 40px;
-    height: 15px;
-    border-left: solid 3px #555;
-    border-right: solid 3px #555;
-    border-radius: 3px;
-    background: linear-gradient(to bottom, #e2e2e2 0%, #dbdbdb 50%, #d1d1d1 51%, #fefefe 100%);
+.neon-btn:hover {
+    background-color: #92A4A6 !important;
+    color: #152026 !important;
+    border: 2px solid #92A4A6 !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(146, 164, 166, 0.3);
 }
 
-.lightsaber-toggle input[type=checkbox] {
-    position: absolute;
-    right: 0;
-    top: 0;
-    opacity: 0;
-    z-index: 99;
-    width: 100%;
-    height: 100%;
-    cursor: pointer;
+.neon-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(146, 164, 166, 0.2);
 }
 
-.lightsaber-toggle .plasma {
-    position: absolute;
-    right: 40px;
-    top: 2.5px;
-    height: 10px;
-    display: block;
-    border-radius: 12px 0 0 12px;
-    width: 0; /* Começa desligado */
-    transition: all 0.4s ease;
-    background: linear-gradient(to bottom, var(--jedi-blade-color) 0%, #ffffff 40%, #ffffff 60%, var(--jedi-blade-color) 100%);
+.neon-btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(146, 164, 166, 0.4);
 }
 
-/* Efeito de ligar o sabre */
-.lightsaber-toggle input[type=checkbox] ~ .plasma {
-    width: 150px;
-    animation: jedi-glow 2s infinite;
+/* Pulsing animation for neon button */
+@keyframes neon-pulse {
+    0%, 100% {
+        background-color: #152026;
+        color: #92A4A6;
+        border-color: #92A4A6;
+        box-shadow: none;
+    }
+    50% {
+        background-color: #92A4A6;
+        color: #152026;
+        border-color: #92A4A6;
+        box-shadow: 0 4px 8px rgba(146, 164, 166, 0.3);
+    }
 }
 
-.lightsaber-toggle input[type=checkbox]:checked ~ .plasma {
-    background: linear-gradient(to bottom, var(--sith-blade-color) 0%, #ffffff 40%, #ffffff 60%, var(--sith-blade-color) 100%);
-    animation-name: sith-glow;
+.neon-btn-pulse {
+    animation: neon-pulse 2s ease-in-out infinite;
 }
 
-/* Animações de brilho */
-@keyframes jedi-glow {
-    from { box-shadow: 0 0 12px var(--jedi-blade-color); }
-    50% { box-shadow: 0 0 20px var(--jedi-blade-color); }
-    to { box-shadow: 0 0 12px var(--jedi-blade-color); }
+/* Enhanced Glow Effects */
+.glow-green {
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+    transition: box-shadow 0.3s ease;
 }
 
-@keyframes sith-glow {
-    from { box-shadow: 0 0 12px var(--sith-blade-color); }
-    50% { box-shadow: 0 0 20px var(--sith-blade-color); }
-    to { box-shadow: 0 0 12px var(--sith-blade-color); }
+.glow-green:hover {
+    box-shadow: 0 0 30px rgba(0, 255, 0, 0.6);
 }
 
-/* Ajustes para mobile */
-.mobile-saber .lightsaber-toggle {
-    width: 120px;
-    height: 12px;
+.glow-red {
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+    transition: box-shadow 0.3s ease;
 }
 
-.mobile-saber .hilt {
-    width: 25px;
-    height: 12px;
+.glow-red:hover {
+    box-shadow: 0 0 30px rgba(255, 0, 0, 0.6);
 }
 
-.mobile-saber .plasma {
-    right: 25px;
-    top: 1px;
-    height: 10px;
-    width: 0;
+.glow-blue {
+    box-shadow: 0 0 20px rgba(0, 100, 255, 0.3);
+    transition: box-shadow 0.3s ease;
 }
 
-.mobile-saber .lightsaber-toggle input[type=checkbox] ~ .plasma {
-    width: 90px;
+.glow-blue:hover {
+    box-shadow: 0 0 30px rgba(0, 100, 255, 0.6);
+}
+
+/* Pulse Animation */
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+.pulse-effect {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+/* Bounce Animation */
+@keyframes bounce {
+    0%, 20%, 53%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40%, 43% {
+        transform: translateY(-10px);
+    }
+    70% {
+        transform: translateY(-5px);
+    }
+    90% {
+        transform: translateY(-2px);
+    }
+}
+
+.bounce-effect {
+    animation: bounce 2s ease infinite;
+}
+
+/* Shake Animation */
+@keyframes shake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    10%, 30%, 50%, 70%, 90% {
+        transform: translateX(-5px);
+    }
+    20%, 40%, 60%, 80% {
+        transform: translateX(5px);
+    }
+}
+
+.shake-effect:hover {
+    animation: shake 0.5s ease-in-out;
+}
+
+/* Neon Text Effect */
+.neon-text {
+    color: #fff;
+    text-shadow: 
+        0 0 5px currentColor,
+        0 0 10px currentColor,
+        0 0 15px currentColor,
+        0 0 20px #00ff00,
+        0 0 35px #00ff00,
+        0 0 40px #00ff00;
+    animation: neon-flicker 2s ease-in-out infinite alternate;
+}
+
+@keyframes neon-flicker {
+    0%, 18%, 22%, 25%, 53%, 57%, 100% {
+        text-shadow: 
+            0 0 5px currentColor,
+            0 0 10px currentColor,
+            0 0 15px currentColor,
+            0 0 20px #00ff00,
+            0 0 35px #00ff00,
+            0 0 40px #00ff00;
+    }
+    20%, 24%, 55% {
+        text-shadow: none;
+    }
 }

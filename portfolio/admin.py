@@ -1,8 +1,10 @@
 from django.contrib import admin
+from django.contrib.auth.models import User, Group
 from django.utils.html import format_html
 from django.urls import reverse
 from django.utils.safestring import mark_safe
 from .models import Projeto, Tecnologia, ImagemProjeto
+from .forms import ProjetoAdminForm, TecnologiaAdminForm, ImagemProjetoAdminForm
 
 # Configuração do site admin
 admin.site.site_header = "Administração do Portfólio"
@@ -11,8 +13,8 @@ admin.site.index_title = "Painel de Controle"
 
 @admin.register(Tecnologia)
 class TecnologiaAdmin(admin.ModelAdmin):
+    form = TecnologiaAdminForm
     list_display = ('nome', 'categoria', 'cor_preview', 'icone', 'ativo')
-    list_filter = ('categoria', 'ativo')
     search_fields = ('nome', 'categoria')
     list_editable = ('ativo',)
     ordering = ('categoria', 'nome')
@@ -49,13 +51,10 @@ class ImagemProjetoInline(admin.TabularInline):
 
 @admin.register(Projeto)
 class ProjetoAdmin(admin.ModelAdmin):
+    form = ProjetoAdminForm
     list_display = (
         'titulo', 'status_badge', 'destaque_badge', 'tecnologias_preview', 
         'destaque', 'ativo', 'ordem', 'data_criacao'
-    )
-    list_filter = (
-        'status', 'destaque', 'ativo', 'tecnologias', 
-        'data_criacao', 'data_conclusao'
     )
     search_fields = ('titulo', 'subtitulo', 'descricao_curta', 'descricao_completa')
     list_editable = ('ativo', 'destaque', 'ordem')
@@ -129,7 +128,10 @@ class ProjetoAdmin(admin.ModelAdmin):
     tecnologias_preview.short_description = 'Tecnologias'
     
     def get_queryset(self, request):
-        return super().get_queryset(request).prefetch_related('tecnologias')
+        return super().get_queryset(request).prefetch_related('tecnologias').select_related()
+    
+    list_per_page = 12  # Mostrar 12 projetos por página (3x4 grid)
+    list_max_show_all = 50  # Máximo para mostrar todos
     
     actions = ['marcar_como_destaque', 'remover_destaque', 'ativar_projetos', 'desativar_projetos']
     
@@ -155,8 +157,8 @@ class ProjetoAdmin(admin.ModelAdmin):
 
 @admin.register(ImagemProjeto)
 class ImagemProjetoAdmin(admin.ModelAdmin):
+    form = ImagemProjetoAdminForm
     list_display = ('projeto', 'imagem_preview', 'legenda', 'ordem', 'ativo', 'data_upload')
-    list_filter = ('ativo', 'projeto', 'data_upload')
     search_fields = ('projeto__titulo', 'legenda')
     list_editable = ('ordem', 'ativo')
     readonly_fields = ('data_upload',)
@@ -169,3 +171,8 @@ class ImagemProjetoAdmin(admin.ModelAdmin):
             )
         return '-'
     imagem_preview.short_description = 'Preview'
+
+# Desregistrar os modelos de usuários e grupos do admin
+# para manter apenas os módulos relacionados ao portfolio
+admin.site.unregister(User)
+admin.site.unregister(Group)

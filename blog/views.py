@@ -14,7 +14,7 @@ def articles(request):
             'author': 'Seu Nome',
             'published_date': datetime(2024, 1, 15),
             'tags': ['Django', 'Python', 'Web Development'],
-            'featured_image': 'https://via.placeholder.com/600x300',
+            'featured_image': 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80',
             'reading_time': 5
         },
         {
@@ -26,7 +26,7 @@ def articles(request):
             'author': 'Seu Nome',
             'published_date': datetime(2024, 1, 10),
             'tags': ['CSS', 'Frontend', 'Layout'],
-            'featured_image': 'https://via.placeholder.com/600x300',
+            'featured_image': 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80',
             'reading_time': 8
         },
         {
@@ -38,7 +38,7 @@ def articles(request):
             'author': 'Seu Nome',
             'published_date': datetime(2024, 1, 5),
             'tags': ['Django', 'Deploy', 'DevOps'],
-            'featured_image': 'https://via.placeholder.com/600x300',
+            'featured_image': 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80',
             'reading_time': 12
         }
     ]
@@ -77,7 +77,7 @@ def article_detail(request, slug):
             'author': 'Seu Nome',
             'published_date': datetime(2024, 1, 15),
             'tags': ['Django', 'Python', 'Web Development'],
-            'featured_image': 'https://via.placeholder.com/800x400',
+            'featured_image': 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400&q=80',
             'reading_time': 5
         }
     }

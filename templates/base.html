@@ -9,264 +9,205 @@
     <title>{% block title %}{% trans "Meu Portfólio" %}{% endblock %}</title>
     
     <!-- Tailwind CSS -->
-    {% tailwind_css %}
+    <link rel="stylesheet" href="{% static 'css/dist/styles.css' %}">
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/flags.css' %}">
     
+    <!-- External Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@3.0.3/tsparticles.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.8.1/dist/vanilla-tilt.min.js"></script>
+    
     {% block extra_css %}{% endblock %}
 </head>
-<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300">
-    <!-- Navigation -->
-    <nav class="bg-white dark:bg-gray-800 shadow-lg">
+<body class="text-base-content transition-colors duration-300" data-theme="modern" style="background-color: #0D0D0D;">
+    <!-- Navigation Bar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md" style="background-color: rgba(21, 32, 38, 0.95);">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16">
-                <div class="flex items-center">
-                    <a href="{% url 'core:home' %}" class="text-xl font-bold text-blue-600 dark:text-blue-400">
-                        {% trans "Meu Portfólio" %}
-                    </a>
-                </div>
+            <div class="flex justify-between items-center h-16">
+                <!-- Nome à esquerda -->
+                <a href="{% url 'core:home' %}" id="name-element" class="text-white font-bold text-lg transition-all duration-500 hover:text-gray-300 cursor-pointer">
+                    João Marcos Maia
+                </a>
                 
-                <!-- Desktop Menu -->
-                <div class="hidden md:flex items-center space-x-4">
-                    <!-- Lightsaber Theme Toggle -->
-                    <div class="lightsaber-container">
-                        <div class="lightsaber-toggle">
-                            <input type="checkbox" id="saber-checkbox-desktop">
-                            <div class="hilt"></div>
-                            <div class="plasma"></div>
-                        </div>
-                    </div>
+                <!-- Menu e Language Selector à direita -->
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="{% url 'core:home' %}" class="nav-item nav-home px-4 py-2 text-white transition-all duration-300 font-medium hover:bg-white hover:bg-opacity-10 {% if request.path == '/' %}nav-active{% endif %}">{% trans "Início" %}</a>
+                        <a href="{% url 'portfolio:projects' %}" class="nav-item nav-projects px-4 py-2 text-white transition-all duration-300 font-medium hover:bg-white hover:bg-opacity-10 {% if '/portfolio/' in request.path %}nav-active{% endif %}">{% trans "Projetos" %}</a>
+                        <a href="{% url 'blog:articles' %}" class="nav-item nav-articles px-4 py-2 text-white transition-all duration-300 font-medium hover:bg-white hover:bg-opacity-10 {% if '/blog/' in request.path %}nav-active{% endif %}">{% trans "Artigos" %}</a>
+                        <a href="{% url 'core:curriculum' %}" class="nav-item nav-curriculum px-4 py-2 text-white transition-all duration-300 font-medium hover:bg-white hover:bg-opacity-10 {% if '/curriculum/' in request.path %}nav-active{% endif %}">{% trans "Currículo" %}</a>
+
                     
-                    <a href="{% url 'core:home' %}" class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">
-                        {% trans "Home" %}
-                    </a>
-                    <a href="{% url 'core:curriculum' %}" class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">
-                        {% trans "Currículo" %}
-                    </a>
-                    <a href="{% url 'portfolio:projects' %}" class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">
-                        {% trans "Projetos" %}
-                    </a>
-                    <a href="{% url 'blog:articles' %}" class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">
-                        {% trans "Blog" %}
-                    </a>
-                    
-                    <!-- Language Selector Buttons -->
+                    <!-- Language Selector Desktop -->
                     <div class="flex items-center space-x-2">
-                        <button id="lang-btn-pt" class="language-btn flex items-center px-3 py-1 rounded-lg transition-colors {% if LANGUAGE_CODE == 'pt-br' %}bg-blue-600 text-white{% else %}bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600{% endif %}" data-lang="pt-br">
-                            <span class="flag-icon flag-br mr-2"></span>
-                            <span class="text-sm">PT</span>
+                        <button id="lang-btn-pt" class="px-3 py-1 text-sm text-white hover:text-blue-300 transition-colors duration-300 {% if LANGUAGE_CODE == 'pt-br' %}font-bold{% endif %}">
+                            PT
                         </button>
-                        <button id="lang-btn-en" class="language-btn flex items-center px-3 py-1 rounded-lg transition-colors {% if LANGUAGE_CODE == 'en' %}bg-blue-600 text-white{% else %}bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600{% endif %}" data-lang="en">
-                            <span class="flag-icon flag-us mr-2"></span>
-                            <span class="text-sm">EN</span>
+                        <span class="text-white/50">|</span>
+                        <button id="lang-btn-en" class="px-3 py-1 text-sm text-white hover:text-blue-300 transition-colors duration-300 {% if LANGUAGE_CODE == 'en' %}font-bold{% endif %}">
+                            EN
                         </button>
                     </div>
                 </div>
                 
                 <!-- Mobile Menu Button -->
-                <div class="md:hidden flex items-center space-x-2">
-                    <!-- Mobile Lightsaber Theme Toggle -->
-                    <div class="lightsaber-container mobile-saber">
-                        <div class="lightsaber-toggle">
-                            <input type="checkbox" id="saber-checkbox-mobile">
-                            <div class="hilt"></div>
-                            <div class="plasma"></div>
-                        </div>
-                    </div>
-                    
-                    <!-- Hamburger Button -->
-                    <button id="mobile-menu-toggle" class="p-2 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path class="hamburger-line" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-                            <path class="close-line hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                <div class="md:hidden">
+                    <button id="mobile-menu-toggle" class="text-white hover:text-blue-300 transition-colors duration-300">
+                        <svg class="hamburger-line w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                        <svg class="close-line w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                         </svg>
                     </button>
                 </div>
             </div>
-            
-            <!-- Mobile Menu -->
-            <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
-                <div class="px-2 pt-2 pb-3 space-y-1">
-                    <a href="{% url 'core:home' %}" class="block px-3 py-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md">
-                        {% trans "Home" %}
-                    </a>
-                    <a href="{% url 'core:curriculum' %}" class="block px-3 py-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md">
-                        {% trans "Currículo" %}
-                    </a>
-                    <a href="{% url 'portfolio:projects' %}" class="block px-3 py-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md">
-                        {% trans "Projetos" %}
-                    </a>
-                    <a href="{% url 'blog:articles' %}" class="block px-3 py-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md">
-                        {% trans "Blog" %}
-                    </a>
-                    
-                    <!-- Mobile Language Selector Buttons -->
-                    <div class="px-3 py-2">
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{% trans "Idioma" %}</label>
-                        <div class="flex items-center space-x-2">
-                            <button id="mobile-lang-btn-pt" class="language-btn flex items-center px-3 py-2 rounded-lg transition-colors flex-1 justify-center {% if LANGUAGE_CODE == 'pt-br' %}bg-blue-600 text-white{% else %}bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600{% endif %}" data-lang="pt-br">
-                                <span class="flag-icon flag-br mr-2"></span>
-                                <span class="text-sm">Português</span>
-                            </button>
-                            <button id="mobile-lang-btn-en" class="language-btn flex items-center px-3 py-2 rounded-lg transition-colors flex-1 justify-center {% if LANGUAGE_CODE == 'en' %}bg-blue-600 text-white{% else %}bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600{% endif %}" data-lang="en">
-                                <span class="flag-icon flag-us mr-2"></span>
-                                <span class="text-sm">English</span>
-                            </button>
-                        </div>
-                    </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden hidden backdrop-blur-md" style="background-color: rgba(21, 32, 38, 0.95);">
+            <div class="px-4 py-4 space-y-2">
+                <a href="{% url 'core:home' %}" class="nav-item nav-home mobile-nav block px-4 py-2 text-white transition-all duration-300 font-medium hover:bg-white hover:bg-opacity-10 {% if request.path == '/' %}nav-active{% endif %}">{% trans "Início" %}</a>
+                        <a href="{% url 'portfolio:projects' %}" class="nav-item nav-projects mobile-nav block px-4 py-2 text-white transition-all duration-300 font-medium hover:bg-white hover:bg-opacity-10 {% if '/portfolio/' in request.path %}nav-active{% endif %}">{% trans "Projetos" %}</a>
+                        <a href="{% url 'blog:articles' %}" class="nav-item nav-articles mobile-nav block px-4 py-2 text-white transition-all duration-300 font-medium hover:bg-white hover:bg-opacity-10 {% if '/blog/' in request.path %}nav-active{% endif %}">{% trans "Artigos" %}</a>
+                        <a href="{% url 'core:curriculum' %}" class="nav-item nav-curriculum mobile-nav block px-4 py-2 text-white transition-all duration-300 font-medium hover:bg-white hover:bg-opacity-10 {% if '/curriculum/' in request.path %}nav-active{% endif %}">{% trans "Currículo" %}</a>
+                
+                <!-- Language Selector Mobile -->
+                <div class="flex items-center space-x-2 pt-4">
+                    <button id="mobile-lang-btn-pt" class="px-3 py-1 text-sm text-white hover:text-blue-300 transition-colors duration-300 {% if LANGUAGE_CODE == 'pt-br' %}font-bold{% endif %}">
+                        PT
+                    </button>
+                    <span class="text-white/50">|</span>
+                    <button id="mobile-lang-btn-en" class="px-3 py-1 text-sm text-white hover:text-blue-300 transition-colors duration-300 {% if LANGUAGE_CODE == 'en' %}font-bold{% endif %}">
+                        EN
+                    </button>
                 </div>
             </div>
         </div>
     </nav>
     
     <!-- Main Content -->
-    <main class="min-h-screen">
+    <main class="min-h-screen pt-16">
         {% block content %}
         {% endblock %}
     </main>
     
     <!-- Footer -->
-    <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
+    <footer style="background: linear-gradient(-45deg, #152026, #253840, #516973, #152026); background-size: 400% 400%; animation: gradientShift 15s ease infinite;">
         <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
-            <div class="text-center text-gray-600 dark:text-gray-400">
+            <div class="text-center text-white">
                 <p>&copy; 2024 {% trans "Meu Portfólio" %}. {% trans "Todos os direitos reservados" %}.</p>
             </div>
         </div>
     </footer>
     
     <!-- JavaScript -->
+    <script src="{% static 'js/effects.js' %}"></script>
+    
     <script>
-        // Lightsaber theme toggle functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            const desktopSaber = document.getElementById('saber-checkbox-desktop');
-            const mobileSaber = document.getElementById('saber-checkbox-mobile');
-            const html = document.documentElement;
-            
-            // Check for saved theme preference or default to light mode
-            const currentTheme = localStorage.getItem('theme') || 'light';
-            console.log('Current theme:', currentTheme);
-            
-            // Apply initial theme and saber state
-            if (currentTheme === 'dark') {
-                html.classList.add('dark');
-                if (desktopSaber) desktopSaber.checked = true;
-                if (mobileSaber) mobileSaber.checked = true;
-            } else {
-                html.classList.remove('dark');
-                if (desktopSaber) desktopSaber.checked = false;
-                if (mobileSaber) mobileSaber.checked = false;
-            }
-            
-            // Theme toggle function
-            function toggleTheme(e) {
-                console.log('Lightsaber clicked!');
-                
-                const isChecked = e.target.checked;
-                html.classList.toggle('dark', isChecked);
-                const newTheme = isChecked ? 'dark' : 'light';
-                localStorage.setItem('theme', newTheme);
-                
-                // Sync both sabers
-                if (desktopSaber) desktopSaber.checked = isChecked;
-                if (mobileSaber) mobileSaber.checked = isChecked;
-                
-                console.log('New theme:', newTheme);
-                console.log('HTML classes:', html.className);
-            }
-            
-            // Add change event listeners for both desktop and mobile sabers
-            if (desktopSaber) {
-                desktopSaber.addEventListener('change', toggleTheme);
-            }
-            if (mobileSaber) {
-                mobileSaber.addEventListener('change', toggleTheme);
-            }
-            
-            console.log('Lightsaber theme toggle initialized successfully');
-        });
+    // Mobile menu functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const hamburgerLine = document.querySelector('.hamburger-line');
+        const closeLine = document.querySelector('.close-line');
         
-        // Mobile menu functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
-            const mobileMenu = document.getElementById('mobile-menu');
-            const hamburgerLine = document.querySelector('.hamburger-line');
-            const closeLine = document.querySelector('.close-line');
+        if (mobileMenuToggle && mobileMenu) {
+            mobileMenuToggle.addEventListener('click', function() {
+                mobileMenu.classList.toggle('hidden');
+                hamburgerLine.classList.toggle('hidden');
+                closeLine.classList.toggle('hidden');
+            });
             
-            if (mobileMenuToggle && mobileMenu) {
-                mobileMenuToggle.addEventListener('click', function() {
-                    // Toggle menu visibility
-                    mobileMenu.classList.toggle('hidden');
-                    
-                    // Toggle hamburger/close icon
-                    hamburgerLine.classList.toggle('hidden');
-                    closeLine.classList.toggle('hidden');
+            // Close mobile menu when clicking on a link
+            const mobileMenuLinks = mobileMenu.querySelectorAll('.mobile-nav');
+            mobileMenuLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    mobileMenu.classList.add('hidden');
+                    hamburgerLine.classList.remove('hidden');
+                    closeLine.classList.add('hidden');
                 });
-                
-                // Close mobile menu when clicking on a link
-                const mobileMenuLinks = mobileMenu.querySelectorAll('a');
-                mobileMenuLinks.forEach(link => {
-                    link.addEventListener('click', function() {
-                        mobileMenu.classList.add('hidden');
-                        hamburgerLine.classList.remove('hidden');
-                        closeLine.classList.add('hidden');
-                    });
-                });
-            }
-        });
+            });
+        }
+    });
+    
+    // Language selector functionality
+    function changeLanguage(langCode) {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '{% url "set_language" %}';
         
-        // Language selector functionality
-        function changeLanguage(langCode) {
-            // Create a form to submit language change
-            const form = document.createElement('form');
-            form.method = 'POST';
-            form.action = '{% url "set_language" %}';
+        const csrfToken = document.createElement('input');
+        csrfToken.type = 'hidden';
+        csrfToken.name = 'csrfmiddlewaretoken';
+        csrfToken.value = '{{ csrf_token }}';
+        
+        const langInput = document.createElement('input');
+        langInput.type = 'hidden';
+        langInput.name = 'language';
+        langInput.value = langCode;
+        
+        form.appendChild(csrfToken);
+        form.appendChild(langInput);
+        document.body.appendChild(form);
+        form.submit();
+    }
+    
+    // Setup language buttons
+    document.addEventListener('DOMContentLoaded', function() {
+        const desktopPtBtn = document.getElementById('lang-btn-pt');
+        const desktopEnBtn = document.getElementById('lang-btn-en');
+        const mobilePtBtn = document.getElementById('mobile-lang-btn-pt');
+        const mobileEnBtn = document.getElementById('mobile-lang-btn-en');
+        
+        if (desktopPtBtn) {
+            desktopPtBtn.addEventListener('click', () => {
+                window.location.href = '/';
+            });
+        }
+        if (desktopEnBtn) {
+            desktopEnBtn.addEventListener('click', () => changeLanguage('en'));
+        }
+        if (mobilePtBtn) {
+            mobilePtBtn.addEventListener('click', () => {
+                window.location.href = '/';
+            });
+        }
+        if (mobileEnBtn) {
+            mobileEnBtn.addEventListener('click', () => changeLanguage('en'));
+        }
+    });
+    
+    // Gradient animation keyframes
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+    `;
+    document.head.appendChild(style);
+    
+    // Random discrete blinking animation for name
+    function randomBlink() {
+        const nameElement = document.getElementById('name-element');
+        if (nameElement) {
+            // Random opacity between 0.7 and 1.0 for subtle effect
+            const opacity = Math.random() * 0.3 + 0.7;
+            nameElement.style.opacity = opacity;
             
-            const csrfToken = document.createElement('input');
-            csrfToken.type = 'hidden';
-            csrfToken.name = 'csrfmiddlewaretoken';
-            csrfToken.value = '{{ csrf_token }}';
-            
-            const langInput = document.createElement('input');
-             langInput.type = 'hidden';
-             langInput.name = 'language';
-             langInput.value = langCode;
-             
-             form.appendChild(csrfToken);
-             form.appendChild(langInput);
-             document.body.appendChild(form);
-             form.submit();
-         }
-         
-         // Setup language buttons for both desktop and mobile
-         document.addEventListener('DOMContentLoaded', function() {
-             // Desktop language buttons
-             const desktopPtBtn = document.getElementById('lang-btn-pt');
-             const desktopEnBtn = document.getElementById('lang-btn-en');
-             
-             // Mobile language buttons
-             const mobilePtBtn = document.getElementById('mobile-lang-btn-pt');
-             const mobileEnBtn = document.getElementById('mobile-lang-btn-en');
-             
-             // Add click event listeners
-               if (desktopPtBtn) {
-                   desktopPtBtn.addEventListener('click', () => {
-                       window.location.href = '/';
-                   });
-               }
-               if (desktopEnBtn) {
-                   desktopEnBtn.addEventListener('click', () => changeLanguage('en'));
-               }
-               if (mobilePtBtn) {
-                   mobilePtBtn.addEventListener('click', () => {
-                       window.location.href = '/';
-                   });
-               }
-               if (mobileEnBtn) {
-                   mobileEnBtn.addEventListener('click', () => changeLanguage('en'));
-               }
-         });
+            // Random interval between 2-8 seconds
+            const nextInterval = Math.random() * 6000 + 2000;
+            setTimeout(randomBlink, nextInterval);
+        }
+    }
+    
+    // Start the random blinking after page load
+    document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(randomBlink, 3000); // Start after 3 seconds
+    });
     </script>
     
     {% block extra_js %}{% endblock %}
