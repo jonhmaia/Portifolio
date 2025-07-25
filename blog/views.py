@@ -1,99 +1,118 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import user_passes_test
+from django.contrib import messages
 from datetime import datetime
+from .models import Artigo
+from .forms import ArtigoForm
+
+# Função para verificar se o usuário é superusuário
+def is_superuser(user):
+    return user.is_authenticated and user.is_superuser
+
+# Views de autenticação removidas - usando login unificado
 
 def articles(request):
     """View para listar todos os artigos do blog"""
-    # Dados de exemplo - posteriormente serão vindos do banco de dados
-    articles_list = [
-        {
-            'id': 1,
-            'title': 'Introdução ao Django',
-            'slug': 'introducao-ao-django',
-            'excerpt': 'Aprenda os conceitos básicos do framework Django para desenvolvimento web em Python.',
-            'content': 'Django é um framework web de alto nível escrito em Python...',
-            'author': 'Seu Nome',
-            'published_date': datetime(2024, 1, 15),
-            'tags': ['Django', 'Python', 'Web Development'],
-            'featured_image': 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80',
-            'reading_time': 5
-        },
-        {
-            'id': 2,
-            'title': 'CSS Grid vs Flexbox',
-            'slug': 'css-grid-vs-flexbox',
-            'excerpt': 'Entenda as diferenças entre CSS Grid e Flexbox e quando usar cada um.',
-            'content': 'CSS Grid e Flexbox são duas tecnologias poderosas...',
-            'author': 'Seu Nome',
-            'published_date': datetime(2024, 1, 10),
-            'tags': ['CSS', 'Frontend', 'Layout'],
-            'featured_image': 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80',
-            'reading_time': 8
-        },
-        {
-            'id': 3,
-            'title': 'Deploy de Aplicações Django',
-            'slug': 'deploy-aplicacoes-django',
-            'excerpt': 'Guia completo para fazer deploy de aplicações Django em produção.',
-            'content': 'Fazer deploy de uma aplicação Django requer alguns cuidados...',
-            'author': 'Seu Nome',
-            'published_date': datetime(2024, 1, 5),
-            'tags': ['Django', 'Deploy', 'DevOps'],
-            'featured_image': 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80',
-            'reading_time': 12
-        }
-    ]
+    # Buscar apenas artigos publicados
+    artigos_publicados = Artigo.objects.filter(status='publicado').order_by('-data_publicacao')
     
     context = {
         'page_title': 'Blog',
-        'articles': articles_list,
-        'recent_articles': articles_list[:3]  # Últimos 3 artigos
+        'articles': artigos_publicados,
+        'recent_articles': artigos_publicados[:3]  # Últimos 3 artigos
     }
     return render(request, 'blog/articles.html', context)
 
 def article_detail(request, slug):
     """View para exibir detalhes de um artigo específico"""
-    # Simulação de busca por slug - posteriormente será do banco de dados
-    articles_data = {
-        'introducao-ao-django': {
-            'id': 1,
-            'title': 'Introdução ao Django',
-            'slug': 'introducao-ao-django',
-            'content': '''<h2>O que é Django?</h2>
-            <p>Django é um framework web de alto nível escrito em Python que encoraja o desenvolvimento rápido e limpo, com design pragmático.</p>
-            
-            <h3>Principais características:</h3>
-            <ul>
-                <li>Rápido desenvolvimento</li>
-                <li>Segurança integrada</li>
-                <li>Escalável</li>
-                <li>Versátil</li>
-            </ul>
-            
-            <h3>Arquitetura MVT</h3>
-            <p>Django segue o padrão MVT (Model-View-Template), que é uma variação do padrão MVC.</p>
-            
-            <h3>Primeiros passos</h3>
-            <p>Para começar com Django, você precisa ter Python instalado em seu sistema...</p>''',
-            'author': 'Seu Nome',
-            'published_date': datetime(2024, 1, 15),
-            'tags': ['Django', 'Python', 'Web Development'],
-            'featured_image': 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400&q=80',
-            'reading_time': 5
+    try:
+        # Buscar artigo publicado pelo slug
+        artigo = Artigo.objects.get(slug=slug, status='publicado')
+        
+        # Incrementar visualizações
+        artigo.visualizacoes = (artigo.visualizacoes or 0) + 1
+        artigo.save(update_fields=['visualizacoes'])
+        
+        context = {
+            'page_title': artigo.titulo,
+            'article': artigo
         }
-    }
+        
+    except Artigo.DoesNotExist:
+        context = {
+            'page_title': 'Artigo não encontrado',
+            'article': None
+        }
     
-    article = articles_data.get(slug)
-    if not article:
-        # Em um projeto real, retornaria 404
-        article = {
-            'title': 'Artigo não encontrado',
-            'content': 'O artigo solicitado não foi encontrado.',
-            'author': 'Sistema',
-            'published_date': datetime.now()
-        }
+    return render(request, 'blog/article_detail.html', context)
+
+# Views de gerenciamento de artigos (protegidas)
+@user_passes_test(is_superuser, login_url='/login/')
+def manage_articles(request):
+    """View para gerenciar artigos do blog"""
+    artigos = Artigo.objects.all().order_by('-data_publicacao')
     
     context = {
-        'page_title': article.get('title', 'Artigo'),
-        'article': article
+        'page_title': 'Gerenciar Artigos',
+        'artigos': artigos
     }
-    return render(request, 'blog/article_detail.html', context)
+    return render(request, 'blog/manage_articles.html', context)
+
+@user_passes_test(is_superuser, login_url='/login/')
+def create_article(request):
+    """View para criar novo artigo"""
+    if request.method == 'POST':
+        form = ArtigoForm(request.POST, request.FILES)
+        if form.is_valid():
+            artigo = form.save(commit=False)
+            artigo.autor = request.user
+            artigo.save()
+            messages.success(request, 'Artigo criado com sucesso!')
+            return redirect('blog:manage_articles')
+    else:
+        form = ArtigoForm()
+    
+    context = {
+        'page_title': 'Criar Artigo',
+        'form': form,
+        'action': 'create'
+    }
+    return render(request, 'blog/article_form.html', context)
+
+@user_passes_test(is_superuser, login_url='/login/')
+def edit_article(request, pk):
+    """View para editar artigo existente"""
+    artigo = get_object_or_404(Artigo, pk=pk)
+    
+    if request.method == 'POST':
+        form = ArtigoForm(request.POST, request.FILES, instance=artigo)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Artigo atualizado com sucesso!')
+            return redirect('blog:manage_articles')
+    else:
+        form = ArtigoForm(instance=artigo)
+    
+    context = {
+        'page_title': 'Editar Artigo',
+        'form': form,
+        'artigo': artigo,
+        'action': 'edit'
+    }
+    return render(request, 'blog/article_form.html', context)
+
+@user_passes_test(is_superuser, login_url='/login/')
+def delete_article(request, pk):
+    """View para deletar artigo"""
+    artigo = get_object_or_404(Artigo, pk=pk)
+    
+    if request.method == 'POST':
+        artigo.delete()
+        messages.success(request, 'Artigo deletado com sucesso!')
+        return redirect('blog:manage_articles')
+    
+    context = {
+        'page_title': 'Deletar Artigo',
+        'artigo': artigo
+    }
+    return render(request, 'blog/delete_article.html', context)

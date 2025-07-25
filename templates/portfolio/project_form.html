@@ -1,0 +1,935 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ page_title }}</title>
+    
+    <!-- Tailwind CSS -->
+    <link rel="stylesheet" href="{% static 'css/dist/styles.css' %}">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/admin-styles.css' %}">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <!-- DaisyUI -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.14/dist/full.min.css" rel="stylesheet" type="text/css" />
+    
+    <style>
+    .form-section {
+        margin-bottom: 2rem;
+        padding: 1.5rem;
+        background: hsl(var(--b1));
+        border-radius: 1rem;
+        border: 1px solid hsl(var(--b3));
+        transition: all 0.3s ease;
+    }
+    .form-section:hover {
+        border-color: hsl(var(--p));
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .tech-selector {
+        max-height: 250px;
+        overflow-y: auto;
+        background: hsl(var(--b2));
+        border-radius: 0.5rem;
+        padding: 1rem;
+    }
+    .tech-item {
+        padding: 0.5rem;
+        border-radius: 0.5rem;
+        margin: 0.25rem 0;
+        transition: all 0.2s ease;
+        border: 1px solid transparent;
+    }
+    .tech-item:hover {
+        background: hsl(var(--b3));
+        border-color: hsl(var(--p));
+    }
+    .tech-item input:checked + span {
+        color: hsl(var(--p));
+        font-weight: 600;
+    }
+    .image-preview {
+        max-width: 300px;
+        max-height: 200px;
+        object-fit: cover;
+        border-radius: 0.5rem;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .form-control {
+        margin-bottom: 1rem;
+    }
+    .input:focus, .textarea:focus, .select:focus {
+        border-color: hsl(var(--p));
+        box-shadow: 0 0 0 3px rgba(var(--p), 0.1);
+    }
+    .section-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid hsl(var(--b3));
+    }
+    .section-icon {
+        margin-right: 0.5rem;
+        color: hsl(var(--p));
+        font-size: 1.25rem;
+    }
+    .progress-bar {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background: hsl(var(--b1));
+        padding: 1rem;
+        border-radius: 0 0 1rem 1rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .char-counter {
+        font-size: 0.75rem;
+        color: hsl(var(--bc) / 0.6);
+        text-align: right;
+        margin-top: 0.25rem;
+    }
+    .char-counter.warning {
+        color: hsl(var(--wa));
+    }
+    .char-counter.error {
+        color: hsl(var(--er));
+    }
+    .floating-save {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        z-index: 50;
+        transition: all 0.3s ease;
+        transform: translateY(100px);
+        opacity: 0;
+    }
+    .floating-save.show {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    .tech-search {
+        position: sticky;
+        top: 0;
+        background: hsl(var(--b2));
+        padding: 0.5rem;
+        margin-bottom: 0.5rem;
+        border-radius: 0.5rem;
+    }
+</style>
+</head>
+<body class="text-base-content transition-colors duration-300" data-theme="modern" style="background-color: #0D0D0D;">
+{% include 'admin_header.html' %}
+<div class="min-h-screen bg-base-200">
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
+            <div class="flex items-center">
+                <a href="{% url 'portfolio:manage_projects' %}" class="btn btn-ghost mr-4">
+                    <i class="fas fa-arrow-left mr-2"></i>
+                    Voltar
+                </a>
+                <div>
+                    <h1 class="text-3xl font-bold text-base-content">{{ page_title }}</h1>
+                    <p class="text-base-content/70">Preencha os dados do projeto</p>
+                    <div class="flex items-center mt-1 text-sm text-base-content/60">
+                        <i class="fas fa-user-shield mr-2"></i>
+                        <span>Logado como: <strong>{{ user.username }}</strong></span>
+                    </div>
+                </div>
+            </div>
+            <div class="flex gap-2 mt-4 md:mt-0">
+                <a href="{% url 'portfolio:projects' %}" class="btn btn-outline btn-sm">
+                    <i class="fas fa-eye mr-2"></i>
+                    Ver Portfolio
+                </a>
+                <a href="{% url 'portfolio:logout' %}" class="btn btn-ghost btn-sm">
+                    <i class="fas fa-sign-out-alt mr-2"></i>
+                    Sair
+                </a>
+            </div>
+        </div>
+
+        <!-- Barra de Progresso -->
+        <div class="progress-bar">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium">Progresso do Formulário</span>
+                <span class="text-sm" id="progress-text">0%</span>
+            </div>
+            <progress class="progress progress-primary w-full" value="0" max="100" id="form-progress"></progress>
+        </div>
+
+        <!-- Formulário -->
+        <div class="space-y-6">
+            <form method="post" enctype="multipart/form-data" id="project-form">
+                    {% csrf_token %}
+                    
+                    <!-- Informações Básicas -->
+                    <div class="form-section" data-section="basic">
+                        <div class="section-header">
+                            <i class="fas fa-info-circle section-icon"></i>
+                            <h3 class="text-lg font-semibold">Informações Básicas</h3>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="form-control">
+                                <label class="label">
+                                    <span class="label-text font-medium">Título *</span>
+                                    <span class="label-text-alt text-error">*</span>
+                                </label>
+                                <input type="text" name="titulo" id="id_titulo" class="input input-bordered w-full" 
+                                       placeholder="Ex: Sistema de Gestão de Vendas, App Mobile de Delivery, Portfolio Pessoal..." 
+                                       maxlength="100" required>
+                                <div class="label">
+                                    <span class="label-text-alt text-base-content/60">Nome principal do seu projeto - seja claro e descritivo</span>
+                                    <span class="label-text-alt char-counter" id="titulo-counter">0/100</span>
+                                </div>
+                                {% if form.titulo.errors %}
+                                    <label class="label">
+                                        <span class="label-text-alt text-error">{{ form.titulo.errors.0 }}</span>
+                                    </label>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="form-control">
+                                <label class="label">
+                                    <span class="label-text font-medium">Subtítulo</span>
+                                    <span class="label-text-alt">Máx. 150 caracteres</span>
+                                </label>
+                                <input type="text" name="subtitulo" id="id_subtitulo" class="input input-bordered w-full" 
+                                       placeholder="Ex: Aplicação web completa com Django e React, Sistema responsivo para e-commerce..." 
+                                       maxlength="150">
+                                <div class="label">
+                                    <span class="label-text-alt text-base-content/60">Breve descrição técnica ou resumo do projeto (opcional)</span>
+                                    <span class="label-text-alt char-counter" id="subtitulo-counter">0/150</span>
+                                </div>
+                                {% if form.subtitulo.errors %}
+                                    <label class="label">
+                                        <span class="label-text-alt text-error">{{ form.subtitulo.errors.0 }}</span>
+                                    </label>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="form-control mt-4">
+                            <label class="label">
+                                <span class="label-text font-medium">Descrição *</span>
+                                <span class="label-text-alt text-error">*</span>
+                            </label>
+                            <textarea name="descricao" id="id_descricao" class="textarea textarea-bordered h-32" 
+                                      placeholder="Descreva seu projeto detalhadamente:&#10;• Qual problema ele resolve?&#10;• Principais funcionalidades&#10;• Tecnologias utilizadas&#10;• Desafios enfrentados&#10;• Resultados alcançados&#10;&#10;Ex: Este sistema foi desenvolvido para automatizar o controle de vendas de uma loja. Possui dashboard administrativo, controle de estoque, relatórios em PDF e integração com APIs de pagamento..." 
+                                      maxlength="1000" required></textarea>
+                            <div class="label">
+                                <span class="label-text-alt text-base-content/60">Descrição completa do projeto - seja detalhado sobre funcionalidades e tecnologias</span>
+                                <span class="label-text-alt char-counter" id="descricao-counter">0/1000</span>
+                            </div>
+                            {% if form.descricao.errors %}
+                                <label class="label">
+                                    <span class="label-text-alt text-error">{{ form.descricao.errors.0 }}</span>
+                                </label>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Status e Configurações -->
+                    <div class="form-section" data-section="status">
+                        <div class="section-header">
+                            <i class="fas fa-cog section-icon"></i>
+                            <h3 class="text-lg font-semibold">Status e Configurações</h3>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="form-control">
+                                <label class="label">
+                                    <span class="label-text font-medium">Status</span>
+                                </label>
+                                <select name="status" id="id_status" class="select select-bordered w-full">
+                                    <option value="">Selecione o status atual do projeto</option>
+                                    <option value="desenvolvimento">🚧 Em Desenvolvimento - Ainda trabalhando nele</option>
+                                    <option value="concluido">✅ Concluído - Projeto finalizado</option>
+                                    <option value="manutencao">🔧 Em Manutenção - Recebendo atualizações</option>
+                                    <option value="pausado">⏸️ Pausado - Temporariamente parado</option>
+                                </select>
+                                <div class="label">
+                                    <span class="label-text-alt text-base-content/60">Status atual do desenvolvimento do projeto</span>
+                                </div>
+                                {% if form.status.errors %}
+                                    <label class="label">
+                                        <span class="label-text-alt text-error">{{ form.status.errors.0 }}</span>
+                                    </label>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="form-control">
+                                <label class="label">
+                                    <span class="label-text font-medium">Ordem de Exibição</span>
+                                </label>
+                                <input type="number" name="ordem" id="id_ordem" class="input input-bordered w-full" 
+                                       placeholder="1, 2, 3..." min="1" value="1">
+                                <div class="label">
+                                    <span class="label-text-alt text-base-content/60">Ordem de exibição no portfolio (1 = primeiro, 2 = segundo, etc.)</span>
+                                </div>
+                                {% if form.ordem.errors %}
+                                    <label class="label">
+                                        <span class="label-text-alt text-error">{{ form.ordem.errors.0 }}</span>
+                                    </label>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="form-control">
+                                <label class="label">
+                                    <span class="label-text font-medium">Projeto Ativo</span>
+                                </label>
+                                <div class="flex items-center space-x-3">
+                                    <input type="checkbox" name="ativo" id="id_ativo" class="toggle toggle-success" checked>
+                                    <span class="text-sm text-base-content/70">✅ Projeto visível publicamente no portfolio</span>
+                                </div>
+                                <div class="label">
+                                    <span class="label-text-alt text-base-content/60">Desmarque se quiser manter o projeto como rascunho (não aparecerá no site)</span>
+                                </div>
+                                {% if form.ativo.errors %}
+                                    <label class="label">
+                                        <span class="label-text-alt text-error">{{ form.ativo.errors.0 }}</span>
+                                    </label>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Links -->
+                    <div class="form-section" data-section="links">
+                        <div class="section-header">
+                            <i class="fas fa-link section-icon"></i>
+                            <h3 class="text-lg font-semibold">Links</h3>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="form-control">
+                                <label class="label">
+                                    <span class="label-text font-medium">Link do Repositório</span>
+                                </label>
+                                <input type="url" name="link_repositorio" id="id_link_repositorio" class="input input-bordered w-full" 
+                                       placeholder="https://github.com/seuusuario/nome-do-projeto">
+                                <div class="label">
+                                    <span class="label-text-alt text-base-content/60">Link do GitHub, GitLab ou outro repositório onde o código está hospedado</span>
+                                </div>
+                                {% if form.link_repositorio.errors %}
+                                    <label class="label">
+                                        <span class="label-text-alt text-error">{{ form.link_repositorio.errors.0 }}</span>
+                                    </label>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="form-control">
+                                <label class="label">
+                                    <span class="label-text font-medium">Link do Deploy</span>
+                                </label>
+                                <input type="url" name="link_deploy" id="id_link_deploy" class="input input-bordered w-full" 
+                                       placeholder="https://meuapp.vercel.app ou https://meusite.herokuapp.com">
+                                <div class="label">
+                                    <span class="label-text-alt text-base-content/60">Link onde o projeto está rodando online (Vercel, Netlify, Heroku, etc.)</span>
+                                </div>
+                                {% if form.link_deploy.errors %}
+                                    <label class="label">
+                                        <span class="label-text-alt text-error">{{ form.link_deploy.errors.0 }}</span>
+                                    </label>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tecnologias -->
+                    <div class="form-section" data-section="technologies">
+                        <div class="section-header">
+                            <i class="fas fa-code section-icon"></i>
+                            <h3 class="text-lg font-semibold">Tecnologias</h3>
+                        </div>
+                        <div class="form-control">
+                            <label class="label">
+                                <span class="label-text">Selecione as tecnologias utilizadas</span>
+                                <span class="label-text-alt" id="tech-counter">0 selecionadas</span>
+                            </label>
+                            <div class="tech-selector">
+                                <div class="tech-search">
+                                    <input type="text" placeholder="Buscar tecnologia..." class="input input-sm w-full" id="tech-search">
+                                </div>
+                                <div id="tech-list">
+                                    {% for tech in form.tecnologias %}
+                                        <label class="tech-item cursor-pointer flex items-center" data-tech="{{ tech.choice_label|lower }}">
+                                            {{ tech.tag }}
+                                            <span class="ml-2 flex-1">{{ tech.choice_label }}</span>
+                                        </label>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            {% if form.tecnologias.errors %}
+                                <label class="label">
+                                    <span class="label-text-alt text-error">{{ form.tecnologias.errors.0 }}</span>
+                                </label>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Imagem Principal -->
+                    <div class="form-section" data-section="image">
+                        <div class="section-header">
+                            <i class="fas fa-image section-icon"></i>
+                            <h3 class="text-lg font-semibold">Imagem Principal</h3>
+                        </div>
+                        <div class="form-control">
+                            <label class="label">
+                                <span class="label-text">Selecionar Imagem</span>
+                                <span class="label-text-alt">JPG, PNG ou WebP (máx. 5MB)</span>
+                            </label>
+                            <div class="relative">
+                                {{ form.imagem_principal }}
+                                <div class="mt-2 text-xs text-base-content/60">
+                                    <i class="fas fa-info-circle mr-1"></i>
+                                    Recomendado: 800x600px ou superior
+                                </div>
+                            </div>
+                            {% if form.imagem_principal.errors %}
+                                <label class="label">
+                                    <span class="label-text-alt text-error">{{ form.imagem_principal.errors.0 }}</span>
+                                </label>
+                            {% endif %}
+                            {% if form.instance.imagem_principal %}
+                                <div class="mt-4">
+                                    <p class="text-sm text-base-content/70 mb-2">Imagem atual:</p>
+                                    <img src="{{ form.instance.imagem_principal.url }}" alt="Imagem atual" class="image-preview">
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Botões de Ação -->
+                    <div class="form-section">
+                        <div class="flex flex-col md:flex-row gap-4">
+                            <button type="button" id="preview-btn" class="btn btn-outline btn-secondary">
+                                <i class="fas fa-eye mr-2"></i>Preview do Card
+                            </button>
+                            <button type="submit" class="btn btn-primary flex-1" id="submit-btn">
+                                <i class="fas fa-save mr-2"></i>
+                                <span id="submit-text">{% if form.instance.pk %}Atualizar Projeto{% else %}Criar Projeto{% endif %}</span>
+                            </button>
+                            <button type="button" class="btn btn-outline flex-1" id="save-draft">
+                                <i class="fas fa-file-alt mr-2"></i>
+                                Salvar Rascunho
+                            </button>
+                            <a href="{% url 'portfolio:manage_projects' %}" class="btn btn-ghost flex-1">
+                                <i class="fas fa-times mr-2"></i>
+                                Cancelar
+                            </a>
+                        </div>
+                    </div>
+                </form>
+        </div>
+
+        <!-- Botão Flutuante de Salvamento -->
+        <div class="floating-save" id="floating-save">
+            <button type="button" class="btn btn-primary btn-circle btn-lg" onclick="document.getElementById('project-form').requestSubmit()">
+                <i class="fas fa-save text-xl"></i>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Preview -->
+<div id="preview-modal" class="modal">
+    <div class="modal-box max-w-4xl">
+        <div class="flex justify-between items-center mb-6">
+            <h3 class="font-bold text-lg">
+                <i class="fas fa-eye mr-2 text-primary"></i>Preview do Card do Projeto
+            </h3>
+            <button class="btn btn-sm btn-circle btn-ghost" onclick="closePreviewModal()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <!-- Preview do Card -->
+            <div class="space-y-4">
+                <h4 class="font-semibold text-base-content/80">Como ficará no portfolio:</h4>
+                <div id="project-card-preview" class="card bg-base-200 shadow-xl hover:shadow-2xl transition-all duration-300">
+                    <figure class="aspect-video bg-base-300 flex items-center justify-center">
+                        <div id="preview-image" class="w-full h-full bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
+                            <i class="fas fa-image text-4xl text-base-content/30"></i>
+                        </div>
+                    </figure>
+                    <div class="card-body">
+                        <h2 id="preview-title" class="card-title text-lg">Título do Projeto</h2>
+                        <p id="preview-subtitle" class="text-sm text-base-content/70 mb-2">Subtítulo do projeto</p>
+                        <p id="preview-description" class="text-sm text-base-content/80 line-clamp-3">Descrição do projeto...</p>
+                        
+                        <div class="flex flex-wrap gap-1 mt-3" id="preview-technologies">
+                            <!-- Tecnologias serão inseridas aqui -->
+                        </div>
+                        
+                        <div class="flex items-center justify-between mt-4">
+                            <div class="badge" id="preview-status">Status</div>
+                            <div class="card-actions">
+                                <button class="btn btn-primary btn-sm" id="preview-deploy-btn" style="display: none;">
+                                    <i class="fas fa-external-link-alt mr-1"></i>Ver Online
+                                </button>
+                                <button class="btn btn-outline btn-sm" id="preview-repo-btn" style="display: none;">
+                                    <i class="fab fa-github mr-1"></i>Código
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Informações do Preview -->
+            <div class="space-y-4">
+                <h4 class="font-semibold text-base-content/80">Dados do formulário:</h4>
+                <div class="bg-base-100 p-4 rounded-lg space-y-3 text-sm">
+                    <div>
+                        <strong>Título:</strong> <span id="preview-info-title" class="text-base-content/70">-</span>
+                    </div>
+                    <div>
+                        <strong>Subtítulo:</strong> <span id="preview-info-subtitle" class="text-base-content/70">-</span>
+                    </div>
+                    <div>
+                        <strong>Status:</strong> <span id="preview-info-status" class="text-base-content/70">-</span>
+                    </div>
+                    <div>
+                        <strong>Tecnologias:</strong> <span id="preview-info-techs" class="text-base-content/70">-</span>
+                    </div>
+                    <div>
+                        <strong>Links:</strong>
+                        <div class="ml-4 mt-1">
+                            <div>Repositório: <span id="preview-info-repo" class="text-base-content/70">-</span></div>
+                            <div>Deploy: <span id="preview-info-deploy" class="text-base-content/70">-</span></div>
+                        </div>
+                    </div>
+                    <div>
+                        <strong>Visibilidade:</strong> <span id="preview-info-active" class="text-base-content/70">-</span>
+                    </div>
+                </div>
+                
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle"></i>
+                    <div>
+                        <div class="font-semibold">Dicas para um bom card:</div>
+                        <ul class="text-sm mt-1 space-y-1">
+                            <li>• Use um título claro e descritivo</li>
+                            <li>• Adicione uma imagem representativa</li>
+                            <li>• Selecione as tecnologias principais</li>
+                            <li>• Inclua links funcionais</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="modal-action">
+            <button class="btn btn-outline" onclick="closePreviewModal()">Fechar</button>
+            <button class="btn btn-primary" onclick="closePreviewModal()">Continuar Editando</button>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Elementos do formulário
+    const form = document.getElementById('project-form');
+    const progressBar = document.getElementById('form-progress');
+    const progressText = document.getElementById('progress-text');
+    const floatingSave = document.getElementById('floating-save');
+    const submitBtn = document.getElementById('submit-btn');
+    const submitText = document.getElementById('submit-text');
+    
+    // Contadores de caracteres
+    const charCounters = {
+        'id_titulo': { counter: 'titulo-counter', max: 100 },
+        'id_subtitulo': { counter: 'subtitulo-counter', max: 150 },
+        'id_descricao': { counter: 'descricao-counter', max: 1000 }
+    };
+    
+    // Configurar contadores de caracteres
+    Object.keys(charCounters).forEach(fieldId => {
+        const field = document.getElementById(fieldId);
+        const counter = document.getElementById(charCounters[fieldId].counter);
+        const max = charCounters[fieldId].max;
+        
+        if (field && counter) {
+            function updateCounter() {
+                const length = field.value.length;
+                counter.textContent = `${length}/${max}`;
+                
+                // Aplicar classes de aviso
+                counter.classList.remove('warning', 'error');
+                if (length > max * 0.9) {
+                    counter.classList.add('warning');
+                }
+                if (length > max) {
+                    counter.classList.add('error');
+                }
+                
+                updateProgress();
+            }
+            
+            field.addEventListener('input', updateCounter);
+            updateCounter(); // Inicializar
+        }
+    });
+    
+    // Busca de tecnologias
+    const techSearch = document.getElementById('tech-search');
+    const techList = document.getElementById('tech-list');
+    const techCounter = document.getElementById('tech-counter');
+    
+    if (techSearch && techList) {
+        techSearch.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const techItems = techList.querySelectorAll('.tech-item');
+            
+            techItems.forEach(item => {
+                const techName = item.getAttribute('data-tech');
+                if (techName.includes(searchTerm)) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+    }
+    
+    // Contador de tecnologias selecionadas
+    function updateTechCounter() {
+        const selectedTechs = document.querySelectorAll('input[name="tecnologias"]:checked');
+        if (techCounter) {
+            techCounter.textContent = `${selectedTechs.length} selecionadas`;
+        }
+        updateProgress();
+    }
+    
+    // Adicionar listeners para checkboxes de tecnologia
+    document.querySelectorAll('input[name="tecnologias"]').forEach(checkbox => {
+        checkbox.addEventListener('change', updateTechCounter);
+    });
+    updateTechCounter(); // Inicializar
+    
+    // Cálculo do progresso do formulário
+    function updateProgress() {
+        let progress = 0;
+        let totalFields = 0;
+        
+        // Campos obrigatórios
+        const titulo = document.getElementById('id_titulo').value.trim();
+        const descricao = document.getElementById('id_descricao').value.trim();
+        
+        totalFields += 2;
+        if (titulo) progress += 30;
+        if (descricao) progress += 30;
+        
+        // Campos opcionais mas importantes
+        const subtitulo = document.getElementById('id_subtitulo').value.trim();
+        const status = document.getElementById('id_status').value;
+        const linkRepo = document.getElementById('id_link_repositorio').value.trim();
+        const linkDeploy = document.getElementById('id_link_deploy').value.trim();
+        const selectedTechs = document.querySelectorAll('input[name="tecnologias"]:checked').length;
+        const imagem = document.getElementById('id_imagem_principal').files.length;
+        
+        totalFields += 6;
+        if (subtitulo) progress += 5;
+        if (status) progress += 5;
+        if (linkRepo) progress += 10;
+        if (linkDeploy) progress += 10;
+        if (selectedTechs > 0) progress += 15;
+        if (imagem > 0) progress += 10;
+        
+        // Atualizar barra de progresso
+        progressBar.value = Math.min(progress, 100);
+        progressText.textContent = `${Math.round(progress)}%`;
+        
+        // Mostrar/esconder botão flutuante
+        if (progress > 50) {
+            floatingSave.classList.add('show');
+        } else {
+            floatingSave.classList.remove('show');
+        }
+    }
+    
+    // Preview da imagem selecionada
+    const imageInput = document.getElementById('id_imagem_principal');
+    if (imageInput) {
+        imageInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                // Validar tamanho do arquivo (5MB)
+                if (file.size > 5 * 1024 * 1024) {
+                    alert('Arquivo muito grande! Máximo 5MB.');
+                    this.value = '';
+                    return;
+                }
+                
+                // Validar tipo de arquivo
+                const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+                if (!validTypes.includes(file.type)) {
+                    alert('Tipo de arquivo inválido! Use JPG, PNG ou WebP.');
+                    this.value = '';
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    // Remove preview anterior se existir
+                    const existingPreview = document.getElementById('image-preview');
+                    if (existingPreview) {
+                        existingPreview.remove();
+                    }
+                    
+                    // Cria novo preview
+                    const preview = document.createElement('div');
+                    preview.id = 'image-preview';
+                    preview.className = 'mt-4';
+                    preview.innerHTML = `
+                        <p class="text-sm text-base-content/70 mb-2">Preview:</p>
+                        <img src="${e.target.result}" alt="Preview" class="image-preview">
+                    `;
+                    
+                    // Adiciona após o input
+                    imageInput.parentNode.appendChild(preview);
+                };
+                reader.readAsDataURL(file);
+            }
+            updateProgress();
+        });
+    }
+    
+    // Salvar rascunho
+    const saveDraftBtn = document.getElementById('save-draft');
+    if (saveDraftBtn) {
+        saveDraftBtn.addEventListener('click', function() {
+            const formData = new FormData(form);
+            localStorage.setItem('project-draft', JSON.stringify({
+                titulo: formData.get('titulo'),
+                subtitulo: formData.get('subtitulo'),
+                descricao: formData.get('descricao'),
+                link_repositorio: formData.get('link_repositorio'),
+                link_deploy: formData.get('link_deploy'),
+                status: formData.get('status'),
+                ordem: formData.get('ordem'),
+                ativo: formData.get('ativo'),
+                timestamp: new Date().toISOString()
+            }));
+            
+            // Feedback visual
+            const originalText = this.innerHTML;
+            this.innerHTML = '<i class="fas fa-check mr-2"></i>Salvo!';
+            this.classList.add('btn-success');
+            
+            setTimeout(() => {
+                this.innerHTML = originalText;
+                this.classList.remove('btn-success');
+            }, 2000);
+        });
+    }
+    
+    // Carregar rascunho
+    function loadDraft() {
+        const draft = localStorage.getItem('project-draft');
+        if (draft) {
+            try {
+                const data = JSON.parse(draft);
+                const timeDiff = new Date() - new Date(data.timestamp);
+                
+                // Só carregar se for menos de 24 horas
+                if (timeDiff < 24 * 60 * 60 * 1000) {
+                    if (confirm('Encontramos um rascunho salvo. Deseja carregá-lo?')) {
+                        Object.keys(data).forEach(key => {
+                            if (key !== 'timestamp') {
+                                const field = document.getElementById(`id_${key}`);
+                                if (field && data[key]) {
+                                    field.value = data[key];
+                                }
+                            }
+                        });
+                        updateProgress();
+                    }
+                }
+            } catch (e) {
+                console.error('Erro ao carregar rascunho:', e);
+            }
+        }
+    }
+    
+    // Validação do formulário
+    form.addEventListener('submit', function(e) {
+        const titulo = document.getElementById('id_titulo').value.trim();
+        const descricao = document.getElementById('id_descricao').value.trim();
+        
+        if (!titulo) {
+            e.preventDefault();
+            alert('O título é obrigatório!');
+            document.getElementById('id_titulo').focus();
+            return;
+        }
+        
+        if (!descricao) {
+            e.preventDefault();
+            alert('A descrição é obrigatória!');
+            document.getElementById('id_descricao').focus();
+            return;
+        }
+        
+        // Feedback visual no botão
+        submitBtn.disabled = true;
+        submitText.textContent = 'Salvando...';
+        submitBtn.classList.add('loading');
+        
+        // Limpar rascunho após envio bem-sucedido
+        localStorage.removeItem('project-draft');
+    });
+    
+    // Adicionar listeners para todos os campos para atualizar progresso
+    const allInputs = form.querySelectorAll('input, textarea, select');
+    allInputs.forEach(input => {
+        input.addEventListener('input', updateProgress);
+        input.addEventListener('change', updateProgress);
+    });
+    
+    // Preview do projeto
+    const previewBtn = document.getElementById('preview-btn');
+    if (previewBtn) {
+        previewBtn.addEventListener('click', openPreviewModal);
+    }
+    
+    // Inicializar
+    updateProgress();
+    loadDraft();
+});
+
+// Funções do modal de preview
+function openPreviewModal() {
+    updatePreview();
+    document.getElementById('preview-modal').classList.add('modal-open');
+}
+
+function closePreviewModal() {
+    document.getElementById('preview-modal').classList.remove('modal-open');
+}
+
+function updatePreview() {
+    // Obter dados do formulário
+    const titulo = document.getElementById('id_titulo').value.trim() || 'Título do Projeto';
+    const subtitulo = document.getElementById('id_subtitulo').value.trim() || 'Subtítulo do projeto';
+    const descricao = document.getElementById('id_descricao').value.trim() || 'Descrição do projeto...';
+    const status = document.getElementById('id_status').value;
+    const linkRepo = document.getElementById('id_link_repositorio').value.trim();
+    const linkDeploy = document.getElementById('id_link_deploy').value.trim();
+    const ativo = document.getElementById('id_ativo').checked;
+    
+    // Tecnologias selecionadas
+    const selectedTechs = Array.from(document.querySelectorAll('input[name="tecnologias"]:checked'))
+        .map(checkbox => {
+            const label = checkbox.closest('.tech-item');
+            return label ? label.getAttribute('data-tech') : '';
+        })
+        .filter(tech => tech);
+    
+    // Atualizar preview do card
+    document.getElementById('preview-title').textContent = titulo;
+    document.getElementById('preview-subtitle').textContent = subtitulo;
+    document.getElementById('preview-description').textContent = descricao;
+    
+    // Status com emoji e cor
+    const statusElement = document.getElementById('preview-status');
+    const statusMap = {
+        'desenvolvimento': { text: '🚧 Em Desenvolvimento', class: 'badge-warning' },
+        'concluido': { text: '✅ Concluído', class: 'badge-success' },
+        'manutencao': { text: '🔧 Em Manutenção', class: 'badge-info' },
+        'pausado': { text: '⏸️ Pausado', class: 'badge-error' }
+    };
+    
+    if (status && statusMap[status]) {
+        statusElement.textContent = statusMap[status].text;
+        statusElement.className = `badge ${statusMap[status].class}`;
+    } else {
+        statusElement.textContent = 'Status não definido';
+        statusElement.className = 'badge badge-ghost';
+    }
+    
+    // Tecnologias
+    const techContainer = document.getElementById('preview-technologies');
+    techContainer.innerHTML = '';
+    if (selectedTechs.length > 0) {
+        selectedTechs.slice(0, 6).forEach(tech => {
+            const badge = document.createElement('span');
+            badge.className = 'badge badge-outline badge-sm';
+            badge.textContent = tech;
+            techContainer.appendChild(badge);
+        });
+        if (selectedTechs.length > 6) {
+            const moreBadge = document.createElement('span');
+            moreBadge.className = 'badge badge-ghost badge-sm';
+            moreBadge.textContent = `+${selectedTechs.length - 6}`;
+            techContainer.appendChild(moreBadge);
+        }
+    } else {
+        techContainer.innerHTML = '<span class="text-base-content/50 text-xs">Nenhuma tecnologia selecionada</span>';
+    }
+    
+    // Botões de ação
+    const deployBtn = document.getElementById('preview-deploy-btn');
+    const repoBtn = document.getElementById('preview-repo-btn');
+    
+    if (linkDeploy) {
+        deployBtn.style.display = 'inline-flex';
+    } else {
+        deployBtn.style.display = 'none';
+    }
+    
+    if (linkRepo) {
+        repoBtn.style.display = 'inline-flex';
+    } else {
+        repoBtn.style.display = 'none';
+    }
+    
+    // Preview da imagem
+    const imageInput = document.getElementById('id_imagem_principal');
+    const previewImage = document.getElementById('preview-image');
+    
+    if (imageInput.files && imageInput.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            previewImage.innerHTML = `<img src="${e.target.result}" alt="Preview" class="w-full h-full object-cover">`;
+        };
+        reader.readAsDataURL(imageInput.files[0]);
+    } else {
+        previewImage.innerHTML = '<i class="fas fa-image text-4xl text-base-content/30"></i>';
+    }
+    
+    // Atualizar informações do lado direito
+    document.getElementById('preview-info-title').textContent = titulo;
+    document.getElementById('preview-info-subtitle').textContent = subtitulo || 'Não informado';
+    document.getElementById('preview-info-status').textContent = status ? statusMap[status]?.text || status : 'Não definido';
+    document.getElementById('preview-info-techs').textContent = selectedTechs.length > 0 ? selectedTechs.join(', ') : 'Nenhuma selecionada';
+    document.getElementById('preview-info-repo').textContent = linkRepo || 'Não informado';
+    document.getElementById('preview-info-deploy').textContent = linkDeploy || 'Não informado';
+    document.getElementById('preview-info-active').textContent = ativo ? '✅ Visível no portfolio' : '❌ Oculto (rascunho)';
+}
+
+// Fechar modal ao clicar fora
+document.addEventListener('click', function(e) {
+    const modal = document.getElementById('preview-modal');
+    if (e.target === modal) {
+        closePreviewModal();
+    }
+});
+
+// Fechar modal com ESC
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        closePreviewModal();
+    }
+});
+</script>
+</body>
+</html>

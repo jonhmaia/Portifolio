@@ -458,3 +458,51 @@
         text-shadow: none;
     }
 }
+
+/* Tooltips for skill cards */
+.tooltip-container {
+    position: relative;
+}
+
+.tooltip-container::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 1000;
+    margin-bottom: 8px;
+    max-width: 250px;
+    white-space: normal;
+    text-align: center;
+    line-height: 1.4;
+}
+
+.tooltip-container:hover::after {
+    opacity: 1;
+}
+
+/* Dark theme tooltip */
+[data-theme="dark"] .tooltip-container::after {
+    background: rgba(255, 255, 255, 0.95);
+    color: #1a1a1a;
+    border: 1px solid rgba(146, 164, 166, 0.3);
+}
+
+/* Responsive tooltip */
+@media (max-width: 768px) {
+    .tooltip-container::after {
+        font-size: 0.75rem;
+        padding: 6px 10px;
+        max-width: 200px;
+    }
+}

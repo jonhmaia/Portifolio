@@ -1,0 +1,240 @@
+{% load static %}
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ page_title }} - Blog - {% trans "Meu Portfólio" %}</title>
+    
+    <!-- Tailwind CSS -->
+    <link rel="stylesheet" href="{% static 'css/dist/styles.css' %}">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/admin-styles.css' %}">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <style>
+        /* Estilos específicos para mensagens de alerta */
+        .alert {
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+            border-left: 4px solid;
+        }
+
+        .alert-success {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--admin-success);
+            border-left-color: var(--admin-success);
+        }
+
+        .alert-error {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--admin-error);
+            border-left-color: var(--admin-error);
+        }
+
+        .alert-warning {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--admin-warning);
+            border-left-color: var(--admin-warning);
+        }
+
+        .alert-info {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--admin-info);
+            border-left-color: var(--admin-info);
+        }
+    </style>
+</head>
+<body class="admin-page">
+{% include 'admin_header.html' %}
+<div class="admin-container">
+        <!-- Header -->
+        <div class="admin-dashboard-header">
+            <h1 class="admin-title">
+                <i class="fas fa-newspaper"></i>
+                Gerenciar Artigos
+            </h1>
+            <p class="admin-subtitle">Gerencie todos os seus artigos do blog em um só lugar</p>
+        </div>
+
+        <!-- Mini Estatísticas -->
+        <div class="admin-stats-mini">
+            <div class="admin-stat-mini">
+                <div class="admin-stat-mini-icon admin-stat-mini-icon-primary">
+                    <i class="fas fa-newspaper"></i>
+                </div>
+                <div class="admin-stat-mini-content">
+                    <h4>{{ artigos|length }}</h4>
+                    <p>Total de Artigos</p>
+                </div>
+            </div>
+            <div class="admin-stat-mini">
+                <div class="admin-stat-mini-icon admin-stat-mini-icon-success">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="admin-stat-mini-content">
+                    <h4>{{ artigos|length }}</h4>
+                    <p>Publicados</p>
+                </div>
+            </div>
+            <div class="admin-stat-mini">
+                <div class="admin-stat-mini-icon admin-stat-mini-icon-warning">
+                    <i class="fas fa-edit"></i>
+                </div>
+                <div class="admin-stat-mini-content">
+                    <h4>0</h4>
+                    <p>Rascunhos</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cabeçalho de Ações -->
+        <div class="admin-actions-header">
+            <h2>Artigos do Blog</h2>
+            <div class="admin-actions-buttons">
+                <a href="{% url 'blog:create_article' %}" class="admin-btn admin-btn-primary admin-btn-sm">
+                    <i class="fas fa-plus"></i>
+                    Novo Artigo
+                </a>
+                <a href="{% url 'blog:articles' %}" class="admin-btn admin-btn-secondary admin-btn-sm" target="_blank">
+                    <i class="fas fa-eye"></i>
+                    Ver Blog
+                </a>
+            </div>
+        </div>
+
+        
+        <!-- Mensagens -->
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+        
+        <!-- Tabela de Artigos -->
+        <div class="admin-table-container">
+            {% if artigos %}
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Título</th>
+                            <th>Categoria</th>
+                            <th>Status</th>
+                            <th>Visualizações</th>
+                            <th>Criado em</th>
+                            <th class="text-center">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for artigo in artigos %}
+                        <tr>
+                            <td>
+                                <div class="admin-table-item">
+                                    <div class="admin-table-avatar">
+                                        {% if artigo.imagem_destaque %}
+                                            <img src="{{ artigo.imagem_destaque.url }}" alt="{{ artigo.titulo }}">
+                                        {% else %}
+                                            <div class="admin-table-avatar-placeholder">
+                                                <i class="fas fa-newspaper"></i>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="admin-table-info">
+                                        <div class="admin-table-title">{{ artigo.titulo }}</div>
+                                        <div class="admin-table-subtitle">{{ artigo.conteudo|truncatewords:10|striptags|truncatechars:50 }}</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                {% if artigo.categoria %}
+                                    <span class="admin-badge admin-badge-secondary">{{ artigo.categoria.nome }}</span>
+                                {% else %}
+                                    <span class="admin-badge admin-badge-outline">Sem categoria</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if artigo.status == 'publicado' %}
+                                    <span class="admin-badge admin-badge-success">{{ artigo.get_status_display }}</span>
+                                {% elif artigo.status == 'rascunho' %}
+                                    <span class="admin-badge admin-badge-warning">{{ artigo.get_status_display }}</span>
+                                {% else %}
+                                    <span class="admin-badge admin-badge-secondary">{{ artigo.get_status_display }}</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ artigo.visualizacoes|default:0 }}</td>
+                            <td>
+                                <div class="admin-table-actions">
+                                    <a href="{% url 'blog:edit_article' artigo.pk %}" 
+                                       class="admin-btn-icon admin-btn-icon-edit" title="Editar">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="{% url 'blog:article_detail' artigo.slug %}" 
+                                       class="admin-btn-icon admin-btn-icon-edit" title="Ver artigo" target="_blank">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <button onclick="deleteArticle({{ artigo.pk }}, '{{ artigo.titulo|escapejs }}')"
+                                            class="admin-btn-icon admin-btn-icon-delete" title="Excluir">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <div class="admin-empty-state">
+                    <i class="fas fa-newspaper"></i>
+                    <h3>Nenhum artigo encontrado</h3>
+                    <p>Comece criando seu primeiro artigo!</p>
+                    <a href="{% url 'blog:create_article' %}" class="admin-btn admin-btn-primary">
+                        <i class="fas fa-plus"></i>
+                        <span>Criar Primeiro Artigo</span>
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Token CSRF oculto para requisições AJAX -->
+{% csrf_token %}
+<input type="hidden" id="csrf-token" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+
+<script>
+function deleteArticle(articleId, articleTitle) {
+    if (confirm(`Tem certeza que deseja excluir o artigo "${articleTitle}"? Esta ação não pode ser desfeita.`)) {
+        const csrfToken = document.querySelector('#csrf-token').value;
+        
+        fetch(`/blog/delete/${articleId}/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrfToken,
+                'Content-Type': 'application/json',
+            },
+        })
+        .then(response => {
+            if (response.ok) {
+                location.reload();
+            } else {
+                alert('Erro ao excluir o artigo. Tente novamente.');
+            }
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+            alert('Erro ao excluir o artigo. Tente novamente.');
+        });
+    }
+}
+</script>
+</body>
+</html>

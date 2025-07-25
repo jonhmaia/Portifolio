@@ -6,172 +6,159 @@
 
 {% block extra_css %}
 <style>
+    /* Space Background */
+    .space-background {
+        background: radial-gradient(ellipse at center, #253840 0%, #152026 50%, #0a0f12 100%);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .stars-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+    }
+    
+    .star {
+        position: absolute;
+        background: #92a4a6;
+        border-radius: 50%;
+        animation: twinkle 3s infinite;
+    }
+    
+    @keyframes twinkle {
+        0%, 100% { opacity: 0.3; }
+        50% { opacity: 1; }
+    }
+    
+    /* Dark Glass Effect */
+    .dark-glass-effect {
+        background: rgba(31, 41, 55, 0.8);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(75, 85, 99, 0.3);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+    
+    /* Neon Flicker Effect */
+    .neon-flicker {
+        animation: neon-flicker 2s infinite alternate;
+    }
+    
+    @keyframes neon-flicker {
+        0%, 100% { text-shadow: 0 0 5px rgba(147, 164, 166, 0.5); }
+        50% { text-shadow: 0 0 10px rgba(147, 164, 166, 0.8), 0 0 15px rgba(147, 164, 166, 0.6); }
+    }
+    
+    /* Project Cards */
     .project-card {
+        background: rgba(31, 41, 55, 0.9);
+        border: 1px solid rgba(75, 85, 99, 0.3);
         transition: all 0.3s ease;
         transform: translateY(0);
+        backdrop-filter: blur(10px);
     }
     
     .project-card:hover {
         transform: translateY(-8px);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        border-color: rgba(147, 164, 166, 0.5);
     }
     
-    .dark .project-card:hover {
-        box-shadow: 0 20px 40px rgba(233, 0, 0, 0.3);
-    }
-    
-    .tech-tag {
-        transition: all 0.2s ease;
-    }
-    
-    .tech-tag:hover {
-        transform: scale(1.05);
-    }
-    
-    .status-badge {
-        position: relative;
-        overflow: hidden;
-    }
-    
-    .status-badge::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-        transition: left 0.5s;
-    }
-    
-    .status-badge:hover::before {
-        left: 100%;
-    }
-    
-    .filter-button {
-        transition: all 0.3s ease;
-    }
-    
-    .filter-button.active {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        transform: scale(1.05);
-    }
-    
+    /* Hero Section */
     .hero-section {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 60vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
         position: relative;
-        overflow: hidden;
     }
     
-    .hero-section::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="%23ffffff" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>') repeat;
-        opacity: 0.3;
-    }
-    
-    /* Status Filter Styles */
-    .status-filter {
-        background: white;
-        dark:bg-gray-800;
-        border-radius: 12px;
-        padding: 20px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        margin-bottom: 30px;
-    }
-    
-    .dark .status-filter {
-        background: #1f2937;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-    }
-    
-    .filter-button {
+    /* Stats Section */
+    .stats-card {
+        background: rgba(31, 41, 55, 0.8);
+        border: 1px solid rgba(75, 85, 99, 0.3);
+        backdrop-filter: blur(10px);
         transition: all 0.3s ease;
-        border-radius: 8px;
-        padding: 8px 16px;
-        margin: 4px;
-        display: inline-block;
-        text-decoration: none;
     }
     
-    .filter-button.active {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    .stats-card:hover {
+        border-color: rgba(147, 164, 166, 0.5);
+        transform: translateY(-2px);
+    }
+    
+    /* Action Buttons */
+    .btn-primary-custom {
+        background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+        border: none;
         color: white;
-        transform: scale(1.05);
+        transition: all 0.3s ease;
     }
     
-    .animate-fade-in {
-        animation: fadeIn 0.6s ease-out;
+    .btn-primary-custom:hover {
+        background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+    }
+    
+    .btn-secondary-custom {
+        background: rgba(75, 85, 99, 0.8);
+        border: 1px solid rgba(107, 114, 128, 0.5);
+        color: white;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-secondary-custom:hover {
+        background: rgba(107, 114, 128, 0.9);
+        border-color: rgba(147, 164, 166, 0.7);
+    }
+    
+    /* Featured Badge */
+    .featured-badge {
+        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        color: white;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+    }
+    
+    /* Status Badges */
+    .status-concluido { background: linear-gradient(135deg, #10b981 0%, #059669 100%); }
+    .status-desenvolvimento { background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); }
+    .status-pausado { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); }
+    .status-planejado { background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%); }
+    
+    /* Animations */
+    .fade-in {
+        animation: fadeIn 0.8s ease-out;
+    }
+    
+    .slide-up {
+        animation: slideUp 1s ease-out;
     }
     
     @keyframes fadeIn {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-    
-    .animate-slide-up {
-        animation: slideUp 0.8s ease-out;
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
     }
     
     @keyframes slideUp {
-        from {
-            opacity: 0;
-            transform: translateY(40px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        from { opacity: 0; transform: translateY(50px); }
+        to { opacity: 1; transform: translateY(0); }
     }
     
-    /* Responsive adjustments */
+    /* Responsive */
     @media (max-width: 768px) {
-        .sidebar {
-            width: 280px;
-            left: -280px;
-        }
-        
-        .sidebar.open + .sidebar-toggle {
-            left: 300px;
-        }
-        
-        .hexagon {
-            width: 50px;
-            height: 43px;
-            margin: 22px 0;
-        }
-        
-        .hexagon::before {
-            border-left-width: 25px;
-            border-right-width: 25px;
-            border-bottom-width: 12px;
-            top: -11px;
-        }
-        
-        .hexagon::after {
-            border-left-width: 25px;
-            border-right-width: 25px;
-            border-top-width: 12px;
-            bottom: -11px;
-        }
-        
-        .hexagon-icon {
-            font-size: 14px;
-        }
-        
-        .hexagon-text {
-            font-size: 7px;
+        .hero-section {
+            min-height: 50vh;
+            padding: 2rem 1rem;
         }
     }
 </style>

@@ -1,0 +1,53 @@
+{% load static %}
+<!-- Header administrativo para páginas do painel -->
+<link rel="stylesheet" href="{% static 'css/admin-styles.css' %}">
+<header class="admin-header">
+
+    <nav class="admin-nav">
+        <a href="{% url 'core:dashboard' %}" class="admin-logo">
+            <i class="fas fa-cogs"></i>
+            <span>Painel Administrativo</span>
+        </a>
+
+        <ul class="admin-menu">
+            <li>
+                <a href="{% url 'core:dashboard' %}" {% if request.resolver_match.url_name == 'dashboard' %}class="active"{% endif %}>
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'portfolio:manage_projects' %}" {% if 'portfolio' in request.resolver_match.namespace %}class="active"{% endif %}>
+                    <i class="fas fa-project-diagram"></i>
+                    <span>Projetos</span>
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'blog:manage_articles' %}" {% if 'blog' in request.resolver_match.namespace %}class="active"{% endif %}>
+                    <i class="fas fa-newspaper"></i>
+                    <span>Artigos</span>
+                </a>
+            </li>
+            <li>
+                <a href="/" target="_blank" class="admin-tooltip" data-tooltip="Abrir site em nova aba">
+                    <i class="fas fa-external-link-alt"></i>
+                    <span>Ver Site</span>
+                </a>
+            </li>
+        </ul>
+
+        <div class="admin-user-info">
+            <div class="admin-user-avatar">
+                <i class="fas fa-user-circle"></i>
+            </div>
+            <div class="admin-user-details">
+                <span class="admin-user-name">{{ user.username }}</span>
+                <span class="admin-user-role">Administrador</span>
+            </div>
+            <a href="{% url 'core:logout' %}" class="admin-btn admin-btn-danger admin-btn-sm">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Sair</span>
+            </a>
+        </div>
+    </nav>
+</header>

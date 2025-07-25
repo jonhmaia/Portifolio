@@ -1,0 +1,241 @@
+{% load static %}
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ page_title }} - Blog - {% trans "Meu Portfólio" %}</title>
+    
+    <!-- Tailwind CSS -->
+    <link rel="stylesheet" href="{% static 'css/dist/styles.css' %}">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/admin-styles.css' %}">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <style>
+.delete-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.delete-card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+    padding: 3rem;
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+}
+
+.dark .delete-card {
+    background: #1e293b;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+}
+
+.delete-icon {
+    font-size: 4rem;
+    margin-bottom: 1.5rem;
+    color: #ef4444;
+}
+
+.delete-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 1rem;
+}
+
+.dark .delete-title {
+    color: #f1f5f9;
+}
+
+.delete-message {
+    color: #64748b;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.dark .delete-message {
+    color: #94a3b8;
+}
+
+.article-info {
+    background: #f8fafc;
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    border-left: 4px solid #ef4444;
+}
+
+.dark .article-info {
+    background: #0f172a;
+    border-left-color: #dc2626;
+}
+
+.article-title {
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 0.5rem;
+}
+
+.dark .article-title {
+    color: #f1f5f9;
+}
+
+.article-meta {
+    font-size: 0.875rem;
+    color: #64748b;
+}
+
+.dark .article-meta {
+    color: #94a3b8;
+}
+
+.warning-box {
+    background: #fef3c7;
+    color: #92400e;
+    padding: 1rem;
+    border-radius: 8px;
+    margin: 1.5rem 0;
+    font-size: 0.875rem;
+    border-left: 4px solid #f59e0b;
+}
+
+.dark .warning-box {
+    background: #92400e;
+    color: #fef3c7;
+    border-left-color: #d97706;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 0.875rem 2rem;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1rem;
+}
+
+.btn-danger {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    color: white;
+}
+
+.btn-danger:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(239, 68, 68, 0.4);
+}
+
+.btn-secondary {
+    background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+    color: white;
+}
+
+.btn-secondary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(107, 114, 128, 0.3);
+}
+
+.user-info {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    color: #374151;
+}
+
+.dark .user-info {
+    background: rgba(30, 41, 59, 0.9);
+    color: #d1d5db;
+}
+
+@media (max-width: 768px) {
+    .delete-container {
+        padding: 1rem;
+    }
+    
+    .delete-card {
+        padding: 2rem;
+    }
+    
+    .action-buttons {
+        flex-direction: column;
+    }
+    
+    .user-info {
+        position: static;
+        margin-bottom: 1rem;
+        text-align: center;
+    }
+}
+</style>
+</head>
+<body class="text-base-content transition-colors duration-300" data-theme="modern" style="background-color: #0D0D0D;">
+{% include 'admin_header.html' %}
+<div class="delete-container">
+    <div class="user-info">
+        👤 {{ user.username }}
+    </div>
+    
+    <div class="delete-card">
+        <div class="delete-icon">🗑️</div>
+        
+        <h1 class="delete-title">Confirmar Exclusão</h1>
+        
+        <p class="delete-message">
+            Você tem certeza que deseja excluir este artigo? Esta ação não pode ser desfeita.
+        </p>
+        
+        <div class="article-info">
+            <div class="article-title">{{ artigo.titulo }}</div>
+            <div class="article-meta">
+                📅 Criado em: {{ artigo.data_publicacao|date:"d/m/Y H:i" }}<br>
+                👤 Autor: {{ artigo.autor.username }}<br>
+                🔄 Status: {{ artigo.get_status_display }}
+            </div>
+        </div>
+        
+        <div class="warning-box">
+            <strong>⚠️ Atenção:</strong> Esta ação é irreversível. O artigo será permanentemente removido do banco de dados.
+        </div>
+        
+        <form method="post" style="display: inline;">
+            {% csrf_token %}
+            <div class="action-buttons">
+                <a href="{% url 'blog:manage_articles' %}" class="btn btn-secondary">
+                    ❌ Cancelar
+                </a>
+                <button type="submit" class="btn btn-danger" onclick="return confirm('Tem certeza absoluta que deseja excluir este artigo?')">
+                    🗑️ Sim, Excluir
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

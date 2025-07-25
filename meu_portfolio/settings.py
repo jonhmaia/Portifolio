@@ -185,8 +185,8 @@ INTERNAL_IPS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Login/Logout URLs
-LOGIN_URL = '/admin/login/'
-LOGOUT_REDIRECT_URL = '/admin/login/'
+LOGIN_URL = '/portfolio/login/'
+LOGOUT_REDIRECT_URL = '/portfolio/login/'
 
 # Security settings for production
 if not DEBUG:

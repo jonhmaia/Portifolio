@@ -1,0 +1,248 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ page_title }}</title>
+    
+    <!-- Tailwind CSS -->
+    <link rel="stylesheet" href="{% static 'css/dist/styles.css' %}">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/admin-styles.css' %}">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.14/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <style>
+        .table-container {
+            overflow-x: auto;
+        }
+        .status-badge {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+        }
+        .tech-tag {
+            font-size: 0.7rem;
+            padding: 0.1rem 0.3rem;
+            margin: 0.1rem;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body class="text-base-content transition-colors duration-300" data-theme="modern" style="background-color: #0D0D0D;">
+{% include 'admin_header.html' %}
+<div class="min-h-screen bg-base-200">
+    <div class="admin-container">
+        <div class="admin-card">
+          
+
+            <!-- Filtros e Busca -->
+            <div class="admin-filters">
+                <div class="admin-search-group">
+                    <label class="admin-label">Buscar projetos</label>
+                    <div class="admin-input-group">
+                        <i class="fas fa-search"></i>
+                        <input type="text" name="search" placeholder="Buscar por título..." 
+                               class="admin-input" value="{{ current_search|default:'' }}">
+                    </div>
+                </div>
+                <div class="admin-filter-group">
+                    <label class="admin-label">Filtrar por status</label>
+                    <select name="status" class="admin-select">
+                        <option value="">Todos os status</option>
+                        {% for value, label in status_choices %}
+                            <option value="{{ value }}" {% if current_status_filter == value %}selected{% endif %}>
+                                {{ label }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="admin-actions-inline">
+                    <button type="submit" class="admin-btn admin-btn-outline">
+                        <i class="fas fa-search"></i>
+                        <span>Filtrar</span>
+                    </button>
+                    <a href="{% url 'portfolio:manage_projects' %}" class="admin-btn admin-btn-ghost">
+                        <i class="fas fa-times"></i>
+                        <span>Limpar</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Tabela de Projetos -->
+            <div class="admin-table-container">
+                {% if projects %}
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Título</th>
+                                <th>Tipo</th>
+                                <th>Tecnologias</th>
+                                <th>Status</th>
+                                <th>Criado em</th>
+                                <th class="text-center">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for project in projects %}
+                            <tr>
+                                <td>
+                                    <div class="admin-table-item">
+                                        <div class="admin-table-avatar">
+                                            {% if project.imagem_principal %}
+                                                <img src="{{ project.imagem_principal.url }}" alt="{{ project.titulo }}">
+                                            {% else %}
+                                                <div class="admin-table-avatar-placeholder">
+                                                    <span>{{ project.titulo|first|upper }}</span>
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="admin-table-info">
+                                            <div class="admin-table-title">{{ project.titulo }}</div>
+                                            {% if project.subtitulo %}
+                                                <div class="admin-table-subtitle">{{ project.subtitulo }}</div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    {% if project.link_deploy %}
+                                        <span class="admin-badge admin-badge-success">Produto</span>
+                                    {% elif project.link_repositorio %}
+                                        <span class="admin-badge admin-badge-info">Código</span>
+                                    {% else %}
+                                        <span class="admin-badge admin-badge-warning">Conceito</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <div class="admin-tech-list">
+                                        {% for tech in project.tecnologias.all|slice:":3" %}
+                                            <span class="admin-badge admin-badge-outline">{{ tech.nome }}</span>
+                                        {% endfor %}
+                                        {% if project.tecnologias.count > 3 %}
+                                            <span class="admin-badge admin-badge-secondary">+{{ project.tecnologias.count|add:"-3" }}</span>
+                                        {% endif %}
+                                    </div>
+                                </td>
+                                <td>
+                                    {% if project.status == 'desenvolvimento' %}
+                                        <span class="admin-badge admin-badge-warning">{{ project.get_status_display }}</span>
+                                    {% elif project.status == 'concluido' %}
+                                        <span class="admin-badge admin-badge-success">{{ project.get_status_display }}</span>
+                                    {% elif project.status == 'pausado' %}
+                                        <span class="admin-badge admin-badge-danger">{{ project.get_status_display }}</span>
+                                    {% else %}
+                                        <span class="admin-badge admin-badge-secondary">{{ project.get_status_display }}</span>
+                                    {% endif %}
+                                    {% if project.ativo %}
+                                        <span class="admin-badge admin-badge-success admin-badge-sm">Ativo</span>
+                                    {% else %}
+                                        <span class="admin-badge admin-badge-secondary admin-badge-sm">Inativo</span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ project.data_criacao|date:"d/m/Y" }}</td>
+                                <td class="text-center">
+                                    <div class="admin-table-actions">
+                                        <a href="{% url 'portfolio:edit_project' project.id %}" 
+                                           class="admin-btn-icon admin-btn-icon-primary" title="Editar">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <button onclick="deleteProject({{ project.id }}, '{{ project.titulo|escapejs }}')"
+                                                class="admin-btn-icon admin-btn-icon-danger" title="Excluir">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                {% else %}
+                    <div class="admin-empty-state">
+                        <i class="fas fa-folder-open"></i>
+                        <h3>Nenhum projeto encontrado</h3>
+                        
+                        <a href="{% url 'portfolio:create_project' %}" class="admin-btn admin-btn-primary">
+                            <i class="fas fa-plus"></i>
+                            <span>Criar Primeiro Projeto</span>
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Confirmação de Exclusão -->
+<dialog id="delete_modal" class="modal">
+    <div class="modal-box">
+        <h3 class="font-bold text-lg">Confirmar Exclusão</h3>
+        <p class="py-4">Tem certeza que deseja excluir o projeto <strong id="project_name"></strong>?</p>
+        <p class="text-sm text-warning">Esta ação não pode ser desfeita.</p>
+        <div class="modal-action">
+            <button class="btn" onclick="document.getElementById('delete_modal').close()">Cancelar</button>
+            <button id="confirm_delete" class="btn btn-error">Excluir</button>
+        </div>
+    </div>
+</dialog>
+
+{% csrf_token %}
+<script>
+let projectToDelete = null;
+
+function deleteProject(projectId, projectName) {
+    projectToDelete = projectId;
+    document.getElementById('project_name').textContent = projectName;
+    document.getElementById('delete_modal').showModal();
+}
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+document.getElementById('confirm_delete').addEventListener('click', function() {
+    if (projectToDelete) {
+        const csrftoken = getCookie('csrftoken');
+        
+        fetch(`/portfolio/delete/${projectToDelete}/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrftoken,
+                'Content-Type': 'application/json',
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            } else {
+                alert('Erro ao excluir projeto: ' + (data.error || 'Erro desconhecido'));
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Erro ao excluir projeto');
+        });
+        
+        document.getElementById('delete_modal').close();
+    }
+});
+</script>
+</body>
+</html>

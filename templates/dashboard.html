@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel de Controle - Administração</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/admin-styles.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+</head>
+<body class="admin-page">
+    {% include 'admin_header.html' %}
+    <div class="admin-container">
+        <div class="admin-card">
+            <div class="admin-dashboard-header">
+                <h1 class="admin-title">
+                    <i class="fas fa-tachometer-alt"></i>
+                    Painel de Controle
+                </h1>
+                <p class="admin-subtitle">Bem-vindo ao sistema de administração</p>
+            </div>
+
+
+
+            <div class="admin-actions-grid">
+                <a href="{% url 'portfolio:manage_projects' %}" class="admin-action-card admin-animate-scale">
+                    <div class="admin-action-icon">
+                        <i class="fas fa-project-diagram"></i>
+                    </div>
+                    <h3>Gerenciar Projetos</h3>
+                    <p>Criar, editar e organizar seus projetos de forma intuitiva</p>
+                </a>
+                <a href="{% url 'blog:manage_articles' %}" class="admin-action-card admin-animate-scale">
+                    <div class="admin-action-icon">
+                        <i class="fas fa-newspaper"></i>
+                    </div>
+                    <h3>Gerenciar Artigos</h3>
+                    <p>Escrever e publicar artigos no blog com facilidade</p>
+                </a>
+                <a href="/" target="_blank" class="admin-action-card admin-animate-scale">
+                    <div class="admin-action-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h3>Ver Site Público</h3>
+                    <p>Visualizar como o site aparece para os visitantes</p>
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,140 +1,469 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}{{ page_title }} - Meu Portfólio{% endblock %}
+{% block title %}{{ page_title }} - {% trans "Currículo" %}{% endblock %}
+
+{% block extra_css %}
+<link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.14/dist/full.min.css" rel="stylesheet" type="text/css" />
+<style>
+    @media print {
+        /* Configurações da página */
+        @page {
+            margin: 0.5cm;
+            size: A4;
+        }
+        
+        /* Oculta header, footer e navegação na impressão */
+        header, footer, nav, .navbar, .no-print {
+            display: none !important;
+        }
+        
+        /* Remove margens e padding da página */
+        body {
+            margin: 0 !important;
+            padding: 0 !important;
+            background: white !important;
+            font-size: 11pt !important;
+            line-height: 1.2 !important;
+        }
+        
+        /* Ajusta o conteúdo para impressão */
+        .container, .max-w-4xl {
+            max-width: none !important;
+            margin: 0 !important;
+            padding: 5px !important;
+        }
+        
+        /* Remove sombras e bordas desnecessárias */
+        .card, .shadow-md, .shadow-lg {
+            box-shadow: none !important;
+            border: 1px solid #e5e7eb !important;
+            page-break-inside: avoid !important;
+            margin-bottom: 4px !important;
+            padding: 6px !important;
+        }
+        
+        /* Reduz espaçamentos */
+        .mb-8 {
+            margin-bottom: 6px !important;
+            page-break-inside: avoid !important;
+        }
+        
+        .space-y-6 > * + * {
+            margin-top: 4px !important;
+        }
+        
+        .space-y-3 > * + * {
+            margin-top: 2px !important;
+        }
+        
+        /* Evita quebras de página em seções específicas */
+        section, .grid > div {
+            page-break-inside: avoid !important;
+        }
+        
+        /* Mantém elementos juntos */
+        h1, h2, h3, h4 {
+            page-break-after: avoid !important;
+            margin-top: 8px !important;
+            margin-bottom: 4px !important;
+        }
+        
+        /* Ajusta parágrafos */
+        p {
+            orphans: 3 !important;
+            widows: 3 !important;
+            margin: 2px 0 !important;
+        }
+        
+        /* Grid de habilidades mais compacto */
+        .grid {
+            gap: 4px !important;
+        }
+        
+        .grid > div {
+            padding: 4px !important;
+            margin: 0 !important;
+        }
+        
+        /* Força cores para impressão */
+        * {
+            color: black !important;
+            background: white !important;
+        }
+        
+        /* Mantém ícones visíveis */
+        img, svg {
+            opacity: 1 !important;
+        }
+        
+        /* Avatar menor */
+        .avatar {
+            width: 60px !important;
+            height: 60px !important;
+        }
+        
+        .avatar img {
+            width: 60px !important;
+            height: 60px !important;
+        }
+        
+        /* Remove espaços extras das seções */
+        .py-8 {
+            padding-top: 8px !important;
+            padding-bottom: 8px !important;
+        }
+        
+        .bg-base-300 {
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+        
+        /* Reduz espaçamento do grid de habilidades */
+        .mt-8 {
+            margin-top: 4px !important;
+        }
+        
+        .pt-6 {
+            padding-top: 4px !important;
+        }
+        
+        /* Reduz altura dos títulos */
+        .text-2xl {
+            font-size: 16pt !important;
+            margin-bottom: 2px !important;
+        }
+        
+        .text-xl {
+            font-size: 14pt !important;
+            margin-bottom: 2px !important;
+        }
+        
+        /* Compacta badges */
+        .badge {
+            font-size: 9pt !important;
+            padding: 2px 6px !important;
+        }
+    }
+    .print-only { display: none; }
+    @media print {
+        .print-only { display: block; }
+    }
+</style>
+{% endblock %}
 
 {% block content %}
-<!-- Header Section -->
+<div class="bg-base-300">
+    <!-- Curriculum Content -->
+    <section class="py-8 bg-base-300">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Personal Info -->
+            <div class="card bg-base-100 p-8 mb-8">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="md:col-span-1 text-center">
+                        <div class="avatar">
+                            <div class="w-48 rounded-full">
+                                <img src="{% static 'images/profile.jpg' %}" alt="Foto de perfil" />
+                            </div>
+                        </div>
+                        <h2 class="text-2xl font-bold text-base-content mb-2 mt-4">
+                            João Marcos Maia
+                        </h2>
+                    </div>
 
-
-<!-- Curriculum Content -->
-<section class="py-16 bg-base-300">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        <!-- Personal Info -->
-        <div class="card bg-base-100 p-8 mb-12">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="md:col-span-1 text-center">
-                    <div class="avatar">
-                        <div class="w-48 rounded-full">
-                            <img src="https://via.placeholder.com/200x200" alt="Foto de perfil" />
+                    <div class="md:col-span-2">
+                        <h3 class="text-xl font-bold text-base-content mb-4">
+                            {% trans "Resumo Profissional" %}
+                        </h3>
+                        <p class="text-base-content/80 mb-6">
+                            {% trans "Com expertise que abrange desde o desenvolvimento web (Django) e banco de dados no SISDIM, passando pela engenharia de prompt, automações (N8N, Bubble IO) e agentes de IA no CEIA, até a liderança de equipes e gestão de projetos como Head de Tecnologia na Flex ON." %}
+                        </p>
+                        
+                        <h3 class="text-xl font-bold text-base-content mb-4">
+                            {% trans "Informações de Contato" %}
+                        </h3>
+                        
+                        <div class="space-y-3">
+                            <div class="flex items-center">
+                                <svg class="w-5 h-5 text-primary mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                                    <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+                                </svg>
+                                <span class="text-base-content/80">joaomaia@discente.ufg.br</span>
+                            </div>
+                            <div class="flex items-center">
+                                <svg class="w-5 h-5 text-primary mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+                                </svg>
+                                <span class="text-base-content/80">(62) 99901-8119</span>
+                            </div>
+                            <div class="flex items-center">
+                                <svg class="w-5 h-5 text-primary mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
+                                </svg>
+                                <span class="text-base-content/80">Goiânia, GO</span>
+                            </div>
                         </div>
                     </div>
-                    <h2 class="text-2xl font-bold text-base-content mb-2 mt-4">
-                        {{ personal_info.name }}
-                    </h2>
-                    <p class="text-lg text-primary font-semibold">
-                        {{ personal_info.title }}
-                    </p>
                 </div>
                 
-                <div class="md:col-span-2">
+                <!-- Technical Skills dentro do mesmo card -->
+                <div class="mt-8 pt-6 border-t border-base-300">
                     <h3 class="text-xl font-bold text-base-content mb-4">
-                        Informações de Contato
+                        {% trans "Habilidades Técnicas" %}
                     </h3>
-                    <div class="space-y-3">
-                        <div class="flex items-center">
-                            <svg class="w-5 h-5 text-primary mr-3" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
-                                <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
-                            </svg>
-                            <span class="text-base-content/80">{{ personal_info.email }}</span>
+                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
+                        <!-- Django -->
+                        <div class="bg-base-200 p-4 rounded-lg shadow-sm text-center">
+                            <div class="w-12 h-12 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-2">
+                                <img src="https://www.svgrepo.com/show/353657/django-icon.svg" alt="Django" width="24" />
+                            </div>
+                            <h4 class="font-semibold text-base-content text-sm">Django</h4>
                         </div>
-                        <div class="flex items-center">
-                            <svg class="w-5 h-5 text-primary mr-3" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
-                            </svg>
-                            <span class="text-base-content/80">{{ personal_info.phone }}</span>
+                        
+                        <!-- Python -->
+                        <div class="bg-base-200 p-4 rounded-lg shadow-sm text-center">
+                            <div class="w-12 h-12 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-2">
+                                <img src="https://img.icons8.com/color/48/python--v1.png" alt="Python" width="24" />
+                            </div>
+                            <h4 class="font-semibold text-base-content text-sm">Python</h4>
                         </div>
-                        <div class="flex items-center">
-                            <svg class="w-5 h-5 text-primary mr-3" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+                        
+                        <!-- JavaScript -->
+                        <div class="bg-base-200 p-4 rounded-lg shadow-sm text-center">
+                            <div class="w-12 h-12 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-2">
+                                <img src="https://raw.githubusercontent.com/tandpfun/skill-icons/65dea6c4eaca7da319e552c09f4cf5a9a8dab2c8/icons/JavaScript.svg" alt="JavaScript" width="24" />
+                            </div>
+                            <h4 class="font-semibold text-base-content text-sm">JavaScript</h4>
+                        </div>
+                        
+                        <!-- HTML -->
+                        <div class="bg-base-200 p-4 rounded-lg shadow-sm text-center">
+                            <div class="w-12 h-12 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-2">
+                                <img src="https://img.icons8.com/color/48/html-5--v1.png" alt="HTML" width="24" />
+                            </div>
+                            <h4 class="font-semibold text-base-content text-sm">HTML</h4>
+                        </div>
+                        
+                        <!-- CSS -->
+                        <div class="bg-base-200 p-4 rounded-lg shadow-sm text-center">
+                            <div class="w-12 h-12 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-2">
+                                <img src="https://img.icons8.com/color/48/css3.png" alt="CSS" width="24" />
+                            </div>
+                            <h4 class="font-semibold text-base-content text-sm">CSS</h4>
+                        </div>
+                        
+                        <!-- Node.js -->
+                        <div class="bg-base-200 p-4 rounded-lg shadow-sm text-center">
+                            <div class="w-12 h-12 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-2">
+                                <img src="https://nodejs.org/static/logos/nodejsStackedLight.svg" alt="Node.js" width="24" />
+                            </div>
+                            <h4 class="font-semibold text-base-content text-sm">Node.js</h4>
+                        </div>
+                        
+                        <!-- N8N -->
+                        <div class="bg-base-200 p-4 rounded-lg shadow-sm text-center">
+                            <div class="w-12 h-12 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-2">
+                                <img src="https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/dark/n8n.png" alt="N8N" width="24" />
+                            </div>
+                            <h4 class="font-semibold text-base-content text-sm">N8N</h4>
+                        </div>
+                        
+                        <!-- Docker -->
+                        <div class="bg-base-200 p-4 rounded-lg shadow-sm text-center">
+                            <div class="w-12 h-12 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-2">
+                                <img src="https://img.icons8.com/fluent/512/docker.png" alt="Docker" width="24" style="border-radius: 20%" />
+                            </div>
+                            <h4 class="font-semibold text-base-content text-sm">Docker</h4>
+                        </div>
+                        
+                        <!-- Bubble.io -->
+                         <div class="bg-base-200 p-4 rounded-lg shadow-sm text-center">
+                             <div class="w-12 h-12 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-2">
+                                 <img src="data:image/png;base64,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" alt="Bubble.io" width="24" />
+                             </div>
+                             <h4 class="font-semibold text-base-content text-sm">Bubble.io</h4>
+                         </div>
+                         
+                         <!-- Supabase -->
+                         <div class="bg-base-200 p-4 rounded-lg shadow-sm text-center">
+                             <div class="w-12 h-12 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-2">
+                                 <img src="https://img.icons8.com/color/48/supabase.png" alt="Supabase" width="24" />
+                             </div>
+                             <h4 class="font-semibold text-base-content text-sm">Supabase</h4>
+                         </div>
+                         
+                         <!-- C/C++ -->
+                         <div class="bg-base-200 p-4 rounded-lg shadow-sm text-center">
+                             <div class="w-12 h-12 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-2">
+                                 <img src="https://raw.githubusercontent.com/tandpfun/skill-icons/65dea6c4eaca7da319e552c09f4cf5a9a8dab2c8/icons/C.svg" alt="C/C++" width="24" />
+                             </div>
+                             <h4 class="font-semibold text-base-content text-sm">C/C++</h4>
+                         </div>
+                        
+                        <!-- SQL -->
+                         <div class="bg-base-200 p-4 rounded-lg shadow-sm text-center">
+                             <div class="w-12 h-12 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-2">
+                                 <i class="fas fa-database text-accent text-lg"></i>
+                             </div>
+                             <h4 class="font-semibold text-base-content text-sm">SQL</h4>
+                         </div>
+                         
+                         <!-- Bootstrap -->
+                         <div class="bg-base-200 p-4 rounded-lg shadow-sm text-center">
+                             <div class="w-12 h-12 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-2">
+                                 <i class="fab fa-bootstrap text-accent text-lg"></i>
+                             </div>
+                             <h4 class="font-semibold text-base-content text-sm">Bootstrap</h4>
+                         </div>
+                         
+                         <!-- PostgreSQL -->
+                         <div class="bg-base-200 p-4 rounded-lg shadow-sm text-center">
+                             <div class="w-12 h-12 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-2">
+                                 <img src="https://images.icon-icons.com/2415/PNG/512/postgresql_original_wordmark_logo_icon_146392.png" alt="PostgreSQL" width="24" />
+                             </div>
+                             <h4 class="font-semibold text-base-content text-sm">PostgreSQL</h4>
+                         </div>
+                         
+                         <!-- MCP -->
+                         <div class="bg-base-200 p-4 rounded-lg shadow-sm text-center">
+                             <div class="w-12 h-12 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-2">
+                                 <img src="https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/light/mcp.png" alt="MCP" width="24" />
+                             </div>
+                             <h4 class="font-semibold text-base-content text-sm">MCP</h4>
+                         </div>
+                         
+                         <!-- GitHub -->
+                         <div class="bg-base-200 p-4 rounded-lg shadow-sm text-center">
+                             <div class="w-12 h-12 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-2">
+                                 <img src="https://img.icons8.com/m_outlined/512/github.png" alt="GitHub" width="24" />
+                             </div>
+                             <h4 class="font-semibold text-base-content text-sm">GitHub</h4>
+                         </div>
+                         
+                         <!-- Lovable -->
+                         <div class="bg-base-200 p-4 rounded-lg shadow-sm text-center">
+                             <div class="w-12 h-12 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-2">
+                                 <img src="https://lovable.dev/img/logo/lovable-icon-bg-dark.png" alt="Lovable" width="24" />
+                             </div>
+                             <h4 class="font-semibold text-base-content text-sm">Lovable</h4>
+                         </div>
+                         
+                         <!-- Flutter -->
+                         <div class="bg-base-200 p-4 rounded-lg shadow-sm text-center">
+                             <div class="w-12 h-12 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-2">
+                                 <img src="https://images.icon-icons.com/2108/PNG/512/flutter_icon_130936.png" alt="Flutter" width="24" />
+                             </div>
+                             <h4 class="font-semibold text-base-content text-sm">Flutter</h4>
+                         </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!-- Experience Section -->
+            <div class="mb-8">
+                <h3 class="text-2xl font-bold text-base-content mb-6 border-b-2 border-primary pb-2">
+                    {% trans "Experiência Profissional" %}
+                </h3>
+                <div class="space-y-6">
+                    <div class="card bg-base-100 p-6">
+                        <div class="flex flex-col md:flex-row md:justify-between md:items-start mb-4">
+                            <div>
+                                <h4 class="text-xl font-bold text-base-content">{% trans "Head de Tecnologia" %}</h4>
+                                <p class="text-lg text-base-content font-semibold">FlexON</p>
+                            </div>
+                            <span class="badge badge-neutral mt-2 md:mt-0">{% trans "Fevereiro de 2024 - Atual" %}</span>
+                        </div>
+                        <p class="text-base-content/80">
+                            {% trans "Como Head de tecnologia na Flex ON minhas principais responsabilidades e tecnologias são:" %}<br/>
+                            <br/>• {% trans "Coordenação de equipe" %}<br/>• {% trans "Product Manager" %}<br/>• {% trans "Engenheiro de Software" %}<br/>• {% trans "Designer" %}<br/>• {% trans "Arquiteto de Software" %}<br/>• {% trans "Automações N8N" %}<br/>• {% trans "Bubble IO" %}<br/>• {% trans "Agentes de IA" %}
+                        </p>
+                    </div>
+                    
+                    <div class="card bg-base-100 p-6">
+                        <div class="flex flex-col md:flex-row md:justify-between md:items-start mb-4">
+                            <div>
+                                <h4 class="text-xl font-bold text-base-content">{% trans "Pesquisador e Desenvolvedor" %}</h4>
+                                <p class="text-lg text-base-content font-semibold">Centro de Excelência em Inteligência Artificial/ CEIA</p>
+                            </div>
+                            <span class="badge badge-neutral mt-2 md:mt-0">{% trans "Fevereiro de 2025 - Atual" %}</span>
+                        </div>
+                        <p class="text-base-content/80">
+                            {% trans "Como pesquisador e desenvolvedor do CEIA minhas principais responsabilidades e tecnologias são:" %}<br/>
+                            <br/>• {% trans "Desenvolver o front do chat" %}<br/>• {% trans "Engenheiro de Prompt" %}<br/>• {% trans "Administrador de Banco de dados" %}<br/>• {% trans "Automações N8N" %}<br/>• {% trans "Bubble IO" %}<br/>• {% trans "Agentes de IA" %}
+                        </p>
+                    </div>
+                    
+                    <div class="card bg-base-100 p-6">
+                        <div class="flex flex-col md:flex-row md:justify-between md:items-start mb-4">
+                            <div>
+                                <h4 class="text-xl font-bold text-base-content">{% trans "Pesquisador e Desenvolvedor" %}</h4>
+                                <p class="text-lg text-base-content font-semibold">SISDIM</p>
+                            </div>
+                            <span class="badge badge-neutral mt-2 md:mt-0">{% trans "Fevereiro de 2023 - Fevereiro de 2024" %}</span>
+                        </div>
+                        <p class="text-base-content/80">
+                            {% trans "Como estagiário pela Universidade Federal de Goiás, integrei a equipe que desenvolveu o Sistema de Dimensionamento da Força de Trabalho em Saúde no Brasil. No projeto minhas principais tarefas foram:" %}<br/>
+                            <br/>• {% trans "Desenvolvimento Web em Django" %}<br/>• {% trans "Modelagem e documentação do banco de dados" %}<br/>• {% trans "Edição de vídeo aulas" %}<br/>• {% trans "Documentação de Software" %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Education Section -->
+            <div class="mb-8">
+                <h3 class="text-2xl font-bold text-base-content mb-6 border-b-2 border-primary pb-2">
+                    {% trans "Formação Acadêmica" %}
+                </h3>
+                <div class="space-y-6">
+                    <div class="card bg-base-100 p-6">
+                        <div class="flex flex-col md:flex-row md:justify-between md:items-start">
+                            <div>
+                                <h4 class="text-xl font-bold text-base-content mb-2">{% trans "Bacharelado em Ciência da Computação" %}</h4>
+                                <p class="text-lg text-base-content font-semibold">Universidade Federal de Goiás</p>
+                            </div>
+                            <span class="badge badge-neutral mt-2 md:mt-0">{% trans "Dezembro de 2021 - Cursando" %}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Download Section -->
+            <div class="no-print mt-12 mb-8">
+                <div class="card bg-gradient-to-r from-primary to-secondary p-8 text-center">
+                    <div class="max-w-md mx-auto">
+                        <div class="mb-6">
+                            <div class="w-16 h-16 mx-auto mb-4 bg-white/20 rounded-full flex items-center justify-center">
+
+                            </div>
+                            <h3 class="text-2xl font-bold text-white mb-2">{% trans "Baixar Currículo" %}</h3>
+                            <p class="text-white/90 text-sm">{% trans "Clique no botão abaixo para baixar uma versão em PDF do meu currículo" %}</p>
+                        </div>
+                        
+                        <button onclick="downloadCurriculum()" class="btn btn-lg bg-white text-primary hover:bg-gray-100 border-none shadow-lg transform hover:scale-105 transition-all duration-300">
+                            <svg class="w-6 h-6 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v3.586l-1.293-1.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V8z" clip-rule="evenodd"></path>
                             </svg>
-                            <span class="text-base-content/80">{{ personal_info.location }}</span>
+                            <span class="font-semibold">{% trans "Download PDF" %}</span>
+                        </button>
+                        
+                        <div class="mt-4 text-white/80 text-xs">
+                            <p>💡 {% trans "Dica: Use Ctrl+P para imprimir ou salvar como PDF" %}</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        
-        <!-- Skills Section -->
-        <div class="mb-12">
-            <h3 class="text-2xl font-bold text-base-content mb-6 border-b-2 border-primary pb-2">
-                Habilidades Técnicas
-            </h3>
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {% for skill in skills %}
-                <div class="badge badge-primary badge-lg p-4">
-                    {{ skill }}
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-        
-        <!-- Experience Section -->
-        <div class="mb-12">
-            <h3 class="text-2xl font-bold text-base-content mb-6 border-b-2 border-primary pb-2">
-                Experiência Profissional
-            </h3>
-            <div class="space-y-8">
-                {% for exp in experience %}
-                <div class="card bg-base-100 p-6">
-                    <div class="flex flex-col md:flex-row md:justify-between md:items-start mb-4">
-                        <div>
-                            <h4 class="text-xl font-bold text-base-content">
-                                {{ exp.position }}
-                            </h4>
-                            <p class="text-lg text-primary font-semibold">
-                                {{ exp.company }}
-                            </p>
-                        </div>
-                        <span class="badge badge-neutral mt-2 md:mt-0">
-                            {{ exp.period }}
-                        </span>
-                    </div>
-                    <p class="text-base-content/80">
-                        {{ exp.description }}
-                    </p>
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-        
-        <!-- Education Section -->
-        <div class="mb-12">
-            <h3 class="text-2xl font-bold text-base-content mb-6 border-b-2 border-primary pb-2">
-                Formação Acadêmica
-            </h3>
-            <div class="space-y-6">
-                {% for edu in education %}
-                <div class="card bg-base-100 p-6">
-                    <div class="flex flex-col md:flex-row md:justify-between md:items-start">
-                        <div>
-                            <h4 class="text-xl font-bold text-base-content mb-2">
-                                {{ edu.degree }}
-                            </h4>
-                            <p class="text-lg text-primary font-semibold">
-                                {{ edu.institution }}
-                            </p>
-                        </div>
-                        <span class="badge badge-neutral mt-2 md:mt-0">
-                            {{ edu.period }}
-                        </span>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-        
-        <!-- Download CV Button -->
-        <div class="text-center">
-            <a href="#" class="btn btn-primary btn-lg">
-                <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"/>
-                </svg>
-                Baixar Currículo
-            </a>
-        </div>
-    </div>
-</section>
+    </section>
+    
+    <script>
+        function downloadCurriculum() {
+            // Aciona a impressão da página atual
+            window.print();
+        }
+    </script>
+</div>
 {% endblock %}

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ page_title }}</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --admin-primary: #92A4A6;
+            --admin-primary-dark: #7a8e91;
+            --admin-secondary: #152026;
+            --admin-accent: #253840;
+            --admin-bg: #0D0D0D;
+            --admin-surface: #1a1a1a;
+            --admin-surface-light: #2a2a2a;
+            --admin-text: #ffffff;
+            --admin-text-muted: #b0b0b0;
+            --admin-border: #333333;
+            --admin-success: #10b981;
+            --admin-warning: #f59e0b;
+            --admin-error: #ef4444;
+            --admin-info: #3b82f6;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--admin-bg);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            background: var(--admin-surface);
+            border: 1px solid var(--admin-border);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--admin-primary), var(--admin-accent));
+        }
+
+        .login-header {
+            margin-bottom: 30px;
+        }
+
+        .login-header h1 {
+            color: var(--admin-text);
+            font-size: 28px;
+            margin-bottom: 10px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--admin-primary), var(--admin-text));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .login-header p {
+            color: var(--admin-text-muted);
+            font-size: 16px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--admin-text);
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid var(--admin-border);
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: var(--admin-surface-light);
+            color: var(--admin-text);
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--admin-primary);
+            background: var(--admin-surface);
+            box-shadow: 0 0 0 3px rgba(146, 164, 166, 0.2);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--admin-primary);
+            color: var(--admin-secondary);
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .login-btn:hover {
+            background: var(--admin-primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(146, 164, 166, 0.3);
+        }
+
+        .login-btn:active {
+            transform: translateY(0);
+        }
+
+        .error-messages {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid var(--admin-error);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .error-messages ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .error-messages li {
+            color: var(--admin-error);
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .error-messages li:last-child {
+            margin-bottom: 0;
+        }
+
+        .back-link {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--admin-border);
+        }
+
+        .back-link a {
+            color: var(--admin-primary);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        .back-link a:hover {
+            color: var(--admin-primary-dark);
+        }
+
+        .security-note {
+            background: var(--admin-surface-light);
+            border-left: 4px solid var(--admin-primary);
+            padding: 12px;
+            margin-top: 20px;
+            border-radius: 0 8px 8px 0;
+            text-align: left;
+        }
+
+        .security-note p {
+            color: var(--admin-text-muted);
+            font-size: 13px;
+            margin: 0;
+        }
+
+        .security-note strong {
+            color: var(--admin-text);
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 30px 20px;
+                margin: 10px;
+            }
+
+            .login-header h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <h1>🔐 Painel Administrativo</h1>
+            <p>Acesso restrito a superusuários</p>
+        </div>
+
+        {% if form.errors %}
+            <div class="error-messages">
+                <ul>
+                    {% for field, errors in form.errors.items %}
+                        {% for error in errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+        <form method="post">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="{{ form.username.id_for_label }}">Usuário:</label>
+                {{ form.username }}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.password.id_for_label }}">Senha:</label>
+                {{ form.password }}
+            </div>
+
+            <button type="submit" class="login-btn">
+                🚀 Entrar no Painel
+            </button>
+        </form>
+
+        <div class="security-note">
+            <p><strong>🛡️ Área Segura:</strong> Este painel é protegido e requer privilégios de superusuário. Todas as ações são registradas para auditoria.</p>
+        </div>
+
+        <div class="back-link">
+            <a href="{% url 'portfolio:projects' %}">← Voltar ao Portfólio</a>
+        </div>
+    </div>
+</body>
+</html>

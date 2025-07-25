@@ -338,22 +338,280 @@
 .dark .page-header p {
   color: #94a3b8;
 }
+
+/* Articles Grid Section */
+.articles-section {
+  padding: 4rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.articles-section h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #f1f5f9;
+  margin-bottom: 3rem;
+}
+
+.dark .articles-section h2 {
+  color: #f1f5f9;
+}
+
+.articles-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.article-card {
+  background: #ffffff;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.dark .article-card {
+  background: #1e293b;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.article-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+}
+
+.dark .article-card:hover {
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+}
+
+.article-card-image {
+  width: 100%;
+  height: 200px;
+  background: linear-gradient(147deg, #3b82f6 0%, #1d4ed8 74%);
+  position: relative;
+  overflow: hidden;
+}
+
+.dark .article-card-image {
+  background: linear-gradient(147deg, #6366f1 0%, #4338ca 74%);
+}
+
+.article-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.article-card:hover .article-card-image img {
+  transform: scale(1.05);
+}
+
+.article-card-content {
+  padding: 1.5rem;
+}
+
+.article-card-date {
+  color: #64748b;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.dark .article-card-date {
+  color: #94a3b8;
+}
+
+.article-card-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 1rem;
+  line-height: 1.4;
+}
+
+.dark .article-card-title {
+  color: #f1f5f9;
+}
+
+.article-card-excerpt {
+  color: #475569;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+}
+
+.dark .article-card-excerpt {
+  color: #cbd5e1;
+}
+
+.article-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.article-card-author {
+  color: #64748b;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.dark .article-card-author {
+  color: #94a3b8;
+}
+
+.article-card-button {
+  background: linear-gradient(147deg, #3b82f6 0%, #1d4ed8 74%);
+  color: white;
+  padding: 0.5rem 1.5rem;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+}
+
+.dark .article-card-button {
+  background: linear-gradient(147deg, #6366f1 0%, #4338ca 74%);
+  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+}
+
+.article-card-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+  color: white;
+  text-decoration: none;
+}
+
+.dark .article-card-button:hover {
+  box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+}
+
+/* Empty State Styles */
+.empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: #64748b;
+}
+
+.dark .empty-state {
+  color: #94a3b8;
+}
+
+.empty-state-icon {
+  font-size: 4rem;
+  margin-bottom: 1.5rem;
+  opacity: 0.5;
+}
+
+.empty-state-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #1e293b;
+}
+
+.dark .empty-state-title {
+  color: #f1f5f9;
+}
+
+.empty-state-message {
+  font-size: 1rem;
+  line-height: 1.6;
+  max-width: 400px;
+  margin: 0 auto 2rem;
+}
+
+.empty-state-button {
+  background: linear-gradient(147deg, #3b82f6 0%, #1d4ed8 74%);
+  color: white;
+  padding: 0.75rem 2rem;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+}
+
+.dark .empty-state-button {
+  background: linear-gradient(147deg, #6366f1 0%, #4338ca 74%);
+  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+}
+
+.empty-state-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+  color: white;
+  text-decoration: none;
+}
+
+.dark .empty-state-button:hover {
+  box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+}
+
+@media (max-width: 768px) {
+  .articles-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .articles-section {
+    padding: 2rem 1rem;
+  }
+  
+  .articles-section h2 {
+    font-size: 2rem;
+  }
+  
+  .empty-state {
+    padding: 3rem 1rem;
+  }
+  
+  .empty-state-icon {
+    font-size: 3rem;
+  }
+  
+  .empty-state-title {
+    font-size: 1.25rem;
+  }
+}
 </style>
 {% endblock %}
 
 {% block content %}
+{% if articles %}
+<!-- Slider Section -->
 <div class="flex justify-center items-center min-h-screen">
     <div class="blog-slider">
         <div class="blog-slider__wrp swiper-wrapper">
             {% for article in articles %}
             <div class="blog-slider__item swiper-slide">
                 <div class="blog-slider__img">
-                    <img src="{{ article.featured_image }}" alt="{{ article.title }}">
+                    {% if article.imagem_destaque %}
+                        <img src="{{ article.imagem_destaque.url }}" alt="{{ article.titulo }}">
+                    {% else %}
+                        <img src="{% static 'images/default-article.svg' %}" alt="{{ article.titulo }}">
+                    {% endif %}
                 </div>
                 <div class="blog-slider__content">
-                    <span class="blog-slider__code">{{ article.published_date|date:"d F Y" }}</span>
-                    <div class="blog-slider__title">{{ article.title }}</div>
-                    <div class="blog-slider__text">{{ article.excerpt }}</div>
+                    <span class="blog-slider__code">{{ article.data_publicacao|date:"d F Y" }}</span>
+                    <div class="blog-slider__title">{{ article.titulo }}</div>
+                    <div class="blog-slider__text">
+                        {% if article.resumo %}
+                            {{ article.resumo|truncatewords:20 }}
+                        {% else %}
+                            {{ article.conteudo|striptags|truncatewords:20 }}
+                        {% endif %}
+                    </div>
                     <a href="{% url 'blog:article_detail' article.slug %}" class="blog-slider__button">{% trans "LER MAIS" %}</a>
                 </div>
             </div>
@@ -362,6 +620,57 @@
         <div class="blog-slider__pagination"></div>
     </div>
 </div>
+
+<!-- Articles Grid Section -->
+<div class="articles-section">
+    <h2>{% trans "Todos os Artigos" %}</h2>
+    <div class="articles-grid">
+        {% for article in articles %}
+        <div class="article-card">
+            <div class="article-card-image">
+                {% if article.imagem_destaque %}
+                    <img src="{{ article.imagem_destaque.url }}" alt="{{ article.titulo }}">
+                {% else %}
+                    <img src="{% static 'images/default-article.svg' %}" alt="{{ article.titulo }}">
+                {% endif %}
+            </div>
+            <div class="article-card-content">
+                <div class="article-card-date">{{ article.data_publicacao|date:"d F Y" }}</div>
+                <h3 class="article-card-title">{{ article.titulo }}</h3>
+                <p class="article-card-excerpt">
+                    {% if article.resumo %}
+                        {{ article.resumo|truncatewords:15 }}
+                    {% else %}
+                        {{ article.conteudo|striptags|truncatewords:15 }}
+                    {% endif %}
+                </p>
+                <div class="article-card-footer">
+                    <span class="article-card-author">{% trans "Por" %} {{ article.autor.first_name }} {{ article.autor.last_name }}</span>
+                    <a href="{% url 'blog:article_detail' article.slug %}" class="article-card-button">{% trans "Ler" %}</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% else %}
+<!-- Empty State -->
+<div class="flex justify-center items-center min-h-screen">
+    <div class="empty-state">
+        <div class="empty-state-icon">
+            <i class="fas fa-newspaper"></i>
+        </div>
+        <h2 class="empty-state-title">{% trans "Nenhum artigo encontrado" %}</h2>
+        <p class="empty-state-message">
+            {% trans "Ainda não há artigos publicados no blog. Volte em breve para conferir novos conteúdos!" %}
+        </p>
+        <a href="{% url 'core:home' %}" class="empty-state-button">
+            <i class="fas fa-home"></i>
+            {% trans "Voltar ao Início" %}
+        </a>
+    </div>
+</div>
+{% endif %}
 {% endblock %}
 
 {% block extra_js %}

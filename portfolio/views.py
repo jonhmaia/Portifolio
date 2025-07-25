@@ -1,6 +1,14 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator
+from django.contrib import messages
+from django.contrib.auth.decorators import user_passes_test
+from django.http import JsonResponse
 from .models import Projeto, Tecnologia
+from .forms import ProjetoAdminForm
+
+# Função para verificar se o usuário é superusuário
+def is_superuser(user):
+    return user.is_authenticated and user.is_superuser
 
 def projects(request):
     """View para listar todos os projetos"""
@@ -59,3 +67,87 @@ def project_detail(request, project_id):
         'related_projects': related_projects,
     }
     return render(request, 'portfolio/project_detail.html', context)
+
+# Views para gestão de projetos
+@user_passes_test(is_superuser, login_url='/login/')
+def manage_projects(request):
+    """View para listar e gerenciar projetos"""
+    projects_list = Projeto.objects.all().prefetch_related('tecnologias').order_by('-data_criacao')
+    
+    # Filtro por status
+    status_filter = request.GET.get('status')
+    if status_filter:
+        projects_list = projects_list.filter(status=status_filter)
+    
+    # Busca por título
+    search = request.GET.get('search')
+    if search:
+        projects_list = projects_list.filter(titulo__icontains=search)
+    
+    context = {
+        'page_title': 'Gerenciar Projetos',
+        'projects': projects_list,
+        'status_choices': Projeto._meta.get_field('status').choices,
+        'current_status_filter': status_filter,
+        'current_search': search,
+    }
+    return render(request, 'portfolio/manage_projects.html', context)
+
+@user_passes_test(is_superuser, login_url='/login/')
+def create_project(request):
+    """View para criar novo projeto"""
+    if request.method == 'POST':
+        form = ProjetoAdminForm(request.POST, request.FILES)
+        if form.is_valid():
+            project = form.save()
+            messages.success(request, f'Projeto "{project.titulo}" criado com sucesso!')
+            return redirect('portfolio:manage_projects')
+        else:
+            messages.error(request, 'Erro ao criar projeto. Verifique os dados informados.')
+    else:
+        form = ProjetoAdminForm()
+    
+    context = {
+        'page_title': 'Criar Novo Projeto',
+        'form': form,
+        'action': 'create'
+    }
+    return render(request, 'portfolio/project_form.html', context)
+
+@user_passes_test(is_superuser, login_url='/login/')
+def edit_project(request, project_id):
+    """View para editar projeto existente"""
+    project = get_object_or_404(Projeto, id=project_id)
+    
+    if request.method == 'POST':
+        form = ProjetoAdminForm(request.POST, request.FILES, instance=project)
+        if form.is_valid():
+            project = form.save()
+            messages.success(request, f'Projeto "{project.titulo}" atualizado com sucesso!')
+            return redirect('portfolio:manage_projects')
+        else:
+            messages.error(request, 'Erro ao atualizar projeto. Verifique os dados informados.')
+    else:
+        form = ProjetoAdminForm(instance=project)
+    
+    context = {
+        'page_title': f'Editar: {project.titulo}',
+        'form': form,
+        'project': project,
+        'action': 'edit'
+    }
+    return render(request, 'portfolio/project_form.html', context)
+
+@user_passes_test(is_superuser, login_url='/login/')
+def delete_project(request, project_id):
+    """View para excluir projeto"""
+    if request.method == 'POST':
+        project = get_object_or_404(Projeto, id=project_id)
+        titulo = project.titulo
+        project.delete()
+        messages.success(request, f'Projeto "{titulo}" excluído com sucesso!')
+        return JsonResponse({'success': True})
+    
+    return JsonResponse({'success': False, 'error': 'Método não permitido'})
+
+# Views de autenticação removidas - usando login unificado

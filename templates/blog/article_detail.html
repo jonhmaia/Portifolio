@@ -200,28 +200,27 @@
 
 {% block content %}
 <div class="article-page bg-base-300">
+    {% if article %}
     <div class="article-container">
-        <div class="article-header">
+        <div class="article-header" {% if article.imagem_destaque %}style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{{ article.imagem_destaque.url }}'); background-size: cover; background-position: center;"{% endif %}>
             <div class="article-header-content">
-                <h1 class="article-title">{{ article.title }}</h1>
+                <h1 class="article-title">{{ article.titulo }}</h1>
                 <div class="article-meta">
-                    {% trans "Por" %} {{ article.author }} • {{ article.published_date|date:"d \d\e F \d\e Y" }}
-                    {% if article.reading_time %}
-                        • {{ article.reading_time }} {% trans "min de leitura" %}
+                    {% trans "Por" %} {{ article.autor.first_name }} {{ article.autor.last_name }} • {{ article.data_publicacao|date:"d \d\e F \d\e Y" }}
+                    {% if article.visualizacoes %}
+                        • {{ article.visualizacoes }} {% trans "visualizações" %}
                     {% endif %}
                 </div>
-                {% if article.tags %}
-                <div class="article-tags">
-                    {% for tag in article.tags %}
-                        <span class="article-tag">{{ tag }}</span>
-                    {% endfor %}
+                {% if article.resumo %}
+                <div class="article-summary" style="margin-top: 1rem; font-size: 1.2rem; opacity: 0.95; max-width: 600px; margin-left: auto; margin-right: auto;">
+                    {{ article.resumo }}
                 </div>
                 {% endif %}
             </div>
         </div>
         
         <div class="article-content">
-            {{ article.content|safe }}
+            {{ article.conteudo|safe }}
         </div>
         
         <a href="{% url 'blog:articles' %}" class="back-button">
@@ -229,5 +228,27 @@
             {% trans "Voltar ao Blog" %}
         </a>
     </div>
+    {% else %}
+    <div class="article-container">
+        <div class="article-header">
+            <div class="article-header-content">
+                <h1 class="article-title">{% trans "Artigo não encontrado" %}</h1>
+                <div class="article-meta">
+                    {% trans "O artigo solicitado não foi encontrado ou não está publicado." %}
+                </div>
+            </div>
+        </div>
+        
+        <div class="article-content">
+            <p>{% trans "Desculpe, mas o artigo que você está procurando não existe ou foi removido." %}</p>
+            <p>{% trans "Você pode voltar ao blog para ver outros artigos disponíveis." %}</p>
+        </div>
+        
+        <a href="{% url 'blog:articles' %}" class="back-button">
+            <i class="fas fa-arrow-left"></i>
+            {% trans "Voltar ao Blog" %}
+        </a>
+    </div>
+    {% endif %}
 </div>
 {% endblock %}
