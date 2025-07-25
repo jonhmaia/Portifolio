@@ -4,6 +4,7 @@ from django.contrib import messages
 from datetime import datetime
 from .models import Artigo
 from .forms import ArtigoForm
+from core.seo import get_seo_context
 
 # Função para verificar se o usuário é superusuário
 def is_superuser(user):
@@ -19,7 +20,8 @@ def articles(request):
     context = {
         'page_title': 'Blog',
         'articles': artigos_publicados,
-        'recent_articles': artigos_publicados[:3]  # Últimos 3 artigos
+        'recent_articles': artigos_publicados[:3],  # Últimos 3 artigos
+        'seo': get_seo_context('blog'),
     }
     return render(request, 'blog/articles.html', context)
 
@@ -35,7 +37,8 @@ def article_detail(request, slug):
         
         context = {
             'page_title': artigo.titulo,
-            'article': artigo
+            'article': artigo,
+            'seo': get_seo_context(obj=artigo),
         }
         
     except Artigo.DoesNotExist:

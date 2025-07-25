@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-18 13:01-0300\n"
+"POT-Creation-Date: 2025-07-25 13:12-0300\n"
 "PO-Revision-Date: 2025-07-24 22:00+0000\n"
 "Last-Translator: João Marcos <joao@example.com>\n"
 "Language-Team: English <en@li.org>\n"
@@ -17,259 +17,616 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\templates\base.html:9 .\templates\base.html:26 .\templates\base.html:78
-#: .\templates\core\home.html:5
-msgid "Meu Portfólio"
-msgstr "My Portfolio"
+#: .\core\seo.py:9 .\core\seo.py:14 .\core\seo.py:19
+msgid "</> João Marcos Maia - Engenheiro de Software"
+msgstr "</> João Marcos Maia - Software Engineer"
 
-#: .\templates\base.html:32
-msgid "Home"
-msgstr "Home"
+#: .\core\seo.py:10
+msgid ""
+"Portfólio de João Marcos Maia - Engenheiro de Software especializado em "
+"Django, Python e desenvolvimento web. Projetos inovadores e soluções "
+"tecnológicas."
+msgstr ""
 
-#: .\templates\base.html:35
-msgid "Currículo"
-msgstr "Resume"
+#: .\core\seo.py:11
+msgid ""
+"João Marcos Maia, desenvolvedor, engenheiro software, Django, Python, "
+"JavaScript, portfólio, projetos, tecnologia, inovação"
+msgstr ""
 
-#: .\templates\base.html:38
-msgid "Projetos"
-msgstr "Projects"
+#: .\core\seo.py:15 .\core\seo.py:20
+msgid ""
+"Portfólio profissional com projetos inovadores em Django, Python e "
+"tecnologias web modernas."
+msgstr ""
 
-#: .\templates\base.html:41
-msgid "Blog"
-msgstr "Blog"
+#: .\core\seo.py:27
+msgid "</> João Marcos Maia - Portfólio Profissional"
+msgstr "</> João Marcos Maia - Professional Portfolio"
 
-#: .\templates\base.html:78
-msgid "Todos os direitos reservados"
-msgstr "All rights reserved"
+#: .\core\seo.py:28
+msgid ""
+"Bem-vindo ao portfólio de João Marcos Maia. Engenheiro de Software "
+"especializado em Django, Python e desenvolvimento web full-stack."
+msgstr ""
 
-#: templates/core/home.html
-msgid "Olá, eu sou"
-msgstr "Hello, I am"
+#: .\core\seo.py:29
+msgid ""
+"portfólio, João Marcos Maia, engenheiro software, Django, Python, "
+"desenvolvimento web, projetos"
+msgstr ""
 
-#: templates/core/home.html
-msgid "Desenvolvedor de Produto e Inovação"
-msgstr "Product and Innovation Developer"
+#: .\core\seo.py:30
+msgid "</> Portfólio João Marcos Maia - Engenheiro de Software"
+msgstr "</> João Marcos Maia Portfolio - Software Engineer"
 
-#: .\templates\core\home.html:20
-msgid "Ver Projetos"
-msgstr "View Projects"
+#: .\core\seo.py:31
+msgid ""
+"Explore meus projetos e experiência em desenvolvimento web com Django, "
+"Python e tecnologias modernas."
+msgstr ""
 
-#: .\templates\core\home.html:23
-msgid "Meu Currículo"
-msgstr "My Resume"
+#: .\core\seo.py:34
+msgid "</> Projetos - João Marcos Maia"
+msgstr "</> Projects - João Marcos Maia"
 
-#: .\templates\core\home.html:36
-msgid "Sobre Mim"
-msgstr "About Me"
+#: .\core\seo.py:35
+msgid ""
+"Explore meus projetos de desenvolvimento web, aplicações Django, sistemas "
+"Python e soluções tecnológicas inovadoras."
+msgstr ""
 
-#: templates/core/home.html
-msgid "Olá sou o João Marcos, desde cedo me encantei com tecnologia e sua capacidade de transformar realidades e criar universos. Iniciei minha trajetória de forma autodidata, e hoje sou aluno de Ciência da Computação. Minha vivência combina prática de desenvolvimento com liderança e visão de produto, sempre buscando soluções eficientes e acessíveis. Minha especialidade é construir e escalar produtos de tecnologia, navegando entre o desenvolvimento rápido e a engenharia de software robusta e tradicional. Essa capacidade de usar a ferramenta certa para cada etapa é a base do meu trabalho como Head de Tecnologia na FLex ON e pesquisador no CEIA, onde lido com os desafios técnicos e de produto que startups, projetos de inovação e vanguarda tecnológica enfrentam."
-msgstr "Hello, I'm João Marcos, from an early age I was enchanted by technology and its ability to transform realities and create universes. I started my journey as a self-taught person, and today I am a Computer Science student. My experience combines development practice with leadership and product vision, always seeking efficient and accessible solutions. My specialty is building and scaling technology products, navigating between rapid development and robust traditional software engineering. This ability to use the right tool for each stage is the foundation of my work as Head of Technology at FLex ON and researcher at CEIA, where I deal with the technical and product challenges that startups, innovation projects and technological vanguard face."
+#: .\core\seo.py:36
+msgid ""
+"projetos, Django, Python, desenvolvimento web, aplicações, sistemas, "
+"tecnologia"
+msgstr ""
 
-#: templates/core/home.html
-msgid "Sou entusiasta tanto de tecnologias de vanguarda como plataformas NO-CODE e LOW-CODE tanto do desenvolvimento tradicional, gosto de misturar as abordagens no dia a dia pois acredito que quando empregadas de maneira eficiente juntas geram resultados excelentes com custo menor e em menos tempo. Entendo a dinâmica de uma startup e de empresas modernas: a necessidade de ser ágil e de escalar de forma sustentável e estou habituado a lidar com essa rotina diariamente."
-msgstr "I am enthusiastic about both cutting-edge technologies such as NO-CODE and LOW-CODE platforms as well as traditional development. I like to mix approaches in my daily routine because I believe that when used efficiently together they generate excellent results with lower cost and in less time. I understand the dynamics of a startup and modern companies: the need to be agile and scale sustainably, and I am used to dealing with this routine daily."
+#: .\core\seo.py:37
+msgid "</> Projetos de João Marcos Maia"
+msgstr "</> João Marcos Maia Projects"
 
-#: templates/core/home.html
-msgid "Foto de Perfil"
-msgstr "Profile Photo"
+#: .\core\seo.py:38
+msgid ""
+"Conheça meus projetos em Django, Python e desenvolvimento web full-stack."
+msgstr ""
 
-#: templates/core/home.html
-msgid "Habilidades Técnicas"
-msgstr "Technical Skills"
+#: .\core\seo.py:41
+msgid "</> Blog - João Marcos Maia"
+msgstr "</> Blog - João Marcos Maia"
 
-#: templates/core/home.html
-msgid "Tecnologias que utilizo no desenvolvimento"
-msgstr "Technologies I use in development"
+#: .\core\seo.py:42
+msgid ""
+"Artigos sobre desenvolvimento web, Django, Python, boas práticas de "
+"programação e tendências tecnológicas."
+msgstr ""
 
-#: templates/core/home.html
-msgid "Projetos em Destaque"
-msgstr "Featured Projects"
+#: .\core\seo.py:43
+msgid ""
+"blog, artigos, Django, Python, desenvolvimento web, programação, tecnologia"
+msgstr ""
 
-#: templates/core/home.html
-msgid "Meus projetos mais importantes e destacados"
-msgstr "My most important and featured projects"
+#: .\core\seo.py:44
+msgid "</> Blog de João Marcos Maia"
+msgstr "</> João Marcos Maia Blog"
 
-#: templates/core/home.html
-msgid "Destaque"
-msgstr "Featured"
+#: .\core\seo.py:45
+msgid ""
+"Artigos e insights sobre desenvolvimento web, Django e tecnologias modernas."
+msgstr ""
 
-#: templates/core/home.html
-msgid "Ver Detalhes"
-msgstr "View Details"
+#: .\core\seo.py:48
+msgid "</> Currículo - João Marcos Maia"
+msgstr "</> Resume - João Marcos Maia"
 
-#: templates/core/home.html
-msgid "Nenhum projeto em destaque"
-msgstr "No featured projects"
+#: .\core\seo.py:49
+msgid ""
+"Currículo profissional de João Marcos Maia - Experiência em engenharia de "
+"software, Django, Python e liderança técnica."
+msgstr ""
 
-#: templates/core/home.html
-msgid "Projetos em destaque aparecerão aqui quando disponíveis."
-msgstr "Featured projects will appear here when available."
+#: .\core\seo.py:50
+msgid ""
+"currículo, experiência, engenheiro software, Django, Python, liderança "
+"técnica"
+msgstr ""
 
-#: .\templates\core\home.html:181
-msgid "Projeto 1"
-msgstr "Project 1"
+#: .\core\seo.py:51
+msgid "</> Currículo de João Marcos Maia"
+msgstr "</> João Marcos Maia Resume"
 
-#: .\templates\core\home.html:184
-msgid "Sistema de Gestão"
-msgstr "Management System"
+#: .\core\seo.py:52
+msgid ""
+"Experiência profissional e competências técnicas em engenharia de software."
+msgstr ""
 
-#: .\templates\core\home.html:187
-msgid "Sistema completo de gestão empresarial desenvolvido em Django."
-msgstr "Complete business management system developed in Django."
-
-#: .\templates\core\home.html:194 .\templates\core\home.html:214
-#: .\templates\core\home.html:234
-msgid "Ver mais"
-msgstr "View more"
-
-#: .\templates\core\home.html:201
-msgid "Projeto 2"
-msgstr "Project 2"
-
-#: .\templates\core\home.html:204
-msgid "E-commerce"
-msgstr "E-commerce"
-
-#: .\templates\core\home.html:207
-msgid "Plataforma de e-commerce com carrinho de compras e pagamento online."
-msgstr "E-commerce platform with shopping cart and online payment."
-
-#: .\templates\core\home.html:221
-msgid "Projeto 3"
-msgstr "Project 3"
-
-#: .\templates\core\home.html:224
-msgid "API REST"
-msgstr "REST API"
-
-#: .\templates\core\home.html:227
-msgid "API REST completa com autenticação JWT e documentação."
-msgstr "Complete REST API with JWT authentication and documentation."
-
-#: .\templates\core\home.html:242
-msgid "Ver Todos os Projetos"
-msgstr "View All Projects"
-
-msgid "Resumo Profissional"
-msgstr "Professional Summary"
-
-msgid "Informações de Contato"
-msgstr "Contact Information"
-
-msgid "Experiência Profissional"
-msgstr "Professional Experience"
-
-msgid "Head de Tecnologia"
-msgstr "Head of Technology"
-
-msgid "Pesquisador e Desenvolvedor"
-msgstr "Researcher and Developer"
-
-msgid "Fevereiro de 2024 - Atual"
-msgstr "February 2024 - Present"
-
-msgid "Fevereiro de 2025 - Atual"
-msgstr "February 2025 - Present"
-
-msgid "Fevereiro de 2023 - Fevereiro de 2024"
-msgstr "February 2023 - February 2024"
-
-msgid "Formação Acadêmica"
-msgstr "Education"
-
-msgid "Bacharelado em Ciência da Computação"
-msgstr "Bachelor's Degree in Computer Science"
-
-msgid "Dezembro de 2021 - Cursando"
-msgstr "December 2021 - Ongoing"
-
-msgid "Baixar Currículo"
-msgstr "Download Resume"
-
-msgid "Clique no botão abaixo para baixar uma versão em PDF do meu currículo"
-msgstr "Click the button below to download a PDF version of my resume"
-
-msgid "Download PDF"
-msgstr "Download PDF"
-
-msgid "Dica: Use Ctrl+P para imprimir ou salvar como PDF"
-msgstr "Tip: Use Ctrl+P to print or save as PDF"
-
-msgid "Como Head de tecnologia na Flex ON minhas principais responsabilidades e tecnologias são:"
-msgstr "As Head of Technology at Flex ON, my main responsibilities and technologies are:"
-
-msgid "Coordenação de equipe"
-msgstr "Team coordination"
-
-msgid "Product Manager"
-msgstr "Product Manager"
-
+#: .\core\seo.py:74 .\core\seo.py:120 .\templates\core\curriculum.html:382
 msgid "Engenheiro de Software"
 msgstr "Software Engineer"
 
-msgid "Designer"
-msgstr "Designer"
+#: .\core\seo.py:75 .\core\seo.py:121
+msgid ""
+"Desenvolvedor especializado em Django, Python e tecnologias web modernas"
+msgstr ""
 
-msgid "Arquiteto de Software"
-msgstr "Software Architect"
+#: .\templates\base.html:27
+msgid "Portfólio João Marcos Maia"
+msgstr ""
 
-msgid "Automações N8N"
-msgstr "N8N Automations"
+#: .\templates\base.html:139
+#, fuzzy
+#| msgid "Bacharelado em Ciência da Computação"
+msgid "Ciência da Computação"
+msgstr "Bachelor's Degree in Computer Science"
 
-msgid "Bubble IO"
-msgstr "Bubble IO"
+#: .\templates\base.html:153
+msgid "Pular para o conteúdo principal"
+msgstr ""
 
-msgid "Agentes de IA"
-msgstr "AI Agents"
-
-msgid "Como pesquisador e desenvolvedor do CEIA minhas principais responsabilidades e tecnologias são:"
-msgstr "As a researcher and developer at CEIA, my main responsibilities and technologies are:"
-
-msgid "Desenvolver o front do chat"
-msgstr "Develop the chat frontend"
-
-msgid "Engenheiro de Prompt"
-msgstr "Prompt Engineer"
-
-msgid "Administrador de Banco de dados"
-msgstr "Database Administrator"
-
-msgid "Como estagiário pela Universidade Federal de Goiás, integrei a equipe que desenvolveu o Sistema de Dimensionamento da Força de Trabalho em Saúde no Brasil. No projeto minhas principais tarefas foram:"
-msgstr "As an intern at the Federal University of Goiás, I joined the team that developed the Health Workforce Sizing System in Brazil. In the project, my main tasks were:"
-
-msgid "Desenvolvimento Web em Django"
-msgstr "Web Development in Django"
-
-msgid "Modelagem e documentação do banco de dados"
-msgstr "Database modeling and documentation"
-
-msgid "Edição de vídeo aulas"
-msgstr "Video lesson editing"
-
-msgid "Documentação de Software"
-msgstr "Software Documentation"
-
-msgid "Com expertise que abrange desde o desenvolvimento web (Django) e banco de dados no SISDIM, passando pela engenharia de prompt, automações (N8N, Bubble IO) e agentes de IA no CEIA, até a liderança de equipes e gestão de projetos como Head de Tecnologia na Flex ON."
-msgstr "With expertise ranging from web development (Django) and databases at SISDIM, through prompt engineering, automations (N8N, Bubble IO) and AI agents at CEIA, to team leadership and project management as Head of Technology at Flex ON."
-
+#: .\templates\base.html:165 .\templates\base.html:202
 msgid "Início"
 msgstr "Home"
 
+#: .\templates\base.html:166 .\templates\base.html:203
+#: .\templates\portfolio\projects.html:290
+msgid "Projetos"
+msgstr "Projects"
+
+#: .\templates\base.html:167 .\templates\base.html:204
 msgid "Artigos"
 msgstr "Articles"
 
-#: .\templates\core\home.html:252
-msgid "Vamos Trabalhar Juntos?"
-msgstr "Let's Work Together?"
+#: .\templates\base.html:168 .\templates\base.html:205
+#: .\templates\core\curriculum.html:5
+msgid "Currículo"
+msgstr "Resume"
 
-#: .\templates\core\home.html:255
-msgid "Estou sempre aberto a novos projetos e oportunidades interessantes."
-msgstr "I'm always open to new projects and interesting opportunities."
+#: .\templates\base.html:233 .\templates\blog\article_detail.html:5
+#: .\templates\blog\article_form.html:8 .\templates\blog\articles.html:5
+#: .\templates\blog\delete_article.html:8 .\templates\blog\login.html:5
+#: .\templates\blog\manage_articles.html:8 .\templates\core\home.html:2
+#: .\templates\portfolio\projects.html:5
+msgid "Meu Portfólio"
+msgstr "My Portfolio"
 
-#: .\templates\core\home.html:258
-msgid "Entre em Contato"
-msgstr "Get in Touch"
+#: .\templates\base.html:233
+msgid "Todos os direitos reservados"
+msgstr "All rights reserved"
+
+#: .\templates\blog\article_detail.html:5
+msgid "Blog"
+msgstr "Blog"
+
+#: .\templates\blog\article_detail.html:209 .\templates\blog\articles.html:648
+msgid "Por"
+msgstr ""
+
+#: .\templates\blog\article_detail.html:211
+msgid "visualizações"
+msgstr ""
+
+#: .\templates\blog\article_detail.html:228
+#: .\templates\blog\article_detail.html:249
+msgid "Voltar ao Blog"
+msgstr ""
+
+#: .\templates\blog\article_detail.html:235
+msgid "Artigo não encontrado"
+msgstr ""
+
+#: .\templates\blog\article_detail.html:237
+msgid "O artigo solicitado não foi encontrado ou não está publicado."
+msgstr ""
+
+#: .\templates\blog\article_detail.html:243
+msgid ""
+"Desculpe, mas o artigo que você está procurando não existe ou foi removido."
+msgstr ""
+
+#: .\templates\blog\article_detail.html:244
+msgid "Você pode voltar ao blog para ver outros artigos disponíveis."
+msgstr ""
+
+#: .\templates\blog\articles.html:615
+msgid "LER MAIS"
+msgstr ""
+
+#: .\templates\blog\articles.html:626
+#, fuzzy
+#| msgid "Ver Todos os Projetos"
+msgid "Todos os Artigos"
+msgstr "View All Projects"
+
+#: .\templates\blog\articles.html:649
+msgid "Ler"
+msgstr ""
+
+#: .\templates\blog\articles.html:663
+msgid "Nenhum artigo encontrado"
+msgstr ""
+
+#: .\templates\blog\articles.html:665
+msgid ""
+"Ainda não há artigos publicados no blog. Volte em breve para conferir novos "
+"conteúdos!"
+msgstr ""
+
+#: .\templates\blog\articles.html:669
+msgid "Voltar ao Início"
+msgstr ""
+
+#: .\templates\core\curriculum.html:177
+msgid "Resumo Profissional"
+msgstr "Professional Summary"
+
+#: .\templates\core\curriculum.html:180
+msgid ""
+"Com expertise que abrange desde o desenvolvimento web (Django) e banco de "
+"dados no SISDIM, passando pela engenharia de prompt, automações (N8N, Bubble "
+"IO) e agentes de IA no CEIA, até a liderança de equipes e gestão de projetos "
+"como Head de Tecnologia na Flex ON."
+msgstr ""
+"With expertise ranging from web development (Django) and databases at "
+"SISDIM, through prompt engineering, automations (N8N, Bubble IO) and AI "
+"agents at CEIA, to team leadership and project management as Head of "
+"Technology at Flex ON."
+
+#: .\templates\core\curriculum.html:184
+msgid "Informações de Contato"
+msgstr "Contact Information"
+
+#: .\templates\core\curriculum.html:214 .\templates\core\home.html:941
+msgid "Habilidades Técnicas"
+msgstr "Technical Skills"
+
+#: .\templates\core\curriculum.html:369
+msgid "Experiência Profissional"
+msgstr "Professional Experience"
+
+#: .\templates\core\curriculum.html:375
+msgid "Head de Tecnologia"
+msgstr "Head of Technology"
+
+#: .\templates\core\curriculum.html:378
+msgid "Fevereiro de 2024 - Atual"
+msgstr "February 2024 - Present"
+
+#: .\templates\core\curriculum.html:381
+msgid ""
+"Como Head de tecnologia na Flex ON minhas principais responsabilidades e "
+"tecnologias são:"
+msgstr ""
+"As Head of Technology at Flex ON, my main responsibilities and technologies "
+"are:"
+
+#: .\templates\core\curriculum.html:382
+msgid "Coordenação de equipe"
+msgstr "Team coordination"
+
+#: .\templates\core\curriculum.html:382
+msgid "Product Manager"
+msgstr "Product Manager"
+
+#: .\templates\core\curriculum.html:382
+msgid "Designer"
+msgstr "Designer"
+
+#: .\templates\core\curriculum.html:382
+msgid "Arquiteto de Software"
+msgstr "Software Architect"
+
+#: .\templates\core\curriculum.html:382 .\templates\core\curriculum.html:396
+msgid "Automações N8N"
+msgstr "N8N Automations"
+
+#: .\templates\core\curriculum.html:382 .\templates\core\curriculum.html:396
+msgid "Bubble IO"
+msgstr "Bubble IO"
+
+#: .\templates\core\curriculum.html:382 .\templates\core\curriculum.html:396
+msgid "Agentes de IA"
+msgstr "AI Agents"
+
+#: .\templates\core\curriculum.html:389 .\templates\core\curriculum.html:403
+msgid "Pesquisador e Desenvolvedor"
+msgstr "Researcher and Developer"
+
+#: .\templates\core\curriculum.html:392
+msgid "Fevereiro de 2025 - Atual"
+msgstr "February 2025 - Present"
+
+#: .\templates\core\curriculum.html:395
+msgid ""
+"Como pesquisador e desenvolvedor do CEIA minhas principais responsabilidades "
+"e tecnologias são:"
+msgstr ""
+"As a researcher and developer at CEIA, my main responsibilities and "
+"technologies are:"
+
+#: .\templates\core\curriculum.html:396
+msgid "Desenvolver o front do chat"
+msgstr "Develop the chat frontend"
+
+#: .\templates\core\curriculum.html:396
+msgid "Engenheiro de Prompt"
+msgstr "Prompt Engineer"
+
+#: .\templates\core\curriculum.html:396
+msgid "Administrador de Banco de dados"
+msgstr "Database Administrator"
+
+#: .\templates\core\curriculum.html:406
+msgid "Fevereiro de 2023 - Fevereiro de 2024"
+msgstr "February 2023 - February 2024"
+
+#: .\templates\core\curriculum.html:409
+msgid ""
+"Como estagiário pela Universidade Federal de Goiás, integrei a equipe que "
+"desenvolveu o Sistema de Dimensionamento da Força de Trabalho em Saúde no "
+"Brasil. No projeto minhas principais tarefas foram:"
+msgstr ""
+"As an intern at the Federal University of Goiás, I joined the team that "
+"developed the Health Workforce Sizing System in Brazil. In the project, my "
+"main tasks were:"
+
+#: .\templates\core\curriculum.html:410
+msgid "Desenvolvimento Web em Django"
+msgstr "Web Development in Django"
+
+#: .\templates\core\curriculum.html:410
+msgid "Modelagem e documentação do banco de dados"
+msgstr "Database modeling and documentation"
+
+#: .\templates\core\curriculum.html:410
+msgid "Edição de vídeo aulas"
+msgstr "Video lesson editing"
+
+#: .\templates\core\curriculum.html:410
+msgid "Documentação de Software"
+msgstr "Software Documentation"
+
+#: .\templates\core\curriculum.html:419
+msgid "Formação Acadêmica"
+msgstr "Education"
+
+#: .\templates\core\curriculum.html:425
+msgid "Bacharelado em Ciência da Computação"
+msgstr "Bachelor's Degree in Computer Science"
+
+#: .\templates\core\curriculum.html:428
+msgid "Dezembro de 2021 - Cursando"
+msgstr "December 2021 - Ongoing"
+
+#: .\templates\core\curriculum.html:442
+msgid "Baixar Currículo"
+msgstr "Download Resume"
+
+#: .\templates\core\curriculum.html:443
+msgid "Clique no botão abaixo para baixar uma versão em PDF do meu currículo"
+msgstr "Click the button below to download a PDF version of my resume"
+
+#: .\templates\core\curriculum.html:450
+msgid "Download PDF"
+msgstr "Download PDF"
+
+#: .\templates\core\curriculum.html:454
+msgid "Dica: Use Ctrl+P para imprimir ou salvar como PDF"
+msgstr "Tip: Use Ctrl+P to print or save as PDF"
+
+#: .\templates\core\home.html:837
+msgid ""
+"Foto de perfil de João Marcos Maia, Engenheiro de Software especializado em "
+"Django e Python"
+msgstr ""
+
+#: .\templates\core\home.html:856
+msgid "Olá, eu sou"
+msgstr "Hello, I am"
+
+#: .\templates\core\home.html:864
+msgid "Engenheiro de Software e inovação"
+msgstr "Software Engineer and innovation"
+
+#: .\templates\core\home.html:870
+msgid "Navegação principal"
+msgstr ""
+
+#: .\templates\core\home.html:873
+msgid "Ver Projetos"
+msgstr "View Projects"
+
+#: .\templates\core\home.html:885
+msgid "Sobre Mim"
+msgstr "About Me"
+
+#: .\templates\core\home.html:888
+msgid ""
+"Olá sou o João Marcos, desde cedo me encantei com tecnologia e sua "
+"capacidade de transformar realidades e criar universos. Iniciei minha "
+"trajetória de forma autodidata, e hoje sou aluno de Ciência da Computação. "
+"Minha vivência combina prática de desenvolvimento com liderança e visão de "
+"produto, sempre buscando soluções eficientes e acessíveis. Minha "
+"especialidade é construir e escalar produtos de tecnologia, navegando entre "
+"o desenvolvimento rápido e a engenharia de software robusta e tradicional. "
+"Essa capacidade de usar a ferramenta certa para cada etapa é a base do meu "
+"trabalho como Head de Tecnologia na Flex ON e pesquisador no CEIA, onde lido "
+"com os desafios técnicos e de produto que startups, projetos de inovação e "
+"vanguarda tecnológica enfrentam."
+msgstr ""
+"Hello, I'm João Marcos. From an early age, I was captivated by technology "
+"and its power to transform realities and create new universes. I began my "
+"journey as a self-taught developer, and today I'm a Computer Science "
+"student. My experience combines hands-on development with leadership and "
+"product vision, always pursuing efficient and accessible solutions. My "
+"specialty is building and scaling technology products, seamlessly navigating "
+"between rapid development and robust traditional software engineering. This "
+"ability to use the right tool for each stage is the foundation of my work as "
+"Head of Technology at Flex ON and researcher at CEIA, where I tackle the "
+"technical and product challenges that startups, innovation projects, and "
+"cutting-edge technology initiatives face."
+
+#: .\templates\core\home.html:890
+msgid "Links de redes sociais"
+msgstr ""
+
+#: .\templates\core\home.html:896
+msgid "Perfil no Twitter"
+msgstr ""
+
+#: .\templates\core\home.html:909
+msgid "Perfil no LinkedIn"
+msgstr ""
+
+#: .\templates\core\home.html:922
+msgid "Perfil no GitHub"
+msgstr ""
+
+#: .\templates\core\home.html:944
+msgid "Tecnologias e ferramentas que domino no desenvolvimento"
+msgstr "Technologies and tools I master in development"
+
+#: .\templates\core\home.html:1255 .\templates\portfolio\projects.html:178
+msgid "Projetos em Destaque"
+msgstr "Featured Projects"
+
+#: .\templates\core\home.html:1258
+msgid "Meus projetos mais importantes e destacados"
+msgstr "My most important and featured projects"
+
+#: .\templates\core\home.html:1278
+msgid "Imagem do projeto"
+msgstr ""
+
+#: .\templates\core\home.html:1278
+#, fuzzy
+#| msgid "Desenvolver o front do chat"
+msgid "Desenvolvido com"
+msgstr "Develop the chat frontend"
+
+#: .\templates\core\home.html:1286
+msgid "Imagem placeholder para o projeto"
+msgstr ""
+
+#: .\templates\core\home.html:1298
+msgid "Concluído"
+msgstr ""
+
+#: .\templates\core\home.html:1304
+#, fuzzy
+#| msgid "Desenvolvimento Web em Django"
+msgid "Em Desenvolvimento"
+msgstr "Web Development in Django"
+
+#: .\templates\core\home.html:1310
+msgid "Pausado"
+msgstr ""
+
+#: .\templates\core\home.html:1316
+msgid "Arquivado"
+msgstr ""
+
+#: .\templates\core\home.html:1327 .\templates\portfolio\projects.html:214
+msgid "Destaque"
+msgstr "Featured"
+
+#: .\templates\core\home.html:1375
+#: .\templates\portfolio\project_detail.html:679
+#: .\templates\portfolio\projects.html:256
+#: .\templates\portfolio\projects.html:370
+msgid "Ver Detalhes"
+msgstr "View Details"
+
+#: .\templates\core\home.html:1383
+#, fuzzy
+#| msgid "Ver mais"
+msgid "Ver Demo"
+msgstr "View more"
+
+#: .\templates\core\home.html:1392
+msgid "Ver Código"
+msgstr ""
+
+#: .\templates\core\home.html:1431
+msgid "Projetos em Construção"
+msgstr "Projects Under Construction"
+
+#: .\templates\core\home.html:1448 .\templates\portfolio\projects.html:440
+msgid "Ver Todos os Projetos"
+msgstr "View All Projects"
+
+#: .\templates\portfolio\project_detail.html:5
+#, fuzzy
+#| msgid "Ver Todos os Projetos"
+msgid "Detalhes do Projeto"
+msgstr "View All Projects"
+
+#: .\templates\portfolio\project_detail.html:502
+msgid "Acesse o site"
+msgstr ""
+
+#: .\templates\portfolio\project_detail.html:509
+msgid "Ver repositório"
+msgstr ""
+
+#: .\templates\portfolio\project_detail.html:534
+msgid "Trading Volume"
+msgstr ""
+
+#: .\templates\portfolio\project_detail.html:538
+msgid "Floor Price"
+msgstr ""
+
+#: .\templates\portfolio\project_detail.html:542
+msgid "Items"
+msgstr ""
+
+#: .\templates\portfolio\project_detail.html:546
+msgid "Owners"
+msgstr ""
+
+#: .\templates\portfolio\project_detail.html:571
+msgid "Collection"
+msgstr ""
+
+#: .\templates\portfolio\project_detail.html:594
+msgid "Nenhuma imagem disponível"
+msgstr ""
+
+#: .\templates\portfolio\project_detail.html:612
+msgid "Projetos Relacionados"
+msgstr ""
+
+#: .\templates\portfolio\project_detail.html:615
+msgid "Outros projetos que podem interessar"
+msgstr ""
+
+#: .\templates\portfolio\projects.html:181
+#, fuzzy
+#| msgid "Meus projetos mais importantes e destacados"
+msgid "Meus trabalhos mais importantes"
+msgstr "My most important and featured projects"
+
+#: .\templates\portfolio\projects.html:292
+#, fuzzy
+#| msgid "Ver Todos os Projetos"
+msgid "Todos os Projetos"
+msgstr "View All Projects"
+
+#: .\templates\portfolio\projects.html:299
+#, fuzzy
+#| msgid "Ver Projetos"
+msgid "Outros Projetos"
+msgstr "View Projects"
+
+#: .\templates\portfolio\projects.html:432
+#, fuzzy
+#| msgid "Nenhum projeto em destaque"
+msgid "Nenhum projeto encontrado"
+msgstr "No featured projects"
+
+#: .\templates\portfolio\projects.html:435
+msgid "Tente ajustar os filtros ou volte para ver todos os projetos."
+msgstr ""
 
 #: .\venv\Lib\site-packages\click\_termui_impl.py:600
 #, python-brace-format
@@ -1774,22 +2131,83 @@ msgstr ""
 msgid "Django Community"
 msgstr ""
 
-#: .\venv\Lib\site-packages\django\views	emplates\default_urlconf.html:236
+#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:236
 msgid "Connect, get help, or contribute"
 msgstr ""
 
-#: templates/core/home.html
-msgid "Engenheiro de Software e inovação"
-msgstr "Software Engineer and innovation"
+#~ msgid "Home"
+#~ msgstr "Home"
 
-#: templates/core/home.html
-msgid "Tecnologias e ferramentas que domino no desenvolvimento"
-msgstr "Technologies and tools I master in development"
+#~ msgid "Desenvolvedor de Produto e Inovação"
+#~ msgstr "Product and Innovation Developer"
 
-#: templates/core/home.html
-msgid "Projetos em Construção"
-msgstr "Projects Under Construction"
+#~ msgid "Meu Currículo"
+#~ msgstr "My Resume"
 
-#: templates/core/home.html
-msgid "Estou trabalhando em projetos incríveis! Em breve você poderá ver meus trabalhos aqui."
-msgstr "I'm working on amazing projects! Soon you'll be able to see my work here."
+#~ msgid ""
+#~ "Sou entusiasta tanto de tecnologias de vanguarda como plataformas NO-CODE "
+#~ "e LOW-CODE tanto do desenvolvimento tradicional, gosto de misturar as "
+#~ "abordagens no dia a dia pois acredito que quando empregadas de maneira "
+#~ "eficiente juntas geram resultados excelentes com custo menor e em menos "
+#~ "tempo. Entendo a dinâmica de uma startup e de empresas modernas: a "
+#~ "necessidade de ser ágil e de escalar de forma sustentável e estou "
+#~ "habituado a lidar com essa rotina diariamente."
+#~ msgstr ""
+#~ "I am enthusiastic about both cutting-edge technologies such as NO-CODE "
+#~ "and LOW-CODE platforms as well as traditional development. I like to mix "
+#~ "approaches in my daily routine because I believe that when used "
+#~ "efficiently together they generate excellent results with lower cost and "
+#~ "in less time. I understand the dynamics of a startup and modern "
+#~ "companies: the need to be agile and scale sustainably, and I am used to "
+#~ "dealing with this routine daily."
+
+#~ msgid "Foto de Perfil"
+#~ msgstr "Profile Photo"
+
+#~ msgid "Tecnologias que utilizo no desenvolvimento"
+#~ msgstr "Technologies I use in development"
+
+#~ msgid "Projetos em destaque aparecerão aqui quando disponíveis."
+#~ msgstr "Featured projects will appear here when available."
+
+#~ msgid "Projeto 1"
+#~ msgstr "Project 1"
+
+#~ msgid "Sistema de Gestão"
+#~ msgstr "Management System"
+
+#~ msgid "Sistema completo de gestão empresarial desenvolvido em Django."
+#~ msgstr "Complete business management system developed in Django."
+
+#~ msgid "Projeto 2"
+#~ msgstr "Project 2"
+
+#~ msgid "E-commerce"
+#~ msgstr "E-commerce"
+
+#~ msgid "Plataforma de e-commerce com carrinho de compras e pagamento online."
+#~ msgstr "E-commerce platform with shopping cart and online payment."
+
+#~ msgid "Projeto 3"
+#~ msgstr "Project 3"
+
+#~ msgid "API REST"
+#~ msgstr "REST API"
+
+#~ msgid "API REST completa com autenticação JWT e documentação."
+#~ msgstr "Complete REST API with JWT authentication and documentation."
+
+#~ msgid "Vamos Trabalhar Juntos?"
+#~ msgstr "Let's Work Together?"
+
+#~ msgid "Estou sempre aberto a novos projetos e oportunidades interessantes."
+#~ msgstr "I'm always open to new projects and interesting opportunities."
+
+#~ msgid "Entre em Contato"
+#~ msgstr "Get in Touch"
+
+#~ msgid ""
+#~ "Estou trabalhando em projetos incríveis! Em breve você poderá ver meus "
+#~ "trabalhos aqui."
+#~ msgstr ""
+#~ "I'm working on amazing projects! Soon you'll be able to see my work here."

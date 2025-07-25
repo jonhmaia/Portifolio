@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import user_passes_test
 from django.http import JsonResponse
 from .models import Projeto, Tecnologia
 from .forms import ProjetoAdminForm
+from core.seo import get_seo_context
 
 # Função para verificar se o usuário é superusuário
 def is_superuser(user):
@@ -44,6 +45,7 @@ def projects(request):
         'current_tech_filter': tech_filter,
         'current_status_filter': status_filter,
         'status_choices': Projeto._meta.get_field('status').choices,
+        'seo': get_seo_context('projects'),
     }
     return render(request, 'portfolio/projects.html', context)
 
@@ -65,6 +67,7 @@ def project_detail(request, project_id):
         'page_title': project.titulo,
         'project': project,
         'related_projects': related_projects,
+        'seo': get_seo_context(obj=project),
     }
     return render(request, 'portfolio/project_detail.html', context)
 

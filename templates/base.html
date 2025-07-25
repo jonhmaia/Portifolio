@@ -6,25 +6,151 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}{% trans "Meu Portfólio" %}{% endblock %}</title>
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="João Marcos Maia">
+    <meta name="language" content="{{ LANGUAGE_CODE }}">
+    
+    <!-- SEO Meta Tags -->
+    <title>Joao Marcos Maia - Portifólio</title>
+    <meta name="description" content="{% block meta_description %}{{ seo.description }}{% endblock %}">
+    <meta name="keywords" content="{% block meta_keywords %}{{ seo.keywords }}{% endblock %}">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+    <meta property="og:title" content="{% block og_title %}{{ seo.og_title }}{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}{{ seo.og_description }}{% endblock %}">
+    <meta property="og:image" content="{% block og_image %}{% if seo.og_image|slice:':1' == '/' %}{{ request.scheme }}://{{ request.get_host }}{{ seo.og_image }}{% else %}{{ seo.og_image }}{% endif %}{% endblock %}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="{% if LANGUAGE_CODE == 'pt-br' %}pt_BR{% else %}en_US{% endif %}">
+    <meta property="og:site_name" content="{% trans 'Portfólio João Marcos Maia' %}">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="{{ request.build_absolute_uri }}">
+    <meta name="twitter:title" content="{% block twitter_title %}{{ seo.twitter_title }}{% endblock %}">
+    <meta name="twitter:description" content="{% block twitter_description %}{{ seo.twitter_description }}{% endblock %}">
+    <meta name="twitter:image" content="{% block twitter_image %}{% if seo.twitter_image|slice:':1' == '/' %}{{ request.scheme }}://{{ request.get_host }}{{ seo.twitter_image }}{% else %}{{ seo.twitter_image }}{% endif %}{% endblock %}">
+    <meta name="twitter:creator" content="{{ seo.twitter_creator }}">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="{% block canonical_url %}{{ request.build_absolute_uri }}{% endblock %}">
+    
+    <!-- Alternate Languages -->
+    <link rel="alternate" hreflang="pt-br" href="{{ request.scheme }}://{{ request.get_host }}/">
+    <link rel="alternate" hreflang="en" href="{{ request.scheme }}://{{ request.get_host }}/en/">
+    <link rel="alternate" hreflang="x-default" href="{{ request.scheme }}://{{ request.get_host }}/">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="{% static 'images/favicon-code.svg' %}">
+    <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/favicon-16x16.png' %}">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="{% static 'manifest.json' %}">
+    
+    <!-- PWA Meta Tags -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="</> João Marcos - Dev Portfolio">
+    <meta name="msapplication-TileColor" content="#3b82f6">
+    <meta name="msapplication-config" content="{% static 'browserconfig.xml' %}">
+    
+    <!-- Apple Touch Icons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/icon-180x180.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/icon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/icon-16x16.png' %}">
+    <link rel="mask-icon" href="{% static 'images/safari-pinned-tab.svg' %}" color="#3b82f6">
+    
+    <!-- Preconnect for Performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="preconnect" href="https://img.icons8.com">
+    <link rel="preconnect" href="https://raw.githubusercontent.com">
     
     <!-- Tailwind CSS -->
     <link rel="stylesheet" href="{% static 'css/dist/styles.css' %}">
     
     <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/seo-optimizations.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/flags.css' %}">
     
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" media="print" onload="this.media='all'">
     
-    <!-- External Libraries -->
-    <script src="https://cdn.jsdelivr.net/npm/tsparticles@3.0.3/tsparticles.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.8.1/dist/vanilla-tilt.min.js"></script>
+    <!-- External Libraries with async/defer for better performance -->
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@3.0.3/tsparticles.bundle.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.8.1/dist/vanilla-tilt.min.js" defer></script>
+    
+    <!-- SEO and Performance Optimizations -->
+     <script src="{% static 'js/seo-performance.js' %}" defer></script>
+     
+     <!-- Lazy loading polyfill for older browsers -->
+     <script>
+         if ('loading' in HTMLImageElement.prototype) {
+             const images = document.querySelectorAll('img[loading="lazy"]');
+             images.forEach(img => {
+                 img.addEventListener('load', () => {
+                     img.classList.add('loaded');
+                 });
+             });
+         } else {
+             // Fallback for browsers that don't support lazy loading
+             const script = document.createElement('script');
+             script.src = 'https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js';
+             document.body.appendChild(script);
+         }
+     </script>
+    
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "{{ seo.structured_data.name }}",
+      "jobTitle": "{{ seo.structured_data.job_title }}",
+      "description": "{{ seo.structured_data.description }}",
+      "url": "{{ request.scheme }}://{{ request.get_host }}",
+      "image": "{% if seo.structured_data.image|slice:':1' == '/' %}{{ request.scheme }}://{{ request.get_host }}{{ seo.structured_data.image }}{% else %}{{ seo.structured_data.image }}{% endif %}",
+      "sameAs": [
+        "https://linkedin.com/in/joaomarcosmaia",
+        "https://github.com/joaomarcosmaia",
+        "https://twitter.com/joaomarcosmaia"
+      ],
+      "knowsAbout": [
+        "Django",
+        "Python",
+        "JavaScript",
+        "React",
+        "PostgreSQL",
+        "Docker",
+        "AWS",
+        "Engenharia de Software"
+      ],
+      "alumniOf": {
+        "@type": "EducationalOrganization",
+        "name": "{% trans 'Ciência da Computação' %}"
+      },
+      "worksFor": {
+        "@type": "Organization",
+        "name": "Flex ON",
+        "description": "Head de Tecnologia"
+      }
+    }
+    </script>
     
     {% block extra_css %}{% endblock %}
 </head>
-<body class="text-base-content transition-colors duration-300" data-theme="modern" style="background-color: #0D0D0D;">
+<body class="text-base-content transition-colors duration-300" data-theme="modern" style="background-color: #0D0D0D;" itemscope itemtype="https://schema.org/WebPage">
+    <!-- Skip to main content link for accessibility -->
+    <a href="#main-content" class="skip-link">{% trans 'Pular para o conteúdo principal' %}</a>
     <!-- Navigation Bar -->
     <nav class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md" style="background-color: rgba(21, 32, 38, 0.95);">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -95,7 +221,7 @@
     </nav>
     
     <!-- Main Content -->
-    <main class="min-h-screen pt-16">
+    <main id="main-content" class="min-h-screen pt-16" role="main">
         {% block content %}
         {% endblock %}
     </main>

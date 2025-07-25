@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import user_passes_test
 from portfolio.models import Projeto
+from .seo import get_seo_context
 
 def is_superuser(user):
     """Verifica se o usuário é superusuário"""
@@ -16,6 +17,7 @@ def home(request):
         'welcome_message': 'Bem-vindo ao meu portfólio!',
         'description': 'Desenvolvedor apaixonado por tecnologia e inovação.',
         'recent_projects': featured_projects,
+        'seo': get_seo_context('home'),
     }
     return render(request, 'core/home.html', context)
 
@@ -24,9 +26,9 @@ def curriculum(request):
     context = {
         'page_title': 'Currículo',
         'personal_info': {
-            'name': 'Seu Nome',
-            'title': 'Desenvolvedor Full Stack',
-            'email': 'seu.email@exemplo.com',
+            'name': 'João Marcos Maia',
+            'title': 'Engenheiro de Software',
+            'email': 'joao@exemplo.com',
             'phone': '(11) 99999-9999',
             'location': 'São Paulo, SP'
         },
@@ -37,7 +39,7 @@ def curriculum(request):
         'experience': [
             {
                 'company': 'Empresa XYZ',
-                'position': 'Desenvolvedor Full Stack',
+                'position': 'Engenheiro de Software',
                 'period': '2022 - Presente',
                 'description': 'Desenvolvimento de aplicações web usando Django e React.'
             }
@@ -48,7 +50,8 @@ def curriculum(request):
                 'degree': 'Bacharelado em Ciência da Computação',
                 'period': '2018 - 2022'
             }
-        ]
+        ],
+        'seo': get_seo_context('curriculum'),
     }
     return render(request, 'core/curriculum.html', context)
 
@@ -58,5 +61,6 @@ def dashboard(request):
     context = {
         'page_title': 'Painel de Controle',
         'user': request.user,
+        'seo': get_seo_context('dashboard'),
     }
     return render(request, 'dashboard.html', context)
