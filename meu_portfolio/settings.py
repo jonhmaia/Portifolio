@@ -71,8 +71,6 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',  # WhiteNoise deve vir logo após SecurityMiddleware
-    'core.seo_middleware.SEOMiddleware',
-    'core.seo_middleware.CanonicalURLMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -80,7 +78,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'core.seo_middleware.PreloadMiddleware',
 ]
 
 ROOT_URLCONF = 'meu_portfolio.urls'
