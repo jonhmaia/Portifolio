@@ -70,9 +70,14 @@ class SEOMiddleware(MiddlewareMixin):
             response['Content-Security-Policy'] = csp
         
         # Compressão GZIP para HTML, CSS, JS
+        # Verifica se é uma resposta do WhiteNoise (arquivos estáticos)
+        if hasattr(response, 'streaming_content'):
+            # É uma resposta de arquivo estático do WhiteNoise, não processa
+            return response
+            
         if (response.get('Content-Type', '').startswith(('text/', 'application/json', 'application/javascript')) 
             and 'gzip' in request.META.get('HTTP_ACCEPT_ENCODING', '') 
-            and len(response.content) > 200):
+            and hasattr(response, 'content') and len(response.content) > 200):
             
             # Comprime o conteúdo
             compressed_content = self._compress_content(response.content)
