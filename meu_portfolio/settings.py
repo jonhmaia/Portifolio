@@ -36,12 +36,16 @@ ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
     '.railway.app',  # Para Railway
+    'joaomarcos.dev.br',
+    'www.joaomarcos.dev.br',
     config('ALLOWED_HOST', default=''),
 ]
 
 # CSRF settings for Railway
 CSRF_TRUSTED_ORIGINS = [
     'https://*.railway.app',
+    'https://joaomarcos.dev.br',
+    'https://www.joaomarcos.dev.br',
     'http://localhost:8000',
     'http://127.0.0.1:8000',
 ]
