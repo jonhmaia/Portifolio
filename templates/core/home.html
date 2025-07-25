@@ -869,10 +869,31 @@ page_title }} - {% trans "Meu Portfólio" %}{% endblock %} {% block content %}
       style="animation-delay: 0.6s"
       aria-label="{% trans 'Navegação principal' %}"
     >
+    <div class="flex items-center">
+        <svg class="w-5 h-5 text-primary mr-3" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+            <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+        </svg>
+        <span class="text-base-content/80">joaomaia@discente.ufg.br</span>
+    </div>
+    <div class="flex items-center">
+        <svg class="w-5 h-5 text-primary mr-3" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+        </svg>
+        <span class="text-base-content/80">(62) 99901-8119</span>
+    </div>
+    <div class="flex items-center">
+        <svg class="w-5 h-5 text-primary mr-3" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
+        </svg>
+        <span class="text-base-content/80">Goiânia, GO</span>
+    </div>
+</div>
       <a href="{% url 'portfolio:projects' %}" class="neon-btn">
         {% trans "Ver Projetos" %}
       </a>
     </nav>
+    
   </header>
 </section>
 
@@ -889,19 +910,6 @@ page_title }} - {% trans "Meu Portfólio" %}{% endblock %} {% block content %}
         </p>
         <nav class="flex space-x-4" aria-label="{% trans 'Links de redes sociais' %}">
           <a
-            href="https://twitter.com/joaomarcosmaia"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="text-white/80 hover:text-white transition-colors hover-glow"
-            aria-label="{% trans 'Perfil no Twitter' %}"
-          >
-            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path
-                d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"
-              />
-            </svg>
-          </a>
-          <a
             href="https://linkedin.com/in/joaomarcosmaia"
             target="_blank"
             rel="noopener noreferrer"
@@ -915,7 +923,7 @@ page_title }} - {% trans "Meu Portfólio" %}{% endblock %} {% block content %}
             </svg>
           </a>
           <a
-            href="https://github.com/joaomarcosmaia"
+            href="https://github.com/jonhmaia"
             target="_blank"
             rel="noopener noreferrer"
             class="text-white/80 hover:text-white transition-colors hover-glow"
@@ -1225,7 +1233,8 @@ page_title }} - {% trans "Meu Portfólio" %}{% endblock %} {% block content %}
           <h3 class="font-semibold text-base-content">Lovable</h3>
         </div>
       </div>
-      <!-- Flutter -->
+     
+       <!-- Flutter -->
       <div class="text-center fade-in-element">
         <div
           class="bg-base-200 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow hover-glow tilt-card"
@@ -1242,6 +1251,39 @@ page_title }} - {% trans "Meu Portfólio" %}{% endblock %} {% block content %}
           </div>
           <h3 class="font-semibold text-base-content">Flutter</h3>
         </div>
+        
+      </div>
+       <!-- Flutter -->
+      <div class="text-center fade-in-element">
+        <div
+          class="bg-base-200 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow hover-glow tilt-card"
+        >
+          <div
+            class="w-12 h-12 mx-auto mb-4 bg-primary/20 rounded-lg flex items-center justify-center"
+          >
+             <div class="w-12 h-12 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-2">
+                                 <i class="fab fa-bootstrap text-accent text-lg"></i>
+                             </div>
+          </div>
+          <h3 class="font-semibold text-base-content">Bootstrap</h3>
+        </div>
+        
+      </div>
+       <!-- Flutter -->
+      <div class="text-center fade-in-element">
+        <div
+          class="bg-base-200 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow hover-glow tilt-card"
+        >
+          <div
+            class="w-12 h-12 mx-auto mb-4 bg-primary/20 rounded-lg flex items-center justify-center"
+          >
+            <div class="w-12 h-12 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-2">
+                                 <i class="fas fa-database text-accent text-lg"></i>
+                             </div>
+          </div>
+          <h3 class="font-semibold text-base-content">SQL</h3>
+        </div>
+        
       </div>
     </div>
   </div>
