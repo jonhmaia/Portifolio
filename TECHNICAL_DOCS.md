@@ -640,7 +640,3 @@ class ProjetoForm(forms.ModelForm):
                 raise forms.ValidationError('URL inválida')
         return url
 ```
-
----
-
-**📝 Nota**: Esta documentação técnica deve ser mantida atualizada conforme o projeto evolui. Sempre documente novas funcionalidades e mudanças na arquitetura.
