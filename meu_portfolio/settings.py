@@ -70,9 +70,9 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # WhiteNoise deve vir logo após SecurityMiddleware
     'core.seo_middleware.SEOMiddleware',
     'core.seo_middleware.CanonicalURLMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # Add whitenoise
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -170,7 +170,10 @@ STATICFILES_DIRS = [
 ]
 
 # Whitenoise configuration
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+if not DEBUG:
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+else:
+    STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 
 # Media files
 MEDIA_URL = 'media/'

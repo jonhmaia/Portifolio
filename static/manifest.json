@@ -13,16 +13,16 @@
   "categories": ["portfolio", "professional", "technology"],
   "screenshots": [
     {
-      "src": "/static/images/screenshot-wide.png",
+      "src": "/static/images/screenshot-wide.svg",
       "sizes": "1280x720",
-      "type": "image/png",
+      "type": "image/svg+xml",
       "form_factor": "wide",
       "label": "Página inicial do portfólio"
     },
     {
-      "src": "/static/images/screenshot-narrow.png",
+      "src": "/static/images/screenshot-narrow.svg",
       "sizes": "750x1334",
-      "type": "image/png",
+      "type": "image/svg+xml",
       "form_factor": "narrow",
       "label": "Versão mobile do portfólio"
     }

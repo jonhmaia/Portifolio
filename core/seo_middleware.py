@@ -13,6 +13,10 @@ class SEOMiddleware(MiddlewareMixin):
         """
         Processa a requisição para otimizações de SEO
         """
+        # Pula processamento para arquivos estáticos
+        if request.path.startswith('/static/') or request.path.startswith('/media/'):
+            return None
+            
         # Adiciona headers de segurança
         request.META['HTTP_X_FRAME_OPTIONS'] = 'DENY'
         request.META['HTTP_X_CONTENT_TYPE_OPTIONS'] = 'nosniff'
@@ -31,6 +35,10 @@ class SEOMiddleware(MiddlewareMixin):
         """
         Processa a resposta para otimizações de performance
         """
+        # Pula processamento para arquivos estáticos
+        if request.path.startswith('/static/') or request.path.startswith('/media/'):
+            return response
+            
         # Adiciona headers de cache para recursos estáticos
         if request.path.startswith('/static/'):
             response['Cache-Control'] = 'public, max-age=31536000, immutable'
