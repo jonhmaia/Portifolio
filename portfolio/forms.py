@@ -21,7 +21,7 @@ class ProjetoAdminForm(forms.ModelForm):
             }),
             'descricao_curta': forms.Textarea(attrs={
                 'class': 'form-control',
-                'placeholder': 'Descrição resumida do projeto (máx. 300 caracteres)...',
+                'placeholder': 'Breve descrição do projeto (máx. 300 caracteres)',
                 'rows': 3,
                 'maxlength': 300
             }),
@@ -59,6 +59,10 @@ class ProjetoAdminForm(forms.ModelForm):
             }),
             'ativo': forms.CheckboxInput(attrs={
                 'class': 'form-check-input'
+            }),
+            'imagem_principal': forms.FileInput(attrs={
+                'class': 'form-control',
+                'accept': 'image/*'
             })
         }
         
@@ -66,7 +70,7 @@ class ProjetoAdminForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         
         # Customizar o campo de tecnologias
-        self.fields['tecnologias'].widget = forms.CheckboxSelectMultiple()
+        self.fields['tecnologias'].widget = forms.CheckboxSelectMultiple(attrs={'class': 'tech-checkbox'})
         self.fields['tecnologias'].queryset = Tecnologia.objects.filter(ativo=True).order_by('categoria', 'nome')
         
         # Adicionar classes CSS aos campos
@@ -77,7 +81,6 @@ class ProjetoAdminForm(forms.ModelForm):
                     
         # Configurar help texts personalizados
         self.fields['titulo'].help_text = 'Nome principal que será exibido no portfólio'
-        self.fields['subtitulo'].help_text = 'Texto complementar opcional'
         self.fields['descricao_curta'].help_text = 'Resumo que aparece nos cards de projeto (máx. 300 caracteres)'
         self.fields['descricao_completa'].help_text = 'Descrição detalhada com informações técnicas e objetivos'
         self.fields['imagem_principal'].help_text = 'Imagem de destaque do projeto (recomendado: 800x600px)'

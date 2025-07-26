@@ -1,6 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib import messages
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
 from datetime import datetime
 from .models import Artigo
 from .forms import ArtigoForm
@@ -119,3 +122,21 @@ def delete_article(request, pk):
         'artigo': artigo
     }
     return render(request, 'blog/delete_article.html', context)
+
+@require_POST
+@user_passes_test(is_superuser, login_url='/login/')
+def delete_article_ajax(request, pk):
+    """View AJAX para deletar artigo diretamente"""
+    try:
+        artigo = get_object_or_404(Artigo, pk=pk)
+        titulo = artigo.titulo
+        artigo.delete()
+        return JsonResponse({
+            'success': True,
+            'message': f'Artigo "{titulo}" deletado com sucesso!'
+        })
+    except Exception as e:
+        return JsonResponse({
+            'success': False,
+            'message': 'Erro ao deletar o artigo. Tente novamente.'
+        }, status=500)

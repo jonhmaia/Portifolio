@@ -769,6 +769,225 @@ page_title }} - {% trans "Meu Portfólio" %}{% endblock %} {% block content %}
       animation-duration: 4s;
     }
   }
+
+  /* Cards Container */
+  .cards {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 2rem;
+    justify-content: center;
+  }
+
+  .cards_item {
+    display: flex;
+    padding: 1rem;
+    width: 100%;
+    max-width: 400px;
+  }
+
+  @media (min-width: 40rem) {
+    .cards_item {
+      width: 50%;
+    }
+  }
+
+  @media (min-width: 56rem) {
+    .cards_item {
+      width: 33.3333%;
+    }
+  }
+
+  /* Card Styling */
+  .card {
+    background: linear-gradient(135deg, #152026 0%, #253840 100%);
+    border-radius: 0.75rem;
+    box-shadow: 0 20px 40px -14px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    width: 100%;
+    transition: all 0.3s ease;
+    border: 1px solid #516973;
+  }
+
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+  }
+
+  .card_image {
+    position: relative;
+    overflow: hidden;
+    height: 200px;
+  }
+
+  .card_image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .card:hover .card_image img {
+    transform: scale(1.05);
+  }
+
+  .card_content {
+    padding: 1.5rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .card_title {
+    color: #92A4A6;
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1.25;
+    margin-bottom: 0.75rem;
+  }
+
+  .card_text {
+    color: #92A4A6;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+    opacity: 0.8;
+  }
+
+  /* Technologies */
+  .technologies {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .tech-badge {
+    background: linear-gradient(135deg, #516973 0%, #92A4A6 100%);
+    color: #0D0D0D;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    border: 1px solid #92A4A6;
+  }
+
+  /* Action Buttons */
+  .action-buttons {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: auto;
+  }
+
+  .btn {
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.875rem;
+  }
+
+  .card_btn {
+    background: linear-gradient(135deg, #253840 0%, #516973 100%);
+    color: #92A4A6;
+    border: 1px solid #516973;
+    flex: 1;
+  }
+
+  .card_btn:hover {
+    background: linear-gradient(135deg, #516973 0%, #92A4A6 100%);
+    color: #0D0D0D;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(81, 105, 115, 0.3);
+  }
+
+  .btn-success {
+    background: linear-gradient(135deg, #152026 0%, #253840 100%);
+    color: #92A4A6;
+    border: 1px solid #516973;
+    width: 40px;
+    height: 40px;
+  }
+
+  .btn-success:hover {
+    background: linear-gradient(135deg, #516973 0%, #92A4A6 100%);
+    color: #0D0D0D;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(81, 105, 115, 0.3);
+  }
+
+  .btn-secondary {
+    background: linear-gradient(135deg, #152026 0%, #253840 100%);
+    color: #92A4A6;
+    border: 1px solid #516973;
+    width: 40px;
+    height: 40px;
+  }
+
+  .btn-secondary:hover {
+    background: linear-gradient(135deg, #516973 0%, #92A4A6 100%);
+    color: #0D0D0D;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(81, 105, 115, 0.3);
+  }
+
+  /* Status Badges */
+  .status-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    z-index: 10;
+  }
+
+  .status-concluido {
+    background: linear-gradient(135deg, #152026 0%, #253840 100%);
+    color: #92A4A6;
+  }
+
+  .status-desenvolvimento {
+    background: linear-gradient(135deg, #253840 0%, #516973 100%);
+    color: #92A4A6;
+  }
+
+  .status-pausado {
+    background: linear-gradient(135deg, #516973 0%, #92A4A6 100%);
+    color: #0D0D0D;
+  }
+
+  .status-planejado {
+    background: linear-gradient(135deg, #92A4A6 0%, #516973 100%);
+    color: #0D0D0D;
+  }
+
+  /* Featured Badge */
+  .featured-badge {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    background: linear-gradient(135deg, #516973 0%, #92A4A6 100%);
+    color: #0D0D0D;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
 </style>
 
 <!-- Hero Section with Space Theme -->
@@ -1175,7 +1394,22 @@ page_title }} - {% trans "Meu Portfólio" %}{% endblock %} {% block content %}
           <h3 class="font-semibold text-base-content">C/C++</h3>
         </div>
       </div>
-
+  <!-- Flutter -->
+      <div class="text-center fade-in-element">
+        <div
+          class="bg-base-200 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow hover-glow tilt-card"
+        >
+          <div
+            class="w-12 h-12 mx-auto mb-4 bg-primary/20 rounded-lg flex items-center justify-center"
+          >
+            <div class="w-12 h-12 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-2">
+                                 <i class="fas fa-database text-accent text-lg"></i>
+                             </div>
+          </div>
+          <h3 class="font-semibold text-base-content">SQL</h3>
+        </div>
+        
+      </div>
       <!-- MCP -->
       <div class="text-center fade-in-element">
         <div
@@ -1266,22 +1500,7 @@ page_title }} - {% trans "Meu Portfólio" %}{% endblock %} {% block content %}
         </div>
         
       </div>
-       <!-- Flutter -->
-      <div class="text-center fade-in-element">
-        <div
-          class="bg-base-200 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow hover-glow tilt-card"
-        >
-          <div
-            class="w-12 h-12 mx-auto mb-4 bg-primary/20 rounded-lg flex items-center justify-center"
-          >
-            <div class="w-12 h-12 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-2">
-                                 <i class="fas fa-database text-accent text-lg"></i>
-                             </div>
-          </div>
-          <h3 class="font-semibold text-base-content">SQL</h3>
-        </div>
-        
-      </div>
+     
     </div>
   </div>
 </section>
@@ -1299,145 +1518,79 @@ page_title }} - {% trans "Meu Portfólio" %}{% endblock %} {% block content %}
     </header>
 
     {% if recent_projects %}
-    <div
-      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 fade-in-element scroll-animate"
-      data-animation="fadeInUp"
-    >
+    <ul class="cards fade-in-element scroll-animate" data-animation="fadeInUp">
       {% for projeto in recent_projects %}
-      <div
-        class="project-card card bg-base-100 shadow-lg overflow-hidden animate-slide-up"
-      >
-        <!-- Project Image -->
-        <div
-          class="relative h-48 bg-gradient-to-br from-blue-500 to-purple-600"
-        >
-          {% if projeto.imagem_principal %}
-          <img
-            src="{{ projeto.imagem_principal.url }}"
-            alt="{% trans 'Imagem do projeto' %} {{ projeto.titulo }} - {% trans 'Desenvolvido com' %} {% for tech in projeto.tecnologias.all|slice:':3' %}{{ tech.nome }}{% if not forloop.last %}, {% endif %}{% endfor %}"
-            class="w-full h-full object-cover"
-            loading="lazy"
-          />
-          {% else %}
-          <div
-            class="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-400 to-gray-600"
-            role="img"
-            aria-label="{% trans 'Imagem placeholder para o projeto' %} {{ projeto.titulo }}"
-          >
-            <i class="fas fa-code text-4xl text-white opacity-50" aria-hidden="true"></i>
+        <li class="cards_item">
+          <div class="card">
+            <!-- Project Image -->
+            <div class="card_image">
+              {% if projeto.imagem_principal %}
+                 <img src="{{ project.imagem_principal.url }}" alt="{{ project.titulo }}">
+              {% else %}
+                <img src="https://picsum.photos/500/300/?random={{ projeto.id }}" alt="{{ projeto.titulo }}">
+              {% endif %}
+              
+              <!-- Status Badge -->
+              <span class="status-badge status-{{ projeto.status }}">
+                {{ projeto.get_status_display }}
+              </span>
+              
+              <!-- Featured Badge -->
+              {% if projeto.destaque %}
+                <span class="featured-badge">
+                  <i class="fas fa-star"></i> {% trans "Destaque" %}
+                </span>
+              {% endif %}
+            </div>
+            
+            <!-- Project Content -->
+            <div class="card_content">
+              <h2 class="card_title">{{ projeto.titulo }}</h2>
+              
+              {% if projeto.subtitulo %}
+                <p class="card_text">{{ projeto.subtitulo }}</p>
+              {% endif %}
+              
+              <p class="card_text">{{ projeto.descricao_curta|default:projeto.descricao_completa|truncatewords:20 }}</p>
+              
+              <!-- Technologies -->
+              <div class="technologies">
+                {% for tecnologia in projeto.tecnologias.all|slice:":4" %}
+                  <span class="tech-badge">
+                    {% if tecnologia.icone %}
+                      <i class="{{ tecnologia.icone }}"></i>
+                    {% endif %}
+                    {{ tecnologia.nome }}
+                  </span>
+                {% endfor %}
+                {% if projeto.tecnologias.count > 4 %}
+                  <span class="tech-badge">+{{ projeto.tecnologias.count|add:"-4" }}</span>
+                {% endif %}
+              </div>
+              
+              <!-- Action Buttons -->
+              <div class="action-buttons">
+                <a href="{% url 'portfolio:project_detail' projeto.id %}" class="btn card_btn">
+                  {% trans "Ver Detalhes" %}
+                </a>
+                
+                {% if projeto.link_deploy %}
+                  <a href="{{ projeto.link_deploy }}" target="_blank" class="btn btn-success" title="{% trans 'Ver Demo' %}">
+                    <i class="fas fa-external-link-alt"></i>
+                  </a>
+                {% endif %}
+                
+                {% if projeto.link_repositorio %}
+                  <a href="{{ projeto.link_repositorio }}" target="_blank" class="btn btn-secondary" title="{% trans 'Ver Código' %}">
+                    <i class="fab fa-github"></i>
+                  </a>
+                {% endif %}
+              </div>
+            </div>
           </div>
-          {% endif %}
-
-          <!-- Status Badge -->
-          <div class="absolute top-4 right-4">
-            {% if projeto.status == 'concluido' %}
-            <span
-              class="status-badge px-3 py-1 rounded-full text-xs font-semibold bg-green-500 text-white"
-            >
-              {% trans "Concluído" %}
-            </span>
-            {% elif projeto.status == 'desenvolvimento' %}
-            <span
-              class="status-badge px-3 py-1 rounded-full text-xs font-semibold bg-blue-500 text-white"
-            >
-              {% trans "Em Desenvolvimento" %}
-            </span>
-            {% elif projeto.status == 'pausado' %}
-            <span
-              class="status-badge px-3 py-1 rounded-full text-xs font-semibold bg-yellow-500 text-white"
-            >
-              {% trans "Pausado" %}
-            </span>
-            {% else %}
-            <span
-              class="status-badge px-3 py-1 rounded-full text-xs font-semibold bg-gray-500 text-white"
-            >
-              {% trans "Arquivado" %}
-            </span>
-            {% endif %}
-          </div>
-
-          <!-- Featured Badge -->
-          {% if projeto.destaque %}
-          <div class="absolute top-4 left-4">
-            <span
-              class="featured-badge px-3 py-1 rounded-full text-xs font-semibold bg-yellow-500 text-black"
-            >
-              {% trans "Destaque" %}
-            </span>
-          </div>
-          {% endif %}
-        </div>
-
-        <!-- Project Content -->
-        <div class="card-body">
-          <h3 class="card-title text-base-content mb-2">
-            {{ projeto.titulo }}
-          </h3>
-
-          {% if projeto.subtitulo %}
-          <p class="text-sm text-base-content/60 mb-2">
-            {{ projeto.subtitulo }}
-          </p>
-          {% endif %}
-
-          <p class="text-base-content/80 mb-4 line-clamp-3">
-            {{
-            projeto.descricao_curta|default:projeto.descricao_completa|truncatewords:20
-            }}
-          </p>
-
-          <!-- Technologies -->
-          <div class="flex flex-wrap gap-2 mb-4">
-            {% for tecnologia in projeto.tecnologias.all|slice:":4" %}
-            <span class="badge badge-outline">
-              {% if tecnologia.icone %}
-              <i
-                class="{{ tecnologia.icone }} mr-1"
-                style="color: {{ tecnologia.cor }}"
-              ></i>
-              {% endif %} {{ tecnologia.nome }}
-            </span>
-            {% endfor %} {% if projeto.tecnologias.count > 4 %}
-            <span class="badge badge-outline text-xs">
-              +{{ projeto.tecnologias.count|add:"-4" }}
-            </span>
-            {% endif %}
-          </div>
-
-          <!-- Action Buttons -->
-          <div class="flex gap-3">
-            <a
-              href="{% url 'portfolio:project_detail' projeto.id %}"
-              class="btn btn-primary btn-sm flex-1"
-            >
-              {% trans "Ver Detalhes" %}
-            </a>
-
-            {% if projeto.link_deploy %}
-            <a
-              href="{{ projeto.link_deploy }}"
-              target="_blank"
-              class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg transition-colors duration-200"
-              title="{% trans 'Ver Demo' %}"
-            >
-              <i class="fas fa-external-link-alt"></i>
-            </a>
-            {% endif %} {% if projeto.link_repositorio %}
-            <a
-              href="{{ projeto.link_repositorio }}"
-              target="_blank"
-              class="bg-gray-600 hover:bg-gray-700 text-white py-2 px-4 rounded-lg transition-colors duration-200"
-              title="{% trans 'Ver Código' %}"
-            >
-              <i class="fab fa-github"></i>
-            </a>
-            {% endif %}
-          </div>
-        </div>
-      </div>
+        </li>
       {% endfor %}
-    </div>
+    </ul>
     {% else %}
     <!-- Empty State -->
     <div class="flex flex-col items-center justify-center py-16 px-4">

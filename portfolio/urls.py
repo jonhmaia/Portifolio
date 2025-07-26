@@ -12,4 +12,8 @@ urlpatterns = [
     path('create/', views.create_project, name='create_project'),
     path('edit/<int:project_id>/', views.edit_project, name='edit_project'),
     path('delete/<int:project_id>/', views.delete_project, name='delete_project'),
+    
+    # URLs para gestão de tecnologias
+    path('ajax/create-technology/', views.create_technology_ajax, name='create_technology_ajax'),
+    path('ajax/delete-technology/<int:technology_id>/', views.delete_technology_ajax, name='delete_technology_ajax'),
 ]

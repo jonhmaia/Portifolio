@@ -8,158 +8,312 @@
 <style>
     /* Space Background */
     .space-background {
-        background: radial-gradient(ellipse at center, #253840 0%, #152026 50%, #0a0f12 100%);
+        background: linear-gradient(135deg, #0D0D0D 0%, #152026 25%, #253840 50%, #152026 75%, #0D0D0D 100%);
+        min-height: 100vh;
         position: relative;
         overflow: hidden;
     }
     
-    .stars-container {
+    .space-background::before {
+        content: '';
         position: absolute;
         top: 0;
         left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-    }
-    
-    .star {
-        position: absolute;
-        background: #92a4a6;
-        border-radius: 50%;
-        animation: twinkle 3s infinite;
+        right: 0;
+        bottom: 0;
+        background-image: 
+            radial-gradient(2px 2px at 20px 30px, #92A4A6, transparent),
+            radial-gradient(2px 2px at 40px 70px, rgba(146, 164, 166, 0.8), transparent),
+            radial-gradient(1px 1px at 90px 40px, #92A4A6, transparent),
+            radial-gradient(1px 1px at 130px 80px, rgba(146, 164, 166, 0.6), transparent),
+            radial-gradient(2px 2px at 160px 30px, #92A4A6, transparent);
+        background-repeat: repeat;
+        background-size: 200px 100px;
+        animation: twinkle 4s ease-in-out infinite alternate;
+        opacity: 0.2;
     }
     
     @keyframes twinkle {
-        0%, 100% { opacity: 0.3; }
-        50% { opacity: 1; }
+        0% { opacity: 0.2; }
+        100% { opacity: 0.4; }
+    }
+
+    /* Main Container */
+    .main {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+        position: relative;
+        z-index: 1;
     }
     
-    /* Dark Glass Effect */
-    .dark-glass-effect {
-        background: rgba(31, 41, 55, 0.8);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(75, 85, 99, 0.3);
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    .main h1 {
+        text-align: center;
+        margin-bottom: 2rem;
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #333;
     }
     
-    /* Neon Flicker Effect */
-    .neon-flicker {
-        animation: neon-flicker 2s infinite alternate;
-    }
-    
-    @keyframes neon-flicker {
-        0%, 100% { text-shadow: 0 0 5px rgba(147, 164, 166, 0.5); }
-        50% { text-shadow: 0 0 10px rgba(147, 164, 166, 0.8), 0 0 15px rgba(147, 164, 166, 0.6); }
-    }
-    
-    /* Project Cards */
-    .project-card {
-        background: rgba(31, 41, 55, 0.9);
-        border: 1px solid rgba(75, 85, 99, 0.3);
-        transition: all 0.3s ease;
-        transform: translateY(0);
-        backdrop-filter: blur(10px);
-    }
-    
-    .project-card:hover {
-        transform: translateY(-8px);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-        border-color: rgba(147, 164, 166, 0.5);
-    }
-    
-    /* Hero Section */
-    .hero-section {
-        min-height: 60vh;
+    /* Cards Container */
+    .cards {
         display: flex;
+        flex-wrap: wrap;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        gap: 2rem;
+        justify-content: center;
+    }
+    
+    .cards_item {
+        display: flex;
+        padding: 1rem;
+        width: 100%;
+        max-width: 400px;
+    }
+    
+    @media (min-width: 40rem) {
+        .cards_item {
+            width: 50%;
+        }
+    }
+    
+    @media (min-width: 56rem) {
+        .cards_item {
+            width: 33.3333%;
+        }
+    }
+    
+    /* Card Styling */
+    .card {
+        background: linear-gradient(135deg, #152026 0%, #253840 100%);
+        border-radius: 0.75rem;
+        box-shadow: 0 20px 40px -14px rgba(0, 0, 0, 0.25);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        width: 100%;
+        transition: all 0.3s ease;
+        border: 1px solid #516973;
+    }
+    
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+    }
+    
+    /* Card Image */
+    .card_image {
+        position: relative;
+        overflow: hidden;
+        height: 200px;
+    }
+    
+    .card_image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+    
+    .card:hover .card_image img {
+        transform: scale(1.05);
+    }
+    
+    /* Card Content */
+    .card_content {
+        padding: 1.5rem;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .card_title {
+        color: #92A4A6;
+        font-size: 1.25rem;
+        font-weight: 600;
+        line-height: 1.25;
+        margin-bottom: 0.75rem;
+    }
+    
+    .card_text {
+        color: #92A4A6;
+        font-size: 0.875rem;
+        line-height: 1.5;
+        margin-bottom: 1rem;
+        opacity: 0.8;
+    }
+    
+    /* Button Styling */
+    .btn {
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        border: 1px solid transparent;
+        display: inline-flex;
         align-items: center;
         justify-content: center;
-        text-align: center;
-        position: relative;
+        font-size: 0.875rem;
     }
     
-    /* Stats Section */
-    .stats-card {
-        background: rgba(31, 41, 55, 0.8);
-        border: 1px solid rgba(75, 85, 99, 0.3);
-        backdrop-filter: blur(10px);
-        transition: all 0.3s ease;
+    .card_btn {
+        background: linear-gradient(135deg, #253840 0%, #516973 100%);
+        color: #92A4A6;
+        border: 1px solid #516973;
+        flex: 1;
     }
     
-    .stats-card:hover {
-        border-color: rgba(147, 164, 166, 0.5);
+    .card_btn:hover {
+        background: linear-gradient(135deg, #516973 0%, #92A4A6 100%);
+        color: #0D0D0D;
         transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(81, 105, 115, 0.3);
     }
     
-    /* Action Buttons */
-    .btn-primary-custom {
-        background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-        border: none;
-        color: white;
-        transition: all 0.3s ease;
+    .btn-success {
+        background: linear-gradient(135deg, #152026 0%, #253840 100%);
+        color: #92A4A6;
+        border: 1px solid #516973;
+        width: 40px;
+        height: 40px;
     }
     
-    .btn-primary-custom:hover {
-        background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+    .btn-success:hover {
+        background: linear-gradient(135deg, #516973 0%, #92A4A6 100%);
+        color: #0D0D0D;
         transform: translateY(-2px);
-        box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+        box-shadow: 0 10px 20px rgba(81, 105, 115, 0.3);
     }
     
-    .btn-secondary-custom {
-        background: rgba(75, 85, 99, 0.8);
-        border: 1px solid rgba(107, 114, 128, 0.5);
-        color: white;
-        transition: all 0.3s ease;
+    .btn-secondary {
+        background: linear-gradient(135deg, #152026 0%, #253840 100%);
+        color: #92A4A6;
+        border: 1px solid #516973;
+        width: 40px;
+        height: 40px;
     }
     
-    .btn-secondary-custom:hover {
-        background: rgba(107, 114, 128, 0.9);
-        border-color: rgba(147, 164, 166, 0.7);
+    .btn-secondary:hover {
+        background: linear-gradient(135deg, #516973 0%, #92A4A6 100%);
+        color: #0D0D0D;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(81, 105, 115, 0.3);
+    }
+    
+    /* Status Badges */
+    .status-badge {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        padding: 0.25rem 0.75rem;
+        border-radius: 9999px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        z-index: 10;
+    }
+    
+    .status-concluido {
+        background: linear-gradient(135deg, #152026 0%, #253840 100%);
+        color: #92A4A6;
+    }
+    
+    .status-desenvolvimento {
+        background: linear-gradient(135deg, #253840 0%, #516973 100%);
+        color: #92A4A6;
+    }
+    
+    .status-pausado {
+        background: linear-gradient(135deg, #516973 0%, #92A4A6 100%);
+        color: #0D0D0D;
+    }
+    
+    .status-planejado {
+        background: linear-gradient(135deg, #92A4A6 0%, #516973 100%);
+        color: #0D0D0D;
     }
     
     /* Featured Badge */
     .featured-badge {
-        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-        color: white;
-        padding: 4px 12px;
-        border-radius: 20px;
-        font-size: 12px;
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+        background: linear-gradient(135deg, #516973 0%, #92A4A6 100%);
+        color: #0D0D0D;
+        padding: 0.25rem 0.75rem;
+        border-radius: 9999px;
+        font-size: 0.75rem;
         font-weight: 600;
-        display: inline-flex;
+        z-index: 10;
+        display: flex;
         align-items: center;
-        gap: 4px;
+        gap: 0.25rem;
     }
     
-    /* Status Badges */
-    .status-concluido { background: linear-gradient(135deg, #10b981 0%, #059669 100%); }
-    .status-desenvolvimento { background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); }
-    .status-pausado { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); }
-    .status-planejado { background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%); }
-    
-    /* Animations */
-    .fade-in {
-        animation: fadeIn 0.8s ease-out;
+    /* Technologies */
+    .technologies {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
     }
     
-    .slide-up {
-        animation: slideUp 1s ease-out;
+    .tech-badge {
+        background: linear-gradient(135deg, #516973 0%, #92A4A6 100%);
+        color: #0D0D0D;
+        padding: 0.25rem 0.75rem;
+        border-radius: 9999px;
+        font-size: 0.75rem;
+        font-weight: 500;
+        border: 1px solid #92A4A6;
     }
     
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(30px); }
-        to { opacity: 1; transform: translateY(0); }
+    /* Action Buttons Container */
+    .action-buttons {
+        display: flex;
+        gap: 0.75rem;
+        margin-top: auto;
     }
     
-    @keyframes slideUp {
-        from { opacity: 0; transform: translateY(50px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-    
-    /* Responsive */
+    /* Responsive Design */
     @media (max-width: 768px) {
-        .hero-section {
-            min-height: 50vh;
-            padding: 2rem 1rem;
+        .main {
+            padding: 1rem;
         }
+        
+        .main h1 {
+            font-size: 2rem;
+        }
+        
+        .cards {
+            gap: 1rem;
+        }
+        
+        .cards_item {
+            min-width: 280px;
+            flex: 1 1 280px;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .cards_item {
+            min-width: 100%;
+            flex: 1 1 100%;
+        }
+        
+        .card_content {
+            padding: 1rem;
+        }
+    }
+    
+    /* Made with love */
+    .made_by {
+        text-align: center;
+        margin-top: 3rem;
+        color: #666;
+        font-size: 1.1rem;
     }
 </style>
 {% endblock %}
@@ -182,100 +336,77 @@
             </p>
         </div>
         
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <ul class="cards">
             {% for project in featured_projects %}
-                <div class="project-card card bg-base-100 shadow-lg overflow-hidden animate-slide-up">
-                    <!-- Project Image -->
-                    <div class="relative h-48 bg-gradient-to-br from-blue-500 to-purple-600">
-                        {% if project.imagem_principal %}
-                            <img src="{{ project.imagem_principal.url }}" 
-                                 alt="{{ project.titulo }}" 
-                                 class="w-full h-full object-cover">
-                        {% else %}
-                            <div class="flex items-center justify-center h-full">
-                                <i class="fas fa-code text-4xl text-white opacity-50"></i>
-                            </div>
-                        {% endif %}
-                        
-                        <!-- Status Badge -->
-                        <div class="absolute top-4 right-4">
-                            <span class="status-badge px-3 py-1 rounded-full text-xs font-semibold
-                                {% if project.status == 'concluido' %}bg-green-500 text-white
-                                {% elif project.status == 'desenvolvimento' %}bg-blue-500 text-white
-                                {% elif project.status == 'pausado' %}bg-yellow-500 text-white
-                                {% else %}bg-gray-500 text-white{% endif %}">
+                <li class="cards_item">
+                    <div class="card">
+                        <!-- Project Image -->
+                        <div class="card_image">
+                            {% if project.imagem_principal %}
+                                <img src="{{ project.imagem_principal.url }}" alt="{{ project.titulo }}">
+                            {% else %}
+                                <img src="https://picsum.photos/500/300/?random={{ project.id }}" alt="{{ project.titulo }}">
+                            {% endif %}
+                            
+                            <!-- Status Badge -->
+                            <span class="status-badge status-{{ project.status }}">
                                 {{ project.get_status_display }}
                             </span>
-                        </div>
-                        
-                        <!-- Featured Badge -->
-                        <div class="absolute top-4 left-4">
-                            <span class="bg-yellow-500 text-white px-3 py-1 rounded-full text-xs font-semibold">
-                                <i class="fas fa-star mr-1"></i>{% trans "Destaque" %}
+                            
+                            <!-- Featured Badge -->
+                            <span class="featured-badge">
+                                <i class="fas fa-star"></i> {% trans "Destaque" %}
                             </span>
                         </div>
-                    </div>
                     
-                    <!-- Project Content -->
-                    <div class="card-body">
-                        <h3 class="card-title text-base-content mb-2">
-                            {{ project.titulo }}
-                        </h3>
-                        
-                        {% if project.subtitulo %}
-                            <p class="text-sm text-base-content/60 mb-3">
-                                {{ project.subtitulo }}
-                            </p>
-                        {% endif %}
-                        
-                        <p class="text-base-content/80 mb-4 line-clamp-3">
-                            {{ project.descricao_curta|default:project.descricao_completa|truncatewords:20 }}
-                        </p>
-                        
-                        <!-- Technologies -->
-                        <div class="flex flex-wrap gap-2 mb-4">
-                            {% for tech in project.tecnologias.all|slice:":4" %}
-                                <span class="badge badge-outline">
-                                    {% if tech.icone %}
-                                        <i class="{{ tech.icone }} mr-1" style="color: {{ tech.cor }}"></i>
-                                    {% endif %}
-                                    {{ tech.nome }}
-                                </span>
-                            {% endfor %}
-                            {% if project.tecnologias.count > 4 %}
-                                <span class="badge badge-outline">
-                                    +{{ project.tecnologias.count|add:"-4" }}
-                                </span>
+                        <!-- Project Content -->
+                        <div class="card_content">
+                            <h2 class="card_title">{{ project.titulo }}</h2>
+                            
+                            {% if project.subtitulo %}
+                                <p class="card_text">{{ project.subtitulo }}</p>
                             {% endif %}
-                        </div>
-                        
-                        <!-- Action Buttons -->
-                        <div class="flex gap-3">
-                            <a href="{% url 'portfolio:project_detail' project.id %}" 
-                                       class="btn btn-primary btn-sm flex-1">
-                                        {% trans "Ver Detalhes" %}
+                            
+                            <p class="card_text">{{ project.descricao_curta|default:project.descricao_completa|truncatewords:20 }}</p>
+                            
+                            <!-- Technologies -->
+                            <div class="technologies">
+                                {% for tech in project.tecnologias.all|slice:":4" %}
+                                    <span class="tech-badge">
+                                        {% if tech.icone %}
+                                            <i class="{{ tech.icone }}"></i>
+                                        {% endif %}
+                                        {{ tech.nome }}
+                                    </span>
+                                {% endfor %}
+                                {% if project.tecnologias.count > 4 %}
+                                    <span class="tech-badge">+{{ project.tecnologias.count|add:"-4" }}</span>
+                                {% endif %}
+                            </div>
+                            
+                            <!-- Action Buttons -->
+                            <div class="action-buttons">
+                                <a href="{% url 'portfolio:project_detail' project.id %}" class="btn card_btn">
+                                    {% trans "Ver Detalhes" %}
+                                </a>
+                                
+                                {% if project.link_deploy %}
+                                    <a href="{{ project.link_deploy }}" target="_blank" class="btn btn-success">
+                                        <i class="fas fa-external-link-alt"></i>
                                     </a>
-                            
-                            {% if project.link_deploy %}
-                                <a href="{{ project.link_deploy }}" 
-                                   target="_blank" 
-                                   class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg transition-colors duration-200">
-                                    <i class="fas fa-external-link-alt"></i>
-                                </a>
-                            {% endif %}
-                            
-                            {% if project.link_repositorio %}
-                                <a href="{{ project.link_repositorio }}" 
-                                   target="_blank" 
-                                   class="bg-gray-600 hover:bg-gray-700 text-white py-2 px-4 rounded-lg transition-colors duration-200">
-                                    <i class="fab fa-github"></i>
-                                </a>
-                            {% endif %}
+                                {% endif %}
+                                
+                                {% if project.link_repositorio %}
+                                    <a href="{{ project.link_repositorio }}" target="_blank" class="btn btn-secondary">
+                                        <i class="fab fa-github"></i>
+                                    </a>
+                                {% endif %}
+                            </div>
                         </div>
                     </div>
-                </div>
+                </li>
             {% endfor %}
-        </div>
+        </ul>
     </div>
 </section>
 {% endif %}
@@ -302,95 +433,74 @@
         {% endif %}
         
         {% if projects %}
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <ul class="cards">
                 {% for project in projects %}
                     {% if not project.destaque or current_status_filter %}
-                        <div class="project-card card bg-base-100 shadow-lg overflow-hidden animate-slide-up">
-                            <!-- Project Image -->
-                            <div class="relative h-48 bg-gradient-to-br from-gray-400 to-gray-600">
-                                {% if project.imagem_principal %}
-                                    <img src="{{ project.imagem_principal.url }}" 
-                                         alt="{{ project.titulo }}" 
-                                         class="w-full h-full object-cover">
-                                {% else %}
-                                    <div class="flex items-center justify-center h-full">
-                                        <i class="fas fa-code text-4xl text-white opacity-50"></i>
-                                    </div>
-                                {% endif %}
-                                
-                                <!-- Status Badge -->
-                                <div class="absolute top-4 right-4">
-                                    <span class="status-badge px-3 py-1 rounded-full text-xs font-semibold
-                                        {% if project.status == 'concluido' %}bg-green-500 text-white
-                                        {% elif project.status == 'desenvolvimento' %}bg-blue-500 text-white
-                                        {% elif project.status == 'pausado' %}bg-yellow-500 text-white
-                                        {% else %}bg-gray-500 text-white{% endif %}">
+                        <li class="cards_item">
+                            <div class="card">
+                                <!-- Project Image -->
+                                <div class="card_image">
+                                    {% if project.imagem_principal %}
+                                        <img src="{{ project.imagem_principal.url }}" alt="{{ project.titulo }}">
+                                    {% else %}
+                                        <img src="https://picsum.photos/500/300/?random={{ project.id }}" alt="{{ project.titulo }}">
+                                    {% endif %}
+                                    
+                                    <!-- Status Badge -->
+                                    <span class="status-badge status-{{ project.status }}">
                                         {{ project.get_status_display }}
                                     </span>
                                 </div>
-                            </div>
-                            
-                            <!-- Project Content -->
-                            <div class="card-body">
-                                <h3 class="card-title text-base-content mb-2">
-                                    {{ project.titulo }}
-                                </h3>
                                 
-                                {% if project.subtitulo %}
-                                    <p class="text-sm text-base-content/60 mb-3">
-                                        {{ project.subtitulo }}
-                                    </p>
-                                {% endif %}
-                                
-                                <p class="text-base-content/80 mb-4 line-clamp-3">
-                                    {{ project.descricao_curta|default:project.descricao_completa|truncatewords:20 }}
-                                </p>
-                                
-                                <!-- Technologies -->
-                                <div class="flex flex-wrap gap-2 mb-4">
-                                    {% for tech in project.tecnologias.all|slice:":4" %}
-                                        <span class="badge badge-outline">
-                                            {% if tech.icone %}
-                                                <i class="{{ tech.icone }} mr-1" style="color: {{ tech.cor }}"></i>
-                                            {% endif %}
-                                            {{ tech.nome }}
-                                        </span>
-                                    {% endfor %}
-                                    {% if project.tecnologias.count > 4 %}
-                                        <span class="badge badge-outline">
-                                            +{{ project.tecnologias.count|add:"-4" }}
-                                        </span>
-                                    {% endif %}
-                                </div>
-                                
-                                <!-- Action Buttons -->
-                                <div class="flex gap-3">
-                                    <a href="{% url 'portfolio:project_detail' project.id %}" 
-                                       class="btn btn-primary btn-sm flex-1">
-                                        {% trans "Ver Detalhes" %}
-                                    </a>
+                                <!-- Project Content -->
+                                <div class="card_content">
+                                    <h2 class="card_title">{{ project.titulo }}</h2>
                                     
-                                    {% if project.link_deploy %}
-                                        <a href="{{ project.link_deploy }}" 
-                                           target="_blank" 
-                                           class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg transition-colors duration-200">
-                                            <i class="fas fa-external-link-alt"></i>
-                                        </a>
+                                    {% if project.subtitulo %}
+                                        <p class="card_text">{{ project.subtitulo }}</p>
                                     {% endif %}
                                     
-                                    {% if project.link_repositorio %}
-                                        <a href="{{ project.link_repositorio }}" 
-                                           target="_blank" 
-                                           class="bg-gray-600 hover:bg-gray-700 text-white py-2 px-4 rounded-lg transition-colors duration-200">
-                                            <i class="fab fa-github"></i>
+                                    <p class="card_text">{{ project.descricao_curta|default:project.descricao_completa|truncatewords:20 }}</p>
+                                    
+                                    <!-- Technologies -->
+                                    <div class="technologies">
+                                        {% for tech in project.tecnologias.all|slice:":4" %}
+                                            <span class="tech-badge">
+                                                {% if tech.icone %}
+                                                    <i class="{{ tech.icone }}"></i>
+                                                {% endif %}
+                                                {{ tech.nome }}
+                                            </span>
+                                        {% endfor %}
+                                        {% if project.tecnologias.count > 4 %}
+                                            <span class="tech-badge">+{{ project.tecnologias.count|add:"-4" }}</span>
+                                        {% endif %}
+                                    </div>
+                                    
+                                    <!-- Action Buttons -->
+                                    <div class="action-buttons">
+                                        <a href="{% url 'portfolio:project_detail' project.id %}" class="btn card_btn">
+                                            {% trans "Ver Detalhes" %}
                                         </a>
-                                    {% endif %}
+                                        
+                                        {% if project.link_deploy %}
+                                            <a href="{{ project.link_deploy }}" target="_blank" class="btn btn-success">
+                                                <i class="fas fa-external-link-alt"></i>
+                                            </a>
+                                        {% endif %}
+                                        
+                                        {% if project.link_repositorio %}
+                                            <a href="{{ project.link_repositorio }}" target="_blank" class="btn btn-secondary">
+                                                <i class="fab fa-github"></i>
+                                            </a>
+                                        {% endif %}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </li>
                     {% endif %}
                 {% endfor %}
-            </div>
+            </ul>
             
             <!-- Pagination -->
             {% if projects.has_other_pages %}
@@ -431,14 +541,7 @@
                     <h3 class="text-2xl font-bold text-base-content mb-4">
                         {% trans "Nenhum projeto encontrado" %}
                     </h3>
-                    <p class="text-base-content/70 mb-6">
-                        {% trans "Tente ajustar os filtros ou volte para ver todos os projetos." %}
-                    </p>
-                    <a href="{% url 'portfolio:projects' %}" 
-                       class="btn btn-primary">
-                        <i class="fas fa-arrow-left mr-2"></i>
-                        {% trans "Ver Todos os Projetos" %}
-                    </a>
+                  
                 </div>
             </div>
         {% endif %}

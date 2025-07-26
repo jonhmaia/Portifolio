@@ -38,39 +38,16 @@
 <div class="min-h-screen bg-base-200">
     <div class="admin-container">
         <div class="admin-card">
-          
-
-            <!-- Filtros e Busca -->
-            <div class="admin-filters">
-                <div class="admin-search-group">
-                    <label class="admin-label">Buscar projetos</label>
-                    <div class="admin-input-group">
-                        <i class="fas fa-search"></i>
-                        <input type="text" name="search" placeholder="Buscar por título..." 
-                               class="admin-input" value="{{ current_search|default:'' }}">
-                    </div>
-                </div>
-                <div class="admin-filter-group">
-                    <label class="admin-label">Filtrar por status</label>
-                    <select name="status" class="admin-select">
-                        <option value="">Todos os status</option>
-                        {% for value, label in status_choices %}
-                            <option value="{{ value }}" {% if current_status_filter == value %}selected{% endif %}>
-                                {{ label }}
-                            </option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="admin-actions-inline">
-                    <button type="submit" class="admin-btn admin-btn-outline">
-                        <i class="fas fa-search"></i>
-                        <span>Filtrar</span>
-                    </button>
-                    <a href="{% url 'portfolio:manage_projects' %}" class="admin-btn admin-btn-ghost">
-                        <i class="fas fa-times"></i>
-                        <span>Limpar</span>
-                    </a>
-                </div>
+            <!-- Botões de Ação -->
+            <div class="admin-actions" style="margin-bottom: 2rem; text-align: right; display: flex; gap: 1rem; justify-content: flex-end;">
+                <button onclick="openTechnologyModal()" class="admin-btn admin-btn-secondary">
+                    <i class="fas fa-cog"></i>
+                    <span>Criar Tecnologia</span>
+                </button>
+                <a href="{% url 'portfolio:create_project' %}" class="admin-btn admin-btn-primary">
+                    <i class="fas fa-plus"></i>
+                    <span>Criar Projeto</span>
+                </a>
             </div>
 
             <!-- Tabela de Projetos -->
@@ -173,12 +150,75 @@
                     </div>
                 {% endif %}
             </div>
+            
+            <!-- Seção de Tecnologias -->
+            <div class="admin-card" style="margin-top: 2rem;">
+                <h2 class="admin-card-title">Gerenciar Tecnologias</h2>
+                
+                <div class="admin-table-container">
+                    {% if technologies %}
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Ícone</th>
+                                    <th>Preview</th>
+                                    <th class="text-center">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for tech in technologies %}
+                                <tr>
+                                    <td>
+                                        <div class="admin-table-title">{{ tech.nome }}</div>
+                                    </td>
+                                    <td>
+                                        {% if tech.icone %}
+                                            <code class="text-sm bg-base-200 px-2 py-1 rounded">{{ tech.icone }}</code>
+                                        {% else %}
+                                            <span class="text-base-content/50">Sem ícone</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <span class="tech-badge-preview">
+                                            {% if tech.icone %}
+                                                <i class="{{ tech.icone }}"></i>
+                                            {% else %}
+                                                <i class="fas fa-code"></i>
+                                            {% endif %}
+                                            <span>{{ tech.nome }}</span>
+                                        </span>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="admin-table-actions">
+                                            <button onclick="deleteTechnology({{ tech.id }}, '{{ tech.nome|escapejs }}')"
+                                                    class="admin-btn-icon admin-btn-icon-danger" title="Excluir">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <div class="admin-empty-state">
+                            <i class="fas fa-cog"></i>
+                            <h3>Nenhuma tecnologia encontrada</h3>
+                            <button onclick="openTechnologyModal()" class="admin-btn admin-btn-primary">
+                                <i class="fas fa-plus"></i>
+                                <span>Criar Primeira Tecnologia</span>
+                            </button>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Modal de Confirmação de Exclusão -->
+<!-- Modal de Confirmação de Exclusão de Projeto -->
 <dialog id="delete_modal" class="modal">
     <div class="modal-box">
         <h3 class="font-bold text-lg">Confirmar Exclusão</h3>
@@ -191,14 +231,220 @@
     </div>
 </dialog>
 
+<!-- Modal de Confirmação de Exclusão de Tecnologia -->
+<dialog id="delete_technology_modal" class="modal">
+    <div class="modal-box">
+        <h3 class="font-bold text-lg">Confirmar Exclusão de Tecnologia</h3>
+        <p class="py-4">Tem certeza que deseja excluir a tecnologia <strong id="technology_name"></strong>?</p>
+        <p class="text-sm text-warning">Esta ação não pode ser desfeita.</p>
+        <div class="modal-action">
+            <button class="btn" onclick="document.getElementById('delete_technology_modal').close()">Cancelar</button>
+            <button id="confirm_delete_technology" class="btn btn-error">Excluir</button>
+        </div>
+    </div>
+</dialog>
+
+<!-- Modal de Criar Tecnologia -->
+<dialog id="technology_modal" class="modal">
+    <div class="modal-box">
+        <h3 class="font-bold text-lg">Criar Nova Tecnologia</h3>
+        <form id="technology_form" class="py-4">
+            <div class="form-control w-full mb-4">
+                <label class="label">
+                    <span class="label-text">Nome da Tecnologia *</span>
+                </label>
+                <input type="text" id="tech_name" placeholder="Ex: React, Python, Django..." 
+                       class="input input-bordered w-full" required oninput="updateIconPreview()">
+            </div>
+            
+            <div class="form-control w-full mb-4">
+                <label class="label">
+                    <span class="label-text">Ícone (Font Awesome)</span>
+                </label>
+                <input type="text" id="tech_icon" placeholder="Ex: fab fa-react, fab fa-python..." 
+                       class="input input-bordered w-full" oninput="updateIconPreview()">
+                <label class="label">
+                    <span class="label-text-alt">Opcional: Use classes do Font Awesome</span>
+                </label>
+            </div>
+            
+            <!-- Preview da Tecnologia -->
+            <div class="form-control w-full mb-4">
+                <label class="label">
+                    <span class="label-text">Preview (como aparecerá nos cards)</span>
+                </label>
+                <div class="p-4 bg-base-200 rounded-lg">
+                    <span id="tech_preview" class="tech-badge-preview">
+                        <i id="preview_icon" class="fas fa-code"></i>
+                        <span id="preview_name">Nome da Tecnologia</span>
+                    </span>
+                </div>
+            </div>
+        </form>
+        
+        <div class="modal-action">
+            <button class="btn" onclick="closeTechnologyModal()">Cancelar</button>
+            <button id="create_technology_btn" class="btn btn-primary" onclick="createTechnology()">
+                <span class="loading loading-spinner loading-sm hidden" id="tech_loading"></span>
+                Criar Tecnologia
+            </button>
+        </div>
+    </div>
+</dialog>
+
 {% csrf_token %}
+<input type="hidden" id="csrf-token" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+<style>
+/* Estilo para o preview da tecnologia no modal */
+.tech-badge-preview {
+    background: linear-gradient(135deg, #516973 0%, #92A4A6 100%);
+    color: #0D0D0D;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    border: 1px solid #92A4A6;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+/* Estilos adicionais para preview das tecnologias na tabela */
+.tech-badge-preview i {
+    font-size: 1rem;
+}
+
+/* Estilos removidos para evitar conflito com DaisyUI */
+</style>
 <script>
 let projectToDelete = null;
+let technologyToDelete = null;
 
 function deleteProject(projectId, projectName) {
     projectToDelete = projectId;
     document.getElementById('project_name').textContent = projectName;
     document.getElementById('delete_modal').showModal();
+}
+
+function deleteTechnology(technologyId, technologyName) {
+    console.log('deleteTechnology called with:', technologyId, technologyName);
+    try {
+        technologyToDelete = technologyId;
+        const techNameElement = document.getElementById('technology_name');
+        const modalElement = document.getElementById('delete_technology_modal');
+        
+        console.log('techNameElement:', techNameElement);
+        console.log('modalElement:', modalElement);
+        
+        if (techNameElement) {
+            techNameElement.textContent = technologyName;
+        } else {
+            console.error('Element technology_name not found');
+        }
+        
+        if (modalElement) {
+            modalElement.showModal();
+        } else {
+            console.error('Element delete_technology_modal not found');
+        }
+    } catch (error) {
+        console.error('Error in deleteTechnology:', error);
+    }
+}
+
+// Funções para o modal de tecnologia
+function openTechnologyModal() {
+    document.getElementById('technology_modal').showModal();
+    document.getElementById('tech_name').focus();
+    updateIconPreview(); // Atualizar preview ao abrir o modal
+}
+
+function closeTechnologyModal() {
+    document.getElementById('technology_modal').close();
+    document.getElementById('technology_form').reset();
+    document.getElementById('tech_loading').classList.add('hidden');
+    document.getElementById('create_technology_btn').disabled = false;
+    // Resetar preview
+    document.getElementById('preview_name').textContent = 'Nome da Tecnologia';
+    document.getElementById('preview_icon').className = 'fas fa-code';
+}
+
+function createTechnology() {
+    console.log('createTechnology function called');
+    
+    const name = document.getElementById('tech_name').value.trim();
+    const icon = document.getElementById('tech_icon').value.trim();
+    
+    console.log('Name:', name, 'Icon:', icon);
+    
+    if (!name) {
+        alert('Nome da tecnologia é obrigatório!');
+        return;
+    }
+    
+    // Mostrar loading
+    document.getElementById('tech_loading').classList.remove('hidden');
+    document.getElementById('create_technology_btn').disabled = true;
+    
+    const csrftoken = document.getElementById('csrf-token').value;
+    console.log('CSRF Token:', csrftoken);
+    
+    const requestData = {
+        nome: name,
+        icone: icon
+    };
+    console.log('Request data:', requestData);
+    
+    fetch('/portfolio/ajax/create-technology/', {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': csrftoken,
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestData)
+    })
+    .then(response => {
+        console.log('Response status:', response.status);
+        console.log('Response headers:', response.headers);
+        return response.json();
+    })
+    .then(data => {
+        console.log('Response data:', data);
+        if (data.success) {
+            alert(`Tecnologia "${data.tecnologia.nome}" criada com sucesso!`);
+            closeTechnologyModal();
+            // Opcional: recarregar a página para mostrar a nova tecnologia
+            // location.reload();
+        } else {
+            alert('Erro ao criar tecnologia: ' + data.error);
+        }
+    })
+    .catch(error => {
+        console.error('Fetch error:', error);
+        alert('Erro ao criar tecnologia: ' + error.message);
+    })
+    .finally(() => {
+        document.getElementById('tech_loading').classList.add('hidden');
+        document.getElementById('create_technology_btn').disabled = false;
+    });
+}
+
+// Função para atualizar o preview da tecnologia
+function updateIconPreview() {
+    const name = document.getElementById('tech_name').value.trim();
+    const icon = document.getElementById('tech_icon').value.trim();
+    
+    // Atualizar nome no preview
+    const previewName = document.getElementById('preview_name');
+    previewName.textContent = name || 'Nome da Tecnologia';
+    
+    // Atualizar ícone no preview
+    const previewIcon = document.getElementById('preview_icon');
+    if (icon) {
+        previewIcon.className = icon;
+    } else {
+        previewIcon.className = 'fas fa-code';
+    }
 }
 
 function getCookie(name) {
@@ -216,31 +462,70 @@ function getCookie(name) {
     return cookieValue;
 }
 
-document.getElementById('confirm_delete').addEventListener('click', function() {
-    if (projectToDelete) {
-        const csrftoken = getCookie('csrftoken');
-        
-        fetch(`/portfolio/delete/${projectToDelete}/`, {
-            method: 'POST',
-            headers: {
-                'X-CSRFToken': csrftoken,
-                'Content-Type': 'application/json',
-            },
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                location.reload();
-            } else {
-                alert('Erro ao excluir projeto: ' + (data.error || 'Erro desconhecido'));
+// Aguardar o DOM ser carregado antes de adicionar event listeners
+document.addEventListener('DOMContentLoaded', function() {
+    // Event listener para exclusão de projeto
+    const confirmDeleteBtn = document.getElementById('confirm_delete');
+    if (confirmDeleteBtn) {
+        confirmDeleteBtn.addEventListener('click', function() {
+            if (projectToDelete) {
+                const csrftoken = document.getElementById('csrf-token').value;
+                
+                fetch(`/portfolio/delete/${projectToDelete}/`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': csrftoken,
+                        'Content-Type': 'application/json',
+                    },
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        location.reload();
+                    } else {
+                        alert('Erro ao excluir projeto: ' + (data.error || 'Erro desconhecido'));
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Erro ao excluir projeto');
+                });
+                
+                document.getElementById('delete_modal').close();
             }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Erro ao excluir projeto');
         });
-        
-        document.getElementById('delete_modal').close();
+    }
+    
+    // Event listener para exclusão de tecnologia
+    const confirmDeleteTechBtn = document.getElementById('confirm_delete_technology');
+    if (confirmDeleteTechBtn) {
+        confirmDeleteTechBtn.addEventListener('click', function() {
+            if (technologyToDelete) {
+                const csrftoken = document.getElementById('csrf-token').value;
+                
+                fetch(`/portfolio/ajax/delete-technology/${technologyToDelete}/`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': csrftoken,
+                        'Content-Type': 'application/json',
+                    },
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        location.reload();
+                    } else {
+                        alert('Erro ao excluir tecnologia: ' + (data.error || 'Erro desconhecido'));
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Erro ao excluir tecnologia');
+                });
+                
+                document.getElementById('delete_technology_modal').close();
+            }
+        });
     }
 });
 </script>

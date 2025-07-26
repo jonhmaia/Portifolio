@@ -1,0 +1,237 @@
+.form-container {
+    background: linear-gradient(135deg, #152026 0%, #253840 100%);
+    min-height: 100vh;
+    padding: 2rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.form-card {
+    background: #152026;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.form-header {
+    background: linear-gradient(135deg, #152026 0%, #253840 100%);
+    color: white;
+    padding: 2rem;
+    text-align: center;
+}
+
+.form-body {
+    padding: 2rem;
+    background: linear-gradient(135deg, #92A4A6 0%, #516973 100%);
+    border-radius: 0 0 20px 20px;
+}
+
+.form-section {
+    background: #253840;
+    border-radius: 15px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    border-left: 4px solid #92A4A6;
+    box-shadow: 0 4px 15px rgba(21, 32, 38, 0.1);
+}
+
+.section-title {
+    color: #152026;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.form-control, .form-select {
+    border: 2px solid #e9ecef;
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #152026;
+    box-shadow: 0 0 0 0.2rem rgba(21, 32, 38, 0.25);
+}
+
+.char-counter {
+    font-size: 0.875rem;
+    color: #6c757d;
+    text-align: right;
+    margin-top: 0.25rem;
+}
+
+.char-counter.warning {
+    color: #ffc107;
+}
+
+.char-counter.danger {
+    color: #dc3545;
+}
+
+.tech-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.tech-item {
+    background: #253840;
+    border: 2px solid #516973;
+    border-radius: 10px;
+    padding: 1rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.tech-item:hover {
+    border-color: #152026;
+    transform: translateY(-2px);
+}
+
+.tech-item.selected {
+    border-color: #152026;
+    background: #92A4A6;
+    color: #0D0D0D;
+}
+
+.tech-item label {
+    flex-grow: 1;
+}
+
+.tech-checkbox {
+    margin-right: 0.5rem;
+}
+
+.preview-btn {
+    background: linear-gradient(135deg, #152026 0%, #253840 100%);
+    border: none;
+    color: white;
+    padding: 0.75rem 2rem;
+    border-radius: 50px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.preview-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(21, 32, 38, 0.3);
+}
+
+.save-btn {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    border: none;
+    color: white;
+    padding: 1rem 3rem;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+}
+
+.save-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(40, 167, 69, 0.3);
+}
+
+.image-upload-area {
+    border: 2px dashed #152026;
+    border-radius: 15px;
+    padding: 2rem;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.8);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+}
+
+.image-upload-area:hover {
+    border-color: #253840;
+    background: rgba(146, 74, 166, 0.1);
+}
+
+#id_imagem_principal {
+    display: none;
+}
+
+.image-preview-container {
+    margin-top: 1rem;
+    position: relative;
+}
+
+.image-preview {
+    max-width: 100%;
+    max-height: 200px;
+    border-radius: 10px;
+    margin-top: 1rem;
+}
+
+.remove-image-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(0,0,0,0.5);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    font-size: 1.2rem;
+    line-height: 1;
+    cursor: pointer;
+    display: none; /* Hidden by default */
+}
+
+
+.modal-content {
+    border-radius: 20px;
+    border: none;
+}
+
+.modal-header {
+    background: linear-gradient(135deg, #152026 0%, #253840 100%);
+    color: white;
+    border-radius: 20px 20px 0 0;
+}
+
+.btn-close {
+    filter: invert(1);
+}
+
+.status-badge {
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 0.875rem;
+    transition: all 0.3s ease;
+}
+
+.status-desenvolvimento {
+    background: rgba(37, 56, 64, 0.1);
+    color: #253840;
+    border: 1px solid #253840;
+}
+
+.status-concluido {
+    background: rgba(81, 105, 115, 0.1);
+    color: #516973;
+    border: 1px solid #516973;
+}
+
+.status-pausado {
+    background: rgba(146, 74, 166, 0.1);
+    color: #924aa6;
+    border: 1px solid #924aa6;
+}
+
+.status-arquivado {
+    background: rgba(13, 13, 13, 0.1);
+    color: #0D0D0D;
+    border: 1px solid #0D0D0D;
+}

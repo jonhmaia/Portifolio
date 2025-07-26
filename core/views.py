@@ -10,7 +10,7 @@ def is_superuser(user):
 def home(request):
     """View para a página inicial do portfólio"""
     # Buscar projetos em destaque (ativos e marcados como destaque)
-    featured_projects = Projeto.objects.filter(ativo=True, destaque=True).prefetch_related('tecnologias').order_by('ordem', '-data_criacao')
+    featured_projects = Projeto.objects.filter(ativo=True, destaque=True).prefetch_related('tecnologias', 'imagens').order_by('ordem', '-data_criacao')
     
     context = {
         'page_title': 'Home',

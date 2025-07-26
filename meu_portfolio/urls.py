@@ -24,6 +24,9 @@ from django.contrib.sitemaps.views import sitemap
 from django.views.generic import TemplateView
 from django.http import HttpResponse
 from core.sitemaps import StaticViewSitemap, ProjectSitemap, ArticleSitemap
+import logging
+
+logger = logging.getLogger(__name__)
 
 # Configuração dos sitemaps
 sitemaps = {
