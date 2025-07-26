@@ -64,7 +64,7 @@ INSTALLED_APPS = [
     
     # Third party apps
     'tailwind',
-    'widget_tweaks',
+    'django_widget_tweaks',
     'jedi',
     
     # Local apps

@@ -165,6 +165,14 @@
     background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjEiIGhlaWdodD0iMTUiIHZpZXdCb3g9IjAgMCAyMSAxNSIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjIxIiBoZWlnaHQ9IjE1IiBmaWxsPSIjQjIyMjM0Ii8+CjxyZWN0IHdpZHRoPSIyMSIgaGVpZ2h0PSIxLjE1NCIgZmlsbD0iI0ZGRkZGRiIvPgo8cmVjdCB5PSIyLjMwOCIgd2lkdGg9IjIxIiBoZWlnaHQ9IjEuMTU0IiBmaWxsPSIjRkZGRkZGIi8+CjxyZWN0IHk9IjQuNjE1IiB3aWR0aD0iMjEiIGhlaWdodD0iMS4xNTQiIGZpbGw9IiNGRkZGRkYiLz4KPHJlY3QgeT0iNi45MjMiIHdpZHRoPSIyMSIgaGVpZ2h0PSIxLjE1NCIgZmlsbD0iI0ZGRkZGRiIvPgo8cmVjdCB5PSI5LjIzMSIgd2lkdGg9IjIxIiBoZWlnaHQ9IjEuMTU0IiBmaWxsPSIjRkZGRkZGIi8+CjxyZWN0IHk9IjExLjUzOCIgd2lkdGg9IjIxIiBoZWlnaHQ9IjEuMTU0IiBmaWxsPSIjRkZGRkZGIi8+CjxyZWN0IHk9IjEzLjg0NiIgd2lkdGg9IjIxIiBoZWlnaHQ9IjEuMTU0IiBmaWxsPSIjRkZGRkZGIi8+CjxyZWN0IHdpZHRoPSI5IiBoZWlnaHQ9IjguMDc3IiBmaWxsPSIjM0MzQjZFIi8+Cjwvc3ZnPgo=');
 }
 
+/* Sci-Fi Font for H1 Elements */
+.sci-fi-font {
+    font-family: 'Orbitron', monospace;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
 /* Advanced Effects CSS */
 
 /* Typing Animation */
