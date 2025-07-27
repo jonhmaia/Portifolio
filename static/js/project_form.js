@@ -119,10 +119,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const techPreview = document.getElementById('preview-tecnologias');
                 if(techPreview) techPreview.textContent = techNames.join(', ');
 
-                const startDate = document.getElementById('preview-data-inicio');
-                if(startDate) startDate.textContent = document.getElementById('id_data_inicio').value || 'Não definida';
-                const endDate = document.getElementById('preview-data-conclusao');
-                if(endDate) endDate.textContent = document.getElementById('id_data_conclusao').value || 'Não definida';
+
                 
                 const repoLink = document.getElementById('preview-link-repositorio');
                 const repoUrl = document.getElementById('id_link_repositorio').value;
@@ -158,4 +155,158 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     }
+
+    // Gallery Management
+    const addGalleryBtn = document.getElementById('add-gallery-image');
+    const galleryContainer = document.getElementById('gallery-images-container');
+    const galleryTemplate = document.querySelector('.gallery-item-template');
+    
+    function setupGalleryItem(item) {
+        const fileInput = item.querySelector('.gallery-file-input');
+        const uploadLabel = item.querySelector('.gallery-upload-label');
+        const preview = item.querySelector('.gallery-preview');
+        const removeBtn = item.querySelector('.remove-gallery-item');
+        const uploadArea = item.querySelector('.gallery-upload-area');
+        
+        // File input change handler
+        if (fileInput) {
+            fileInput.addEventListener('change', function() {
+                if (this.files && this.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        if (preview) {
+                            preview.src = e.target.result;
+                            preview.classList.remove('d-none');
+                        }
+                        if (uploadLabel) {
+                            uploadLabel.style.display = 'none';
+                        }
+                    };
+                    reader.readAsDataURL(this.files[0]);
+                }
+            });
+            
+            // Upload area click handler
+            if (uploadArea) {
+                uploadArea.addEventListener('click', function() {
+                    fileInput.click();
+                });
+            }
+        }
+        
+        // Remove button handler
+        if (removeBtn) {
+            removeBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                if (confirm('Tem certeza que deseja remover esta imagem?')) {
+                    removeGalleryItem(this);
+                }
+            });
+        }
+    }
+    
+    if (addGalleryBtn && galleryContainer && galleryTemplate) {
+        let galleryItemCount = galleryContainer.children.length;
+        
+        // Add new gallery item
+        addGalleryBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const newItem = galleryTemplate.cloneNode(true);
+            newItem.classList.remove('gallery-item-template', 'd-none');
+            
+            // Os nomes dos campos já estão corretos como arrays
+            // gallery_images[], gallery_description[], gallery_order[]
+            
+            galleryContainer.appendChild(newItem);
+            galleryItemCount++;
+            
+            setupGalleryItem(newItem);
+        });
+        
+        // Setup existing gallery items
+        document.querySelectorAll('.gallery-item:not(.gallery-item-template)').forEach(item => {
+            setupGalleryItem(item);
+        });
+    }
+    
+    // Função global para remover item da galeria
+    window.removeGalleryItem = function(button, imageId = null) {
+        const galleryItem = button.closest('.gallery-item');
+        
+        if (imageId || galleryItem.dataset.imageId) {
+            // Marcar imagem existente para remoção
+            const hiddenInput = document.createElement('input');
+            hiddenInput.type = 'hidden';
+            hiddenInput.name = 'removed_images';
+            hiddenInput.value = imageId || galleryItem.dataset.imageId;
+            document.querySelector('form').appendChild(hiddenInput);
+        }
+        
+        galleryItem.remove();
+    };
+
+    // Função para marcar imagem para exclusão
+    window.markImageForDeletion = function(button) {
+        const galleryItem = button.closest('.gallery-item');
+        const imageId = galleryItem.dataset.imageId;
+        const deletionOverlay = galleryItem.querySelector('.deletion-overlay');
+        const imagesToDeleteInput = document.getElementById('images_to_delete');
+        
+        if (imageId && deletionOverlay && imagesToDeleteInput) {
+            // Adicionar ID à lista de imagens para exclusão
+            let imagesToDelete = imagesToDeleteInput.value ? imagesToDeleteInput.value.split(',') : [];
+            if (!imagesToDelete.includes(imageId)) {
+                imagesToDelete.push(imageId);
+                imagesToDeleteInput.value = imagesToDelete.join(',');
+            }
+            
+            // Mostrar overlay de exclusão
+            deletionOverlay.style.display = 'flex';
+            galleryItem.classList.add('marked-for-deletion');
+        }
+    };
+
+    // Função para desfazer marcação de exclusão
+    window.undoImageDeletion = function(button) {
+        const galleryItem = button.closest('.gallery-item');
+        const imageId = galleryItem.dataset.imageId;
+        const deletionOverlay = galleryItem.querySelector('.deletion-overlay');
+        const imagesToDeleteInput = document.getElementById('images_to_delete');
+        
+        if (imageId && deletionOverlay && imagesToDeleteInput) {
+            // Remover ID da lista de imagens para exclusão
+            let imagesToDelete = imagesToDeleteInput.value ? imagesToDeleteInput.value.split(',') : [];
+            imagesToDelete = imagesToDelete.filter(id => id !== imageId);
+            imagesToDeleteInput.value = imagesToDelete.join(',');
+            
+            // Esconder overlay de exclusão
+            deletionOverlay.style.display = 'none';
+            galleryItem.classList.remove('marked-for-deletion');
+        }
+    };
+
+    // Setup dos botões de exclusão para imagens existentes
+    document.querySelectorAll('.remove-gallery-btn').forEach(button => {
+        const galleryItem = button.closest('.gallery-item');
+        if (galleryItem && galleryItem.dataset.imageId) {
+            // Para imagens existentes, usar marcação para exclusão
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                markImageForDeletion(this);
+            });
+        }
+    });
+
+    // Setup dos botões de desfazer exclusão
+    document.querySelectorAll('.undo-deletion-btn').forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            undoImageDeletion(this);
+        });
+    });
 });

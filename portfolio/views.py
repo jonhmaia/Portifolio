@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import user_passes_test
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST, require_http_methods
-from .models import Projeto, Tecnologia
+from .models import Projeto, Tecnologia, ImagemProjeto
 from .forms import ProjetoAdminForm
 from core.seo import get_seo_context
 import json
@@ -110,6 +110,10 @@ def create_project(request):
         form = ProjetoAdminForm(request.POST, request.FILES)
         if form.is_valid():
             project = form.save()
+            
+            # Processar galeria de imagens
+            process_gallery_images(request, project)
+            
             messages.success(request, f'Projeto "{project.titulo}" criado com sucesso!')
             return redirect('portfolio:manage_projects')
         else:
@@ -133,6 +137,10 @@ def edit_project(request, project_id):
         form = ProjetoAdminForm(request.POST, request.FILES, instance=project)
         if form.is_valid():
             project = form.save()
+            
+            # Processar galeria de imagens
+            process_gallery_images(request, project)
+            
             messages.success(request, f'Projeto "{project.titulo}" atualizado com sucesso!')
             return redirect('portfolio:manage_projects')
         else:
@@ -231,5 +239,53 @@ def delete_technology_ajax(request, technology_id):
         
     except Exception as e:
         return JsonResponse({'success': False, 'error': str(e)})
+
+def process_gallery_images(request, project):
+    """Processa as imagens da galeria do projeto"""
+    # Processar remoções de imagens existentes
+    removed_images = request.POST.getlist('removed_images')
+    if removed_images:
+        ImagemProjeto.objects.filter(id__in=removed_images, projeto=project).delete()
+    
+    # Processar imagens marcadas para exclusão
+    images_to_delete = request.POST.get('images_to_delete', '')
+    if images_to_delete:
+        image_ids = [id.strip() for id in images_to_delete.split(',') if id.strip()]
+        if image_ids:
+            ImagemProjeto.objects.filter(id__in=image_ids, projeto=project).delete()
+    
+    # Processar atualizações de imagens existentes
+    existing_ids = request.POST.getlist('existing_gallery_ids')
+    existing_descriptions = request.POST.getlist('existing_gallery_descriptions')
+    existing_orders = request.POST.getlist('existing_gallery_orders')
+    
+    for i, img_id in enumerate(existing_ids):
+        if img_id:
+            try:
+                img_obj = ImagemProjeto.objects.get(id=img_id, projeto=project)
+                if i < len(existing_descriptions):
+                    img_obj.legenda = existing_descriptions[i]
+                if i < len(existing_orders) and existing_orders[i]:
+                    img_obj.ordem = int(existing_orders[i]) if str(existing_orders[i]).isdigit() else 0
+                img_obj.save()
+            except ImagemProjeto.DoesNotExist:
+                pass
+    
+    # Processar novas imagens
+    gallery_images = request.FILES.getlist('gallery_images[]')
+    gallery_descriptions = request.POST.getlist('gallery_description[]')
+    gallery_orders = request.POST.getlist('gallery_order[]')
+    
+    for i, image_file in enumerate(gallery_images):
+        if image_file:
+            description = gallery_descriptions[i] if i < len(gallery_descriptions) else ''
+            order = gallery_orders[i] if i < len(gallery_orders) and gallery_orders[i] else 0
+            
+            ImagemProjeto.objects.create(
+                projeto=project,
+                imagem=image_file,
+                legenda=description,
+                ordem=int(order) if str(order).isdigit() else 0
+            )
 
 # Views de autenticação removidas - usando login unificado

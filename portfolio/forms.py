@@ -41,14 +41,7 @@ class ProjetoAdminForm(forms.ModelForm):
             'status': forms.Select(attrs={
                 'class': 'form-select'
             }),
-            'data_inicio': forms.DateInput(attrs={
-                'class': 'form-control',
-                'type': 'date'
-            }),
-            'data_conclusao': forms.DateInput(attrs={
-                'class': 'form-control',
-                'type': 'date'
-            }),
+
             'ordem': forms.NumberInput(attrs={
                 'class': 'form-control',
                 'min': 0,
@@ -72,6 +65,8 @@ class ProjetoAdminForm(forms.ModelForm):
         # Customizar o campo de tecnologias
         self.fields['tecnologias'].widget = forms.CheckboxSelectMultiple(attrs={'class': 'tech-checkbox'})
         self.fields['tecnologias'].queryset = Tecnologia.objects.filter(ativo=True).order_by('categoria', 'nome')
+        
+
         
         # Adicionar classes CSS aos campos
         for field_name, field in self.fields.items():
@@ -121,16 +116,7 @@ class ProjetoAdminForm(forms.ModelForm):
                 raise ValidationError('O link do deploy deve começar com http:// ou https://')
         return link
         
-    def clean(self):
-        cleaned_data = super().clean()
-        data_inicio = cleaned_data.get('data_inicio')
-        data_conclusao = cleaned_data.get('data_conclusao')
-        
-        if data_inicio and data_conclusao:
-            if data_inicio > data_conclusao:
-                raise ValidationError('A data de início não pode ser posterior à data de conclusão.')
-                
-        return cleaned_data
+
 
 class TecnologiaAdminForm(forms.ModelForm):
     """Formulário customizado para o admin de Tecnologias"""

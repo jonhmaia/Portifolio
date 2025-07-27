@@ -46,8 +46,7 @@ class Projeto(models.Model):
         ('arquivado', 'Arquivado'),
     ], default='desenvolvimento')
     ativo = models.BooleanField(default=True, verbose_name='Ativo', help_text="Marque para exibir o projeto no site")
-    data_inicio = models.DateField(verbose_name='Data de Início', default=timezone.now)
-    data_conclusao = models.DateField(blank=True, null=True, verbose_name='Data de Conclusão')
+
     data_criacao = models.DateTimeField(auto_now_add=True, verbose_name='Data de Criação')
     data_atualizacao = models.DateTimeField(auto_now=True, verbose_name='Última Atualização')
     

@@ -28,9 +28,7 @@ class ProjetoModelTest(TestCase):
         projeto = Projeto.objects.create(
             titulo='Projeto Teste',
             descricao_completa='Descrição completa do projeto teste',
-            status='concluido',
-            data_inicio=date.today() - timedelta(days=30),
-            data_conclusao=date.today()
+            status='concluido'
         )
         
         self.assertEqual(projeto.titulo, 'Projeto Teste')
@@ -106,8 +104,7 @@ class ProjetoFormTest(TestCase):
             'status': 'concluido',
             'link_repositorio': 'https://github.com/usuario/projeto',
             'link_deploy': 'https://projeto.vercel.app',
-            'data_inicio': date.today() - timedelta(days=30),
-            'data_conclusao': date.today(),
+
             'ordem': 1,
             'ativo': True,
             'destaque': False,
@@ -164,18 +161,7 @@ class ProjetoFormTest(TestCase):
         self.assertFalse(form.is_valid())
         self.assertIn('link_repositorio', form.errors)
         
-    def test_form_datas_invalidas(self):
-        """Teste validação de datas inválidas"""
-        form_data = {
-            'titulo': 'Projeto Teste',
-            'descricao_completa': 'Descrição completa',
-            'data_inicio': date.today(),
-            'data_conclusao': date.today() - timedelta(days=1)  # Data de conclusão anterior ao início
-        }
-        
-        form = ProjetoAdminForm(data=form_data)
-        self.assertFalse(form.is_valid())
-        self.assertIn('__all__', form.errors)
+
 
 class ProjetoViewTest(TestCase):
     """Testes para as views do portfolio"""
@@ -273,7 +259,7 @@ class ProjetoViewTest(TestCase):
             'destaque': False,
             'tecnologias': [self.tecnologia.id],
             'imagem_principal': test_image,
-            'data_inicio': timezone.now().date()
+
         }
         
         response = self.client.post(
@@ -328,7 +314,7 @@ class ProjetoViewTest(TestCase):
             'ativo': True,
             'destaque': True,
             'tecnologias': [self.tecnologia.id],
-            'data_inicio': timezone.now().date()
+
         }
         
         response = self.client.post(
@@ -431,7 +417,7 @@ class IntegrationTest(TestCase):
             'ativo': True,
             'destaque': True,
             'tecnologias': [tecnologia.id],
-            'data_inicio': timezone.now().date()
+
         }
         
         # Criar projeto

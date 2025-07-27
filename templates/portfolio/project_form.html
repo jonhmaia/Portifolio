@@ -152,6 +152,85 @@
                                 {% endif %}
                             </div>
                             
+                            <!-- Galeria de Imagens -->
+                            <div class="form-section">
+                                <h3 class="section-title">
+                                    <i class="fas fa-images"></i>
+                                    Galeria de Imagens
+                                </h3>
+                                
+                                <div class="gallery-manager">
+                                    <div class="gallery-header mb-3">
+                                        <button type="button" class="btn btn-outline-primary" id="add-gallery-image">
+                                            <i class="fas fa-plus me-2"></i>Adicionar Imagem
+                                        </button>
+                                        <small class="text-muted ms-3">Adicione imagens para criar uma galeria interativa</small>
+                                    </div>
+                                    
+                                    <div id="gallery-images-container">
+                                        {% if project and project.imagens.all %}
+                                            {% for img in project.imagens.all %}
+                                                <div class="gallery-item existing-item" data-image-id="{{ img.id }}">
+                                                    <div class="gallery-image">
+                                                        <img src="{{ img.imagem.url }}" alt="{{ img.legenda }}">
+                                                        <button type="button" class="remove-gallery-btn" onclick="markImageForDeletion(this, {{ img.id }})">
+                                                            <i class="fas fa-times"></i>
+                                                        </button>
+                                                        <div class="deletion-overlay">
+                                                            <div class="deletion-message">
+                                                                <i class="fas fa-trash"></i>
+                                                                <span>Marcado para exclusão</span>
+                                                            </div>
+                                                            <button type="button" class="undo-deletion-btn" onclick="undoImageDeletion(this)">
+                                                                Desfazer
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <input type="text" name="existing_gallery_descriptions" value="{{ img.legenda }}" placeholder="Descrição da imagem" class="form-control">
+                                                    <input type="number" name="existing_gallery_orders" value="{{ img.ordem }}" placeholder="Ordem" class="form-control" min="0">
+                                                    <input type="hidden" name="existing_gallery_ids" value="{{ img.id }}">
+                                                </div>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </div>
+                                    
+                                    <!-- Campo hidden para rastrear imagens marcadas para exclusão -->
+                                    <input type="hidden" name="images_to_delete" id="images_to_delete" value="">
+                                    
+                                    <div class="gallery-item-template d-none">
+                                        <div class="gallery-item">
+                                            <div class="gallery-item-content">
+                                                <div class="gallery-item-image">
+                                                    <div class="gallery-upload-area">
+                                                        <input type="file" name="gallery_images[]" accept="image/*" class="d-none gallery-file-input">
+                                                        <label class="gallery-upload-label">
+                                                            <i class="fas fa-cloud-upload-alt fa-2x mb-2"></i>
+                                                            <span>Clique para selecionar</span>
+                                                        </label>
+                                                        <img class="gallery-preview d-none" alt="Preview">
+                                                    </div>
+                                                    <div class="gallery-item-overlay">
+                                                        <button type="button" class="btn btn-sm btn-danger remove-gallery-item">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class="gallery-item-form">
+                                                    <div class="mb-2">
+                                                        <label class="form-label fw-semibold">Descrição</label>
+                                                        <input type="text" name="gallery_description[]" class="form-control" placeholder="Descrição da imagem">
+                                                    </div>
+                                                    <div class="mb-2">
+                                                        <label class="form-label fw-semibold">Ordem</label>
+                                                        <input type="number" name="gallery_order[]" class="form-control" min="1" placeholder="1">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
                             <!-- Tecnologias -->
                             <div class="form-section">
                                 <h3 class="section-title">
@@ -215,43 +294,15 @@
                                 </div>
                             </div>
                             
-                            <!-- Datas e Configurações -->
+                            <!-- Configurações -->
                             <div class="form-section">
                                 <h3 class="section-title">
-                                    <i class="fas fa-calendar"></i>
-                                    Datas e Configurações
+                                    <i class="fas fa-cog"></i>
+                                    Configurações
                                 </h3>
                                 
                                 <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="mb-3">
-                                            <label for="id_data_inicio" class="form-label fw-semibold">
-                                                <i class="fas fa-play me-2"></i>Data de Início
-                                            </label>
-                                            {{ form.data_inicio }}
-                                            {% if form.data_inicio.errors %}
-                                                <div class="invalid-feedback d-block">
-                                                    {{ form.data_inicio.errors.0 }}
-                                                </div>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="col-md-4">
-                                        <div class="mb-3">
-                                            <label for="id_data_conclusao" class="form-label fw-semibold">
-                                                <i class="fas fa-flag-checkered me-2"></i>Data de Conclusão
-                                            </label>
-                                            {{ form.data_conclusao }}
-                                            {% if form.data_conclusao.errors %}
-                                                <div class="invalid-feedback d-block">
-                                                    {{ form.data_conclusao.errors.0 }}
-                                                </div>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="col-md-4">
+                                    <div class="col-md-12">
                                         <div class="mb-3">
                                             <label for="id_ordem" class="form-label fw-semibold">
                                                 <i class="fas fa-sort-numeric-down me-2"></i>Ordem de Exibição

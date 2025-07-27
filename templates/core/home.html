@@ -1525,7 +1525,7 @@ page_title }} - {% trans "Meu Portfólio" %}{% endblock %} {% block content %}
             <!-- Project Image -->
             <div class="card_image">
               {% if projeto.imagem_principal %}
-                 <img src="{{ project.imagem_principal.url }}" alt="{{ project.titulo }}">
+                 <img src="{{ projeto.imagem_principal.url }}" alt="{{ projeto.titulo }}">
               {% else %}
                 <img src="https://picsum.photos/500/300/?random={{ projeto.id }}" alt="{{ projeto.titulo }}">
               {% endif %}

@@ -85,10 +85,7 @@ class ProjetoAdmin(admin.ModelAdmin):
             'fields': ('destaque', 'ordem', 'ativo'),
             'description': 'Configure como o projeto será exibido no site'
         }),
-        ('Datas', {
-            'fields': ('data_inicio', 'data_conclusao'),
-            'classes': ('collapse',)
-        }),
+
         ('Informações do Sistema', {
             'fields': ('data_criacao', 'data_atualizacao'),
             'classes': ('collapse',)

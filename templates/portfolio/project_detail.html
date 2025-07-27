@@ -6,850 +6,596 @@
 
 {% block extra_css %}
 <style>
-/* Space Background */
-.space-background {
-    background: radial-gradient(ellipse at center, #253840 0%, #152026 50%, #0a0f12 100%);
-    position: relative;
-    overflow: hidden;
+/* Dark Theme Variables */
+:root {
+    --bg-primary: #1a1a1a;
+    --bg-secondary: #2a2a2a;
+    --bg-card: #333333;
+    --text-primary: #ffffff;
+    --text-secondary: #b0b0b0;
+    --text-muted: #808080;
+    --accent-blue: #4a9eff;
+    --accent-purple: #8b5cf6;
+    --border-color: #404040;
+    --hover-bg: #404040;
 }
 
-.stars-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
+/* Base Styles */
+body {
+    background: linear-gradient(135deg, #152026 0%, #253840 50%, #516973 100%);
+    color: var(--text-primary);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
 }
 
-.star {
-    position: absolute;
-    background: #92a4a6;
-    border-radius: 50%;
-    animation: twinkle 3s infinite;
-}
-
-@keyframes twinkle {
-    0%, 100% { opacity: 0.3; }
-    50% { opacity: 1; }
-}
-
-/* Dark Glass Effect */
-.dark-glass-effect {
-    background: rgba(31, 41, 55, 0.8);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(75, 85, 99, 0.3);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-}
-
-/* Neon Flicker Effect */
-.neon-flicker {
-    animation: neon-flicker 2s infinite alternate;
-}
-
-@keyframes neon-flicker {
-    0%, 100% { text-shadow: 0 0 5px rgba(147, 164, 166, 0.5); }
-    50% { text-shadow: 0 0 10px rgba(147, 164, 166, 0.8), 0 0 15px rgba(147, 164, 166, 0.6); }
-}
-
-/* Hero Section */
-.hero-section {
-    min-height: 80vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    position: relative;
-    padding: 4rem 0;
-}
-
-.hero-content {
+.container {
     max-width: 1200px;
     margin: 0 auto;
-    z-index: 10;
-    position: relative;
-}
-
-.hero-title {
-    font-size: 4rem;
-    font-weight: 800;
-    color: white;
-    margin-bottom: 1rem;
-    line-height: 1.1;
-}
-
-.hero-subtitle {
-    font-size: 1.5rem;
-    color: #92a4a6;
-    margin-bottom: 2rem;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.hero-buttons {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-bottom: 3rem;
-}
-
-.btn-primary-hero {
-    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-    color: white;
-    padding: 1rem 2rem;
-    border: none;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.btn-primary-hero:hover {
-    background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
-    transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
-    color: white;
-}
-
-.btn-secondary-hero {
-    background: rgba(75, 85, 99, 0.8);
-    color: white;
-    padding: 1rem 2rem;
-    border: 1px solid rgba(107, 114, 128, 0.5);
-    font-weight: 600;
-    transition: all 0.3s ease;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.btn-secondary-hero:hover {
-    background: rgba(107, 114, 128, 0.9);
-    border-color: rgba(147, 164, 166, 0.7);
-    color: white;
-}
-
-/* Stats Section */
-.stats-section {
-    padding: 4rem 0;
-    background: rgba(21, 32, 38, 0.5);
-}
-
-.stats-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 2rem;
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-.stat-card {
-    background: rgba(31, 41, 55, 0.8);
-    border: 1px solid rgba(75, 85, 99, 0.3);
     padding: 2rem;
-    text-align: center;
+    background: rgba(21, 32, 38, 0.8);
     backdrop-filter: blur(10px);
-    transition: all 0.3s ease;
-}
-
-.stat-card:hover {
-    border-color: rgba(147, 164, 166, 0.5);
-    transform: translateY(-2px);
-}
-
-.stat-number {
-    font-size: 2.5rem;
-    font-weight: 800;
-    color: #3b82f6;
-    margin-bottom: 0.5rem;
-}
-
-.stat-label {
-    color: #92a4a6;
-    font-weight: 500;
-}
-
-/* Project Images Grid */
-.images-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    margin: 3rem 0;
-}
-
-.image-card {
-    background: rgba(31, 41, 55, 0.8);
-    border: 1px solid rgba(75, 85, 99, 0.3);
-    overflow: hidden;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(10px);
-}
-
-.image-card:hover {
-    border-color: rgba(147, 164, 166, 0.5);
-    transform: translateY(-4px);
+    border-radius: 20px;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    margin-top: 2rem;
+    margin-bottom: 2rem;
 }
 
-.image-card img {
+/* Header Section */
+.project-header {
+    padding: 3rem 0;
+    background: transparent;
+    border-radius: 20px;
+    margin-bottom: 2rem;
+}
+
+.project-header-content {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    text-align: left;
+}
+
+.project-header-image {
+    flex-shrink: 0;
+    width: 120px;
+    height: 120px;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    border: 2px solid rgba(146, 164, 166, 0.3);
+}
+
+.project-header-image img {
     width: 100%;
-    height: 200px;
+    height: 100%;
     object-fit: cover;
     transition: transform 0.3s ease;
 }
 
-.image-card:hover img {
+.project-header-image:hover img {
     transform: scale(1.05);
 }
 
-.image-card-content {
-    padding: 1.5rem;
+.project-header-text {
+    flex: 1;
 }
 
-.image-card-title {
-    color: white;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-}
-
-.image-card-description {
-    color: #92a4a6;
-    font-size: 0.9rem;
-}
-
-/* Featured Section */
-.featured-section {
-    padding: 4rem 0;
-    background: rgba(10, 15, 18, 0.8);
-}
-
-.featured-title {
+.project-title {
     font-size: 2.5rem;
     font-weight: 700;
-    color: white;
-    text-align: center;
-    margin-bottom: 3rem;
+    margin-bottom: 1rem;
+    color: #ffffff;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
-/* Responsive */
+.project-subtitle {
+    font-size: 1.25rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 2rem;
+    text-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Main Content Layout */
+.main-content {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 40px;
+    padding: 40px 0;
+}
+
+/* Left Column - Description */
+.description-section {
+    background: rgba(146, 164, 166, 0.1);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.description-section:hover {
+    background: rgba(146, 164, 166, 0.15);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+.section-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: var(--text-primary);
+}
+
+.description-text {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* Right Column - Project Info */
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.info-card {
+    background: linear-gradient(135deg, #152026 0%, #253840 100%);
+    border-radius: 0.75rem;
+    box-shadow: 0 20px 40px -14px rgba(0, 0, 0, 0.25);
+    border: 1px solid #516973;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    transition: all 0.3s ease;
+}
+
+.info-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+}
+
+.info-card h3 {
+    color: #92A4A6;
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1.25;
+    margin-bottom: 0.75rem;
+}
+
+/* Project Info Items */
+.info-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid rgba(81, 105, 115, 0.2);
+}
+
+.info-item:last-child {
+    border-bottom: none;
+}
+
+.info-label {
+    font-weight: 500;
+    color: #92A4A6;
+    opacity: 0.8;
+}
+
+.info-value {
+    font-weight: 600;
+    color: #92A4A6;
+}
+
+/* Status Badge */
+.status-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.status-concluido {
+    background: linear-gradient(135deg, #152026 0%, #253840 100%);
+    color: #92A4A6;
+}
+
+.status-desenvolvimento {
+    background: linear-gradient(135deg, #253840 0%, #516973 100%);
+    color: #92A4A6;
+}
+
+.status-pausado {
+    background: linear-gradient(135deg, #516973 0%, #92A4A6 100%);
+    color: #0D0D0D;
+}
+
+.status-planejado {
+    background: linear-gradient(135deg, #92A4A6 0%, #516973 100%);
+    color: #0D0D0D;
+}
+
+/* Action Buttons */
+.action-buttons {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: auto;
+}
+
+.btn {
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.875rem;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #253840 0%, #516973 100%);
+    color: #92A4A6;
+    border: 1px solid #516973;
+    flex: 1;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #516973 0%, #92A4A6 100%);
+    color: #0D0D0D;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(81, 105, 115, 0.3);
+}
+
+.btn-secondary {
+    background: linear-gradient(135deg, #152026 0%, #253840 100%);
+    color: #92A4A6;
+    border: 1px solid #516973;
+    width: 40px;
+    height: 40px;
+}
+
+.btn-secondary:hover {
+    background: linear-gradient(135deg, #516973 0%, #92A4A6 100%);
+    color: #0D0D0D;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(81, 105, 115, 0.3);
+}
+
+/* Technologies Section */
+.tech-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.tech-item {
+    background: linear-gradient(135deg, #516973 0%, #92A4A6 100%);
+    color: #0D0D0D;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    border: 1px solid #92A4A6;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.tech-icon {
+    font-size: 0.75rem;
+}
+
+.tech-item span {
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+/* Gallery Section */
+.gallery-section {
+    margin-top: 3rem;
+    grid-column: 1 / -1;
+}
+
+.custom-carousel {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    padding: 20px 0;
+    scroll-behavior: smooth;
+}
+
+.custom-carousel::-webkit-scrollbar {
+    height: 8px;
+}
+
+.custom-carousel::-webkit-scrollbar-track {
+    background: rgba(146, 164, 166, 0.1);
+    border-radius: 4px;
+}
+
+.custom-carousel::-webkit-scrollbar-thumb {
+    background: rgba(146, 164, 166, 0.3);
+    border-radius: 4px;
+}
+
+.carousel-item {
+    min-width: 300px;
+    height: 400px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 20px;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.5s ease;
+    overflow: hidden;
+    border: 2px solid rgba(146, 164, 166, 0.2);
+}
+
+.carousel-item:hover {
+    transform: scale(1.02);
+    border-color: rgba(146, 164, 166, 0.4);
+}
+
+.carousel-item.active {
+    min-width: 500px;
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.item-desc {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(21, 32, 38, 0.9));
+    padding: 2rem;
+    transform: translateY(100%);
+    transition: transform 0.5s ease;
+    color: white;
+}
+
+.carousel-item:hover .item-desc,
+.carousel-item.active .item-desc {
+    transform: translateY(0);
+}
+
+.item-desc h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: #ffffff;
+}
+
+.item-desc p {
+    font-size: 0.9rem;
+    line-height: 1.4;
+    color: rgba(255, 255, 255, 0.9);
+    margin: 0;
+}
+
+.carousel-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(21, 32, 38, 0.3);
+    transition: background 0.3s ease;
+}
+
+.carousel-item:hover .carousel-overlay {
+    background: rgba(21, 32, 38, 0.1);
+}
+
+.carousel-item.active .carousel-overlay {
+    background: rgba(21, 32, 38, 0.2);
+}
+
+/* Responsive Design */
 @media (max-width: 768px) {
-    .hero-title {
-        font-size: 2.5rem;
+    .main-content {
+        grid-template-columns: 1fr;
+        gap: 30px;
     }
     
-    .hero-subtitle {
-        font-size: 1.2rem;
+    .project-header-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 1.5rem;
     }
     
-    .hero-buttons {
+    .project-header-image {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .project-title {
+        font-size: 2rem;
+    }
+    
+    .container {
+        padding: 0 15px;
+    }
+    
+    .custom-carousel {
         flex-direction: column;
         align-items: center;
     }
     
-    .stats-grid {
-        grid-template-columns: repeat(2, 1fr);
+    .carousel-item {
+        min-width: 100%;
+        max-width: 400px;
     }
     
-    .images-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
-/* Animations */
-.fade-in {
-    animation: fadeIn 0.8s ease-out;
-}
-
-.slide-up {
-    animation: slideUp 1s ease-out;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes slideUp {
-    from { opacity: 0; transform: translateY(50px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-    transform: translateY(-50%);
-    background: rgba(21, 32, 38, 0.8);
-    border: 1px solid rgba(146, 164, 166, 0.3);
-    color: #92a4a6;
-    font-size: 24px;
-    width: 50px;
-    height: 50px;
-    border-radius: 0 !important;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.modal-nav:hover {
-    background: rgba(37, 56, 64, 0.9);
-    color: #ffffff;
-    box-shadow: 0 0 10px rgba(146, 164, 166, 0.5);
-}
-
-.modal-nav.prev {
-    left: -60px;
-}
-
-.modal-nav.next {
-    right: -60px;
-}
-
-/* Documentation Styles with Dark Theme */
-.documentation-content {
-    line-height: 1.8;
-    color: #92a4a6;
-}
-
-.documentation-content h1,
-.documentation-content h2,
-.documentation-content h3,
-.documentation-content h4,
-.documentation-content h5,
-.documentation-content h6 {
-    margin-top: 2rem;
-    margin-bottom: 1rem;
-    font-weight: 600;
-    color: #ffffff;
-}
-
-.documentation-content h1 {
-    font-size: 2rem;
-    border-bottom: 2px solid rgba(146, 164, 166, 0.3);
-    padding-bottom: 0.5rem;
-}
-
-.documentation-content h2 {
-    font-size: 1.5rem;
-    color: #92a4a6;
-}
-
-.documentation-content h3 {
-    font-size: 1.25rem;
-}
-
-.documentation-content p {
-    margin-bottom: 1rem;
-}
-
-.documentation-content ul,
-.documentation-content ol {
-    margin-bottom: 1rem;
-    padding-left: 2rem;
-}
-
-.documentation-content li {
-    margin-bottom: 0.5rem;
-}
-
-.documentation-content code {
-    background: rgba(37, 56, 64, 0.8);
-    color: #92a4a6;
-    padding: 0.25rem 0.5rem;
-    border-radius: 0;
-    border: 1px solid rgba(146, 164, 166, 0.2);
-    font-family: 'Courier New', monospace;
-    font-size: 0.9rem;
-}
-
-.documentation-content pre {
-    background: rgba(21, 32, 38, 0.9);
-    color: #92a4a6;
-    border: 1px solid rgba(146, 164, 166, 0.3);
-    padding: 1rem;
-    border-radius: 0;
-    overflow-x: auto;
-    margin: 1rem 0;
-}
-
-.documentation-content pre code {
-    background: none;
-    padding: 0;
-    color: inherit;
-    border: none;
-}
-
-.documentation-content blockquote {
-    border-left: 4px solid #92a4a6;
-    padding-left: 1rem;
-    margin: 1rem 0;
-    font-style: italic;
-    color: rgba(146, 164, 166, 0.8);
-    background: rgba(37, 56, 64, 0.3);
-    padding: 1rem;
-    border-radius: 0;
-}
-
-/* Neon Flicker Effect */
-.neon-flicker {
-    color: #92a4a6;
-    animation: subtle-flicker 4s infinite;
-}
-
-@keyframes subtle-flicker {
-    0%, 85%, 100% { opacity: 1; }
-    87%, 89%, 91% { opacity: 0.3; }
-    88%, 90% { opacity: 1; }
-}
-
-/* Status Badge Styles */
-.status-badge {
-    border-radius: 0 !important;
-    border: 1px solid rgba(146, 164, 166, 0.3);
-    box-shadow: 2px 2px 0px rgba(21, 32, 38, 0.5);
-}
-
-/* Button Styles */
-.btn-dark-theme {
-    background: rgba(21, 32, 38, 0.9);
-    color: #92a4a6;
-    border: 1px solid rgba(146, 164, 166, 0.3);
-    border-radius: 0 !important;
-    transition: all 0.3s ease;
-    box-shadow: 4px 4px 0px rgba(37, 56, 64, 0.6);
-}
-
-.btn-dark-theme:hover {
-    background: rgba(37, 56, 64, 0.9);
-    color: #ffffff;
-    box-shadow: 6px 6px 0px rgba(37, 56, 64, 0.8);
-    transform: translate(-2px, -2px);
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .modal-nav {
-        display: none;
+    .carousel-item.active {
+        min-width: 100%;
     }
     
-    .gallery-thumbnails {
-        justify-content: center;
+    .tech-grid {
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
     }
 }
 
-/* Animation Classes */
-.fade-in {
-    animation: fadeIn 0.6s ease-out;
-}
 
-.slide-up {
-    animation: slideUp 0.6s ease-out;
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
-
-@keyframes slideUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
 </style>
 {% endblock %}
 
 {% block content %}
-<!-- Hero Section -->
-<section class="hero-section space-background">
-    <!-- Stars Animation -->
-    <div class="stars-container">
-        <div class="star" style="top: 10%; left: 20%; width: 2px; height: 2px; animation-delay: 0s;"></div>
-        <div class="star" style="top: 20%; left: 80%; width: 1px; height: 1px; animation-delay: 1s;"></div>
-        <div class="star" style="top: 30%; left: 40%; width: 3px; height: 3px; animation-delay: 2s;"></div>
-        <div class="star" style="top: 40%; left: 70%; width: 2px; height: 2px; animation-delay: 0.5s;"></div>
-        <div class="star" style="top: 60%; left: 10%; width: 1px; height: 1px; animation-delay: 1.5s;"></div>
-        <div class="star" style="top: 70%; left: 90%; width: 2px; height: 2px; animation-delay: 2.5s;"></div>
-        <div class="star" style="top: 80%; left: 30%; width: 1px; height: 1px; animation-delay: 3s;"></div>
-        <div class="star" style="top: 15%; left: 60%; width: 2px; height: 2px; animation-delay: 0.8s;"></div>
-        <div class="star" style="top: 50%; left: 50%; width: 3px; height: 3px; animation-delay: 1.8s;"></div>
-        <div class="star" style="top: 90%; left: 75%; width: 1px; height: 1px; animation-delay: 2.2s;"></div>
-    </div>
-    
-    <div class="hero-content px-4">
-        <div class="fade-in">
-            <h1 class="hero-title neon-flicker">{{ project.titulo }}</h1>
-            
-            {% if project.subtitulo %}
-                <p class="hero-subtitle">{{ project.subtitulo }}</p>
-            {% else %}
-                <p class="hero-subtitle">{{ project.descricao_curta|default:project.descricao_completa|truncatewords:20 }}</p>
+<!-- Project Header -->
+<section class="project-header">
+    <div class="container">
+        <div class="project-header-content">
+            {% if project.imagem_principal %}
+                <div class="project-header-image">
+                    <img src="{{ project.imagem_principal.url }}" alt="{{ project.titulo }}">
+                </div>
             {% endif %}
-            
-            <!-- Action Buttons -->
-            <div class="hero-buttons">
-                {% if project.link_deploy %}
-                    <a href="{{ project.link_deploy }}" target="_blank" class="btn-primary-hero">
-                        <i class="fas fa-external-link-alt"></i>
-                        {% trans "Acesse o site" %}
-                    </a>
+            <div class="project-header-text">
+                <h1 class="project-title">{{ project.titulo }}</h1>
+                {% if project.subtitulo %}
+                    <p class="project-subtitle">{{ project.subtitulo }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Main Content -->
+<section class="container">
+    <div class="main-content">
+        <!-- Left Column - Description -->
+        <div class="description-section">
+            <h2 class="section-title">{% trans "Descrição Completa do Projeto" %}</h2>
+            <div class="description-text">
+                {% if project.descricao_completa %}
+                    {{ project.descricao_completa|linebreaks }}
+                {% else %}
+                    {{ project.descricao_curta|linebreaks }}
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Right Column - Project Info -->
+        <div class="sidebar">
+            <!-- Project Info Card -->
+            <div class="info-card">
+                <h3>{% trans "Informações do Projeto" %}</h3>
+                
+
+                
+                {% if project.data_atualizacao %}
+                <div class="info-item">
+                    <span class="info-label">{% trans "Última Atualização" %}</span>
+                    <span class="info-value">{{ project.data_atualizacao|date:"d/m/Y" }}</span>
+                </div>
                 {% endif %}
                 
-                {% if project.link_repositorio %}
-                    <a href="{{ project.link_repositorio }}" target="_blank" class="btn-secondary-hero">
-                        <i class="fab fa-github"></i>
-                        {% trans "Ver repositório" %}
-                    </a>
-                {% endif %}
+                <div class="info-item">
+                    <span class="info-label">{% trans "Status Atual" %}</span>
+                    <span class="status-badge status-{{ project.status }}">{{ project.get_status_display }}</span>
+                </div>
             </div>
-            
-            <!-- Status Badge -->
-            <div class="mb-4">
-                <span class="px-4 py-2 text-sm font-semibold rounded-full
-                    {% if project.status == 'concluido' %}bg-green-600 text-white
-                    {% elif project.status == 'desenvolvimento' %}bg-blue-600 text-white
-                    {% elif project.status == 'pausado' %}bg-yellow-600 text-white
-                    {% else %}bg-gray-600 text-white{% endif %}">
-                    {{ project.get_status_display }}
-                </span>
-            </div>
-        </div>
-    </div>
-</section>
 
-<!-- Stats Section -->
-<section class="stats-section">
-    <div class="max-w-7xl mx-auto px-4">
-        <div class="stats-grid slide-up">
-            <div class="stat-card">
-                <div class="stat-number">{{ project.tecnologias.count }}</div>
-                <div class="stat-label">{% trans "Trading Volume" %}</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number">{{ project.imagens.count }}</div>
-                <div class="stat-label">{% trans "Floor Price" %}</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number">1.6M</div>
-                <div class="stat-label">{% trans "Items" %}</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number">906k</div>
-                <div class="stat-label">{% trans "Owners" %}</div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Image Grid Section -->
-<section class="py-16 space-background">
-    <!-- Stars Background -->
-    <div class="stars-container">
-        <div class="star" style="width: 1px; height: 1px; top: 10%; left: 20%; animation-delay: 0.2s; animation-duration: 4s;"></div>
-        <div class="star" style="width: 2px; height: 2px; top: 30%; left: 70%; animation-delay: 1.5s; animation-duration: 3s;"></div>
-        <div class="star" style="width: 1px; height: 1px; top: 60%; left: 30%; animation-delay: 2.8s; animation-duration: 2.5s;"></div>
-        <div class="star" style="width: 3px; height: 3px; top: 80%; left: 80%; animation-delay: 0.8s; animation-duration: 3.5s;"></div>
-        <div class="star" style="width: 1px; height: 1px; top: 40%; left: 90%; animation-delay: 3.2s; animation-duration: 2.8s;"></div>
-    </div>
-    
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
-            <!-- Main Content -->
-            <div class="lg:col-span-2 space-y-12">
-                <!-- NFT Gallery Grid -->
-                <div class="slide-up">
-                    <h2 class="text-3xl font-bold text-white mb-6 neon-flicker">
-                        <i class="fas fa-images mr-3 text-white"></i>
-                        {% trans "Collection" %}
-                    </h2>
+            <!-- Action Buttons -->
+            <div class="info-card">
+                <h3>{% trans "Ações" %}</h3>
+                <div class="action-buttons">
+                    {% if project.link_deploy %}
+                        <a href="{{ project.link_deploy }}" target="_blank" class="btn btn-primary">
+                            <i class="fas fa-external-link-alt"></i>
+                            {% trans "link" %}
+                        </a>
+                    {% endif %}
                     
-                    {% if project.imagens.all %}
-                        <div class="images-grid">
-                            {% for imagem in project.imagens.all %}
-                                <div class="image-card" onclick="openModal('{{ imagem.imagem.url }}', '{{ imagem.legenda|default:project.titulo }}')">
-                                    <img src="{{ imagem.imagem.url }}" alt="{{ imagem.legenda|default:project.titulo }}">
-                                    <div class="image-card-content">
-                                        <h3 class="image-card-title">{{ imagem.legenda|default:project.titulo }}</h3>
-                                        <p class="image-card-description">{{ project.descricao_curta|default:"NFT Collection Item"|truncatewords:10 }}</p>
-                                    </div>
-                                </div>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        <div class="images-grid">
-                            <div class="image-card">
-                                <div class="flex items-center justify-center h-48 bg-gray-800">
-                                    <i class="fas fa-image text-6xl text-gray-600"></i>
-                                </div>
-                                <div class="image-card-content">
-                                    <h3 class="image-card-title">{{ project.titulo }}</h3>
-                                    <p class="image-card-description">{% trans "Nenhuma imagem disponível" %}</p>
-                                </div>
-                            </div>
-                        </div>
+                    {% if project.link_repositorio %}
+                        <a href="{{ project.link_repositorio }}" target="_blank" class="btn btn-secondary">
+                            <i class="fab fa-github"></i>
+                       
+                        </a>
                     {% endif %}
                 </div>
-                
             </div>
+
+            <!-- Technologies -->
+            {% if project.tecnologias.exists %}
+            <div class="info-card">
+                <h3>{% trans "Tecnologias Relacionadas" %}</h3>
+                <div class="tech-grid">
+                    {% for tech in project.tecnologias.all %}
+                        <div class="tech-item">
+                            {% if tech.icone %}
+                                <i class="{{ tech.icone }} tech-icon"></i>
+                            {% endif %}
+                            <span>{{ tech.nome }}</span>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
         </div>
     </div>
-</section>
 
-<!-- Related Projects -->
-{% if related_projects %}
-<section class="bg-base-200 py-16">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-12 fade-in">
-            <h2 class="text-3xl md:text-4xl font-bold text-base-content mb-4">
-                {% trans "Projetos Relacionados" %}
-            </h2>
-            <p class="text-lg text-base-content/70">
-                {% trans "Outros projetos que podem interessar" %}
-            </p>
-        </div>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {% for related_project in related_projects %}
-                <div class="project-card card bg-base-100 shadow-lg overflow-hidden animate-slide-up">
-                    <!-- Project Image -->
-                    <div class="relative h-48 bg-gradient-to-br from-gray-400 to-gray-600">
-                        {% if related_project.imagem_principal %}
-                            <img src="{{ related_project.imagem_principal.url }}" 
-                                 alt="{{ related_project.titulo }}" 
-                                 class="w-full h-full object-cover">
-                        {% else %}
-                            <div class="flex items-center justify-center h-full">
-                                <i class="fas fa-code text-4xl text-white opacity-50"></i>
-                            </div>
-                        {% endif %}
-                        
-                        <!-- Status Badge -->
-                        <div class="absolute top-4 right-4">
-                            <span class="status-badge px-3 py-1 rounded-full text-xs font-semibold
-                                {% if related_project.status == 'concluido' %}bg-green-500 text-white
-                                {% elif related_project.status == 'desenvolvimento' %}bg-blue-500 text-white
-                                {% elif related_project.status == 'pausado' %}bg-yellow-500 text-white
-                                {% else %}bg-gray-500 text-white{% endif %}">
-                                {{ related_project.get_status_display }}
-                            </span>
-                        </div>
+    <!-- Gallery Section -->
+    {% if project.imagens.exists or project.imagem_principal %}
+    <div class="gallery-section">
+        <h2 class="section-title">{% trans "Galeria do Projeto" %}</h2>
+        <div class="custom-carousel">
+            <!-- Main Image -->
+            {% if project.imagem_principal %}
+                <div class="carousel-item" style="background-image: url('{{ project.imagem_principal.url }}')">
+                    <div class="carousel-overlay"></div>
+                    <div class="item-desc">
+                        <h3>{% trans "Imagem Principal" %}</h3>
+                        <p>{{ project.titulo }}</p>
                     </div>
-                    
-                    <!-- Project Content -->
-                    <div class="card-body">
-                        <h3 class="card-title text-base-content mb-2">
-                            {{ related_project.titulo }}
-                        </h3>
-                        
-                        {% if related_project.descricao_curta %}
-                            <p class="text-base-content/80 mb-4 line-clamp-3">
-                                {{ related_project.descricao_curta }}
-                            </p>
-                        {% endif %}
-                        
-                        <!-- Technologies -->
-                        <div class="flex flex-wrap gap-2 mb-4">
-                            {% for tech in related_project.tecnologias.all|slice:":3" %}
-                                <span class="badge badge-outline">
-                                    {% if tech.icone %}
-                                        <i class="{{ tech.icone }} mr-1" style="color: {{ tech.cor }}"></i>
-                                    {% endif %}
-                                    {{ tech.nome }}
-                                </span>
-                            {% endfor %}
-                            {% if related_project.tecnologias.count > 3 %}
-                                <span class="badge badge-outline">
-                                    +{{ related_project.tecnologias.count|add:"-3" }}
-                                </span>
-                            {% endif %}
-                        </div>
-                        
-                        <!-- Action Button -->
-                        <div class="card-actions justify-end">
-                            <a href="{% url 'portfolio:project_detail' related_project.id %}" 
-                               class="btn btn-primary btn-sm">
-                                {% trans "Ver Detalhes" %}
-                            </a>
-                        </div>
+                </div>
+            {% endif %}
+            
+            <!-- Additional Images -->
+            {% for imagem in project.imagens.all %}
+                <div class="carousel-item" style="background-image: url('{{ imagem.imagem.url }}')">
+                    <div class="carousel-overlay"></div>
+                    <div class="item-desc">
+                        <h3>{{ imagem.legenda|default:"Imagem do Projeto" }}</h3>
+                        <p>{{ imagem.legenda|default:project.titulo }}</p>
                     </div>
                 </div>
             {% endfor %}
         </div>
     </div>
+    {% endif %}
 </section>
-{% endif %}
 
-<!-- Image Modal -->
-<div id="imageModal" class="modal-overlay" onclick="closeModal()">
-    <div class="modal-content" onclick="event.stopPropagation()">
-        <button class="modal-close" onclick="closeModal()">
-            <i class="fas fa-times"></i>
-        </button>
-        <button class="modal-nav prev" onclick="previousImage()">
-            <i class="fas fa-chevron-left"></i>
-        </button>
-        <button class="modal-nav next" onclick="nextImage()">
-            <i class="fas fa-chevron-right"></i>
-        </button>
-        <img id="modalImage" class="modal-image" src="" alt="">
-    </div>
-</div>
 
 {% endblock %}
 
 {% block extra_js %}
 <script>
-// Gallery functionality
-let currentImageIndex = 0;
-let galleryImages = [];
-
-// Initialize gallery
+// Carousel interaction
 document.addEventListener('DOMContentLoaded', function() {
-    // Collect all gallery images
-    const thumbnails = document.querySelectorAll('.gallery-thumbnail');
-    galleryImages = Array.from(thumbnails).map(thumb => {
-        const img = thumb.querySelector('img');
-        return {
-            src: img.src,
-            alt: img.alt
-        };
-    });
+    const carouselItems = document.querySelectorAll('.carousel-item');
     
-    // Add scroll animations
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
-    
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
-            }
+    carouselItems.forEach(item => {
+        item.addEventListener('click', function(e) {
+            // Remove active class from all items
+            carouselItems.forEach(i => i.classList.remove('active'));
+            // Add active class to clicked item
+            this.classList.add('active');
+            
+            // Scroll item into view
+            this.scrollIntoView({
+                behavior: 'smooth',
+                block: 'nearest',
+                inline: 'center'
+            });
         });
-    }, observerOptions);
-    
-    document.querySelectorAll('.slide-up').forEach(el => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(30px)';
-        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-        observer.observe(el);
     });
 });
-
-function changeMainImage(src, alt, thumbnail) {
-    const mainImage = document.getElementById('mainImage');
-    if (mainImage) {
-        mainImage.src = src;
-        mainImage.alt = alt;
-        
-        // Update active thumbnail
-        document.querySelectorAll('.gallery-thumbnail').forEach(thumb => {
-            thumb.classList.remove('active');
-        });
-        thumbnail.classList.add('active');
-        
-        // Update current index for modal
-        currentImageIndex = Array.from(document.querySelectorAll('.gallery-thumbnail')).indexOf(thumbnail);
-    }
-}
-
-function openModal(src, alt) {
-    const modal = document.getElementById('imageModal');
-    const modalImage = document.getElementById('modalImage');
-    
-    modalImage.src = src;
-    modalImage.alt = alt;
-    modal.classList.add('active');
-    
-    // Find current image index
-    currentImageIndex = galleryImages.findIndex(img => img.src === src);
-    
-    // Prevent body scroll
-    document.body.style.overflow = 'hidden';
-}
-
-function closeModal() {
-    const modal = document.getElementById('imageModal');
-    modal.classList.remove('active');
-    
-    // Restore body scroll
-    document.body.style.overflow = '';
-}
-
-function previousImage() {
-    if (galleryImages.length === 0) return;
-    
-    currentImageIndex = (currentImageIndex - 1 + galleryImages.length) % galleryImages.length;
-    const image = galleryImages[currentImageIndex];
-    
-    const modalImage = document.getElementById('modalImage');
-    modalImage.src = image.src;
-    modalImage.alt = image.alt;
-}
-
-function nextImage() {
-    if (galleryImages.length === 0) return;
-    
-    currentImageIndex = (currentImageIndex + 1) % galleryImages.length;
-    const image = galleryImages[currentImageIndex];
-    
-    const modalImage = document.getElementById('modalImage');
-    modalImage.src = image.src;
-    modalImage.alt = image.alt;
-}
-
-// Keyboard navigation
-document.addEventListener('keydown', function(e) {
-    const modal = document.getElementById('imageModal');
-    if (!modal.classList.contains('active')) return;
-    
-    switch(e.key) {
-        case 'Escape':
-            closeModal();
-            break;
-        case 'ArrowLeft':
-            previousImage();
-            break;
-        case 'ArrowRight':
-            nextImage();
-            break;
-    }
-});
-
-// Touch/swipe support for mobile
-let touchStartX = 0;
-let touchEndX = 0;
-
-document.getElementById('imageModal').addEventListener('touchstart', function(e) {
-    touchStartX = e.changedTouches[0].screenX;
-});
-
-document.getElementById('imageModal').addEventListener('touchend', function(e) {
-    touchEndX = e.changedTouches[0].screenX;
-    handleSwipe();
-});
-
-function handleSwipe() {
-    const swipeThreshold = 50;
-    const diff = touchStartX - touchEndX;
-    
-    if (Math.abs(diff) > swipeThreshold) {
-        if (diff > 0) {
-            nextImage(); // Swipe left - next image
-        } else {
-            previousImage(); // Swipe right - previous image
-        }
-    }
-}
 </script>
 {% endblock %}
