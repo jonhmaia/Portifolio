@@ -95,7 +95,15 @@ urlpatterns += i18n_patterns(
     prefix_default_language=False,
 )
 
-# Servir arquivos de media em desenvolvimento
+# Servir arquivos de media
 if settings.DEBUG:
+    # Em desenvolvimento, usar o servidor de desenvolvimento do Django
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+else:
+    # Em produção, usar nossa view personalizada para servir arquivos de mídia
+    from django.urls import re_path
+    from core.views import serve_media
+    urlpatterns += [
+        re_path(r'^media/(?P<file_path>.*)$', serve_media, name='serve_media'),
+    ]
