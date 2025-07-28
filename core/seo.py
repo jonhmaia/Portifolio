@@ -70,8 +70,8 @@ class SEOConfig:
             'twitter_creator': cls.DEFAULT_TWITTER_CREATOR,
             'structured_data': {
                 'name': 'João Marcos Maia',
-                'job_title': str(_("Engenheiro de Software")),
-                'description': str(_("Desenvolvedor especializado em Django, Python e tecnologias web modernas")),
+                'job_title': "Engenheiro de Software",
+                'description': "Desenvolvedor especializado em Django, Python e tecnologias web modernas",
                 'image': cls.DEFAULT_OG_IMAGE,
             }
         }
