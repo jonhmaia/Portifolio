@@ -770,34 +770,46 @@ page_title }} - {% trans "Meu Portfólio" %}{% endblock %} {% block content %}
     }
   }
 
-  /* Cards Container */
+  /* Cards Container - Horizontal Layout */
   .cards {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: row;
     list-style: none;
     margin: 0;
     padding: 0;
-    gap: 2rem;
-    justify-content: center;
+    gap: 1.5rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 1rem;
+    scroll-behavior: smooth;
+  }
+
+  /* Custom Scrollbar for Cards */
+  .cards::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  .cards::-webkit-scrollbar-track {
+    background: rgba(21, 32, 38, 0.3);
+    border-radius: 4px;
+  }
+
+  .cards::-webkit-scrollbar-thumb {
+    background: linear-gradient(90deg, #516973, #92A4A6);
+    border-radius: 4px;
+  }
+
+  .cards::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(90deg, #92A4A6, #516973);
   }
 
   .cards_item {
     display: flex;
     padding: 1rem;
-    width: 100%;
-    max-width: 400px;
-  }
-
-  @media (min-width: 40rem) {
-    .cards_item {
-      width: 50%;
-    }
-  }
-
-  @media (min-width: 56rem) {
-    .cards_item {
-      width: 33.3333%;
-    }
+    width: 350px;
+    min-width: 350px;
+    max-width: 350px;
+    flex-shrink: 0;
   }
 
   /* Card Styling */
