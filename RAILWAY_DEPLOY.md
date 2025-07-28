@@ -7,22 +7,31 @@ Este guia documenta as correções feitas para resolver o erro 500 no healthchec
 ### 🔧 Correções Implementadas
 
 1. **Configuração de Produção Automática**
-   - Detecção automática do ambiente Railway via `RAILWAY_ENVIRONMENT`
-   - `DEBUG=False` forçado em produção
-   - `ALLOWED_HOSTS=['*']` para Railway
+   - **Arquivo**: `settings.py`
+   - **Mudança**: Configuração automática de `DEBUG=False` e `ALLOWED_HOSTS=['*']` quando `RAILWAY_ENVIRONMENT` está presente
+   - **Motivo**: Railway define automaticamente esta variável em produção
 
-2. **Correção do Sitemap**
-   - Corrigido filtro no `ArticleSitemap`: `status='publicado'` em vez de `publicado=True`
-   - Corrigido campo de ordenação: `data_publicacao` em vez de `data_criacao`
+2. **Correção Crítica no Sitemap**
+   - **Arquivo**: `core/sitemaps.py`
+   - **Mudança**: 
+     - Alterado filtro de `publicado=True` para `status='publicado'`
+     - Alterado ordenação de `-data_criacao` para `-data_publicacao`
+   - **Motivo**: O modelo `Artigo` usa campo `status` com valor 'publicado', não campo booleano `publicado`
 
-3. **Configuração de Logging**
-   - Logging configurado para capturar erros em produção
-   - Logs direcionados para console (Railway)
+3. **Configuração de Logging para Produção**
+   - **Arquivo**: `settings.py`
+   - **Mudança**: Adicionado logging configurado para produção
+   - **Motivo**: Facilitar debug de problemas em produção
 
-4. **Configuração do Gunicorn**
-   - Timeout aumentado para 120s
-   - 2 workers configurados
-   - Healthcheck timeout aumentado para 300s
+4. **Otimização do Gunicorn**
+   - **Arquivo**: `railway.json`
+   - **Mudança**: Configurado timeout de 120s e workers otimizados
+   - **Motivo**: Evitar timeouts durante inicialização
+
+5. **Remoção de Traduções Problemáticas**
+   - **Arquivo**: `core/seo.py`
+   - **Mudança**: Removido uso de `gettext` e substituído por strings diretas
+   - **Motivo**: Evitar problemas com compilação de traduções no Railway que não possui ferramentas GNU gettext
 
 ## 🔑 Variáveis de Ambiente Necessárias
 

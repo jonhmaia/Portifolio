@@ -1,55 +1,54 @@
 from django.conf import settings
-from django.utils.translation import gettext as _
 
 
 class SEOConfig:
     """Configurações de SEO para o site"""
     
     # Meta tags padrão
-    DEFAULT_TITLE = _("</> João Marcos Maia - Engenheiro de Software")
-    DEFAULT_DESCRIPTION = _("Portfólio de João Marcos Maia - Engenheiro de Software especializado em Django, Python e desenvolvimento web. Projetos inovadores e soluções tecnológicas.")
-    DEFAULT_KEYWORDS = _("João Marcos Maia, desenvolvedor, engenheiro software, Django, Python, JavaScript, portfólio, projetos, tecnologia, inovação")
+    DEFAULT_TITLE = "</> João Marcos Maia - Engenheiro de Software"
+    DEFAULT_DESCRIPTION = "Portfólio de João Marcos Maia - Engenheiro de Software especializado em Django, Python e desenvolvimento web. Projetos inovadores e soluções tecnológicas."
+    DEFAULT_KEYWORDS = "João Marcos Maia, desenvolvedor, engenheiro software, Django, Python, JavaScript, portfólio, projetos, tecnologia, inovação"
     
     # Open Graph padrão
-    DEFAULT_OG_TITLE = _("</> João Marcos Maia - Engenheiro de Software")
-    DEFAULT_OG_DESCRIPTION = _("Portfólio profissional com projetos inovadores em Django, Python e tecnologias web modernas.")
+    DEFAULT_OG_TITLE = "</> João Marcos Maia - Engenheiro de Software"
+    DEFAULT_OG_DESCRIPTION = "Portfólio profissional com projetos inovadores em Django, Python e tecnologias web modernas."
     DEFAULT_OG_IMAGE = "/static/images/profile.jpg"
     
     # Twitter Cards padrão
-    DEFAULT_TWITTER_TITLE = _("</> João Marcos Maia - Engenheiro de Software")
-    DEFAULT_TWITTER_DESCRIPTION = _("Portfólio profissional com projetos inovadores em Django, Python e tecnologias web modernas.")
+    DEFAULT_TWITTER_TITLE = "</> João Marcos Maia - Engenheiro de Software"
+    DEFAULT_TWITTER_DESCRIPTION = "Portfólio profissional com projetos inovadores em Django, Python e tecnologias web modernas."
     DEFAULT_TWITTER_IMAGE = "/static/images/profile.jpg"
     DEFAULT_TWITTER_CREATOR = "@joaomarcosmaia"
     
     # Configurações específicas por página
     PAGE_CONFIGS = {
         'home': {
-            'title': _("</> João Marcos Maia - Portfólio Profissional"),
-            'description': _("Bem-vindo ao portfólio de João Marcos Maia. Engenheiro de Software especializado em Django, Python e desenvolvimento web full-stack."),
-            'keywords': _("portfólio, João Marcos Maia, engenheiro software, Django, Python, desenvolvimento web, projetos"),
-            'og_title': _("</> Portfólio João Marcos Maia - Engenheiro de Software"),
-            'og_description': _("Explore meus projetos e experiência em desenvolvimento web com Django, Python e tecnologias modernas."),
+            'title': "</> João Marcos Maia - Portfólio Profissional",
+            'description': "Bem-vindo ao portfólio de João Marcos Maia. Engenheiro de Software especializado em Django, Python e desenvolvimento web full-stack.",
+            'keywords': "portfólio, João Marcos Maia, engenheiro software, Django, Python, desenvolvimento web, projetos",
+            'og_title': "</> Portfólio João Marcos Maia - Engenheiro de Software",
+            'og_description': "Explore meus projetos e experiência em desenvolvimento web com Django, Python e tecnologias modernas.",
         },
         'projects': {
-            'title': _("</> Projetos - João Marcos Maia"),
-            'description': _("Explore meus projetos de desenvolvimento web, aplicações Django, sistemas Python e soluções tecnológicas inovadoras."),
-            'keywords': _("projetos, Django, Python, desenvolvimento web, aplicações, sistemas, tecnologia"),
-            'og_title': _("</> Projetos de João Marcos Maia"),
-            'og_description': _("Conheça meus projetos em Django, Python e desenvolvimento web full-stack."),
+            'title': "</> Projetos - João Marcos Maia",
+            'description': "Explore meus projetos de desenvolvimento web, aplicações Django, sistemas Python e soluções tecnológicas inovadoras.",
+            'keywords': "projetos, Django, Python, desenvolvimento web, aplicações, sistemas, tecnologia",
+            'og_title': "</> Projetos de João Marcos Maia",
+            'og_description': "Conheça meus projetos em Django, Python e desenvolvimento web full-stack.",
         },
         'blog': {
-            'title': _("</> Blog - João Marcos Maia"),
-            'description': _("Artigos sobre desenvolvimento web, Django, Python, boas práticas de programação e tendências tecnológicas."),
-            'keywords': _("blog, artigos, Django, Python, desenvolvimento web, programação, tecnologia"),
-            'og_title': _("</> Blog de João Marcos Maia"),
-            'og_description': _("Artigos e insights sobre desenvolvimento web, Django e tecnologias modernas."),
+            'title': "</> Blog - João Marcos Maia",
+            'description': "Artigos sobre desenvolvimento web, Django, Python, boas práticas de programação e tendências tecnológicas.",
+            'keywords': "blog, artigos, Django, Python, desenvolvimento web, programação, tecnologia",
+            'og_title': "</> Blog de João Marcos Maia",
+            'og_description': "Artigos e insights sobre desenvolvimento web, Django e tecnologias modernas.",
         },
         'curriculum': {
-            'title': _("</> Currículo - João Marcos Maia"),
-            'description': _("Currículo profissional de João Marcos Maia - Experiência em engenharia de software, Django, Python e liderança técnica."),
-            'keywords': _("currículo, experiência, engenheiro software, Django, Python, liderança técnica"),
-            'og_title': _("</> Currículo de João Marcos Maia"),
-            'og_description': _("Experiência profissional e competências técnicas em engenharia de software."),
+            'title': "</> Currículo - João Marcos Maia",
+            'description': "Currículo profissional de João Marcos Maia - Experiência em engenharia de software, Django, Python e liderança técnica.",
+            'keywords': "currículo, experiência, engenheiro software, Django, Python, liderança técnica",
+            'og_title': "</> Currículo de João Marcos Maia",
+            'og_description': "Experiência profissional e competências técnicas em engenharia de software.",
         },
     }
     
