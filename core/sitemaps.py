@@ -44,7 +44,7 @@ class ArticleSitemap(Sitemap):
     protocol = 'https'
 
     def items(self):
-        return Artigo.objects.filter(publicado=True).order_by('-data_criacao')
+        return Artigo.objects.filter(status='publicado').order_by('-data_publicacao')
 
     def lastmod(self, obj):
         return obj.data_atualizacao

@@ -32,6 +32,10 @@ SECRET_KEY = config('SECRET_KEY', default='django-insecure-=2bqma-@v_(s2630k*4n7
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=True, cast=bool)
 
+# Railway specific settings
+if 'RAILWAY_ENVIRONMENT' in os.environ:
+    DEBUG = False
+
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
@@ -40,6 +44,10 @@ ALLOWED_HOSTS = [
     'www.joaomarcos.dev.br',
     config('ALLOWED_HOST', default=''),
 ]
+
+# Railway specific host configuration
+if 'RAILWAY_ENVIRONMENT' in os.environ:
+    ALLOWED_HOSTS = ['*']  # Allow all hosts in Railway
 
 # CSRF settings for Railway
 CSRF_TRUSTED_ORIGINS = [
@@ -214,6 +222,45 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Login/Logout URLs
 LOGIN_URL = '/portfolio/login/'
 LOGOUT_REDIRECT_URL = '/portfolio/login/'
+
+# Logging configuration
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{levelname} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple'
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO',
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        'django.request': {
+            'handlers': ['console'],
+            'level': 'ERROR',
+            'propagate': False,
+        },
+    },
+}
 
 # Security settings for production
 if not DEBUG:
