@@ -9,6 +9,10 @@ import django
 from django.core.management import execute_from_command_line
 from django.db import connection
 from django.core.management.utils import get_random_secret_key
+from dotenv import load_dotenv
+
+# Carregar variáveis do arquivo .env
+load_dotenv()
 
 def test_database_connection():
     """

@@ -1,0 +1,609 @@
+﻿[
+{
+  "model": "auth.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$lUIoKtpJVgDnHUtD8nIVzT$uxVcqMcwel9duyWVdgy4E7slCZ4+OOpg/7HE9dyYYp4=",
+    "last_login": "2025-07-26T17:51:51.180Z",
+    "is_superuser": true,
+    "username": "jm",
+    "first_name": "Jo├úo Marcos",
+    "last_name": "Ara├║jo Maia",
+    "email": "joaomaia@discente.ufg.br",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2025-07-21T00:00:16.229Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 2,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$X1BC8noFMgJjcTSO3sNyAL$u5yWdkZ9OA+NerUUonXWu+jln55t9Ti+4xYHcMWFj9k=",
+    "last_login": null,
+    "is_superuser": true,
+    "username": "admin",
+    "first_name": "",
+    "last_name": "",
+    "email": "admin@portfolio.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2025-07-28T17:49:09.724Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "portfolio.tecnologia",
+  "pk": 1,
+  "fields": {
+    "nome": "Python",
+    "icone": "fab fa-python",
+    "cor": "#3776ab",
+    "categoria": "linguagem",
+    "ativo": true
+  }
+},
+{
+  "model": "portfolio.tecnologia",
+  "pk": 2,
+  "fields": {
+    "nome": "JavaScript",
+    "icone": "fab fa-js-square",
+    "cor": "#f7df1e",
+    "categoria": "linguagem",
+    "ativo": true
+  }
+},
+{
+  "model": "portfolio.tecnologia",
+  "pk": 3,
+  "fields": {
+    "nome": "TypeScript",
+    "icone": "fab fa-js-square",
+    "cor": "#3178c6",
+    "categoria": "linguagem",
+    "ativo": true
+  }
+},
+{
+  "model": "portfolio.tecnologia",
+  "pk": 4,
+  "fields": {
+    "nome": "Java",
+    "icone": "fab fa-java",
+    "cor": "#ed8b00",
+    "categoria": "linguagem",
+    "ativo": true
+  }
+},
+{
+  "model": "portfolio.tecnologia",
+  "pk": 5,
+  "fields": {
+    "nome": "C#",
+    "icone": "fas fa-code",
+    "cor": "#239120",
+    "categoria": "linguagem",
+    "ativo": true
+  }
+},
+{
+  "model": "portfolio.tecnologia",
+  "pk": 6,
+  "fields": {
+    "nome": "PHP",
+    "icone": "fab fa-php",
+    "cor": "#777bb4",
+    "categoria": "linguagem",
+    "ativo": true
+  }
+},
+{
+  "model": "portfolio.tecnologia",
+  "pk": 7,
+  "fields": {
+    "nome": "Go",
+    "icone": "fas fa-code",
+    "cor": "#00add8",
+    "categoria": "linguagem",
+    "ativo": true
+  }
+},
+{
+  "model": "portfolio.tecnologia",
+  "pk": 8,
+  "fields": {
+    "nome": "Rust",
+    "icone": "fas fa-code",
+    "cor": "#000000",
+    "categoria": "linguagem",
+    "ativo": true
+  }
+},
+{
+  "model": "portfolio.tecnologia",
+  "pk": 9,
+  "fields": {
+    "nome": "Django",
+    "icone": "fab fa-python",
+    "cor": "#092e20",
+    "categoria": "framework",
+    "ativo": true
+  }
+},
+{
+  "model": "portfolio.tecnologia",
+  "pk": 10,
+  "fields": {
+    "nome": "Flask",
+    "icone": "fas fa-server",
+    "cor": "#000000",
+    "categoria": "framework",
+    "ativo": true
+  }
+},
+{
+  "model": "portfolio.tecnologia",
+  "pk": 11,
+  "fields": {
+    "nome": "React",
+    "icone": "fab fa-react",
+    "cor": "#61dafb",
+    "categoria": "framework",
+    "ativo": true
+  }
+},
+{
+  "model": "portfolio.tecnologia",
+  "pk": 12,
+  "fields": {
+    "nome": "Vue.js",
+    "icone": "fab fa-vuejs",
+    "cor": "#4fc08d",
+    "categoria": "framework",
+    "ativo": true
+  }
+},
+{
+  "model": "portfolio.tecnologia",
+  "pk": 13,
+  "fields": {
+    "nome": "Angular",
+    "icone": "fab fa-angular",
+    "cor": "#dd0031",
+    "categoria": "framework",
+    "ativo": true
+  }
+},
+{
+  "model": "portfolio.tecnologia",
+  "pk": 14,
+  "fields": {
+    "nome": "Next.js",
+    "icone": "fas fa-code",
+    "cor": "#000000",
+    "categoria": "framework",
+    "ativo": true
+  }
+},
+{
+  "model": "portfolio.tecnologia",
+  "pk": 15,
+  "fields": {
+    "nome": "Express.js",
+    "icone": "fab fa-node-js",
+    "cor": "#339933",
+    "categoria": "framework",
+    "ativo": true
+  }
+},
+{
+  "model": "portfolio.tecnologia",
+  "pk": 16,
+  "fields": {
+    "nome": "Laravel",
+    "icone": "fab fa-laravel",
+    "cor": "#ff2d20",
+    "categoria": "framework",
+    "ativo": true
+  }
+},
+{
+  "model": "portfolio.tecnologia",
+  "pk": 17,
+  "fields": {
+    "nome": "Spring Boot",
+    "icone": "fas fa-leaf",
+    "cor": "#6db33f",
+    "categoria": "framework",
+    "ativo": true
+  }
+},
+{
+  "model": "portfolio.tecnologia",
+  "pk": 18,
+  "fields": {
+    "nome": "Bootstrap",
+    "icone": "fab fa-bootstrap",
+    "cor": "#7952b3",
+    "categoria": "biblioteca",
+    "ativo": true
+  }
+},
+{
+  "model": "portfolio.tecnologia",
+  "pk": 19,
+  "fields": {
+    "nome": "Tailwind CSS",
+    "icone": "fas fa-palette",
+    "cor": "#06b6d4",
+    "categoria": "biblioteca",
+    "ativo": true
+  }
+},
+{
+  "model": "portfolio.tecnologia",
+  "pk": 20,
+  "fields": {
+    "nome": "jQuery",
+    "icone": "fas fa-code",
+    "cor": "#0769ad",
+    "categoria": "biblioteca",
+    "ativo": true
+  }
+},
+{
+  "model": "portfolio.tecnologia",
+  "pk": 21,
+  "fields": {
+    "nome": "Pandas",
+    "icone": "fas fa-chart-bar",
+    "cor": "#150458",
+    "categoria": "biblioteca",
+    "ativo": true
+  }
+},
+{
+  "model": "portfolio.tecnologia",
+  "pk": 22,
+  "fields": {
+    "nome": "NumPy",
+    "icone": "fas fa-calculator",
+    "cor": "#013243",
+    "categoria": "biblioteca",
+    "ativo": true
+  }
+},
+{
+  "model": "portfolio.tecnologia",
+  "pk": 23,
+  "fields": {
+    "nome": "TensorFlow",
+    "icone": "fas fa-brain",
+    "cor": "#ff6f00",
+    "categoria": "biblioteca",
+    "ativo": true
+  }
+},
+{
+  "model": "portfolio.tecnologia",
+  "pk": 24,
+  "fields": {
+    "nome": "PostgreSQL",
+    "icone": "fas fa-database",
+    "cor": "#336791",
+    "categoria": "banco",
+    "ativo": true
+  }
+},
+{
+  "model": "portfolio.tecnologia",
+  "pk": 25,
+  "fields": {
+    "nome": "MySQL",
+    "icone": "fas fa-database",
+    "cor": "#4479a1",
+    "categoria": "banco",
+    "ativo": true
+  }
+},
+{
+  "model": "portfolio.tecnologia",
+  "pk": 26,
+  "fields": {
+    "nome": "SQLite",
+    "icone": "fas fa-database",
+    "cor": "#003b57",
+    "categoria": "banco",
+    "ativo": true
+  }
+},
+{
+  "model": "portfolio.tecnologia",
+  "pk": 27,
+  "fields": {
+    "nome": "MongoDB",
+    "icone": "fas fa-leaf",
+    "cor": "#47a248",
+    "categoria": "banco",
+    "ativo": true
+  }
+},
+{
+  "model": "portfolio.tecnologia",
+  "pk": 28,
+  "fields": {
+    "nome": "Redis",
+    "icone": "fas fa-database",
+    "cor": "#dc382d",
+    "categoria": "banco",
+    "ativo": true
+  }
+},
+{
+  "model": "portfolio.tecnologia",
+  "pk": 29,
+  "fields": {
+    "nome": "Git",
+    "icone": "fab fa-git-alt",
+    "cor": "#f05032",
+    "categoria": "ferramenta",
+    "ativo": true
+  }
+},
+{
+  "model": "portfolio.tecnologia",
+  "pk": 30,
+  "fields": {
+    "nome": "GitHub",
+    "icone": "fab fa-github",
+    "cor": "#181717",
+    "categoria": "ferramenta",
+    "ativo": true
+  }
+},
+{
+  "model": "portfolio.tecnologia",
+  "pk": 31,
+  "fields": {
+    "nome": "Docker",
+    "icone": "fab fa-docker",
+    "cor": "#2496ed",
+    "categoria": "ferramenta",
+    "ativo": true
+  }
+},
+{
+  "model": "portfolio.tecnologia",
+  "pk": 32,
+  "fields": {
+    "nome": "AWS",
+    "icone": "fab fa-aws",
+    "cor": "#ff9900",
+    "categoria": "ferramenta",
+    "ativo": true
+  }
+},
+{
+  "model": "portfolio.tecnologia",
+  "pk": 33,
+  "fields": {
+    "nome": "Heroku",
+    "icone": "fas fa-cloud",
+    "cor": "#430098",
+    "categoria": "ferramenta",
+    "ativo": true
+  }
+},
+{
+  "model": "portfolio.tecnologia",
+  "pk": 34,
+  "fields": {
+    "nome": "Railway",
+    "icone": "fas fa-train",
+    "cor": "#0b0d0e",
+    "categoria": "ferramenta",
+    "ativo": true
+  }
+},
+{
+  "model": "portfolio.tecnologia",
+  "pk": 35,
+  "fields": {
+    "nome": "VS Code",
+    "icone": "fas fa-code",
+    "cor": "#007acc",
+    "categoria": "ferramenta",
+    "ativo": true
+  }
+},
+{
+  "model": "portfolio.tecnologia",
+  "pk": 36,
+  "fields": {
+    "nome": "Figma",
+    "icone": "fab fa-figma",
+    "cor": "#f24e1e",
+    "categoria": "ferramenta",
+    "ativo": true
+  }
+},
+{
+  "model": "portfolio.tecnologia",
+  "pk": 37,
+  "fields": {
+    "nome": "HTML5",
+    "icone": "fab fa-html5",
+    "cor": "#e34f26",
+    "categoria": "outros",
+    "ativo": true
+  }
+},
+{
+  "model": "portfolio.tecnologia",
+  "pk": 38,
+  "fields": {
+    "nome": "CSS3",
+    "icone": "fab fa-css3-alt",
+    "cor": "#1572b6",
+    "categoria": "outros",
+    "ativo": true
+  }
+},
+{
+  "model": "portfolio.tecnologia",
+  "pk": 39,
+  "fields": {
+    "nome": "Sass",
+    "icone": "fab fa-sass",
+    "cor": "#cc6699",
+    "categoria": "outros",
+    "ativo": true
+  }
+},
+{
+  "model": "portfolio.tecnologia",
+  "pk": 40,
+  "fields": {
+    "nome": "Node.js",
+    "icone": "fab fa-node-js",
+    "cor": "#339933",
+    "categoria": "outros",
+    "ativo": true
+  }
+},
+{
+  "model": "portfolio.tecnologia",
+  "pk": 41,
+  "fields": {
+    "nome": "API REST",
+    "icone": "fas fa-exchange-alt",
+    "cor": "#25d366",
+    "categoria": "outros",
+    "ativo": true
+  }
+},
+{
+  "model": "portfolio.tecnologia",
+  "pk": 42,
+  "fields": {
+    "nome": "GraphQL",
+    "icone": "fas fa-project-diagram",
+    "cor": "#e10098",
+    "categoria": "outros",
+    "ativo": true
+  }
+},
+{
+  "model": "portfolio.tecnologia",
+  "pk": 43,
+  "fields": {
+    "nome": "C",
+    "icone": "fas fa-code",
+    "cor": "#A8B9CC",
+    "categoria": "linguagem",
+    "ativo": true
+  }
+},
+{
+  "model": "portfolio.tecnologia",
+  "pk": 44,
+  "fields": {
+    "nome": "Bubble",
+    "icone": "fas fa-circle",
+    "cor": "#007bff",
+    "categoria": "ferramenta",
+    "ativo": true
+  }
+},
+{
+  "model": "portfolio.tecnologia",
+  "pk": 45,
+  "fields": {
+    "nome": "Supabase",
+    "icone": "fas fa-database",
+    "cor": "#3ecf8e",
+    "categoria": "banco",
+    "ativo": true
+  }
+},
+{
+  "model": "portfolio.tecnologia",
+  "pk": 46,
+  "fields": {
+    "nome": "n8n",
+    "icone": "fas fa-project-diagram",
+    "cor": "#ea4b71",
+    "categoria": "ferramenta",
+    "ativo": true
+  }
+},
+{
+  "model": "portfolio.tecnologia",
+  "pk": 47,
+  "fields": {
+    "nome": "CSS",
+    "icone": "",
+    "cor": "#000000",
+    "categoria": "outros",
+    "ativo": true
+  }
+},
+{
+  "model": "portfolio.tecnologia",
+  "pk": 52,
+  "fields": {
+    "nome": "HTML/CSS",
+    "icone": "fab fa-html5",
+    "cor": "#e34f26",
+    "categoria": "linguagem",
+    "ativo": true
+  }
+},
+{
+  "model": "portfolio.projeto",
+  "pk": 22,
+  "fields": {
+    "titulo": "Meu Portf├│lio Django",
+    "subtitulo": "Site pessoal desenvolvido com Django e Railway",
+    "descricao_curta": "Portf├│lio pessoal para exibir projetos e artigos, desenvolvido com Django, Tailwind CSS e hospedado na Railway.",
+    "descricao_completa": "Este ├® meu portf├│lio pessoal desenvolvido com Django, onde compartilho meus projetos e artigos sobre desenvolvimento.\n\n## ­ƒÜÇ Funcionalidades\n- Sistema de gerenciamento de projetos\n- Blog integrado com editor rico\n- Interface administrativa personalizada\n- Design responsivo com Tailwind CSS\n- SEO otimizado\n- Internacionaliza├º├úo (PT/EN)\n- PWA (Progressive Web App)\n\n## ­ƒøá´©Å Tecnologias\n- **Backend**: Django 5.2.4\n- **Frontend**: Tailwind CSS, JavaScript\n- **Banco**: PostgreSQL\n- **Deploy**: Railway\n- **Arquivos est├íticos**: WhiteNoise\n\n## ­ƒô▒ Recursos\n- Design responsivo\n- Otimiza├º├úo para SEO\n- Sistema de cache\n- Compress├úo de imagens\n- Sitemap autom├ítico",
+    "imagem_principal": "",
+    "link_repositorio": null,
+    "link_deploy": null,
+    "destaque": true,
+    "ordem": 1,
+    "status": "concluido",
+    "ativo": true,
+    "data_criacao": "2025-07-28T17:49:10.137Z",
+    "data_atualizacao": "2025-07-28T17:49:10.137Z",
+    "tecnologias": [
+      24,
+      19,
+      34,
+      9,
+      52,
+      1
+    ]
+  }
+},
+{
+  "model": "blog.artigo",
+  "pk": 6,
+  "fields": {
+    "titulo": "Bem-vindo ao meu blog!",
+    "slug": "bem-vindo-ao-meu-blog",
+    "autor": 2,
+    "conteudo": "# Bem-vindo ao meu blog! ­ƒæï\n\nOl├í! Este ├® meu primeiro artigo no blog. Aqui vou compartilhar experi├¬ncias, aprendizados e projetos relacionados ao desenvolvimento de software.\n\n## ­ƒÜÇ O que voc├¬ vai encontrar aqui\n\n### Projetos e Experi├¬ncias\n- Detalhes sobre projetos que desenvolvi\n- Desafios enfrentados e solu├º├Áes encontradas\n- Tecnologias utilizadas e li├º├Áes aprendidas\n\n### Tutoriais e Dicas\n- Guias pr├íticos de desenvolvimento\n- Melhores pr├íticas de programa├º├úo\n- Configura├º├Áes e setups ├║teis\n\n### Tecnologia e Inova├º├úo\n- Novidades no mundo da tecnologia\n- An├ílises de ferramentas e frameworks\n- Tend├¬ncias em desenvolvimento\n\n## ­ƒÆí Minha Jornada\n\nSou desenvolvedor apaixonado por tecnologia, sempre em busca de aprender algo novo e compartilhar conhecimento com a comunidade.\n\n### Tecnologias que uso:\n- **Backend**: Python, Django, FastAPI\n- **Frontend**: JavaScript, React, Tailwind CSS\n- **Banco de Dados**: PostgreSQL, SQLite\n- **DevOps**: Docker, Railway, Vercel\n- **Ferramentas**: Git, VS Code, Linux\n\n## ­ƒÄ» Objetivos do Blog\n\n1. **Compartilhar conhecimento** - Documentar aprendizados e experi├¬ncias\n2. **Conectar com a comunidade** - Trocar ideias com outros desenvolvedores\n3. **Crescimento pessoal** - Melhorar habilidades de comunica├º├úo e escrita\n4. **Ajudar outros** - Contribuir para o aprendizado de outros desenvolvedores\n\n## ­ƒô¼ Vamos conversar!\n\nFique ├á vontade para explorar o blog e os projetos. Se tiver alguma d├║vida, sugest├úo ou quiser trocar uma ideia sobre desenvolvimento, ser├í um prazer conversar!\n\n---\n\n*Este artigo foi criado automaticamente durante a configura├º├úo inicial do blog. Novos artigos com conte├║do original ser├úo publicados em breve!*",
+    "imagem_destaque": "",
+    "resumo": "Primeiro artigo do blog, apresentando os objetivos, o que voc├¬ pode esperar encontrar aqui e um pouco sobre minha jornada como desenvolvedor.",
+    "status": "publicado",
+    "visualizacoes": 0,
+    "data_publicacao": "2025-07-28T17:49:10.145Z",
+    "data_atualizacao": "2025-07-28T17:49:10.145Z"
+  }
+}
+]
