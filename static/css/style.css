@@ -103,6 +103,7 @@
 
 .nav-item:hover {
     border-bottom-color: white;
+    color: #1a1a1a !important;
 }
 
 .nav-item.nav-active {
@@ -118,6 +119,7 @@
 
 .mobile-nav:hover {
     border-bottom-color: white;
+    color: #1a1a1a !important;
 }
 
 .mobile-nav.nav-active {

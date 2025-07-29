@@ -87,15 +87,17 @@
             margin: 0 !important;
         }
         
-        /* Força cores para impressão */
-        * {
-            color: black !important;
-            background: white !important;
-        }
-        
-        /* Mantém ícones visíveis */
-        img, svg {
-            opacity: 1 !important;
+        /* Força cores para impressão, excluindo navegação */
+        @media print {
+            *:not(nav):not(nav *):not(.navbar):not(.navbar *) {
+                color: black !important;
+                background: white !important;
+            }
+            
+            /* Mantém ícones visíveis, excluindo navegação */
+            img:not(nav img):not(.navbar img), svg:not(nav svg):not(.navbar svg) {
+                opacity: 1 !important;
+            }
         }
         
         /* Avatar menor */

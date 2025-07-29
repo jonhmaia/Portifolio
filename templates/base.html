@@ -249,11 +249,28 @@
         const hamburgerLine = document.querySelector('.hamburger-line');
         const closeLine = document.querySelector('.close-line');
         
+        // Ensure initial state is correct
+        if (mobileMenu && hamburgerLine && closeLine) {
+            mobileMenu.classList.add('hidden');
+            hamburgerLine.classList.remove('hidden');
+            closeLine.classList.add('hidden');
+            closeLine.style.display = 'none'; // Force hide with inline style
+        }
+        
         if (mobileMenuToggle && mobileMenu) {
             mobileMenuToggle.addEventListener('click', function() {
                 mobileMenu.classList.toggle('hidden');
                 hamburgerLine.classList.toggle('hidden');
                 closeLine.classList.toggle('hidden');
+                
+                // Toggle display with inline styles for extra certainty
+                if (closeLine.classList.contains('hidden')) {
+                    closeLine.style.display = 'none';
+                    hamburgerLine.style.display = 'block';
+                } else {
+                    closeLine.style.display = 'block';
+                    hamburgerLine.style.display = 'none';
+                }
             });
             
             // Close mobile menu when clicking on a link
@@ -263,6 +280,10 @@
                     mobileMenu.classList.add('hidden');
                     hamburgerLine.classList.remove('hidden');
                     closeLine.classList.add('hidden');
+                    
+                    // Force correct display states
+                    closeLine.style.display = 'none';
+                    hamburgerLine.style.display = 'block';
                 });
             });
         }

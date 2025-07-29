@@ -97,6 +97,100 @@ body {
     text-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
 }
 
+/* Fullscreen Modal */
+.fullscreen-modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(5px);
+}
+
+.fullscreen-modal.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.fullscreen-content {
+    position: relative;
+    max-width: 95vw;
+    max-height: 95vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.fullscreen-image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 10px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+}
+
+.fullscreen-close {
+    position: absolute;
+    top: -50px;
+    right: 0;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: white;
+    font-size: 2rem;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.fullscreen-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+}
+
+.fullscreen-info {
+    position: absolute;
+    bottom: -80px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    color: white;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 1rem;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+}
+
+.fullscreen-info h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.5rem;
+    color: #92A4A6;
+}
+
+.fullscreen-info p {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* Clickable cursor for carousel items */
+.carousel-item {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.carousel-item:hover {
+    transform: scale(1.02);
+}
+
 /* Main Content Layout */
 .main-content {
     display: grid;
@@ -548,22 +642,32 @@ body {
         <div class="custom-carousel">
             <!-- Main Image -->
             {% if project.imagem_principal %}
-                <div class="carousel-item" style="background-image: url('{{ project.imagem_principal.url }}')">
+                <div class="carousel-item" 
+                     style="background-image: url('{{ project.imagem_principal.url }}')"
+                     data-fullscreen-src="{{ project.imagem_principal.url }}"
+                     data-title="{% trans 'Imagem Principal' %}"
+                     data-description="{{ project.titulo }}">
                     <div class="carousel-overlay"></div>
                     <div class="item-desc">
                         <h3>{% trans "Imagem Principal" %}</h3>
                         <p>{{ project.titulo }}</p>
+                        <small style="color: rgba(255,255,255,0.7); font-size: 0.8rem;">{% trans "Clique para ver em tela cheia" %}</small>
                     </div>
                 </div>
             {% endif %}
             
             <!-- Additional Images -->
             {% for imagem in project.imagens.all %}
-                <div class="carousel-item" style="background-image: url('{{ imagem.imagem.url }}')">
+                <div class="carousel-item" 
+                     style="background-image: url('{{ imagem.imagem.url }}')"
+                     data-fullscreen-src="{{ imagem.imagem.url }}"
+                     data-title="{{ imagem.legenda|default:'Imagem do Projeto' }}"
+                     data-description="{{ imagem.legenda|default:project.titulo }}">
                     <div class="carousel-overlay"></div>
                     <div class="item-desc">
                         <h3>{{ imagem.legenda|default:"Imagem do Projeto" }}</h3>
                         <p>{{ imagem.legenda|default:project.titulo }}</p>
+                        <small style="color: rgba(255,255,255,0.7); font-size: 0.8rem;">{% trans "Clique para ver em tela cheia" %}</small>
                     </div>
                 </div>
             {% endfor %}
@@ -572,14 +676,31 @@ body {
     {% endif %}
 </section>
 
+<!-- Fullscreen Modal -->
+<div id="fullscreen-modal" class="fullscreen-modal">
+    <div class="fullscreen-content">
+        <button class="fullscreen-close" onclick="closeFullscreen()">
+            <i class="fas fa-times"></i>
+        </button>
+        <img id="fullscreen-image" class="fullscreen-image" src="" alt="">
+        <div class="fullscreen-info">
+            <h3 id="fullscreen-title"></h3>
+            <p id="fullscreen-description"></p>
+        </div>
+    </div>
+</div>
 
 {% endblock %}
 
 {% block extra_js %}
 <script>
-// Carousel interaction
+// Carousel interaction and fullscreen functionality
 document.addEventListener('DOMContentLoaded', function() {
     const carouselItems = document.querySelectorAll('.carousel-item');
+    const fullscreenModal = document.getElementById('fullscreen-modal');
+    const fullscreenImage = document.getElementById('fullscreen-image');
+    const fullscreenTitle = document.getElementById('fullscreen-title');
+    const fullscreenDescription = document.getElementById('fullscreen-description');
     
     carouselItems.forEach(item => {
         item.addEventListener('click', function(e) {
@@ -594,8 +715,43 @@ document.addEventListener('DOMContentLoaded', function() {
                 block: 'nearest',
                 inline: 'center'
             });
+            
+            // Open fullscreen modal
+            const imageSrc = this.getAttribute('data-fullscreen-src');
+            const title = this.getAttribute('data-title');
+            const description = this.getAttribute('data-description');
+            
+            if (imageSrc) {
+                fullscreenImage.src = imageSrc;
+                fullscreenImage.alt = title;
+                fullscreenTitle.textContent = title;
+                fullscreenDescription.textContent = description;
+                fullscreenModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
         });
     });
+    
+    // Close modal when clicking outside the image
+    fullscreenModal.addEventListener('click', function(e) {
+        if (e.target === fullscreenModal) {
+            closeFullscreen();
+        }
+    });
+    
+    // Close modal with Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && fullscreenModal.classList.contains('active')) {
+            closeFullscreen();
+        }
+    });
 });
+
+// Function to close fullscreen modal
+function closeFullscreen() {
+    const fullscreenModal = document.getElementById('fullscreen-modal');
+    fullscreenModal.classList.remove('active');
+    document.body.style.overflow = 'auto';
+}
 </script>
 {% endblock %}
