@@ -1,0 +1,52 @@
+<svg width="800" height="600" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="title-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#ffd89b;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#19547b;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="600" fill="url(#bg-gradient)"/>
+  
+  <!-- Decorative elements -->
+  <circle cx="150" cy="100" r="80" fill="rgba(255,255,255,0.1)" opacity="0.6"/>
+  <circle cx="650" cy="500" r="120" fill="rgba(255,255,255,0.1)" opacity="0.4"/>
+  <polygon points="700,50 750,150 650,150" fill="rgba(255,255,255,0.1)" opacity="0.5"/>
+  
+  <!-- Main content area -->
+  <rect x="100" y="150" width="600" height="300" rx="20" fill="rgba(255,255,255,0.95)" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
+  
+  <!-- Title -->
+  <text x="400" y="220" font-family="Arial, sans-serif" font-size="36" font-weight="bold" text-anchor="middle" fill="url(#title-gradient)">
+    Aianá
+  </text>
+  <text x="400" y="260" font-family="Arial, sans-serif" font-size="24" text-anchor="middle" fill="#4a5568">
+    A Revolta das Lendas
+  </text>
+  
+  <!-- Subtitle -->
+  <text x="400" y="320" font-family="Arial, sans-serif" font-size="16" text-anchor="middle" fill="#718096">
+    Projeto de Desenvolvimento
+  </text>
+  
+  <!-- Decorative line -->
+  <line x1="200" y1="340" x2="600" y2="340" stroke="#e2e8f0" stroke-width="2"/>
+  
+  <!-- Tech icons representation -->
+  <circle cx="300" cy="380" r="25" fill="#3182ce" opacity="0.8"/>
+  <text x="300" y="387" font-family="Arial, sans-serif" font-size="12" font-weight="bold" text-anchor="middle" fill="white">PY</text>
+  
+  <circle cx="400" cy="380" r="25" fill="#38a169" opacity="0.8"/>
+  <text x="400" y="387" font-family="Arial, sans-serif" font-size="12" font-weight="bold" text-anchor="middle" fill="white">DJ</text>
+  
+  <circle cx="500" cy="380" r="25" fill="#805ad5" opacity="0.8"/>
+  <text x="500" y="387" font-family="Arial, sans-serif" font-size="12" font-weight="bold" text-anchor="middle" fill="white">JS</text>
+  
+  <!-- Bottom decoration -->
+  <path d="M 100 450 Q 400 420 700 450 L 700 600 L 100 600 Z" fill="rgba(102,126,234,0.1)"/>
+</svg>

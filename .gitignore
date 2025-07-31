@@ -131,8 +131,6 @@ dmypy.json
 # Django static files
 staticfiles/
 
-# Media files
-media/
 
 # Node modules (for Tailwind)
 node_modules/
