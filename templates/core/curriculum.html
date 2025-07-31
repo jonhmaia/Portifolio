@@ -546,67 +546,37 @@
         </div>
     </section>
     
-    <!-- html2pdf.js library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    
     <script>
         function downloadCurriculum() {
-            // Configurações otimizadas para o PDF
-            const opt = {
-                margin: [0.3, 0.3, 0.3, 0.3],
-                filename: 'Curriculo_Joao_Marcos_Maia.pdf',
-                image: { type: 'jpeg', quality: 0.95 },
-                html2canvas: { 
-                    scale: 1.5,
-                    useCORS: true,
-                    allowTaint: true,
-                    letterRendering: true,
-                    height: null,
-                    width: null,
-                    scrollX: 0,
-                    scrollY: 0,
-                    windowWidth: 1200,
-                    windowHeight: window.innerHeight
-                },
-                jsPDF: { 
-                    unit: 'in', 
-                    format: 'a4', 
-                    orientation: 'portrait',
-                    compress: true
-                },
-                pagebreak: { 
-                    mode: ['css', 'legacy'],
-                    before: '.page-break-before',
-                    after: '.page-break-after',
-                    avoid: '.page-break-avoid'
-                }
-            };
+            // Detecta o idioma atual
+            const currentLanguage = '{{ LANGUAGE_CODE }}';
             
-            // Seleciona especificamente a seção do currículo
-            const element = document.querySelector('section.py-8.bg-base-300');
+            // Define o arquivo PDF baseado no idioma
+            let pdfFileName, downloadName;
             
-            if (!element) {
-                console.error('Elemento não encontrado');
-                window.print();
-                return;
+            if (currentLanguage === 'en') {
+                pdfFileName = 'Resume_Joao_Marcos_Maia.pdf';
+                downloadName = 'Resume_Joao_Marcos_Maia.pdf';
+            } else {
+                // Padrão para português
+                pdfFileName = 'Curriculo_Joao_Marcos_Maia.pdf';
+                downloadName = 'Curriculo_Joao_Marcos_Maia.pdf';
             }
             
-            // Adiciona classe temporária para melhorar a renderização do PDF
-            element.classList.add('pdf-rendering');
+            // Faz download do arquivo PDF estático
+            const link = document.createElement('a');
+            link.href = '{% static "documents/" %}' + pdfFileName;
+            link.download = downloadName;
+            link.target = '_blank';
             
-            // Aguarda um momento para aplicar os estilos
-            setTimeout(() => {
-                // Gera o PDF
-                html2pdf().set(opt).from(element).save().then(() => {
-                    // Remove a classe temporária após a geração
-                    element.classList.remove('pdf-rendering');
-                }).catch((error) => {
-                    console.error('Erro ao gerar PDF:', error);
-                    element.classList.remove('pdf-rendering');
-                    // Fallback para impressão normal
-                    window.print();
-                });
-            }, 100);
+            // Adiciona o link ao DOM temporariamente
+            document.body.appendChild(link);
+            
+            // Clica no link para iniciar o download
+            link.click();
+            
+            // Remove o link do DOM
+            document.body.removeChild(link);
         }
     </script>
 </div>
