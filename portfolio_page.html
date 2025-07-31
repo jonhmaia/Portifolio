@@ -1,0 +1,1346 @@
+
+
+
+<!DOCTYPE html>
+<html lang="pt-br" class="">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="João Marcos Maia">
+    <meta name="language" content="pt-br">
+    
+    <!-- SEO Meta Tags -->
+    <title>Joao Marcos Maia - Portifólio</title>
+    <meta name="description" content="Explore meus projetos de desenvolvimento web, aplicações Django, sistemas Python e soluções tecnológicas inovadoras.">
+    <meta name="keywords" content="projetos, Django, Python, desenvolvimento web, aplicações, sistemas, tecnologia">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://127.0.0.1:8000/portfolio/">
+    <meta property="og:title" content="&lt;/&gt; Projetos de João Marcos Maia">
+    <meta property="og:description" content="Conheça meus projetos em Django, Python e desenvolvimento web full-stack.">
+    <meta property="og:image" content="http://127.0.0.1:8000/static/images/profile.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="pt_BR">
+    <meta property="og:site_name" content="Portfólio João Marcos Maia">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="http://127.0.0.1:8000/portfolio/">
+    <meta name="twitter:title" content="&lt;/&gt; João Marcos Maia - Engenheiro de Software">
+    <meta name="twitter:description" content="Portfólio profissional com projetos inovadores em Django, Python e tecnologias web modernas.">
+    <meta name="twitter:image" content="http://127.0.0.1:8000/static/images/profile.jpg">
+    <meta name="twitter:creator" content="@joaomarcosmaia">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="http://127.0.0.1:8000/portfolio/">
+    
+    <!-- Alternate Languages -->
+    <link rel="alternate" hreflang="pt-br" href="http://127.0.0.1:8000/">
+    <link rel="alternate" hreflang="en" href="http://127.0.0.1:8000/en/">
+    <link rel="alternate" hreflang="x-default" href="http://127.0.0.1:8000/">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/static/images/favicon-code.svg">
+    <link rel="icon" type="image/x-icon" href="/static/images/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/images/icon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/images/icon-16x16.png">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/static/manifest.json">
+    
+    <!-- PWA Meta Tags -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="</> João Marcos - Dev Portfolio">
+    <meta name="msapplication-TileColor" content="#3b82f6">
+    <meta name="msapplication-config" content="/static/browserconfig.xml">
+    
+    <!-- Apple Touch Icons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/images/icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/images/icon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/images/icon-16x16.png">
+    <link rel="mask-icon" href="/static/images/safari-pinned-tab.svg" color="#3b82f6">
+    
+    <!-- Preconnect for Performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="preconnect" href="https://img.icons8.com">
+    <link rel="preconnect" href="https://raw.githubusercontent.com">
+    
+    <!-- Google Fonts - Orbitron (Sci-Fi Font) -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <link rel="stylesheet" href="/static/css/dist/styles.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/css/seo-optimizations.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/flags.css">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" media="print" onload="this.media='all'">
+    
+    <!-- External Libraries with async/defer for better performance -->
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@3.0.3/tsparticles.bundle.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.8.1/dist/vanilla-tilt.min.js" defer></script>
+    
+    <!-- SEO and Performance Optimizations -->
+     <script src="/static/js/seo-performance.js" defer></script>
+     
+     <!-- Lazy loading polyfill for older browsers -->
+     <script>
+         if ('loading' in HTMLImageElement.prototype) {
+             const images = document.querySelectorAll('img[loading="lazy"]');
+             images.forEach(img => {
+                 img.addEventListener('load', () => {
+                     img.classList.add('loaded');
+                 });
+             });
+         } else {
+             // Fallback for browsers that don't support lazy loading
+             const script = document.createElement('script');
+             script.src = 'https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js';
+             document.body.appendChild(script);
+         }
+     </script>
+    
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "João Marcos Maia",
+      "jobTitle": "Engenheiro de Software",
+      "description": "Desenvolvedor especializado em Django, Python e tecnologias web modernas",
+      "url": "http://127.0.0.1:8000",
+      "image": "http://127.0.0.1:8000/static/images/profile.jpg",
+      "sameAs": [
+        "https://linkedin.com/in/joaomarcosmaia",
+        "https://github.com/joaomarcosmaia",
+        "https://twitter.com/joaomarcosmaia"
+      ],
+      "knowsAbout": [
+        "Django",
+        "Python",
+        "JavaScript",
+        "React",
+        "PostgreSQL",
+        "Docker",
+        "AWS",
+        "Engenharia de Software"
+      ],
+      "alumniOf": {
+        "@type": "EducationalOrganization",
+        "name": "Ciência da Computação"
+      },
+      "worksFor": {
+        "@type": "Organization",
+        "name": "Flex ON",
+        "description": "Head de Tecnologia"
+      }
+    }
+    </script>
+    
+    
+<style>
+    /* Space Background */
+    .space-background {
+        background: linear-gradient(135deg, #0D0D0D 0%, #152026 25%, #253840 50%, #152026 75%, #0D0D0D 100%);
+        min-height: 100vh;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .space-background::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: 
+            radial-gradient(2px 2px at 20px 30px, #92A4A6, transparent),
+            radial-gradient(2px 2px at 40px 70px, rgba(146, 164, 166, 0.8), transparent),
+            radial-gradient(1px 1px at 90px 40px, #92A4A6, transparent),
+            radial-gradient(1px 1px at 130px 80px, rgba(146, 164, 166, 0.6), transparent),
+            radial-gradient(2px 2px at 160px 30px, #92A4A6, transparent);
+        background-repeat: repeat;
+        background-size: 200px 100px;
+        animation: twinkle 4s ease-in-out infinite alternate;
+        opacity: 0.2;
+    }
+    
+    @keyframes twinkle {
+        0% { opacity: 0.2; }
+        100% { opacity: 0.4; }
+    }
+
+    /* Main Container */
+    .main {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+        position: relative;
+        z-index: 1;
+    }
+    
+    .main h1 {
+        text-align: center;
+        margin-bottom: 2rem;
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #333;
+    }
+    
+    /* Cards Container */
+    .cards {
+        display: flex;
+        flex-direction: row;
+        gap: 2rem;
+        padding: 2rem 0;
+        list-style: none;
+        margin: 0;
+        overflow-x: auto;
+        scroll-behavior: smooth;
+    }
+    
+    .cards::-webkit-scrollbar {
+        height: 8px;
+    }
+    
+    .cards::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 4px;
+    }
+    
+    .cards::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 4px;
+    }
+    
+    .cards::-webkit-scrollbar-thumb:hover {
+        background: rgba(255, 255, 255, 0.5);
+    }
+    
+    .cards_item {
+         display: flex;
+         padding: 1rem;
+         width: 350px;
+         min-width: 350px;
+         max-width: 350px;
+         flex-shrink: 0;
+     }
+    
+    /* Card Styling */
+    .card {
+        background: linear-gradient(135deg, #152026 0%, #253840 100%);
+        border-radius: 0.75rem;
+        box-shadow: 0 20px 40px -14px rgba(0, 0, 0, 0.25);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        width: 100%;
+        transition: all 0.3s ease;
+        border: 1px solid #516973;
+    }
+    
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+    }
+    
+    /* Card Image */
+    .card_image {
+        position: relative;
+        overflow: hidden;
+        height: 200px;
+    }
+    
+    .card_image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+    
+    .card:hover .card_image img {
+        transform: scale(1.05);
+    }
+    
+    /* Card Content */
+    .card_content {
+        padding: 1.5rem;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .card_title {
+        color: #92A4A6;
+        font-size: 1.25rem;
+        font-weight: 600;
+        line-height: 1.25;
+        margin-bottom: 0.75rem;
+    }
+    
+    .card_text {
+        color: #92A4A6;
+        font-size: 0.875rem;
+        line-height: 1.5;
+        margin-bottom: 1rem;
+        opacity: 0.8;
+    }
+    
+    /* Button Styling */
+    .btn {
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        border: 1px solid transparent;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.875rem;
+    }
+    
+    .card_btn {
+        background: linear-gradient(135deg, #253840 0%, #516973 100%);
+        color: #92A4A6;
+        border: 1px solid #516973;
+        flex: 1;
+    }
+    
+    .card_btn:hover {
+        background: linear-gradient(135deg, #516973 0%, #92A4A6 100%);
+        color: #0D0D0D;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(81, 105, 115, 0.3);
+    }
+    
+    .btn-success {
+        background: linear-gradient(135deg, #152026 0%, #253840 100%);
+        color: #92A4A6;
+        border: 1px solid #516973;
+        width: 40px;
+        height: 40px;
+    }
+    
+    .btn-success:hover {
+        background: linear-gradient(135deg, #516973 0%, #92A4A6 100%);
+        color: #0D0D0D;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(81, 105, 115, 0.3);
+    }
+    
+    .btn-secondary {
+        background: linear-gradient(135deg, #152026 0%, #253840 100%);
+        color: #92A4A6;
+        border: 1px solid #516973;
+        width: 40px;
+        height: 40px;
+    }
+    
+    .btn-secondary:hover {
+        background: linear-gradient(135deg, #516973 0%, #92A4A6 100%);
+        color: #0D0D0D;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(81, 105, 115, 0.3);
+    }
+    
+    /* Status Badges */
+    .status-badge {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        padding: 0.25rem 0.75rem;
+        border-radius: 9999px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        z-index: 10;
+    }
+    
+    .status-concluido {
+        background: linear-gradient(135deg, #152026 0%, #253840 100%);
+        color: #92A4A6;
+    }
+    
+    .status-desenvolvimento {
+        background: linear-gradient(135deg, #253840 0%, #516973 100%);
+        color: #92A4A6;
+    }
+    
+    .status-pausado {
+        background: linear-gradient(135deg, #516973 0%, #92A4A6 100%);
+        color: #0D0D0D;
+    }
+    
+    .status-planejado {
+        background: linear-gradient(135deg, #92A4A6 0%, #516973 100%);
+        color: #0D0D0D;
+    }
+    
+    /* Featured Badge */
+    .featured-badge {
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+        background: linear-gradient(135deg, #516973 0%, #92A4A6 100%);
+        color: #0D0D0D;
+        padding: 0.25rem 0.75rem;
+        border-radius: 9999px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+    }
+    
+    /* Technologies */
+    .technologies {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .tech-badge {
+        background: linear-gradient(135deg, #516973 0%, #92A4A6 100%);
+        color: #0D0D0D;
+        padding: 0.25rem 0.75rem;
+        border-radius: 9999px;
+        font-size: 0.75rem;
+        font-weight: 500;
+        border: 1px solid #92A4A6;
+    }
+    
+    /* Action Buttons Container */
+    .action-buttons {
+        display: flex;
+        gap: 0.75rem;
+        margin-top: auto;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .main {
+            padding: 1rem;
+        }
+        
+        .main h1 {
+            font-size: 2rem;
+        }
+        
+        .cards {
+            gap: 1rem;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .card_content {
+            padding: 1rem;
+        }
+    }
+    
+    /* Made with love */
+    .made_by {
+        text-align: center;
+        margin-top: 3rem;
+        color: #666;
+        font-size: 1.1rem;
+    }
+    
+    /* Simplified image styles - no gallery needed */
+    .card_image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+</style>
+
+</head>
+<body class="text-base-content transition-colors duration-300" data-theme="modern" style="background-color: #0D0D0D;" itemscope itemtype="https://schema.org/WebPage">
+    <!-- Skip to main content link for accessibility -->
+    <a href="#main-content" class="skip-link">Pular para o conteúdo principal</a>
+    <!-- Navigation Bar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md" style="background-color: rgba(21, 32, 38, 0.95);">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Nome à esquerda -->
+                <a href="/" id="name-element" class="text-white font-bold text-lg transition-all duration-500 hover:text-gray-300 cursor-pointer">
+                    João Marcos Maia
+                </a>
+                
+                <!-- Menu e Language Selector à direita -->
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="/" class="nav-item nav-home px-4 py-2 text-white transition-all duration-300 font-medium hover:bg-white hover:bg-opacity-10 ">Início</a>
+                        <a href="/portfolio/" class="nav-item nav-projects px-4 py-2 text-white transition-all duration-300 font-medium hover:bg-white hover:bg-opacity-10 nav-active">Projetos</a>
+                        <a href="/blog/" class="nav-item nav-articles px-4 py-2 text-white transition-all duration-300 font-medium hover:bg-white hover:bg-opacity-10 ">Artigos</a>
+                        <a href="/curriculum/" class="nav-item nav-curriculum px-4 py-2 text-white transition-all duration-300 font-medium hover:bg-white hover:bg-opacity-10 ">Currículo</a>
+
+                    
+                    <!-- Language Selector Desktop -->
+                    <div class="flex items-center space-x-2">
+                        <button id="lang-btn-pt" class="flex items-center px-3 py-1 text-sm text-white hover:text-blue-300 transition-colors duration-300 font-bold">
+                            <img src="https://cdn-icons-png.flaticon.com/512/3909/3909370.png" alt="Brasil" width="24" style="border-radius: 20%" class="mr-1">
+                            PT
+                        </button>
+                        <span class="text-white/50">|</span>
+                        <button id="lang-btn-en" class="flex items-center px-3 py-1 text-sm text-white hover:text-blue-300 transition-colors duration-300 ">
+                            <img src="https://cdn-icons-png.flaticon.com/512/197/197484.png" alt="Reino Unido" width="24" style="border-radius: 20%" class="mr-1">
+                            EN
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-toggle" class="text-white hover:text-blue-300 transition-colors duration-300">
+                        <svg class="hamburger-line w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                        <svg class="close-line w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden hidden backdrop-blur-md" style="background-color: rgba(21, 32, 38, 0.95);">
+            <div class="px-4 py-4 space-y-2">
+                <a href="/" class="nav-item nav-home mobile-nav block px-4 py-2 text-white transition-all duration-300 font-medium hover:bg-white hover:bg-opacity-10 ">Início</a>
+                        <a href="/portfolio/" class="nav-item nav-projects mobile-nav block px-4 py-2 text-white transition-all duration-300 font-medium hover:bg-white hover:bg-opacity-10 nav-active">Projetos</a>
+                        <a href="/blog/" class="nav-item nav-articles mobile-nav block px-4 py-2 text-white transition-all duration-300 font-medium hover:bg-white hover:bg-opacity-10 ">Artigos</a>
+                        <a href="/curriculum/" class="nav-item nav-curriculum mobile-nav block px-4 py-2 text-white transition-all duration-300 font-medium hover:bg-white hover:bg-opacity-10 ">Currículo</a>
+                
+                <!-- Language Selector Mobile -->
+                <div class="flex items-center space-x-2 pt-4">
+                    <button id="mobile-lang-btn-pt" class="flex items-center px-3 py-1 text-sm text-white hover:text-blue-300 transition-colors duration-300 font-bold">
+                        <img src="https://cdn-icons-png.flaticon.com/512/3909/3909370.png" alt="Brasil" width="24" style="border-radius: 20%" class="mr-1">
+                        PT
+                    </button>
+                    <span class="text-white/50">|</span>
+                    <button id="mobile-lang-btn-en" class="flex items-center px-3 py-1 text-sm text-white hover:text-blue-300 transition-colors duration-300 ">
+                        <img src="https://cdn-icons-png.flaticon.com/512/197/197484.png" alt="Reino Unido" width="24" style="border-radius: 20%" class="mr-1">
+                        EN
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <main id="main-content" class="min-h-screen pt-16" role="main">
+        
+
+
+
+
+<!-- Featured Projects Section -->
+
+<section class="bg-base-200 py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12 animate-fade-in">
+            <h2 class="text-3xl md:text-4xl font-bold text-base-content mb-4">
+                Projetos em Destaque
+            </h2>
+            <p class="text-lg text-base-content/70">
+                Meus trabalhos mais importantes
+            </p>
+        </div>
+        
+        <ul class="cards">
+            
+                <li class="cards_item">
+                    <div class="card">
+                        <!-- Project Main Image -->
+                        <div class="card_image">
+                            
+                                <img src="/media/projetos/Captura_de_tela_2025-07-25_152112.png" alt="Meu portifólio">
+                            
+                            
+                            <!-- Status Badge -->
+                            <span class="status-badge status-concluido">
+                                Concluído
+                            </span>
+                            
+                            <!-- Featured Badge -->
+                            <span class="featured-badge">
+                                <i class="fas fa-star"></i> Destaque
+                            </span>
+                        </div>
+                    
+                        <!-- Project Content -->
+                        <div class="card_content">
+                            <h2 class="card_title">Meu portifólio</h2>
+                            
+                            
+                                <p class="card_text">Plataforma de Portfólio Pessoal</p>
+                            
+                            
+                            <p class="card_text">Este não é um site de portfólio comum, mas uma aplicação web full-stack completa, desenvolvida do zero para ser, por …</p>
+                            
+                            <!-- Technologies -->
+                            <div class="technologies">
+                                
+                                    <span class="tech-badge">
+                                        
+                                            <i class="fas fa-database"></i>
+                                        
+                                        SQLite
+                                    </span>
+                                
+                                    <span class="tech-badge">
+                                        
+                                            <i class="fas fa-palette"></i>
+                                        
+                                        Tailwind CSS
+                                    </span>
+                                
+                                    <span class="tech-badge">
+                                        
+                                            <i class="fab fa-docker"></i>
+                                        
+                                        Docker
+                                    </span>
+                                
+                                    <span class="tech-badge">
+                                        
+                                            <i class="fab fa-github"></i>
+                                        
+                                        GitHub
+                                    </span>
+                                
+                                
+                                    <span class="tech-badge">+6</span>
+                                
+                            </div>
+                            
+                            <!-- Action Buttons -->
+                            <div class="action-buttons">
+                                <a href="/portfolio/project/36/" class="btn card_btn">
+                                    Ver Detalhes
+                                </a>
+                                
+                                
+                                    <a href="https://joaomarcos.dev.br/" target="_blank" class="btn btn-success">
+                                        <i class="fas fa-external-link-alt"></i>
+                                    </a>
+                                
+                                
+                                
+                                    <a href="https://github.com/jonhmaia/Portifolio" target="_blank" class="btn btn-secondary">
+                                        <i class="fab fa-github"></i>
+                                    </a>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            
+                <li class="cards_item">
+                    <div class="card">
+                        <!-- Project Main Image -->
+                        <div class="card_image">
+                            
+                                <img src="/media/projetos/Captura_de_tela_2025-07-27_153839.png" alt="CASHMED fintech">
+                            
+                            
+                            <!-- Status Badge -->
+                            <span class="status-badge status-concluido">
+                                Concluído
+                            </span>
+                            
+                            <!-- Featured Badge -->
+                            <span class="featured-badge">
+                                <i class="fas fa-star"></i> Destaque
+                            </span>
+                        </div>
+                    
+                        <!-- Project Content -->
+                        <div class="card_content">
+                            <h2 class="card_title">CASHMED fintech</h2>
+                            
+                            
+                                <p class="card_text">Desenvolvimento Ágil do MVP da Fintech CashMed: Da Validação à Produção</p>
+                            
+                            
+                            <p class="card_text">Contratado para desenvolver o MVP da fintech CashMed, entreguei uma plataforma web/mobile segura e funcional em prazo recorde. Utilizando uma …</p>
+                            
+                            <!-- Technologies -->
+                            <div class="technologies">
+                                
+                                    <span class="tech-badge">
+                                        
+                                            <i class="fa-solid fa-b"></i>
+                                        
+                                        Bubble.io
+                                    </span>
+                                
+                                    <span class="tech-badge">
+                                        
+                                            <i class="fas fa-database"></i>
+                                        
+                                        Supabase
+                                    </span>
+                                
+                                    <span class="tech-badge">
+                                        
+                                            <i class="fab fa-github"></i>
+                                        
+                                        GitHub
+                                    </span>
+                                
+                                    <span class="tech-badge">
+                                        
+                                            <i class="fab fa-html5"></i>
+                                        
+                                        HTML/CSS
+                                    </span>
+                                
+                                
+                                    <span class="tech-badge">+2</span>
+                                
+                            </div>
+                            
+                            <!-- Action Buttons -->
+                            <div class="action-buttons">
+                                <a href="/portfolio/project/35/" class="btn card_btn">
+                                    Ver Detalhes
+                                </a>
+                                
+                                
+                                    <a href="https://cashmed.app/" target="_blank" class="btn btn-success">
+                                        <i class="fas fa-external-link-alt"></i>
+                                    </a>
+                                
+                                
+                                
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            
+                <li class="cards_item">
+                    <div class="card">
+                        <!-- Project Main Image -->
+                        <div class="card_image">
+                            
+                                <img src="/media/projetos/Captura_de_tela_2025-07-27_151935.png" alt="FlexON Empresas">
+                            
+                            
+                            <!-- Status Badge -->
+                            <span class="status-badge status-concluido">
+                                Concluído
+                            </span>
+                            
+                            <!-- Featured Badge -->
+                            <span class="featured-badge">
+                                <i class="fas fa-star"></i> Destaque
+                            </span>
+                        </div>
+                    
+                        <!-- Project Content -->
+                        <div class="card_content">
+                            <h2 class="card_title">FlexON Empresas</h2>
+                            
+                            
+                                <p class="card_text">Tech Lead da empresa</p>
+                            
+                            
+                            <p class="card_text">Como líder de tecnologia na startup de saúde Flex On, liderei a concepção, o desenvolvimento e a automação de todo …</p>
+                            
+                            <!-- Technologies -->
+                            <div class="technologies">
+                                
+                                    <span class="tech-badge">
+                                        
+                                            <i class="fa-solid fa-b"></i>
+                                        
+                                        Bubble.io
+                                    </span>
+                                
+                                    <span class="tech-badge">
+                                        
+                                            <i class="fas fa-database"></i>
+                                        
+                                        Supabase
+                                    </span>
+                                
+                                    <span class="tech-badge">
+                                        
+                                            <i class="fab fa-figma"></i>
+                                        
+                                        Figma
+                                    </span>
+                                
+                                    <span class="tech-badge">
+                                        
+                                            <i class="fas fa-project-diagram"></i>
+                                        
+                                        n8n
+                                    </span>
+                                
+                                
+                                    <span class="tech-badge">+3</span>
+                                
+                            </div>
+                            
+                            <!-- Action Buttons -->
+                            <div class="action-buttons">
+                                <a href="/portfolio/project/34/" class="btn card_btn">
+                                    Ver Detalhes
+                                </a>
+                                
+                                
+                                    <a href="https://flexon.fit/" target="_blank" class="btn btn-success">
+                                        <i class="fas fa-external-link-alt"></i>
+                                    </a>
+                                
+                                
+                                
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            
+        </ul>
+    </div>
+</section>
+
+
+<!-- All Projects Section -->
+<section class="py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+            <div class="text-center mb-12 animate-fade-in">
+                <h2 class="text-3xl md:text-4xl font-bold text-base-content mb-4">
+                    Outros Projetos
+                </h2>
+            </div>
+        
+        
+        
+            <ul class="cards">
+                
+                    <li class="cards_item">
+                            <div class="card">
+                                <!-- Project Main Image -->
+                                <div class="card_image">
+                                    
+                                        <img src="/media/projetos/Captura_de_tela_2025-07-25_152112.png" alt="Meu portifólio">
+                                    
+                                    
+                                    <!-- Status Badge -->
+                                    <span class="status-badge status-concluido">
+                                        Concluído
+                                    </span>
+                                </div>
+                                
+                                <!-- Project Content -->
+                                <div class="card_content">
+                                    <h2 class="card_title">Meu portifólio</h2>
+                                    
+                                    
+                                        <p class="card_text">Plataforma de Portfólio Pessoal</p>
+                                    
+                                    
+                                    <p class="card_text">Este não é um site de portfólio comum, mas uma aplicação web full-stack completa, desenvolvida do zero para ser, por …</p>
+                                    
+                                    <!-- Technologies -->
+                                    <div class="technologies">
+                                        
+                                            <span class="tech-badge">
+                                                
+                                                    <i class="fas fa-database"></i>
+                                                
+                                                SQLite
+                                            </span>
+                                        
+                                            <span class="tech-badge">
+                                                
+                                                    <i class="fas fa-palette"></i>
+                                                
+                                                Tailwind CSS
+                                            </span>
+                                        
+                                            <span class="tech-badge">
+                                                
+                                                    <i class="fab fa-docker"></i>
+                                                
+                                                Docker
+                                            </span>
+                                        
+                                            <span class="tech-badge">
+                                                
+                                                    <i class="fab fa-github"></i>
+                                                
+                                                GitHub
+                                            </span>
+                                        
+                                        
+                                            <span class="tech-badge">+6</span>
+                                        
+                                    </div>
+                                    
+                                    <!-- Action Buttons -->
+                                    <div class="action-buttons">
+                                        <a href="/portfolio/project/36/" class="btn card_btn">
+                                            Ver Detalhes
+                                        </a>
+                                        
+                                        
+                                            <a href="https://joaomarcos.dev.br/" target="_blank" class="btn btn-success">
+                                                <i class="fas fa-external-link-alt"></i>
+                                            </a>
+                                        
+                                        
+                                        
+                                            <a href="https://github.com/jonhmaia/Portifolio" target="_blank" class="btn btn-secondary">
+                                                <i class="fab fa-github"></i>
+                                            </a>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                
+                    <li class="cards_item">
+                            <div class="card">
+                                <!-- Project Main Image -->
+                                <div class="card_image">
+                                    
+                                        <img src="/media/projetos/Captura_de_tela_2025-07-27_153839.png" alt="CASHMED fintech">
+                                    
+                                    
+                                    <!-- Status Badge -->
+                                    <span class="status-badge status-concluido">
+                                        Concluído
+                                    </span>
+                                </div>
+                                
+                                <!-- Project Content -->
+                                <div class="card_content">
+                                    <h2 class="card_title">CASHMED fintech</h2>
+                                    
+                                    
+                                        <p class="card_text">Desenvolvimento Ágil do MVP da Fintech CashMed: Da Validação à Produção</p>
+                                    
+                                    
+                                    <p class="card_text">Contratado para desenvolver o MVP da fintech CashMed, entreguei uma plataforma web/mobile segura e funcional em prazo recorde. Utilizando uma …</p>
+                                    
+                                    <!-- Technologies -->
+                                    <div class="technologies">
+                                        
+                                            <span class="tech-badge">
+                                                
+                                                    <i class="fa-solid fa-b"></i>
+                                                
+                                                Bubble.io
+                                            </span>
+                                        
+                                            <span class="tech-badge">
+                                                
+                                                    <i class="fas fa-database"></i>
+                                                
+                                                Supabase
+                                            </span>
+                                        
+                                            <span class="tech-badge">
+                                                
+                                                    <i class="fab fa-github"></i>
+                                                
+                                                GitHub
+                                            </span>
+                                        
+                                            <span class="tech-badge">
+                                                
+                                                    <i class="fab fa-html5"></i>
+                                                
+                                                HTML/CSS
+                                            </span>
+                                        
+                                        
+                                            <span class="tech-badge">+2</span>
+                                        
+                                    </div>
+                                    
+                                    <!-- Action Buttons -->
+                                    <div class="action-buttons">
+                                        <a href="/portfolio/project/35/" class="btn card_btn">
+                                            Ver Detalhes
+                                        </a>
+                                        
+                                        
+                                            <a href="https://cashmed.app/" target="_blank" class="btn btn-success">
+                                                <i class="fas fa-external-link-alt"></i>
+                                            </a>
+                                        
+                                        
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                
+                    <li class="cards_item">
+                            <div class="card">
+                                <!-- Project Main Image -->
+                                <div class="card_image">
+                                    
+                                        <img src="/media/projetos/Captura_de_tela_2025-07-27_151935.png" alt="FlexON Empresas">
+                                    
+                                    
+                                    <!-- Status Badge -->
+                                    <span class="status-badge status-concluido">
+                                        Concluído
+                                    </span>
+                                </div>
+                                
+                                <!-- Project Content -->
+                                <div class="card_content">
+                                    <h2 class="card_title">FlexON Empresas</h2>
+                                    
+                                    
+                                        <p class="card_text">Tech Lead da empresa</p>
+                                    
+                                    
+                                    <p class="card_text">Como líder de tecnologia na startup de saúde Flex On, liderei a concepção, o desenvolvimento e a automação de todo …</p>
+                                    
+                                    <!-- Technologies -->
+                                    <div class="technologies">
+                                        
+                                            <span class="tech-badge">
+                                                
+                                                    <i class="fa-solid fa-b"></i>
+                                                
+                                                Bubble.io
+                                            </span>
+                                        
+                                            <span class="tech-badge">
+                                                
+                                                    <i class="fas fa-database"></i>
+                                                
+                                                Supabase
+                                            </span>
+                                        
+                                            <span class="tech-badge">
+                                                
+                                                    <i class="fab fa-figma"></i>
+                                                
+                                                Figma
+                                            </span>
+                                        
+                                            <span class="tech-badge">
+                                                
+                                                    <i class="fas fa-project-diagram"></i>
+                                                
+                                                n8n
+                                            </span>
+                                        
+                                        
+                                            <span class="tech-badge">+3</span>
+                                        
+                                    </div>
+                                    
+                                    <!-- Action Buttons -->
+                                    <div class="action-buttons">
+                                        <a href="/portfolio/project/34/" class="btn card_btn">
+                                            Ver Detalhes
+                                        </a>
+                                        
+                                        
+                                            <a href="https://flexon.fit/" target="_blank" class="btn btn-success">
+                                                <i class="fas fa-external-link-alt"></i>
+                                            </a>
+                                        
+                                        
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                
+                    <li class="cards_item">
+                            <div class="card">
+                                <!-- Project Main Image -->
+                                <div class="card_image">
+                                    
+                                        <img src="/media/projetos/aiana.png" alt="Aianá - A Revolta das Lendas">
+                                    
+                                    
+                                    <!-- Status Badge -->
+                                    <span class="status-badge status-concluido">
+                                        Concluído
+                                    </span>
+                                </div>
+                                
+                                <!-- Project Content -->
+                                <div class="card_content">
+                                    <h2 class="card_title">Aianá - A Revolta das Lendas</h2>
+                                    
+                                    
+                                        <p class="card_text">RPG - Folclore brasileiro</p>
+                                    
+                                    
+                                    <p class="card_text">Um jogo de plataforma 2D desenvolvido na Godot Engine como parte de um projeto acadêmico. O jogador controla Aiana, uma …</p>
+                                    
+                                    <!-- Technologies -->
+                                    <div class="technologies">
+                                        
+                                            <span class="tech-badge">
+                                                
+                                                    <i class="fa-solid fa-paint-roller"></i>
+                                                
+                                                Aseprite
+                                            </span>
+                                        
+                                            <span class="tech-badge">
+                                                
+                                                    <i class="fa-solid fa-code"></i>
+                                                
+                                                GDG Script
+                                            </span>
+                                        
+                                            <span class="tech-badge">
+                                                
+                                                    <i class="fa-solid fa-robot"></i>
+                                                
+                                                Godot
+                                            </span>
+                                        
+                                            <span class="tech-badge">
+                                                
+                                                    <i class="fa-solid fa-cube"></i>
+                                                
+                                                Notion
+                                            </span>
+                                        
+                                        
+                                            <span class="tech-badge">+2</span>
+                                        
+                                    </div>
+                                    
+                                    <!-- Action Buttons -->
+                                    <div class="action-buttons">
+                                        <a href="/portfolio/project/33/" class="btn card_btn">
+                                            Ver Detalhes
+                                        </a>
+                                        
+                                        
+                                            <a href="https://ossemflorestas.itch.io/aiana" target="_blank" class="btn btn-success">
+                                                <i class="fas fa-external-link-alt"></i>
+                                            </a>
+                                        
+                                        
+                                        
+                                            <a href="https://github.com/jonhmaia/Jogo-Aiana" target="_blank" class="btn btn-secondary">
+                                                <i class="fab fa-github"></i>
+                                            </a>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                
+            </ul>
+            
+
+        
+    </div>
+</section>
+
+
+
+    </main>
+    
+    <!-- Footer -->
+    <footer style="background: linear-gradient(-45deg, #152026, #253840, #516973, #152026); background-size: 400% 400%; animation: gradientShift 15s ease infinite;">
+        <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+            <div class="text-center text-white">
+                <p>&copy; 2024 Meu Portfólio. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="/static/js/effects.js"></script>
+    
+    <script>
+    // Mobile menu functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const hamburgerLine = document.querySelector('.hamburger-line');
+        const closeLine = document.querySelector('.close-line');
+        
+        // Ensure initial state is correct
+        if (mobileMenu && hamburgerLine && closeLine) {
+            mobileMenu.classList.add('hidden');
+            hamburgerLine.classList.remove('hidden');
+            closeLine.classList.add('hidden');
+            closeLine.style.display = 'none'; // Force hide with inline style
+        }
+        
+        if (mobileMenuToggle && mobileMenu) {
+            mobileMenuToggle.addEventListener('click', function() {
+                mobileMenu.classList.toggle('hidden');
+                hamburgerLine.classList.toggle('hidden');
+                closeLine.classList.toggle('hidden');
+                
+                // Toggle display with inline styles for extra certainty
+                if (closeLine.classList.contains('hidden')) {
+                    closeLine.style.display = 'none';
+                    hamburgerLine.style.display = 'block';
+                } else {
+                    closeLine.style.display = 'block';
+                    hamburgerLine.style.display = 'none';
+                }
+            });
+            
+            // Close mobile menu when clicking on a link
+            const mobileMenuLinks = mobileMenu.querySelectorAll('.mobile-nav');
+            mobileMenuLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    mobileMenu.classList.add('hidden');
+                    hamburgerLine.classList.remove('hidden');
+                    closeLine.classList.add('hidden');
+                    
+                    // Force correct display states
+                    closeLine.style.display = 'none';
+                    hamburgerLine.style.display = 'block';
+                });
+            });
+        }
+    });
+    
+    // Language selector functionality
+    function changeLanguage(langCode) {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/set_language/';
+        
+        const csrfToken = document.createElement('input');
+        csrfToken.type = 'hidden';
+        csrfToken.name = 'csrfmiddlewaretoken';
+        csrfToken.value = 'En0O9EtUA1OvaqaHz7eY8wKwVNHk6hXWheZn8lffITaNA9uDJWFl52CZipshWwjG';
+        
+        const langInput = document.createElement('input');
+        langInput.type = 'hidden';
+        langInput.name = 'language';
+        langInput.value = langCode;
+        
+        form.appendChild(csrfToken);
+        form.appendChild(langInput);
+        document.body.appendChild(form);
+        form.submit();
+    }
+    
+    // Setup language buttons
+    document.addEventListener('DOMContentLoaded', function() {
+        const desktopPtBtn = document.getElementById('lang-btn-pt');
+        const desktopEnBtn = document.getElementById('lang-btn-en');
+        const mobilePtBtn = document.getElementById('mobile-lang-btn-pt');
+        const mobileEnBtn = document.getElementById('mobile-lang-btn-en');
+        
+        if (desktopPtBtn) {
+            desktopPtBtn.addEventListener('click', () => {
+                window.location.href = '/';
+            });
+        }
+        if (desktopEnBtn) {
+            desktopEnBtn.addEventListener('click', () => changeLanguage('en'));
+        }
+        if (mobilePtBtn) {
+            mobilePtBtn.addEventListener('click', () => {
+                window.location.href = '/';
+            });
+        }
+        if (mobileEnBtn) {
+            mobileEnBtn.addEventListener('click', () => changeLanguage('en'));
+        }
+    });
+    
+    // Gradient animation keyframes
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+    `;
+    document.head.appendChild(style);
+    
+    // Random discrete blinking animation for name
+    function randomBlink() {
+        const nameElement = document.getElementById('name-element');
+        if (nameElement) {
+            // Random opacity between 0.7 and 1.0 for subtle effect
+            const opacity = Math.random() * 0.3 + 0.7;
+            nameElement.style.opacity = opacity;
+            
+            // Random interval between 2-8 seconds
+            const nextInterval = Math.random() * 6000 + 2000;
+            setTimeout(randomBlink, nextInterval);
+        }
+    }
+    
+    // Start the random blinking after page load
+    document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(randomBlink, 3000); // Start after 3 seconds
+    });
+    </script>
+    
+    
+<script>
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+
+    // Add animation on scroll
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, observerOptions);
+
+    // Observe all project cards
+    document.querySelectorAll('.project-card').forEach(card => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(card);
+    });
+    
+    // Removed gallery functionality - now showing only main images
+</script>
+
+</body>
+</html>
