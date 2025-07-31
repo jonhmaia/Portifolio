@@ -264,12 +264,25 @@ msgid ""
 "Com expertise que abrange desde o desenvolvimento web (Django) e banco de "
 "dados no SISDIM, passando pela engenharia de prompt, automações (N8N, Bubble "
 "IO) e agentes de IA no CEIA, até a liderança de equipes e gestão de projetos "
-"como Head de Tecnologia na Flex ON."
+"como Gestor de Tecnologia na FLEX ON."
 msgstr ""
 "With expertise ranging from web development (Django) and databases at "
 "SISDIM, through prompt engineering, automations (N8N, Bubble IO) and AI "
-"agents at CEIA, to team leadership and project management as Head of "
-"Technology at Flex ON."
+"agents at CEIA, to team leadership and project management as Technology "
+"Manager at FLEX ON."
+
+#: .\templates\core\curriculum.html:266
+msgid ""
+"Engenheiro de Software com uma visão orientada a produto e negócios. Minha "
+"especialidade é ser a ponte entre a tecnologia e os objetivos da empresa, "
+"seja construindo aplicações complexas e escaláveis com stacks tradicionais, "
+"ou desenvolvendo ecossistemas inteiros e MVPs em tempo recorde com "
+"plataformas No-Code ."
+msgstr ""
+"Software Engineer with a product and business-oriented vision. My specialty "
+"is being the bridge between technology and company objectives, whether "
+"building complex and scalable applications with traditional stacks, or "
+"developing entire ecosystems and MVPs in record time with No-Code platforms."
 
 #: .\templates\core\curriculum.html:184
 msgid "Informações de Contato"
@@ -284,8 +297,8 @@ msgid "Experiência Profissional"
 msgstr "Professional Experience"
 
 #: .\templates\core\curriculum.html:375
-msgid "Head de Tecnologia"
-msgstr "Head of Technology"
+msgid "Gestor de Tecnologia"
+msgstr "Technology Manager"
 
 #: .\templates\core\curriculum.html:378
 msgid "Fevereiro de 2024 - Atual"
@@ -293,23 +306,21 @@ msgstr "February 2024 - Present"
 
 #: .\templates\core\curriculum.html:381
 msgid ""
-"Como Head de tecnologia na Flex ON minhas principais responsabilidades e "
-"tecnologias são:"
+"Como Gestor de tecnologia na FLEX ON minhas principais responsabilidades são:"
 msgstr ""
-"As Head of Technology at Flex ON, my main responsibilities and technologies "
-"are:"
+"As Technology Manager at FLEX ON, my main responsibilities are:"
 
 #: .\templates\core\curriculum.html:382
-msgid "Coordenação de equipe"
-msgstr "Team coordination"
+msgid "Liderança de equipe"
+msgstr "Team leadership"
 
 #: .\templates\core\curriculum.html:382
 msgid "Product Manager"
 msgstr "Product Manager"
 
 #: .\templates\core\curriculum.html:382
-msgid "Designer"
-msgstr "Designer"
+msgid "Desenvolvedor No-Code"
+msgstr "No-Code Developer"
 
 #: .\templates\core\curriculum.html:382
 msgid "Arquiteto de Software"
@@ -344,16 +355,44 @@ msgstr ""
 "technologies are:"
 
 #: .\templates\core\curriculum.html:396
-msgid "Desenvolver o front do chat"
-msgstr "Develop the chat frontend"
+msgid "Desenvolvimento Front-End"
+msgstr "Front-End Development"
 
 #: .\templates\core\curriculum.html:396
-msgid "Engenheiro de Prompt"
-msgstr "Prompt Engineer"
+msgid "Engenharia de Prompts"
+msgstr "Prompt Engineering"
 
 #: .\templates\core\curriculum.html:396
-msgid "Administrador de Banco de dados"
-msgstr "Database Administrator"
+msgid "Desenvolvimento e Curadoria de Agentes de IA"
+msgstr "Development and Curation of AI Agents"
+
+#: .\templates\core\curriculum.html:396
+msgid "Automação e RPA"
+msgstr "Automation and RPA"
+
+#: .\templates\core\curriculum.html:468
+msgid "Automações e RPA"
+msgstr "Automations and RPA"
+
+#: .\templates\core\curriculum.html:468
+msgid "Engenheiro de Software Full-Stack"
+msgstr "Full-Stack Software Engineer"
+
+#: .\templates\core\curriculum.html:468
+msgid "Agentes de Inteligência Artificial"
+msgstr "Artificial Intelligence Agents"
+
+#: .\templates\core\curriculum.html:396
+msgid "Administração de Bancos de Dados"
+msgstr "Database Administration"
+
+#: .\templates\core\curriculum.html:396
+msgid "Modelagem e Otimização de Dados"
+msgstr "Data Modeling and Optimization"
+
+#: .\templates\core\curriculum.html:489
+msgid "Desenvolvedor Web"
+msgstr "Web Developer"
 
 #: .\templates\core\curriculum.html:406
 msgid "Fevereiro de 2023 - Fevereiro de 2024"
@@ -361,13 +400,11 @@ msgstr "February 2023 - February 2024"
 
 #: .\templates\core\curriculum.html:409
 msgid ""
-"Como estagiário pela Universidade Federal de Goiás, integrei a equipe que "
-"desenvolveu o Sistema de Dimensionamento da Força de Trabalho em Saúde no "
-"Brasil. No projeto minhas principais tarefas foram:"
+"Desenvolvimento de aplicações web utilizando Django, com foco em "
+"funcionalidades robustas e experiência do usuário otimizada:"
 msgstr ""
-"As an intern at the Federal University of Goiás, I joined the team that "
-"developed the Health Workforce Sizing System in Brazil. In the project, my "
-"main tasks were:"
+"Development of web applications using Django, focusing on robust "
+"functionality and optimized user experience:"
 
 #: .\templates\core\curriculum.html:410
 msgid "Desenvolvimento Web em Django"
@@ -598,13 +635,11 @@ msgstr ""
 
 #: .\templates\portfolio\project_detail.html:615
 msgid "Outros projetos que podem interessar"
-msgstr ""
+msgstr "Other projects that might interest you"
 
 #: .\templates\portfolio\projects.html:181
-#, fuzzy
-#| msgid "Meus projetos mais importantes e destacados"
 msgid "Meus trabalhos mais importantes"
-msgstr "My most important and featured projects"
+msgstr "My most important works"
 
 #: .\templates\portfolio\projects.html:292
 #, fuzzy
@@ -613,10 +648,8 @@ msgid "Todos os Projetos"
 msgstr "View All Projects"
 
 #: .\templates\portfolio\projects.html:299
-#, fuzzy
-#| msgid "Ver Projetos"
 msgid "Outros Projetos"
-msgstr "View Projects"
+msgstr "Other Projects"
 
 #: .\templates\portfolio\projects.html:432
 #, fuzzy

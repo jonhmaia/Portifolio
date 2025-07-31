@@ -107,77 +107,253 @@ body {
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.95);
-    backdrop-filter: blur(5px);
+    backdrop-filter: blur(10px);
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
 .fullscreen-modal.active {
     display: flex;
-    align-items: center;
-    justify-content: center;
+    flex-direction: column;
+    opacity: 1;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
 .fullscreen-content {
-    position: relative;
-    max-width: 95vw;
-    max-height: 95vh;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    transform: scale(0.8);
+    transition: transform 0.3s ease;
+}
+
+.fullscreen-modal.active .fullscreen-content {
+    transform: scale(1);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 0 20px 0;
+    flex-shrink: 0;
+}
+
+.modal-image-container {
+    flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
+    min-height: 0;
+}
+
+.modal-footer {
+    padding: 20px 0 0 0;
+    flex-shrink: 0;
 }
 
 .fullscreen-image {
     max-width: 100%;
     max-height: 100%;
+    width: auto;
+    height: auto;
     object-fit: contain;
-    border-radius: 10px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+    border-radius: 15px;
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.9);
+    transition: transform 0.3s ease;
+    cursor: zoom-in;
 }
 
-.fullscreen-close {
-    position: absolute;
-    top: -50px;
-    right: 0;
+.fullscreen-image.zoomed {
+    transform: scale(1.5);
+    cursor: zoom-out;
+}
+
+/* Modal Controls */
+.modal-controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.modal-btn {
     background: rgba(255, 255, 255, 0.1);
     border: none;
     color: white;
-    font-size: 2rem;
-    width: 50px;
-    height: 50px;
+    font-size: 1.2rem;
+    width: 45px;
+    height: 45px;
     border-radius: 50%;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: all 0.3s ease;
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.fullscreen-close:hover {
+.modal-btn:hover {
     background: rgba(255, 255, 255, 0.2);
     transform: scale(1.1);
+    border-color: rgba(255, 255, 255, 0.3);
 }
 
-.fullscreen-info {
-    position: absolute;
-    bottom: -80px;
-    left: 0;
-    right: 0;
-    text-align: center;
-    color: white;
-    background: rgba(0, 0, 0, 0.7);
-    padding: 1rem;
-    border-radius: 10px;
-    backdrop-filter: blur(10px);
+.modal-btn:active {
+    transform: scale(0.95);
 }
+
+/* Navigation Arrows */
+.nav-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: white;
+    font-size: 2rem;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.nav-arrow:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.nav-arrow.prev {
+    left: -70px;
+}
+
+.nav-arrow.next {
+    right: -70px;
+}
+
+.nav-arrow:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.nav-arrow:disabled:hover {
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* Image Counter */
+.image-counter {
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Enhanced Info Panel */
+        .fullscreen-info {
+            text-align: center;
+            color: white;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 15px;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
 
 .fullscreen-info h3 {
-    margin: 0 0 0.5rem 0;
-    font-size: 1.5rem;
+    margin: 0 0 8px 0;
+    font-size: 1.3rem;
     color: #92A4A6;
+    font-weight: 600;
 }
 
 .fullscreen-info p {
     margin: 0;
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.4;
+}
+
+/* Loading Spinner */
+.image-loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 2rem;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .fullscreen-content {
+        max-width: 95vw;
+        max-height: 85vh;
+    }
+    
+    .modal-controls {
+        top: 10px;
+        right: 10px;
+        gap: 5px;
+    }
+    
+    .modal-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+    
+    .nav-arrow {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+    }
+    
+    .nav-arrow.prev {
+        left: 15px;
+    }
+    
+    .nav-arrow.next {
+        right: 15px;
+    }
+    
+    .fullscreen-info {
+        bottom: 10px;
+        left: 10px;
+        right: 10px;
+        padding: 15px;
+    }
+    
+    .image-counter {
+        top: 10px;
+        left: 10px;
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
+}
     color: rgba(255, 255, 255, 0.8);
 }
 
@@ -545,11 +721,13 @@ body {
 <section class="project-header">
     <div class="container">
         <div class="project-header-content">
-            {% if project.imagem_principal %}
-                <div class="project-header-image">
+            <div class="project-header-image">
+                {% if project.imagem_principal %}
                     <img src="{{ project.imagem_principal.url }}" alt="{{ project.titulo }}">
-                </div>
-            {% endif %}
+                {% else %}
+                    <img src="{% static 'images/default-project.png' %}" alt="{{ project.titulo }}">
+                {% endif %}
+            </div>
             <div class="project-header-text">
                 <h1 class="project-title">{{ project.titulo }}</h1>
                 {% if project.subtitulo %}
@@ -676,16 +854,59 @@ body {
     {% endif %}
 </section>
 
-<!-- Fullscreen Modal -->
+<!-- Enhanced Fullscreen Modal -->
 <div id="fullscreen-modal" class="fullscreen-modal">
     <div class="fullscreen-content">
-        <button class="fullscreen-close" onclick="closeFullscreen()">
-            <i class="fas fa-times"></i>
-        </button>
-        <img id="fullscreen-image" class="fullscreen-image" src="" alt="">
-        <div class="fullscreen-info">
-            <h3 id="fullscreen-title"></h3>
-            <p id="fullscreen-description"></p>
+        <!-- Modal Header -->
+        <div class="modal-header">
+            <!-- Image Counter -->
+            <div id="image-counter" class="image-counter">
+                <span id="current-image">1</span> / <span id="total-images">1</span>
+            </div>
+            
+            <!-- Modal Controls -->
+            <div class="modal-controls">
+                <button id="toggle-info-btn" class="modal-btn" title="Mostrar/Ocultar Informações">
+                    <i class="fas fa-info"></i>
+                </button>
+                <button id="zoom-btn" class="modal-btn" title="Zoom">
+                    <i class="fas fa-search-plus"></i>
+                </button>
+                <button id="download-btn" class="modal-btn" title="Download">
+                    <i class="fas fa-download"></i>
+                </button>
+                <button class="modal-btn" onclick="closeFullscreen()" title="Fechar">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Image Container -->
+        <div class="modal-image-container">
+            <!-- Loading Spinner -->
+            <div id="image-loading" class="image-loading" style="display: none;">
+                <i class="fas fa-spinner"></i>
+            </div>
+            
+            <!-- Navigation Arrows -->
+            <button id="prev-btn" class="nav-arrow prev" title="Imagem Anterior">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button id="next-btn" class="nav-arrow next" title="Próxima Imagem">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+            
+            <!-- Main Image -->
+            <img id="fullscreen-image" class="fullscreen-image" src="" alt="">
+        </div>
+        
+        <!-- Modal Footer -->
+        <div class="modal-footer">
+            <!-- Enhanced Info Panel -->
+            <div class="fullscreen-info">
+                <h3 id="fullscreen-title"></h3>
+                <p id="fullscreen-description"></p>
+            </div>
         </div>
     </div>
 </div>
@@ -694,64 +915,280 @@ body {
 
 {% block extra_js %}
 <script>
-// Carousel interaction and fullscreen functionality
-document.addEventListener('DOMContentLoaded', function() {
-    const carouselItems = document.querySelectorAll('.carousel-item');
-    const fullscreenModal = document.getElementById('fullscreen-modal');
-    const fullscreenImage = document.getElementById('fullscreen-image');
-    const fullscreenTitle = document.getElementById('fullscreen-title');
-    const fullscreenDescription = document.getElementById('fullscreen-description');
+// Enhanced Modal Gallery System
+class ModalGallery {
+    constructor() {
+        this.images = [];
+        this.currentIndex = 0;
+        this.isZoomed = false;
+        this.showInfo = false;
+        this.init();
+    }
     
-    carouselItems.forEach(item => {
-        item.addEventListener('click', function(e) {
-            // Remove active class from all items
-            carouselItems.forEach(i => i.classList.remove('active'));
-            // Add active class to clicked item
-            this.classList.add('active');
-            
-            // Scroll item into view
-            this.scrollIntoView({
-                behavior: 'smooth',
-                block: 'nearest',
-                inline: 'center'
-            });
-            
-            // Open fullscreen modal
-            const imageSrc = this.getAttribute('data-fullscreen-src');
-            const title = this.getAttribute('data-title');
-            const description = this.getAttribute('data-description');
+    init() {
+        this.carouselItems = document.querySelectorAll('.carousel-item');
+        this.fullscreenModal = document.getElementById('fullscreen-modal');
+        this.fullscreenImage = document.getElementById('fullscreen-image');
+        this.fullscreenTitle = document.getElementById('fullscreen-title');
+        this.fullscreenDescription = document.getElementById('fullscreen-description');
+        this.imageLoading = document.getElementById('image-loading');
+        this.currentImageSpan = document.getElementById('current-image');
+        this.totalImagesSpan = document.getElementById('total-images');
+        
+        // Collect all images
+        this.collectImages();
+        this.bindEvents();
+    }
+    
+    collectImages() {
+        this.images = [];
+        this.carouselItems.forEach((item, index) => {
+            const imageSrc = item.getAttribute('data-fullscreen-src');
+            const title = item.getAttribute('data-title');
+            const description = item.getAttribute('data-description');
             
             if (imageSrc) {
-                fullscreenImage.src = imageSrc;
-                fullscreenImage.alt = title;
-                fullscreenTitle.textContent = title;
-                fullscreenDescription.textContent = description;
-                fullscreenModal.classList.add('active');
-                document.body.style.overflow = 'hidden';
+                this.images.push({
+                    src: imageSrc,
+                    title: title || 'Imagem do Projeto',
+                    description: description || '',
+                    element: item
+                });
             }
         });
-    });
+        
+        this.totalImagesSpan.textContent = this.images.length;
+    }
     
-    // Close modal when clicking outside the image
-    fullscreenModal.addEventListener('click', function(e) {
-        if (e.target === fullscreenModal) {
-            closeFullscreen();
-        }
-    });
+    bindEvents() {
+        // Carousel item clicks
+        this.carouselItems.forEach((item, index) => {
+            item.addEventListener('click', (e) => {
+                const imageSrc = item.getAttribute('data-fullscreen-src');
+                if (imageSrc) {
+                    const imageIndex = this.images.findIndex(img => img.src === imageSrc);
+                    this.openModal(imageIndex >= 0 ? imageIndex : 0);
+                }
+            });
+        });
+        
+        // Modal controls
+        document.getElementById('prev-btn').addEventListener('click', () => this.previousImage());
+        document.getElementById('next-btn').addEventListener('click', () => this.nextImage());
+        document.getElementById('zoom-btn').addEventListener('click', () => this.toggleZoom());
+        document.getElementById('toggle-info-btn').addEventListener('click', () => this.toggleInfo());
+        document.getElementById('download-btn').addEventListener('click', () => this.downloadImage());
+        
+        // Image click for zoom
+        this.fullscreenImage.addEventListener('click', () => this.toggleZoom());
+        
+        // Modal background click
+        this.fullscreenModal.addEventListener('click', (e) => {
+            if (e.target === this.fullscreenModal) {
+                this.closeModal();
+            }
+        });
+        
+        // Keyboard controls
+        document.addEventListener('keydown', (e) => this.handleKeyboard(e));
+        
+        // Touch/swipe support
+        this.addTouchSupport();
+    }
     
-    // Close modal with Escape key
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && fullscreenModal.classList.contains('active')) {
-            closeFullscreen();
+    openModal(index = 0) {
+        if (this.images.length === 0) return;
+        
+        this.currentIndex = Math.max(0, Math.min(index, this.images.length - 1));
+        this.fullscreenModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        
+        // Show loading
+        this.showLoading(true);
+        
+        // Load image
+        this.loadImage(this.currentIndex);
+        
+        // Update UI
+        this.updateUI();
+        
+        // Info is always visible in footer
+    }
+    
+    closeModal() {
+        this.fullscreenModal.classList.remove('active', 'show-info');
+        document.body.style.overflow = 'auto';
+        this.isZoomed = false;
+        this.fullscreenImage.classList.remove('zoomed');
+        this.updateZoomButton();
+    }
+    
+    loadImage(index) {
+        if (index < 0 || index >= this.images.length) return;
+        
+        const image = this.images[index];
+        this.showLoading(true);
+        
+        // Preload image
+        const img = new Image();
+        img.onload = () => {
+            this.fullscreenImage.src = image.src;
+            this.fullscreenImage.alt = image.title;
+            this.fullscreenTitle.textContent = image.title;
+            this.fullscreenDescription.textContent = image.description;
+            this.showLoading(false);
+            
+            // Update active carousel item
+            this.carouselItems.forEach(item => item.classList.remove('active'));
+            if (image.element) {
+                image.element.classList.add('active');
+                image.element.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'nearest',
+                    inline: 'center'
+                });
+            }
+        };
+        img.onerror = () => {
+            this.showLoading(false);
+            console.error('Erro ao carregar imagem:', image.src);
+        };
+        img.src = image.src;
+    }
+    
+    previousImage() {
+        if (this.currentIndex > 0) {
+            this.currentIndex--;
+            this.loadImage(this.currentIndex);
+            this.updateUI();
         }
-    });
+    }
+    
+    nextImage() {
+        if (this.currentIndex < this.images.length - 1) {
+            this.currentIndex++;
+            this.loadImage(this.currentIndex);
+            this.updateUI();
+        }
+    }
+    
+    toggleZoom() {
+        this.isZoomed = !this.isZoomed;
+        this.fullscreenImage.classList.toggle('zoomed', this.isZoomed);
+        this.updateZoomButton();
+    }
+    
+    toggleInfo() {
+        // Info is always visible in footer - this function can be used for future features
+        console.log('Info toggle - info is always visible in footer');
+    }
+    
+    downloadImage() {
+        if (this.images[this.currentIndex]) {
+            const link = document.createElement('a');
+            link.href = this.images[this.currentIndex].src;
+            link.download = this.images[this.currentIndex].title || 'imagem';
+            link.click();
+        }
+    }
+    
+    updateUI() {
+        // Update counter
+        this.currentImageSpan.textContent = this.currentIndex + 1;
+        
+        // Update navigation buttons
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        
+        prevBtn.disabled = this.currentIndex === 0;
+        nextBtn.disabled = this.currentIndex === this.images.length - 1;
+        
+        // Hide navigation if only one image
+        if (this.images.length <= 1) {
+            prevBtn.style.display = 'none';
+            nextBtn.style.display = 'none';
+        } else {
+            prevBtn.style.display = 'flex';
+            nextBtn.style.display = 'flex';
+        }
+    }
+    
+    updateZoomButton() {
+        const btn = document.getElementById('zoom-btn');
+        const icon = btn.querySelector('i');
+        icon.className = this.isZoomed ? 'fas fa-search-minus' : 'fas fa-search-plus';
+        btn.title = this.isZoomed ? 'Diminuir Zoom' : 'Aumentar Zoom';
+    }
+    
+    showLoading(show) {
+        this.imageLoading.style.display = show ? 'block' : 'none';
+    }
+    
+    handleKeyboard(e) {
+        if (!this.fullscreenModal.classList.contains('active')) return;
+        
+        switch(e.key) {
+            case 'Escape':
+                this.closeModal();
+                break;
+            case 'ArrowLeft':
+                this.previousImage();
+                break;
+            case 'ArrowRight':
+                this.nextImage();
+                break;
+            case ' ':
+                e.preventDefault();
+                this.toggleZoom();
+                break;
+            case 'i':
+            case 'I':
+                this.toggleInfo();
+                break;
+            case 'd':
+            case 'D':
+                this.downloadImage();
+                break;
+        }
+    }
+    
+    addTouchSupport() {
+        let startX = 0;
+        let startY = 0;
+        
+        this.fullscreenImage.addEventListener('touchstart', (e) => {
+            startX = e.touches[0].clientX;
+            startY = e.touches[0].clientY;
+        });
+        
+        this.fullscreenImage.addEventListener('touchend', (e) => {
+            const endX = e.changedTouches[0].clientX;
+            const endY = e.changedTouches[0].clientY;
+            const diffX = startX - endX;
+            const diffY = startY - endY;
+            
+            // Horizontal swipe
+            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+                if (diffX > 0) {
+                    this.nextImage(); // Swipe left = next
+                } else {
+                    this.previousImage(); // Swipe right = previous
+                }
+            }
+        });
+    }
+}
+
+// Initialize when DOM is ready
+document.addEventListener('DOMContentLoaded', function() {
+    window.modalGallery = new ModalGallery();
 });
 
-// Function to close fullscreen modal
+// Legacy function for backward compatibility
 function closeFullscreen() {
-    const fullscreenModal = document.getElementById('fullscreen-modal');
-    fullscreenModal.classList.remove('active');
-    document.body.style.overflow = 'auto';
+    if (window.modalGallery) {
+        window.modalGallery.closeModal();
+    }
 }
 </script>
 {% endblock %}

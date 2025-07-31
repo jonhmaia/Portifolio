@@ -152,6 +152,90 @@
     @media print {
         .print-only { display: block; }
     }
+    
+    /* Estilos específicos para renderização de PDF */
+    .pdf-rendering {
+        background: white !important;
+        color: black !important;
+        min-height: auto !important;
+        height: auto !important;
+    }
+    
+    .pdf-rendering .no-print {
+        display: none !important;
+    }
+    
+    .pdf-rendering .card {
+        box-shadow: none !important;
+        border: 1px solid #e5e7eb !important;
+        page-break-inside: avoid !important;
+        margin-bottom: 8px !important;
+    }
+    
+    .pdf-rendering .bg-gradient-to-r {
+        background: white !important;
+        color: black !important;
+    }
+    
+    .pdf-rendering .mb-8 {
+        page-break-inside: avoid;
+    }
+    
+    .page-break-before {
+        page-break-before: always;
+    }
+    
+    .page-break-after {
+        page-break-after: always;
+    }
+    
+    .page-break-avoid {
+        page-break-inside: avoid;
+    }
+    
+    .pdf-rendering .bg-base-100,
+    .pdf-rendering .bg-base-200,
+    .pdf-rendering .bg-base-300 {
+        background: white !important;
+        color: black !important;
+    }
+    
+    .pdf-rendering .text-base-content,
+    .pdf-rendering .text-base-content\/80 {
+        color: black !important;
+    }
+    
+    .pdf-rendering .text-primary {
+        color: #3b82f6 !important;
+    }
+    
+    .pdf-rendering .badge {
+        background: #f3f4f6 !important;
+        color: black !important;
+        border: 1px solid #d1d5db !important;
+    }
+    
+    .pdf-rendering img {
+        max-width: 100% !important;
+        height: auto !important;
+    }
+    
+    .pdf-rendering .avatar img {
+        border-radius: 50% !important;
+    }
+    
+    .pdf-rendering .grid {
+        display: grid !important;
+        gap: 8px !important;
+    }
+    
+    .pdf-rendering .space-y-6 > * + * {
+        margin-top: 6px !important;
+    }
+    
+    .pdf-rendering .space-y-3 > * + * {
+        margin-top: 3px !important;
+    }
 </style>
 {% endblock %}
 
@@ -179,7 +263,7 @@
                             {% trans "Resumo Profissional" %}
                         </h3>
                         <p class="text-base-content/80 mb-6">
-                            {% trans "Com expertise que abrange desde o desenvolvimento web (Django) e banco de dados no SISDIM, passando pela engenharia de prompt, automações (N8N, Bubble IO) e agentes de IA no CEIA, até a liderança de equipes e gestão de projetos como Head de Tecnologia na Flex ON." %}
+                            {% trans "Engenheiro de Software com uma visão orientada a produto e negócios. Minha especialidade é ser a ponte entre a tecnologia e os objetivos da empresa, seja construindo aplicações complexas e escaláveis com stacks tradicionais, ou desenvolvendo ecossistemas inteiros e MVPs em tempo recorde com plataformas No-Code ." %}
                         </p>
                         
                         <h3 class="text-xl font-bold text-base-content mb-4">
@@ -366,7 +450,7 @@
 
 
             <!-- Experience Section -->
-            <div class="mb-8">
+            <div class="mb-8 page-break-avoid">
                 <h3 class="text-2xl font-bold text-base-content mb-6 border-b-2 border-primary pb-2">
                     {% trans "Experiência Profissional" %}
                 </h3>
@@ -374,14 +458,14 @@
                     <div class="card bg-base-100 p-6">
                         <div class="flex flex-col md:flex-row md:justify-between md:items-start mb-4">
                             <div>
-                                <h4 class="text-xl font-bold text-base-content">{% trans "Head de Tecnologia" %}</h4>
-                                <p class="text-lg text-base-content font-semibold">FlexON</p>
+                                <h4 class="text-xl font-bold text-base-content">{% trans "Gestor de Tecnologia" %}</h4>
+                                <p class="text-lg text-base-content font-semibold">FLEX ON</p>
                             </div>
-                            <span class="badge badge-neutral mt-2 md:mt-0">{% trans "Fevereiro de 2024 - Atual" %}</span>
+                            <span class="badge badge-neutral mt-2 md:mt-0">{% trans "Fevereiro de 2024 - Julho de 2025" %}</span>
                         </div>
                         <p class="text-base-content/80">
-                            {% trans "Como Head de tecnologia na Flex ON minhas principais responsabilidades e tecnologias são:" %}<br/>
-                            <br/>• {% trans "Coordenação de equipe" %}<br/>• {% trans "Product Manager" %}<br/>• {% trans "Engenheiro de Software" %}<br/>• {% trans "Designer" %}<br/>• {% trans "Arquiteto de Software" %}<br/>• {% trans "Automações N8N" %}<br/>• {% trans "Bubble IO" %}<br/>• {% trans "Agentes de IA" %}
+                            • {% trans "Liderança de equipe" %}<br/>• {% trans "Product Manager" %}<br/>• {% trans "Desenvolvedor No-Code" %}<br/>• {% trans "Arquiteto de Software" %}
+                             • {% trans "Ux Designer" %}<br/>• {% trans "Automações e RPA" %}<br/>• {% trans "Engenheiro de Software Full-Stack" %}<br/>• {% trans "Agentes de Inteligência Artificial" %}
                         </p>
                     </div>
                     
@@ -389,34 +473,33 @@
                         <div class="flex flex-col md:flex-row md:justify-between md:items-start mb-4">
                             <div>
                                 <h4 class="text-xl font-bold text-base-content">{% trans "Pesquisador e Desenvolvedor" %}</h4>
-                                <p class="text-lg text-base-content font-semibold">Centro de Excelência em Inteligência Artificial/ CEIA</p>
+                                <p class="text-lg text-base-content font-semibold">Centro de Excelência em Inteligência Artificial - CEIA</p>
                             </div>
                             <span class="badge badge-neutral mt-2 md:mt-0">{% trans "Fevereiro de 2025 - Atual" %}</span>
                         </div>
                         <p class="text-base-content/80">
-                            {% trans "Como pesquisador e desenvolvedor do CEIA minhas principais responsabilidades e tecnologias são:" %}<br/>
-                            <br/>• {% trans "Desenvolver o front do chat" %}<br/>• {% trans "Engenheiro de Prompt" %}<br/>• {% trans "Administrador de Banco de dados" %}<br/>• {% trans "Automações N8N" %}<br/>• {% trans "Bubble IO" %}<br/>• {% trans "Agentes de IA" %}
+                            • {% trans "Desenvolvimento Front-End" %}<br/>• {% trans "Engenharia de Prompts" %}<br/>• {% trans "Desenvolvimento e Curadoria de Agentes de IA" %}<br/>• {% trans "Automação e RPA" %}<br/>• {% trans "Administração de Bancos de Dados" %}<br/>• {% trans "Modelagem e Otimização de Dados" %}
+                            
                         </p>
                     </div>
                     
                     <div class="card bg-base-100 p-6">
                         <div class="flex flex-col md:flex-row md:justify-between md:items-start mb-4">
                             <div>
-                                <h4 class="text-xl font-bold text-base-content">{% trans "Pesquisador e Desenvolvedor" %}</h4>
+                                <h4 class="text-xl font-bold text-base-content">{% trans "Desenvolvedor Web" %}</h4>
                                 <p class="text-lg text-base-content font-semibold">SISDIM</p>
                             </div>
                             <span class="badge badge-neutral mt-2 md:mt-0">{% trans "Fevereiro de 2023 - Fevereiro de 2024" %}</span>
                         </div>
                         <p class="text-base-content/80">
-                            {% trans "Como estagiário pela Universidade Federal de Goiás, integrei a equipe que desenvolveu o Sistema de Dimensionamento da Força de Trabalho em Saúde no Brasil. No projeto minhas principais tarefas foram:" %}<br/>
-                            <br/>• {% trans "Desenvolvimento Web em Django" %}<br/>• {% trans "Modelagem e documentação do banco de dados" %}<br/>• {% trans "Edição de vídeo aulas" %}<br/>• {% trans "Documentação de Software" %}
+                            • {% trans "Desenvolvimento Web em Django" %}<br/>• {% trans "Modelagem e documentação do banco de dados" %}<br/>• {% trans "Edição de vídeo aulas" %}<br/>• {% trans "Documentação de Software" %}
                         </p>
                     </div>
                 </div>
             </div>
 
             <!-- Education Section -->
-            <div class="mb-8">
+            <div class="mb-8 page-break-avoid">
                 <h3 class="text-2xl font-bold text-base-content mb-6 border-b-2 border-primary pb-2">
                     {% trans "Formação Acadêmica" %}
                 </h3>
@@ -439,7 +522,9 @@
                     <div class="max-w-md mx-auto">
                         <div class="mb-6">
                             <div class="w-16 h-16 mx-auto mb-4 bg-white/20 rounded-full flex items-center justify-center">
-
+                                <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd"></path>
+                                </svg>
                             </div>
                             <h3 class="text-2xl font-bold text-white mb-2">{% trans "Baixar Currículo" %}</h3>
                             <p class="text-white/90 text-sm">{% trans "Clique no botão abaixo para baixar uma versão em PDF do meu currículo" %}</p>
@@ -461,10 +546,67 @@
         </div>
     </section>
     
+    <!-- html2pdf.js library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    
     <script>
         function downloadCurriculum() {
-            // Aciona a impressão da página atual
-            window.print();
+            // Configurações otimizadas para o PDF
+            const opt = {
+                margin: [0.3, 0.3, 0.3, 0.3],
+                filename: 'Curriculo_Joao_Marcos_Maia.pdf',
+                image: { type: 'jpeg', quality: 0.95 },
+                html2canvas: { 
+                    scale: 1.5,
+                    useCORS: true,
+                    allowTaint: true,
+                    letterRendering: true,
+                    height: null,
+                    width: null,
+                    scrollX: 0,
+                    scrollY: 0,
+                    windowWidth: 1200,
+                    windowHeight: window.innerHeight
+                },
+                jsPDF: { 
+                    unit: 'in', 
+                    format: 'a4', 
+                    orientation: 'portrait',
+                    compress: true
+                },
+                pagebreak: { 
+                    mode: ['css', 'legacy'],
+                    before: '.page-break-before',
+                    after: '.page-break-after',
+                    avoid: '.page-break-avoid'
+                }
+            };
+            
+            // Seleciona especificamente a seção do currículo
+            const element = document.querySelector('section.py-8.bg-base-300');
+            
+            if (!element) {
+                console.error('Elemento não encontrado');
+                window.print();
+                return;
+            }
+            
+            // Adiciona classe temporária para melhorar a renderização do PDF
+            element.classList.add('pdf-rendering');
+            
+            // Aguarda um momento para aplicar os estilos
+            setTimeout(() => {
+                // Gera o PDF
+                html2pdf().set(opt).from(element).save().then(() => {
+                    // Remove a classe temporária após a geração
+                    element.classList.remove('pdf-rendering');
+                }).catch((error) => {
+                    console.error('Erro ao gerar PDF:', error);
+                    element.classList.remove('pdf-rendering');
+                    // Fallback para impressão normal
+                    window.print();
+                });
+            }, 100);
         }
     </script>
 </div>
