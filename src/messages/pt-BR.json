@@ -70,6 +70,20 @@
       "signOut": "Sair",
       "signOutSuccess": "Até logo!",
       "signOutError": "Erro ao sair"
+    },
+    "ai": {
+      "translateButton": "Traduzir do Português",
+      "translating": "Traduzindo...",
+      "translateSuccess": "Conteúdo traduzido com sucesso!",
+      "translateError": "Erro ao traduzir com IA",
+      "generateSeo": "Gerar SEO com IA",
+      "generatingSeo": "Gerando SEO...",
+      "seoSuccess": "Metadados gerados com sucesso!",
+      "seoError": "Erro ao gerar metadados de SEO",
+      "suggestTags": "Sugerir com IA",
+      "suggestingTags": "Sugerindo...",
+      "tagsSuccess": "Tecnologias e tags sugeridas e selecionadas!",
+      "tagsError": "Erro ao sugerir tags/tecnologias"
     }
   },
   "resume": {

@@ -70,6 +70,20 @@
       "signOut": "Sign out",
       "signOutSuccess": "See you!",
       "signOutError": "Error signing out"
+    },
+    "ai": {
+      "translateButton": "Translate from Portuguese",
+      "translating": "Translating...",
+      "translateSuccess": "Content translated successfully!",
+      "translateError": "Error translating with AI",
+      "generateSeo": "Generate SEO with AI",
+      "generatingSeo": "Generating SEO...",
+      "seoSuccess": "Metadata generated successfully!",
+      "seoError": "Error generating SEO metadata",
+      "suggestTags": "Suggest with AI",
+      "suggestingTags": "Suggesting...",
+      "tagsSuccess": "Technologies and tags suggested and selected!",
+      "tagsError": "Error suggesting tags/technologies"
     }
   },
   "resume": {
