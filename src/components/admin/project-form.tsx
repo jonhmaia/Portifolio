@@ -27,7 +27,7 @@ import {
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
-import ReactMarkdown from 'react-markdown'
+import { MarkdownRenderer } from '@/components/blog/markdown-renderer'
 import { Github, ExternalLink } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
@@ -1250,7 +1250,7 @@ export function ProjectForm({ project, technologies, tags }: ProjectFormProps) {
                   <h3 className="text-base font-bold uppercase tracking-wider text-muted-foreground/80">Sobre o Projeto</h3>
                   <div className="prose prose-sm dark:prose-invert max-w-none text-muted-foreground leading-relaxed font-sans">
                     {form.watch('translations.pt.full_description') ? (
-                      <ReactMarkdown>{form.watch('translations.pt.full_description')}</ReactMarkdown>
+                      <MarkdownRenderer content={form.watch('translations.pt.full_description') || ''} />
                     ) : (
                       <p className="italic text-muted-foreground/60">Escreva a descrição detalhada do projeto na aba Textos para visualizar a formatação em markdown.</p>
                     )}

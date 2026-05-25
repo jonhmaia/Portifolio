@@ -1,10 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { 
-  Database, 
-  Github, 
-} from 'lucide-react'
+import { Database, Github } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { useTranslations } from 'next-intl'
 
@@ -18,151 +15,125 @@ const SupabaseIcon = () => (
 interface Skill {
   name: string
   imageSrc?: string
+  imageSrcLight?: string
   icon?: React.ElementType
+  progress: number
+  color: string
 }
 
 const skills: Skill[] = [
-  { name: 'Python', imageSrc: '/python.png' },
-  { name: 'JavaScript', imageSrc: '/javascript.png' },
-  { name: 'Django', imageSrc: '/django.png' },
-  { name: 'Node.js', imageSrc: '/nodejs.png' },
-  { name: 'HTML5', imageSrc: '/html.png' },
-  { name: 'CSS3', imageSrc: '/css.png' },
-  { name: 'PostgreSQL', imageSrc: '/postgres.png' },
-  { name: 'Docker', imageSrc: '/docker.png' },
-  { name: 'N8N', imageSrc: '/N8n.png' },
-  { name: 'Bubble.io', imageSrc: '/bubbleio.png' },
-  { name: 'Supabase', icon: SupabaseIcon },
-  { name: 'C/C++', imageSrc: '/c.png' },
-  { name: 'SQL', icon: Database },
-  { name: 'MCP', imageSrc: '/mcp.png' },
-  { name: 'GitHub', icon: Github },
-  { name: 'Lovable', imageSrc: '/lovable.png' },
-  { name: 'Flutter', imageSrc: '/flutter.png' },
-  { name: 'Bootstrap', imageSrc: '/bootsstrap.png' },
+  { name: 'Python', imageSrc: '/python.png', progress: 95, color: '#3776AB' },
+  { name: 'JavaScript', imageSrc: '/javascript.png', progress: 90, color: '#F7DF1E' },
+  { name: 'Django', imageSrc: '/django.png', progress: 85, color: '#092E20' },
+  { name: 'Node.js', imageSrc: '/nodejs.png', progress: 88, color: '#339933' },
+  { name: 'HTML5', imageSrc: '/html.png', progress: 92, color: '#E34F26' },
+  { name: 'CSS3', imageSrc: '/css.png', progress: 90, color: '#1572B6' },
+  { name: 'PostgreSQL', imageSrc: '/postgres.png', progress: 85, color: '#4169E1' },
+  { name: 'Docker', imageSrc: '/docker.png', progress: 80, color: '#2496ED' },
+  { name: 'N8N', imageSrc: '/n8n_logo.svg', imageSrcLight: '/n8n_logo_light.svg', progress: 98, color: '#FF2A7A' },
+  { name: 'Bubble.io', imageSrc: '/bubbleio.png', progress: 90, color: '#03C2C2' },
+  { name: 'Supabase', icon: SupabaseIcon, progress: 90, color: '#3ECF8E' },
+  { name: 'C/C++', imageSrc: '/c.png', progress: 80, color: '#00599C' },
+  { name: 'SQL', icon: Database, progress: 88, color: '#00758F' },
+  { name: 'MCP', imageSrc: '/mcp.png', progress: 85, color: '#FF8C00' },
+  { name: 'GitHub', icon: Github, progress: 90, color: '#A0A0A0' },
+  { name: 'Lovable', imageSrc: '/lovable.png', progress: 90, color: '#E01E5A' },
+  { name: 'Flutter', imageSrc: '/flutter.svg', progress: 80, color: '#02569B' },
+  { name: 'Bootstrap', imageSrc: '/bootsstrap.png', progress: 85, color: '#7952B3' },
 ]
-
-// Separa em linhas (rows) para simular a colmeia do Apple Watch
-const rows = [
-  skills.slice(0, 3),    // Row 0 (3 items)
-  skills.slice(3, 7),    // Row 1 (4 items)
-  skills.slice(7, 12),   // Row 2 (5 items) -> Centro
-  skills.slice(12, 16),  // Row 3 (4 items)
-  skills.slice(16, 18),  // Row 4 (2 items)
-]
-
-// Todos os ícones com o mesmo tamanho, sem o efeito esférico/olho de peixe
-const getSizeClass = () => {
-  return 'w-20 h-20 md:w-28 md:h-28'; 
-}
-
-// Tamanho fixo e proporcional para os logotipos internos
-const getIconSizeClass = () => {
-  return 'w-10 h-10 md:w-14 md:h-14';
-}
 
 export function TechSkills() {
   const t = useTranslations('home.techSkills')
 
   return (
-    <section className="py-20 md:py-32 relative z-10 overflow-hidden">
+    <section className="py-16 md:py-24 relative z-10 overflow-hidden">
       <div className="container px-4 md:px-6">
-        <div className="text-center mb-16 space-y-4">
-          <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-white drop-shadow-sm">
-            {t('title', { fallback: 'Habilidades Técnicas' })}
+        
+        {/* Título da Seção Centralizado */}
+        <div className="flex items-center gap-3 text-foreground dark:text-white mb-16 justify-center">
+          <div className="h-4 w-4 border-2 border-[#00ffcc] rounded-sm bg-[#00ffcc]/10 flex items-center justify-center shrink-0 shadow-[0_0_10px_rgba(0,255,204,0.2)]">
+            <div className="h-1 w-1 bg-[#00ffcc] rounded-full" />
+          </div>
+          <h2 className="text-xl font-bold tracking-widest uppercase text-foreground/90 dark:text-white/95">
+            {t('title', { fallback: 'Skills' })}
           </h2>
-          <p className="text-[#9ca3af] text-lg max-w-2xl mx-auto">
-            {t('subtitle', { fallback: 'As ferramentas e linguagens que domino.' })}
-          </p>
         </div>
 
-        {/* Apple Watch Cluster Wrapper */}
-        <div className="flex flex-col items-center justify-center max-w-5xl mx-auto overflow-visible py-8 md:py-16 gap-3 md:gap-5 perspective-1000">
-          
-          {rows.map((row, rowIndex) => {
-            // Espaçamento limpo e proporcional entre cada card (sem sobreposições de margens negativas pesadas)
-            // Removido o z-index e relative da linha para que os tooltips possam flutuar livremente sobre outras linhas
+        {/* Grid de Habilidades */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-x-8 gap-y-12 max-w-5xl mx-auto">
+          {skills.map((skill, index) => {
             return (
-              <div 
-                key={rowIndex} 
-                className="flex justify-center items-center gap-3 md:gap-5"
+              <motion.div
+                key={skill.name}
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.05 }}
+                className="flex flex-col items-center justify-center space-y-4 text-center group"
               >
-                {row.map((skill, colIndex) => {
-                  const sizeClass = getSizeClass()
-                  const iconSizeClass = getIconSizeClass()
+                {/* Nome da Skill no Topo */}
+                <span className="text-[10px] md:text-xs font-bold tracking-widest text-muted-foreground/80 uppercase group-hover:text-foreground dark:group-hover:text-white transition-colors duration-300">
+                  {skill.name}
+                </span>
 
-                  // Adicionar leve delay na animação baseado na distância do centro (Efeito de Onda)
-                  const distY = Math.abs(rowIndex - 2);
-                  const midX = (row.length - 1) / 2;
-                  const distX = Math.abs(colIndex - midX);
-                  const delay = (distY + distX) * 0.1;
-
-                  return (
-                    <motion.div
-                      key={skill.name}
-                      whileHover={{ scale: 1.15, zIndex: 50 }}
-                      initial={{ opacity: 0, scale: 0, filter: 'blur(10px)' }}
-                      whileInView={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
-                      viewport={{ once: true, margin: "0px" }}
-                      transition={{ 
-                        duration: 0.6, 
-                        delay: delay,
-                        type: 'spring',
-                        bounce: 0.4
-                      }}
-                      className="group relative cursor-pointer"
-                    >
-                      {/* Aura Brilhante Verde Água no hover */}
-                      <div className="absolute inset-0 bg-[#00ffcc] opacity-0 group-hover:opacity-30 blur-2xl rounded-full transition-opacity duration-500" />
-                      
-                      {/* Círculo do Aplicativo (Estilo WatchOS + Glassmorphism) */}
-                      <div 
-                        className={`
-                          relative flex flex-col items-center justify-center
-                          rounded-full
-                          ${sizeClass}
-                          bg-[#1a1a24]/60 backdrop-blur-xl /* Fundo Vidro mais opaco */
-                          border border-white/10
-                          shadow-[inset_0_1px_1px_rgba(255,255,255,0.1),inset_0_4px_10px_rgba(255,255,255,0.1),_0_5px_15px_rgba(0,0,0,0.6)]
-                          group-hover:bg-[#1a1a24]/80 group-hover:backdrop-blur-2xl
-                          group-hover:border-[#00ffcc]/50
-                          group-hover:shadow-[inset_0_4px_15px_rgba(255,255,255,0.2),_0_10px_30px_rgba(0,255,204,0.3)]
-                          transition-all duration-300 overflow-hidden
-                        `}
-                      >
-                        {/* Brilho esférico (Glossy / Glass 3D Highlight) no topo do círculo */}
-                        <div className="absolute top-0 inset-x-0 h-[45%] bg-gradient-to-b from-white/20 to-transparent rounded-t-full pointer-events-none" />
-                        
-                        {/* Ícone */}
-                        <div className="relative text-[#9ca3af] group-hover:text-white transition-colors duration-300 z-10 flex items-center justify-center">
-                          {skill.imageSrc ? (
-                            <div className={`relative ${iconSizeClass}`}>
-                              <Image 
-                                src={skill.imageSrc} 
-                                alt={skill.name}
-                                fill
-                                className="object-contain drop-shadow-xl"
-                              />
-                            </div>
-                          ) : (
-                            skill.icon && <skill.icon className={iconSizeClass} />
-                          )}
-                        </div>
+                {/* Ícone no Centro */}
+                <div className="relative w-12 h-12 md:w-16 md:h-16 flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
+                  {skill.imageSrc ? (
+                    <div className="relative w-10 h-10 md:w-14 md:h-14">
+                      {skill.imageSrcLight ? (
+                        <>
+                          {/* Logo para modo claro */}
+                          <Image 
+                            src={skill.imageSrcLight} 
+                            alt={skill.name}
+                            fill
+                            className="object-contain transition-all duration-300 dark:hidden"
+                          />
+                          {/* Logo para modo escuro */}
+                          <Image 
+                            src={skill.imageSrc} 
+                            alt={skill.name}
+                            fill
+                            className="object-contain transition-all duration-300 hidden dark:block"
+                          />
+                        </>
+                      ) : (
+                        <Image 
+                          src={skill.imageSrc} 
+                          alt={skill.name}
+                          fill
+                          className="object-contain transition-all duration-300"
+                        />
+                      )}
+                    </div>
+                  ) : (
+                    skill.icon && (
+                      <div className="w-10 h-10 md:w-14 md:h-14 flex items-center justify-center text-muted-foreground group-hover:text-foreground dark:group-hover:text-white transition-colors duration-300">
+                        <skill.icon className="w-8 h-8 md:w-11 md:h-11" />
                       </div>
+                    )
+                  )}
+                </div>
 
-                      {/* Tooltip do Nome Hover */}
-                      <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 group-hover:-bottom-10 transition-all duration-300 pointer-events-none z-50">
-                        <span className="block px-3 py-1 bg-[#1a1a24]/90 border border-[#00ffcc]/30 backdrop-blur-sm rounded-full text-xs font-semibold text-[#00ffcc] whitespace-nowrap drop-shadow-[0_0_10px_rgba(0,255,204,0.4)]">
-                          {skill.name}
-                        </span>
-                      </div>
-                    </motion.div>
-                  )
-                })}
-              </div>
+                {/* Barra de Progresso no Rodapé */}
+                <div className="w-12 md:w-16 h-[3px] bg-muted/40 dark:bg-neutral-800 rounded-full overflow-hidden relative shadow-sm">
+                  <motion.div 
+                    initial={{ width: 0 }}
+                    whileInView={{ width: `${skill.progress}%` }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8, delay: 0.1 + index * 0.03, ease: "easeOut" }}
+                    className="h-full rounded-full"
+                    style={{ 
+                      backgroundColor: skill.color 
+                    }}
+                  />
+                </div>
+
+              </motion.div>
             )
           })}
         </div>
+
       </div>
     </section>
   )

@@ -36,9 +36,14 @@
   },
   "home": {
     "hero": {
-      "title": "OLÁ, EU SOU JOÃO MARCOS",
+      "title": "João Marcos",
       "location": "Goiânia, GO, Brasil",
-      "cta": "Ver Projetos"
+      "cta": "Ver Projetos",
+      "role": "DESENVOLVEDOR FULL-STACK"
+    },
+    "about": {
+      "title": "SOBRE",
+      "subtitle": "Conheça um pouco sobre mim"
     },
     "bio": {
       "p1": "Profissional com sólida atuação em <emphasis>Engenharia de Software e Produtos Digitais</emphasis>, combinando a robustez do desenvolvimento Full Stack (Python/Node/C) com a agilidade de estratégias Low-Code (Bubble/n8n). Especialista em transformar tecnologia em vantagem competitiva, atuando estrategicamente na interseção entre Engenharia de Vendas, Desenvolvimento de Produto e Inteligência Artificial.",
@@ -56,6 +61,7 @@
       "dashboard": "Dashboard",
       "projects": "Projetos",
       "articles": "Artigos",
+      "resume": "Currículo",
       "technologies": "Tecnologias",
       "tags": "Tags",
       "categories": "Categorias",

@@ -4,6 +4,7 @@ import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import rehypeHighlight from 'rehype-highlight'
 import { cn } from '@/lib/utils'
+import { MermaidRenderer } from '@/components/ui/mermaid-renderer'
 
 interface MarkdownRendererProps {
   content: string
@@ -73,6 +74,13 @@ export function MarkdownRenderer({ content, className }: MarkdownRendererProps) 
             </blockquote>
           ),
           code: ({ children, className, ...props }) => {
+            const match = /language-(\w+)/.exec(className || '')
+            const isMermaid = match && match[1] === 'mermaid'
+
+            if (isMermaid) {
+              return <MermaidRenderer chart={String(children)} />
+            }
+
             const isInline = !className
             if (isInline) {
               return (

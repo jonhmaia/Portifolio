@@ -112,6 +112,45 @@ Retorne apenas o JSON:`
       }
     }
 
+    if (action === 'translate_resume') {
+      const { resumeData, targetLanguage = 'en' } = body
+      if (!resumeData) {
+        return NextResponse.json({ error: 'Dados do currículo não informados para tradução' }, { status: 400 })
+      }
+
+      const prompt = `Você é um especialista em traduções técnicas e profissionais de currículos de tecnologia.
+Traduza o seguinte currículo estruturado como JSON do idioma atual para o idioma de destino: ${
+        targetLanguage === 'en' ? 'Inglês (Estados Unidos)' : 'Português (Brasil)'
+      }.
+
+Instruções Cruciais:
+1. Traduza apenas os valores de texto relevantes para a língua de destino. Os valores técnicos de tecnologias, nomes próprios e marcas/empresas (como "n8n", "Supabase", "Watrix Tecnologia", etc.) devem permanecer inalterados ou adaptados se houver termo profissional comum (por exemplo, "Líder Técnico & Engenheiro de Software" para "Tech Lead & Software Engineer").
+2. Você DEVE manter a exata mesma estrutura do objeto JSON, incluindo todas as chaves inalteradas.
+3. Não inclua blocos de código Markdown (como \`\`\`json ... \`\`\`), não inclua nenhuma introdução ou explicação. O retorno deve ser estritamente o JSON válido resultante.
+
+JSON a ser traduzido:
+${JSON.stringify(resumeData, null, 2)}
+
+Retorne apenas o JSON traduzido:`
+
+      const result = await model.invoke(prompt)
+      const rawText = result.content.toString().trim()
+      
+      // Limpar possíveis formatações de bloco de código do modelo
+      const cleanJson = rawText.replace(/^```json\s*/i, '').replace(/```$/, '').trim()
+
+      try {
+        const translatedResume = JSON.parse(cleanJson)
+        return NextResponse.json({ data: translatedResume })
+      } catch (parseError) {
+        console.error('Erro ao analisar JSON traduzido retornado pela OpenAI:', rawText, parseError)
+        return NextResponse.json({ 
+          error: 'Falha ao processar o formato da resposta traduzida pela IA. Tente novamente.',
+          raw: rawText
+        }, { status: 500 })
+      }
+    }
+
     return NextResponse.json({ error: 'Ação não suportada' }, { status: 400 })
   } catch (error) {
     console.error('Erro no processamento da rota de IA:', error)

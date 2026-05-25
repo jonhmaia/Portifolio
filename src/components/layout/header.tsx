@@ -14,7 +14,7 @@ import { Link, usePathname } from '@/navigation'
 
 function HeaderContent() {
   const pathname = usePathname()
-  const { theme, setTheme } = useTheme()
+  const { theme, setTheme, resolvedTheme } = useTheme()
   const [open, setOpen] = useState(false)
   const { scrollY } = useScroll()
   const [isScrolled, setIsScrolled] = useState(false)
@@ -58,7 +58,7 @@ function HeaderContent() {
             transition={{ type: "spring", stiffness: 300, damping: 10 }}
           >
             <Image
-              src="/foto.png"
+              src="/foto.jpeg"
               alt="João Marcos"
               fill
               className="object-cover"
@@ -106,7 +106,7 @@ function HeaderContent() {
           <Button
             variant="ghost"
             size="icon"
-            onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+            onClick={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')}
             className="h-9 w-9 rounded-full hover:bg-primary/10 hover:text-primary transition-colors"
           >
             <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />

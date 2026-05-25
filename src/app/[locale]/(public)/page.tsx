@@ -1,141 +1,146 @@
 import Image from 'next/image'
-import { Mail, MapPin, Phone } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import { Mail } from 'lucide-react'
 import { getTranslations } from 'next-intl/server'
 import { Link } from '@/navigation'
 
 import { TechSkills } from '@/components/home/tech-skills'
-import { FlowingLights } from '@/components/ui/flowing-lights'
-import { HeroWrapper, HeroContent, AnimatedElement, BioWrapper } from '@/components/home/wrappers'
+import { HeroWrapper, AnimatedElement, BioWrapper } from '@/components/home/wrappers'
 
 export default async function Home() {
   const t = await getTranslations('home')
 
   return (
     <div className="flex flex-col min-h-screen relative">
-      <FlowingLights />
       
-      {/* Hero Section */}
+      {/* Bio & Skills Section */}
       <HeroWrapper>
-        <HeroContent>
-          {/* Main Profile Card (BioWrapper) */}
-          <div className="w-full">
-            <BioWrapper>
-              <div className="flex flex-col items-center p-2 md:p-6">
+        
+        {/* Seção Sobre (2 colunas dentro do BioWrapper) */}
+        <div className="w-full">
+          <BioWrapper>
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-start">
+              
+              {/* Lado Esquerdo - Foto de Perfil, Nome e Redes Sociais */}
+              <div className="md:col-span-4 flex flex-col items-center text-center space-y-6 md:sticky md:top-24">
                 
-                {/* Profile Image - Premium Glass & Glow */}
-                <div className="relative mb-8 group cursor-pointer">
-                  {/* Halo de fundo verde-água no Hover */}
-                  <div className="absolute inset-0 bg-[#00ffcc] opacity-0 group-hover:opacity-40 blur-2xl rounded-full transition-opacity duration-700" />
+                {/* Profile Image com Glass & Glow */}
+                <div className="relative group cursor-pointer">
+                  <div className="absolute inset-0 bg-[#00ffcc] opacity-0 group-hover:opacity-30 blur-2xl rounded-full transition-opacity duration-500" />
                   
-                  {/* Borda Gradiente com Padding */}
-                  <div className="relative h-40 w-40 md:h-48 md:w-48 rounded-full p-[3px] bg-gradient-to-tr from-[#00ffcc]/60 via-white/10 to-[#1a1a24] group-hover:from-[#00ffcc] group-hover:to-[#2dd4bf] transition-all duration-500 shadow-[0_0_20px_rgba(0,255,204,0.15)] group-hover:shadow-[0_0_40px_rgba(0,255,204,0.4)]">
-                    
-                    {/* Máscara da Imagem */}
+                  <div className="relative h-36 w-36 md:h-44 md:w-44 rounded-full p-[3px] bg-gradient-to-tr from-[#00ffcc]/40 via-white/10 to-[#1a1a24] group-hover:from-[#00ffcc] group-hover:to-[#2dd4bf] transition-all duration-300 shadow-[0_0_15px_rgba(0,255,204,0.1)] group-hover:shadow-[0_0_30px_rgba(0,255,204,0.3)]">
                     <div className="relative w-full h-full rounded-full overflow-hidden bg-[#1a1a24]">
                       <Image
-                        src="/foto.png"
+                        src="/foto.jpeg"
                         alt="João Marcos"
                         fill
-                        quality={100}
-                        sizes="(max-width: 768px) 160px, 192px"
-                        className="object-cover transform transition-transform duration-700 group-hover:scale-110"
-                        priority
+                        className="object-cover transform transition-transform duration-500 group-hover:scale-105"
                       />
-                      {/* Reflexo Vidro por cima mais sutil e sem destruir contraste original */}
-                      <div className="absolute inset-0 bg-gradient-to-b from-white/10 to-transparent opacity-40 pointer-events-none" />
                     </div>
                   </div>
                 </div>
 
-                {/* Main Title */}
-                <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-widest text-foreground uppercase drop-shadow-lg text-center mt-4">
-                  {t('hero.title')}
-                </h1>
-
-                {/* Subtitle/Roles */}
-                <p className="text-lg md:text-xl text-muted-foreground font-light tracking-wide max-w-3xl mx-auto text-center mt-4">
-                  N8N Expert | Software Engineer | RPA | Python | AI Engineer
-                </p>
-
-                {/* Contact Info */}
-                <div className="w-full flex flex-col items-center gap-6 mt-8 md:mt-10 justify-center pb-8 border-b border-white/10">
-                  {/* Contact Details */}
-                  <div className="flex flex-wrap justify-center gap-6 md:gap-8 text-sm md:text-base text-muted-foreground/80 font-medium">
-                    <a href="mailto:contato@maiainteligencia.com" className="flex items-center gap-2 hover:text-[#00ffcc] transition-colors group">
-                      <div className="p-2 rounded-full bg-white/5 group-hover:bg-[#00ffcc]/10 transition-colors">
-                        <Mail className="h-4 w-4" />
-                      </div>
-                      <span>contato@maiainteligencia.com</span>
-                    </a>
-                    <a href="tel:+5562999018119" className="flex items-center gap-2 hover:text-[#00ffcc] transition-colors group">
-                      <div className="p-2 rounded-full bg-white/5 group-hover:bg-[#00ffcc]/10 transition-colors">
-                        <Phone className="h-4 w-4" />
-                      </div>
-                      <span>(62) 99901-8119</span>
-                    </a>
-                    <div className="flex items-center gap-2">
-                      <div className="p-2 rounded-full bg-white/5">
-                        <MapPin className="h-4 w-4" />
-                      </div>
-                      <span>{t('hero.location')}</span>
-                    </div>
-                  </div>
+                {/* Nome */}
+                <div className="space-y-1">
+                  <h3 className="text-2xl font-bold tracking-wider text-foreground">
+                    João Marcos
+                  </h3>
+                  <p className="text-xs text-muted-foreground tracking-widest uppercase">
+                    Goiânia, GO, Brasil
+                  </p>
                 </div>
 
-                {/* Bio Text */}
-                <div className="space-y-6 text-muted-foreground text-base md:text-lg leading-relaxed font-light text-center mt-10 px-4 md:px-8">
+                {/* Redes Sociais com ícones minimalistas */}
+                <div className="flex gap-4 items-center justify-center pt-2">
+                  <a 
+                    href="mailto:contato@maiainteligencia.com" 
+                    className="p-3 rounded-full border border-border hover:border-[#00ffcc]/80 hover:text-[#00ffcc] bg-background/50 hover:bg-[#00ffcc]/10 text-muted-foreground transition-all duration-300 hover:scale-105"
+                    title="E-mail"
+                  >
+                    <Mail className="h-5 w-5" />
+                  </a>
+                  
+                  <a 
+                    href="https://github.com/jonhmaia" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="p-3 rounded-full border border-border hover:border-[#00ffcc]/80 hover:text-[#00ffcc] bg-background/50 hover:bg-[#00ffcc]/10 text-muted-foreground transition-all duration-300 hover:scale-105"
+                    title="GitHub"
+                  >
+                    <svg className="h-5 w-5 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+                    </svg>
+                  </a>
+                  
+                  <a 
+                    href="https://www.linkedin.com/in/joaomarcosmaia" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="p-3 rounded-full border border-border hover:border-[#00ffcc]/80 hover:text-[#00ffcc] bg-background/50 hover:bg-[#00ffcc]/10 text-muted-foreground transition-all duration-300 hover:scale-105"
+                    title="LinkedIn"
+                  >
+                    <svg className="h-5 w-5 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0z"/>
+                    </svg>
+                  </a>
+                </div>
+
+              </div>
+
+              {/* Lado Direito - Bio Detalhada */}
+              <div className="md:col-span-8 flex flex-col text-left space-y-6">
+                
+                {/* Cabeçalho do Sobre */}
+                <div className="flex items-center gap-2 text-[#00ffcc] font-bold tracking-wider text-xs md:text-sm uppercase">
+                  <span className="h-2 w-2 bg-[#00ffcc] rounded-full inline-block" />
+                  {t('about.title')}
+                </div>
+                
+                <h2 className="text-3xl md:text-4xl font-extrabold text-foreground tracking-tight leading-tight">
+                  {t('about.subtitle')}
+                </h2>
+                
+                <div className="space-y-6 text-muted-foreground/90 text-base md:text-lg leading-relaxed font-light">
                   <p>
                     {t.rich('bio.p1', {
                       emphasis: (chunks) => (
-                        <span className="text-white font-medium">{chunks}</span>
+                        <span className="text-foreground font-semibold dark:text-white dark:font-medium">{chunks}</span>
                       ),
                     })}
                   </p>
                   <p>
                     {t.rich('bio.p2', {
                       emphasis: (chunks) => (
-                        <span className="text-white font-medium">{chunks}</span>
+                        <span className="text-foreground font-semibold dark:text-white dark:font-medium">{chunks}</span>
                       ),
                     })}
                   </p>
                   <p>
                     {t.rich('bio.p3', {
                       emphasis: (chunks) => (
-                        <span className="text-white font-medium">{chunks}</span>
+                        <span className="text-foreground font-semibold dark:text-white dark:font-medium">{chunks}</span>
                       ),
                     })}
                   </p>
                   <p>
                     {t.rich('bio.p4', {
                       emphasis: (chunks) => (
-                        <span className="text-white font-medium">{chunks}</span>
+                        <span className="text-foreground font-semibold dark:text-white dark:font-medium">{chunks}</span>
                       ),
                     })}
                   </p>
                 </div>
-
-                {/* Main CTA Button - Moved Below and Redesigned */}
-                <div className="mt-14 mb-4">
-                  <Link href="/projetos">
-                    <button className="group relative inline-flex items-center justify-center px-10 py-5 font-bold tracking-widest text-[#1a1a24] uppercase transition-all duration-300 bg-[#00ffcc] rounded-full hover:scale-105 hover:bg-white shadow-[0_0_20px_rgba(0,255,204,0.4)] hover:shadow-[0_0_40px_rgba(0,255,204,0.7)] overflow-hidden">
-                      <span className="relative z-10">{t('hero.cta')}</span>
-                      
-                      {/* Efeito luminoso de brilho varrendo */}
-                      <div className="absolute inset-0 h-full w-full bg-gradient-to-r from-transparent via-white/40 to-transparent -translate-x-[150%] skew-x-[30deg] transition-all duration-700 ease-in-out group-hover:translate-x-[150%]" />
-                    </button>
-                  </Link>
-                </div>
+                
               </div>
-            </BioWrapper>
-          </div>
+              
+            </div>
+          </BioWrapper>
+        </div>
 
-          {/* Tech Skills Section */}
-          <AnimatedElement className="w-full pt-16">
-             <TechSkills />
-          </AnimatedElement>
-
-        </HeroContent>
+        {/* Tech Skills Section */}
+        <AnimatedElement className="w-full pt-16">
+          <TechSkills />
+        </AnimatedElement>
+        
       </HeroWrapper>
     </div>
   )

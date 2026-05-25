@@ -25,6 +25,7 @@ function SidebarContent() {
     { name: t('dashboard'), href: '/admin', icon: LayoutDashboard },
     { name: t('projects'), href: '/admin/projects', icon: FolderKanban },
     { name: t('articles'), href: '/admin/articles', icon: FileText },
+    { name: t('resume'), href: '/admin/curriculo', icon: FileText },
     { name: t('technologies'), href: '/admin/technologies', icon: Layers },
     { name: t('tags'), href: '/admin/tags', icon: Tag },
     { name: t('categories'), href: '/admin/categories', icon: Layers },

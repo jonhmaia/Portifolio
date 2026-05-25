@@ -15,9 +15,7 @@ import {
   Calendar, 
   Eye
 } from 'lucide-react'
-import ReactMarkdown from 'react-markdown'
-import remarkGfm from 'remark-gfm'
-import rehypeHighlight from 'rehype-highlight'
+import { MarkdownRenderer } from '@/components/blog/markdown-renderer'
 import { getTranslations, getLocale } from 'next-intl/server'
 import 'highlight.js/styles/github-dark.css' // Import highlight.js styles
 
@@ -300,35 +298,9 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           </div>
 
           {/* Description */}
+          {/* Description */}
           {project.full_description && (
-            <div className="prose prose-lg dark:prose-invert max-w-none prose-headings:font-bold prose-headings:tracking-tight prose-p:leading-relaxed prose-a:text-primary prose-img:rounded-xl">
-              <ReactMarkdown 
-                remarkPlugins={[remarkGfm]}
-                rehypePlugins={[rehypeHighlight]}
-                components={{
-                  a: ({ node, ...props }) => (
-                    <a target="_blank" rel="noopener noreferrer" {...props} />
-                  ),
-                  img: ({ node, ...props }: any) => {
-                    const src = typeof props.src === 'string' ? props.src : ''
-                    const alt = typeof props.alt === 'string' ? props.alt : ''
-
-                    return (
-                      <div className="relative aspect-video w-full my-8 rounded-xl overflow-hidden border border-border/50 shadow-md">
-                        <Image 
-                          src={src}
-                          alt={alt}
-                          fill 
-                          className="object-cover !m-0" 
-                        />
-                      </div>
-                    )
-                  }
-                }}
-              >
-                {project.full_description}
-              </ReactMarkdown>
-            </div>
+            <MarkdownRenderer content={project.full_description} />
           )}
 
           {/* Gallery Carousel */}

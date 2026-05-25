@@ -36,9 +36,14 @@
   },
   "home": {
     "hero": {
-      "title": "HI, I'M JOÃO MARCOS",
+      "title": "João Marcos",
       "location": "Goiânia, GO, Brazil",
-      "cta": "View Projects"
+      "cta": "View Projects",
+      "role": "FULL-STACK DEVELOPER"
+    },
+    "about": {
+      "title": "ABOUT",
+      "subtitle": "Get to know me"
     },
     "bio": {
       "p1": "Professional with strong experience in <emphasis>Software Engineering and Digital Products</emphasis>, combining the robustness of Full Stack development (Python/Node/C) with the agility of Low-Code strategies (Bubble/n8n). Specialized in turning technology into competitive advantage, acting strategically at the intersection of Sales Engineering, Product Development and Artificial Intelligence.",
@@ -56,6 +61,7 @@
       "dashboard": "Dashboard",
       "projects": "Projects",
       "articles": "Articles",
+      "resume": "Resume",
       "technologies": "Technologies",
       "tags": "Tags",
       "categories": "Categories",
