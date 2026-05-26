@@ -58,6 +58,7 @@
   },
   "admin": {
     "sidebar": {
+      "home": "Início",
       "dashboard": "Dashboard",
       "projects": "Projetos",
       "articles": "Artigos",

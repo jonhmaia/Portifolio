@@ -1,13 +1,45 @@
 import Image from 'next/image'
 import { Mail } from 'lucide-react'
-import { getTranslations } from 'next-intl/server'
+import { getTranslations, getLocale } from 'next-intl/server'
 import { Link } from '@/navigation'
+import { createClient } from '@/lib/supabase/server'
+import ReactMarkdown from 'react-markdown'
 
 import { TechSkills } from '@/components/home/tech-skills'
 import { HeroWrapper, AnimatedElement, BioWrapper } from '@/components/home/wrappers'
 
 export default async function Home() {
+  const locale = await getLocale()
   const t = await getTranslations('home')
+  const supabase = (await createClient()) as any
+
+  // Fetch homepage data
+  const { data: dbHome } = await supabase
+    .from('homepage_data')
+    .select('*')
+    .eq('id', 1)
+    .single()
+
+  // Fetch skills
+  const { data: dbSkills } = await supabase
+    .from('skills')
+    .select('*')
+    .order('display_order', { ascending: true })
+
+  // Determine dynamic fields or fallbacks
+  const isEn = locale === 'en'
+  const name = dbHome?.[isEn ? 'name_en' : 'name_pt'] || t('hero.title')
+  const location = dbHome?.[isEn ? 'location_en' : 'location_pt'] || t('hero.location')
+  const role = dbHome?.[isEn ? 'role_en' : 'role_pt'] || t('hero.role')
+  const aboutTitle = dbHome?.[isEn ? 'about_title_en' : 'about_title_pt'] || t('about.title')
+  const aboutSubtitle = dbHome?.[isEn ? 'about_subtitle_en' : 'about_subtitle_pt'] || t('about.subtitle')
+  const avatarUrl = dbHome?.avatar_url || '/foto.jpeg'
+  const email = dbHome?.email || 'contato@maiainteligencia.com'
+  const githubUrl = dbHome?.github_url || 'https://github.com/jonhmaia'
+  const linkedinUrl = dbHome?.linkedin_url || 'https://www.linkedin.com/in/joaomarcosmaia'
+  
+  // Bio content (Markdown string)
+  const bioMarkdown = dbHome?.[isEn ? 'bio_en' : 'bio_pt']
 
   return (
     <div className="flex flex-col min-h-screen relative">
@@ -30,29 +62,29 @@ export default async function Home() {
                   <div className="relative h-36 w-36 md:h-44 md:w-44 rounded-full p-[3px] bg-gradient-to-tr from-[#00ffcc]/40 via-white/10 to-[#1a1a24] group-hover:from-[#00ffcc] group-hover:to-[#2dd4bf] transition-all duration-300 shadow-[0_0_15px_rgba(0,255,204,0.1)] group-hover:shadow-[0_0_30px_rgba(0,255,204,0.3)]">
                     <div className="relative w-full h-full rounded-full overflow-hidden bg-[#1a1a24]">
                       <Image
-                        src="/foto.jpeg"
-                        alt="João Marcos"
+                        src={avatarUrl}
+                        alt={name}
                         fill
                         className="object-cover transform transition-transform duration-500 group-hover:scale-105"
                       />
                     </div>
                   </div>
                 </div>
-
+ 
                 {/* Nome */}
                 <div className="space-y-1">
                   <h3 className="text-2xl font-bold tracking-wider text-foreground">
-                    João Marcos
+                    {name}
                   </h3>
                   <p className="text-xs text-muted-foreground tracking-widest uppercase">
-                    Goiânia, GO, Brasil
+                    {location}
                   </p>
                 </div>
-
+ 
                 {/* Redes Sociais com ícones minimalistas */}
                 <div className="flex gap-4 items-center justify-center pt-2">
                   <a 
-                    href="mailto:contato@maiainteligencia.com" 
+                    href={`mailto:${email}`} 
                     className="p-3 rounded-full border border-border hover:border-[#00ffcc]/80 hover:text-[#00ffcc] bg-background/50 hover:bg-[#00ffcc]/10 text-muted-foreground transition-all duration-300 hover:scale-105"
                     title="E-mail"
                   >
@@ -60,7 +92,7 @@ export default async function Home() {
                   </a>
                   
                   <a 
-                    href="https://github.com/jonhmaia" 
+                    href={githubUrl} 
                     target="_blank" 
                     rel="noopener noreferrer" 
                     className="p-3 rounded-full border border-border hover:border-[#00ffcc]/80 hover:text-[#00ffcc] bg-background/50 hover:bg-[#00ffcc]/10 text-muted-foreground transition-all duration-300 hover:scale-105"
@@ -72,7 +104,7 @@ export default async function Home() {
                   </a>
                   
                   <a 
-                    href="https://www.linkedin.com/in/joaomarcosmaia" 
+                    href={linkedinUrl} 
                     target="_blank" 
                     rel="noopener noreferrer" 
                     className="p-3 rounded-full border border-border hover:border-[#00ffcc]/80 hover:text-[#00ffcc] bg-background/50 hover:bg-[#00ffcc]/10 text-muted-foreground transition-all duration-300 hover:scale-105"
@@ -83,51 +115,72 @@ export default async function Home() {
                     </svg>
                   </a>
                 </div>
-
+ 
               </div>
-
+ 
               {/* Lado Direito - Bio Detalhada */}
               <div className="md:col-span-8 flex flex-col text-left space-y-6">
                 
                 {/* Cabeçalho do Sobre */}
                 <div className="flex items-center gap-2 text-[#00ffcc] font-bold tracking-wider text-xs md:text-sm uppercase">
                   <span className="h-2 w-2 bg-[#00ffcc] rounded-full inline-block" />
-                  {t('about.title')}
+                  {aboutTitle}
                 </div>
                 
                 <h2 className="text-3xl md:text-4xl font-extrabold text-foreground tracking-tight leading-tight">
-                  {t('about.subtitle')}
+                  {aboutSubtitle}
                 </h2>
                 
                 <div className="space-y-6 text-muted-foreground/90 text-base md:text-lg leading-relaxed font-light">
-                  <p>
-                    {t.rich('bio.p1', {
-                      emphasis: (chunks) => (
-                        <span className="text-foreground font-semibold dark:text-white dark:font-medium">{chunks}</span>
-                      ),
-                    })}
-                  </p>
-                  <p>
-                    {t.rich('bio.p2', {
-                      emphasis: (chunks) => (
-                        <span className="text-foreground font-semibold dark:text-white dark:font-medium">{chunks}</span>
-                      ),
-                    })}
-                  </p>
-                  <p>
-                    {t.rich('bio.p3', {
-                      emphasis: (chunks) => (
-                        <span className="text-foreground font-semibold dark:text-white dark:font-medium">{chunks}</span>
-                      ),
-                    })}
-                  </p>
-                  <p>
-                    {t.rich('bio.p4', {
-                      emphasis: (chunks) => (
-                        <span className="text-foreground font-semibold dark:text-white dark:font-medium">{chunks}</span>
-                      ),
-                    })}
-                  </p>
+                  {bioMarkdown ? (
+                    <ReactMarkdown
+                      components={{
+                        p: ({ children }) => (
+                          <p className="text-muted-foreground/90 text-base md:text-lg leading-relaxed font-light mb-6 last:mb-0">
+                            {children}
+                          </p>
+                        ),
+                        strong: ({ children }) => (
+                          <span className="text-foreground font-semibold dark:text-white dark:font-medium">
+                            {children}
+                          </span>
+                        ),
+                      }}
+                    >
+                      {bioMarkdown}
+                    </ReactMarkdown>
+                  ) : (
+                    <>
+                      <p>
+                        {t.rich('bio.p1', {
+                          emphasis: (chunks) => (
+                            <span className="text-foreground font-semibold dark:text-white dark:font-medium">{chunks}</span>
+                          ),
+                        })}
+                      </p>
+                      <p>
+                        {t.rich('bio.p2', {
+                          emphasis: (chunks) => (
+                            <span className="text-foreground font-semibold dark:text-white dark:font-medium">{chunks}</span>
+                          ),
+                        })}
+                      </p>
+                      <p>
+                        {t.rich('bio.p3', {
+                          emphasis: (chunks) => (
+                            <span className="text-foreground font-semibold dark:text-white dark:font-medium">{chunks}</span>
+                          ),
+                        })}
+                      </p>
+                      <p>
+                        {t.rich('bio.p4', {
+                          emphasis: (chunks) => (
+                            <span className="text-foreground font-semibold dark:text-white dark:font-medium">{chunks}</span>
+                          ),
+                        })}
+                      </p>
+                    </>
+                  )}
                 </div>
                 
               </div>
@@ -135,10 +188,10 @@ export default async function Home() {
             </div>
           </BioWrapper>
         </div>
-
+ 
         {/* Tech Skills Section */}
         <AnimatedElement className="w-full pt-16">
-          <TechSkills />
+          <TechSkills initialSkills={(dbSkills as any) || []} />
         </AnimatedElement>
         
       </HeroWrapper>
