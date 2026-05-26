@@ -2,6 +2,7 @@
 
 import { useTranslations } from 'next-intl'
 import {
+  Home,
   LayoutDashboard,
   FolderKanban,
   FileText,
@@ -22,6 +23,7 @@ function SidebarContent() {
   const t = useTranslations('admin.sidebar')
 
   const navigation = [
+    { name: t('home'), href: '/admin/home', icon: Home },
     { name: t('dashboard'), href: '/admin', icon: LayoutDashboard },
     { name: t('projects'), href: '/admin/projects', icon: FolderKanban },
     { name: t('articles'), href: '/admin/articles', icon: FileText },

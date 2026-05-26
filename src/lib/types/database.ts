@@ -188,13 +188,47 @@ export interface CategoryTranslation {
   created_at: string
   updated_at: string
 }
-
 // Tag Translations table
 export interface TagTranslation {
   id: number
   tag_id: number
   language: Language
   name: string
+  created_at: string
+  updated_at: string
+}
+// HomepageData table
+export interface HomepageData {
+  id: number
+  avatar_url: string | null
+  email: string
+  github_url: string
+  linkedin_url: string
+  name_pt: string
+  location_pt: string
+  role_pt: string
+  about_title_pt: string
+  about_subtitle_pt: string
+  bio_pt: string | null
+  name_en: string
+  location_en: string
+  role_en: string
+  about_title_en: string
+  about_subtitle_en: string
+  bio_en: string | null
+  created_at: string
+  updated_at: string
+}
+
+// Skill table
+export interface Skill {
+  id: number
+  name: string
+  progress: number
+  color: string
+  icon_type: 'url' | 'embed' | 'upload'
+  icon_value: string | null
+  display_order: number
   created_at: string
   updated_at: string
 }
@@ -339,6 +373,16 @@ export interface Database {
         Row: TagTranslation
         Insert: Omit<TagTranslation, 'id' | 'created_at' | 'updated_at'> & { id?: number; created_at?: string; updated_at?: string }
         Update: Partial<Omit<TagTranslation, 'id'>>
+      }
+      homepage_data: {
+        Row: HomepageData
+        Insert: Partial<Omit<HomepageData, 'created_at' | 'updated_at'>> & { id?: number; created_at?: string; updated_at?: string }
+        Update: Partial<Omit<HomepageData, 'id'>>
+      }
+      skills: {
+        Row: Skill
+        Insert: Omit<Skill, 'id' | 'created_at' | 'updated_at'> & { id?: number; created_at?: string; updated_at?: string }
+        Update: Partial<Omit<Skill, 'id'>>
       }
     }
     Views: {
