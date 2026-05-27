@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { revalidateTag } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
 import type { ProjectQueryResponse, ProjectTranslation, Technology, Tag } from '@/lib/types/database'
 
@@ -205,6 +206,8 @@ export async function POST(request: NextRequest) {
       }))
       await supabase.from('project_images').insert(projectImages)
     }
+
+    revalidateTag('projects', 'default')
 
     return NextResponse.json({ data: project }, { status: 201 })
   } catch (error) {

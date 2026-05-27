@@ -1,37 +1,41 @@
 import { Metadata } from 'next'
 import { Crown } from 'lucide-react'
 import { FlowingLights } from '@/components/ui/flowing-lights'
-import { createClient } from '@/lib/supabase/server'
-import { getTranslations } from 'next-intl/server'
-import { getLocale } from 'next-intl/server'
+import { getCachedProjects } from '@/lib/supabase/cached'
+import { getTranslations, getLocale, setRequestLocale } from 'next-intl/server'
 import { ProjectGrid } from '@/components/portfolio/project-grid'
 import type { ProjectWithRelations } from '@/lib/types/database'
+
+interface ProjectsPageProps {
+  params: Promise<{ locale: string }>
+}
 
 export const metadata: Metadata = {
   title: 'Projetos | Galeria Premium',
   description: 'Uma coleção curada de projetos de engenharia de software e inteligência artificial.',
 }
 
-export default async function ProjectsPage() {
+export default async function ProjectsPage({ params }: ProjectsPageProps) {
+  const { locale } = await params
+  setRequestLocale(locale)
   const t = await getTranslations('projects')
-  const locale = await getLocale()
-  const supabase = await createClient()
 
-  const { data: projectsData } = await supabase
-    .from('projects')
-    .select(`
-      *,
-      technologies:project_technologies(
-        technology:technologies(*)
-      ),
-      tags:project_tags(
-        tag:tags(*)
-      ),
-      translations:project_translations(*)
-    `)
-    .eq('is_active', true)
-    .order('is_featured', { ascending: false })
-    .order('display_order', { ascending: true })
+  let projectsData: any[] = []
+  try {
+    const rawProjects = (await getCachedProjects()) as any[]
+    // Sort by is_featured (descending) then display_order (ascending) to match the original database ordering
+    projectsData = [...rawProjects].sort((a, b) => {
+      const aFeatured = a.is_featured ? 1 : 0
+      const bFeatured = b.is_featured ? 1 : 0
+      if (bFeatured !== aFeatured) {
+        return bFeatured - aFeatured
+      }
+      return a.display_order - b.display_order
+    })
+  } catch (error) {
+    console.error('Error fetching projects from cache:', error)
+    projectsData = []
+  }
 
   // Transform data to match the expected format
   const projects =

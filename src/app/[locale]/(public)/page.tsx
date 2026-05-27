@@ -1,30 +1,34 @@
 import Image from 'next/image'
 import { Mail } from 'lucide-react'
-import { getTranslations, getLocale } from 'next-intl/server'
+import { getTranslations, getLocale, setRequestLocale } from 'next-intl/server'
 import { Link } from '@/navigation'
-import { createClient } from '@/lib/supabase/server'
+import { getCachedHomepageData, getCachedSkills } from '@/lib/supabase/cached'
 import ReactMarkdown from 'react-markdown'
+import iconImg from '@/app/icon.png'
 
 import { TechSkills } from '@/components/home/tech-skills'
 import { HeroWrapper, AnimatedElement, BioWrapper } from '@/components/home/wrappers'
 
-export default async function Home() {
-  const locale = await getLocale()
+interface HomeProps {
+  params: Promise<{ locale: string }>
+}
+
+export default async function Home({ params }: HomeProps) {
+  const { locale } = await params
+  setRequestLocale(locale)
   const t = await getTranslations('home')
-  const supabase = (await createClient()) as any
 
-  // Fetch homepage data
-  const { data: dbHome } = await supabase
-    .from('homepage_data')
-    .select('*')
-    .eq('id', 1)
-    .single()
-
-  // Fetch skills
-  const { data: dbSkills } = await supabase
-    .from('skills')
-    .select('*')
-    .order('display_order', { ascending: true })
+  // Fetch homepage data and skills in parallel using the cached layer
+  const [dbHome, dbSkills] = (await Promise.all([
+    getCachedHomepageData().catch((err) => {
+      console.error('Error fetching homepage data from cache:', err);
+      return null;
+    }),
+    getCachedSkills().catch((err) => {
+      console.error('Error fetching skills from cache:', err);
+      return [];
+    })
+  ])) as [any, any[]]
 
   // Determine dynamic fields or fallbacks
   const isEn = locale === 'en'
@@ -33,7 +37,7 @@ export default async function Home() {
   const role = dbHome?.[isEn ? 'role_en' : 'role_pt'] || t('hero.role')
   const aboutTitle = dbHome?.[isEn ? 'about_title_en' : 'about_title_pt'] || t('about.title')
   const aboutSubtitle = dbHome?.[isEn ? 'about_subtitle_en' : 'about_subtitle_pt'] || t('about.subtitle')
-  const avatarUrl = dbHome?.avatar_url || '/foto.jpeg'
+  const avatarUrl = dbHome?.avatar_url || iconImg
   const email = dbHome?.email || 'contato@maiainteligencia.com'
   const githubUrl = dbHome?.github_url || 'https://github.com/jonhmaia'
   const linkedinUrl = dbHome?.linkedin_url || 'https://www.linkedin.com/in/joaomarcosmaia'

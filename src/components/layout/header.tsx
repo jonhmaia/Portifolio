@@ -2,19 +2,18 @@
 
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
-import { Menu, Sun, Moon } from 'lucide-react'
+import { Menu } from 'lucide-react'
 import { useState, Suspense, useEffect } from 'react'
-import { useTheme } from 'next-themes'
 import { motion, useScroll } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from '@/components/ui/sheet'
 import { cn } from '@/lib/utils'
 import { LanguageSelector } from './language-selector'
 import { Link, usePathname } from '@/navigation'
+import iconImg from '@/app/icon.png'
 
 function HeaderContent() {
   const pathname = usePathname()
-  const { theme, setTheme, resolvedTheme } = useTheme()
   const [open, setOpen] = useState(false)
   const { scrollY } = useScroll()
   const [isScrolled, setIsScrolled] = useState(false)
@@ -58,7 +57,7 @@ function HeaderContent() {
             transition={{ type: "spring", stiffness: 300, damping: 10 }}
           >
             <Image
-              src="/foto.jpeg"
+              src={iconImg}
               alt="João Marcos"
               fill
               className="object-cover"
@@ -101,18 +100,6 @@ function HeaderContent() {
         <div className="flex items-center gap-2">
           {/* Language Selector */}
           <LanguageSelector />
-
-          {/* Theme Toggle */}
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')}
-            className="h-9 w-9 rounded-full hover:bg-primary/10 hover:text-primary transition-colors"
-          >
-            <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-            <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-            <span className="sr-only">{tActions('toggleTheme')}</span>
-          </Button>
 
           {/* Mobile Menu */}
           <Sheet open={open} onOpenChange={setOpen}>
@@ -171,7 +158,6 @@ function HeaderSkeleton() {
           ))}
         </div>
         <div className="flex items-center gap-2">
-          <div className="h-9 w-9 rounded bg-muted animate-pulse" />
           <div className="h-9 w-9 rounded bg-muted animate-pulse" />
         </div>
       </div>

@@ -164,6 +164,7 @@ export default function AdminHomePage() {
 
       if (error) throw error
       toast.success('Dados da página inicial salvos com sucesso!')
+      await fetch('/api/revalidate?tag=homepage_data').catch(err => console.error('Failed to revalidate homepage_data:', err))
     } catch (err) {
       console.error(err)
       toast.error('Erro ao salvar os dados')
@@ -233,6 +234,7 @@ export default function AdminHomePage() {
         if (error) throw error
         toast.success('Habilidade adicionada com sucesso!')
       }
+      await fetch('/api/revalidate?tag=skills').catch(err => console.error('Failed to revalidate skills:', err))
       setDialogOpen(false)
       loadSkills()
     } catch (err) {
@@ -251,6 +253,7 @@ export default function AdminHomePage() {
       const { error } = await supabase.from('skills').delete().eq('id', id)
       if (error) throw error
       toast.success('Habilidade removida!')
+      await fetch('/api/revalidate?tag=skills').catch(err => console.error('Failed to revalidate skills:', err))
       loadSkills()
     } catch (err) {
       console.error(err)
@@ -285,6 +288,7 @@ export default function AdminHomePage() {
       const { error } = await supabase.from('skills').upsert(updates)
       if (error) throw error
 
+      await fetch('/api/revalidate?tag=skills').catch(err => console.error('Failed to revalidate skills:', err))
       setSkills(updatedSkills)
     } catch (err) {
       console.error(err)

@@ -98,6 +98,7 @@
     "description": "Professional resume of João Marcos - N8N Expert, Software Engineer, RPA, Python & AI Engineer.",
     "role": "N8N Expert | Software Engineer | RPA | Python | AI Engineer",
     "downloadPdf": "Download PDF",
+    "downloadResume": "Download Resume",
     "professionalSummary": {
       "title": "Professional Summary",
       "p1": "Professional with strong experience in <emphasis>Software Engineering and Digital Products</emphasis>, combining the robustness of Full Stack development (Python/Node/C) with the agility of Low-Code strategies (Bubble/n8n). Specialized in turning technology into competitive advantage, acting strategically at the intersection of Sales Engineering, Product Development and Artificial Intelligence.",
@@ -239,8 +240,13 @@
     "premium": "PREMIUM COLLECTION",
     "title": "PROJECTS",
     "subtitle": "A curated set of high-engineering solutions, where <emphasis>technical precision</emphasis> meets <emphasis>digital art</emphasis>.",
+    "description": "Explore my software development projects",
     "empty": "No projects found at the moment.",
     "featured": "Featured",
+    "allProjects": "All Projects",
+    "noProjects": "No projects found",
+    "noProjectsDescription": "Check back later for new projects.",
+    "contactMe": "Contact Me",
     "cta": {
       "title": "Have a visionary project in mind?",
       "button": "START COLLABORATION"

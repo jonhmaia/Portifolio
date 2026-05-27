@@ -1,10 +1,10 @@
 import { Suspense } from 'react'
 import { Metadata } from 'next'
-import { createClient } from '@/lib/supabase/server'
+import { getCachedArticles } from '@/lib/supabase/cached'
 import { ArticleCard } from '@/components/blog/article-card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { FileText } from 'lucide-react'
-import { getLocale, getTranslations } from 'next-intl/server'
+import { getLocale, getTranslations, setRequestLocale } from 'next-intl/server'
 import { FlowingLights } from '@/components/ui/flowing-lights'
 
 export const metadata: Metadata = {
@@ -13,34 +13,23 @@ export const metadata: Metadata = {
 }
 
 interface BlogPageProps {
+  params: Promise<{ locale: string }>
   searchParams: Promise<{ category?: string; tag?: string }>
 }
 
-async function ArticlesGrid({ category, tag }: { category?: string; tag?: string }) {
+async function ArticlesGrid({ category, tag, locale }: { category?: string; tag?: string; locale: string }) {
   const t = await getTranslations('blog')
-  const locale = await getLocale()
-  const supabase = await createClient()
 
-  let query = supabase
-    .from('articles')
-    .select(`
-      *,
-      author:profiles(*),
-      category:categories(*, translations:category_translations(*)),
-      tags:article_tags(
-        tag:tags(*)
-      ),
-      translations:article_translations(*)
-    `)
-    .eq('status', 'published')
-    .order('published_at', { ascending: false, nullsFirst: false })
-    .order('created_at', { ascending: false })
-
-  if (category) {
-    query = query.eq('category.slug', category)
+  let articlesData: any[] = []
+  try {
+    articlesData = await getCachedArticles()
+  } catch (error) {
+    console.error('Error fetching articles from cache:', error)
   }
 
-  const { data: articlesData } = await query
+  if (category) {
+    articlesData = articlesData.filter((a: any) => a.category?.slug === category)
+  }
 
   // Transform and filter articles
   let articles =
@@ -125,7 +114,9 @@ function ArticlesLoading() {
   )
 }
 
-export default async function BlogPage({ searchParams }: BlogPageProps) {
+export default async function BlogPage({ params, searchParams }: BlogPageProps) {
+  const { locale } = await params
+  setRequestLocale(locale)
   const { category, tag } = await searchParams
   const t = await getTranslations('blog')
 
@@ -144,7 +135,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
 
       {/* Articles Grid */}
       <Suspense fallback={<ArticlesLoading />}>
-        <ArticlesGrid category={category} tag={tag} />
+        <ArticlesGrid category={category} tag={tag} locale={locale} />
       </Suspense>
         </div>
       </div>

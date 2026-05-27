@@ -2,7 +2,6 @@ import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import { Link } from '@/navigation'
-import { createClient } from '@/lib/supabase/server'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
@@ -16,29 +15,45 @@ import {
   Eye
 } from 'lucide-react'
 import { MarkdownRenderer } from '@/components/blog/markdown-renderer'
-import { getTranslations, getLocale } from 'next-intl/server'
+import { getTranslations, getLocale, setRequestLocale } from 'next-intl/server'
+import { cache } from 'react'
+import { getCachedProjectBySlug, getCachedSitemapProjects } from '@/lib/supabase/cached'
+import { ViewCounter } from '@/components/blog/view-counter'
+import { routing } from '@/i18n/routing'
 import 'highlight.js/styles/github-dark.css' // Import highlight.js styles
 
 interface ProjectPageProps {
   params: Promise<{ slug: string; locale: string }>
 }
 
+// Request-scoped cache to deduplicate fetches between metadata generation and rendering
+const getProject = cache(async (slug: string) => {
+  try {
+    return await getCachedProjectBySlug(slug)
+  } catch (error) {
+    console.error('Error loading project by slug:', error)
+    return null
+  }
+})
+
+export async function generateStaticParams() {
+  try {
+    const projects = (await getCachedSitemapProjects()) as any[]
+    return routing.locales.flatMap((locale) =>
+      projects.map((project) => ({
+        locale,
+        slug: project.slug,
+      }))
+    )
+  } catch (error) {
+    console.error('Error generating static params for projects:', error)
+    return []
+  }
+}
+
 export async function generateMetadata({ params }: ProjectPageProps): Promise<Metadata> {
   const { slug, locale } = await params
-  const supabase = await createClient()
-
-  const { data: project } = await supabase
-    .from('projects')
-    .select(`
-      title, 
-      short_description, 
-      meta_description, 
-      cover_image_url,
-      translations:project_translations(*)
-    `)
-    .eq('slug', slug)
-    .eq('is_active', true)
-    .single()
+  const project = await getProject(slug)
 
   if (!project) {
     return { title: locale === 'en' ? 'Project not found' : 'Projeto não encontrado' }
@@ -70,30 +85,14 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
 }
 
 export default async function ProjectPage({ params }: ProjectPageProps) {
-  const { slug } = await params
-  const locale = await getLocale()
+  const { slug, locale } = await params
+  setRequestLocale(locale)
   const t = await getTranslations('projectDetail')
-  const supabase = await createClient()
 
-  // Get project with relations and translations
-  const { data: projectData, error } = await supabase
-    .from('projects')
-    .select(`
-      *,
-      technologies:project_technologies(
-        technology:technologies(*)
-      ),
-      tags:project_tags(
-        tag:tags(*)
-      ),
-      images:project_images(*),
-      translations:project_translations(*)
-    `)
-    .eq('slug', slug)
-    .eq('is_active', true)
-    .single()
+  // Get project with relations and translations from the cached layer
+  const projectData = await getProject(slug)
 
-  if (error || !projectData) {
+  if (!projectData) {
     notFound()
   }
 
@@ -125,8 +124,8 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
     images: typedProjectData.images || [],
   }
 
-  // Increment view count
-  await (supabase.rpc as any)('increment_project_views', { project_id: project.id })
+  // Render client-side view counter instead of server-side mutation
+  const renderViewCounter = <ViewCounter id={project.id} type="project" />
 
   const statusLabels = {
     dev: t('status.dev'),
@@ -144,6 +143,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
   return (
     <article className="container py-12 md:py-16 min-h-screen">
+      {renderViewCounter}
       {/* Back button */}
       <Link
         href="/projetos"

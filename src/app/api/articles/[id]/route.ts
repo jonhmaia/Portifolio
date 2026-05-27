@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { revalidateTag } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
 import { calculateReadingTime } from '@/lib/utils/reading-time'
 import type { ArticleQueryResponse, ArticleTranslation, Tag, Project } from '@/lib/types/database'
@@ -189,6 +190,11 @@ export async function PUT(
       }
     }
 
+    revalidateTag('articles', 'default')
+    if ((article as any)?.slug) {
+      revalidateTag(`article-${(article as any).slug}`, 'default')
+    }
+
     return NextResponse.json({ data: article })
   } catch (error) {
     console.error('Error updating article:', error)
@@ -220,6 +226,8 @@ export async function DELETE(
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 500 })
     }
+
+    revalidateTag('articles', 'default')
 
     return NextResponse.json({ message: 'Article deleted successfully' })
   } catch (error) {

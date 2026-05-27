@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { getTranslations, getLocale } from 'next-intl/server'
-import { createClient } from '@/lib/supabase/server'
+import { getTranslations, getLocale, setRequestLocale } from 'next-intl/server'
+import { getCachedProfile } from '@/lib/supabase/cached'
 import type { Profile } from '@/lib/types/database'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -27,24 +27,26 @@ import {
 import Link from 'next/link'
 import Image from 'next/image'
 
+interface ResumePageProps {
+  params: Promise<{ locale: string }>
+}
+
 export const metadata: Metadata = {
   title: 'Resume',
   description: 'Professional resume and experience',
 }
 
-export default async function ResumePage() {
-  const locale = await getLocale()
+export default async function ResumePage({ params }: ResumePageProps) {
+  const { locale } = await params
+  setRequestLocale(locale)
   const t = await getTranslations('resume')
-  const supabase = await createClient()
 
-  // Get profile data
-  const { data: profile, error } = await supabase
-    .from('profiles')
-    .select('*')
-    .single() as { data: Profile | null; error: any }
-
-  if (error || !profile) {
-    console.error('Error fetching profile:', error)
+  // Get profile data from the cached layer
+  let profile: Profile | null = null
+  try {
+    profile = (await getCachedProfile()) as Profile
+  } catch (error) {
+    console.error('Error fetching profile from cache:', error)
     notFound()
   }
 

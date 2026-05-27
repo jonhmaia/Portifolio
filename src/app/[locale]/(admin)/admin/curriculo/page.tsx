@@ -256,6 +256,11 @@ export default function ResumeAdminPage() {
         }, { onConflict: 'language' })
 
       if (error) throw error
+      
+      // Trigger cache revalidation for resume data
+      await fetch(`/api/revalidate?tag=resume_data`).catch(err => console.error('Failed to revalidate resume_data:', err))
+      await fetch(`/api/revalidate?tag=resume-${lang}`).catch(err => console.error(`Failed to revalidate resume-${lang}:`, err))
+
       toast.success(`Currículo em ${lang === 'pt-BR' ? 'Português' : 'Inglês'} salvo com sucesso!`)
     } catch (err) {
       console.error('Erro ao salvar currículo:', err)

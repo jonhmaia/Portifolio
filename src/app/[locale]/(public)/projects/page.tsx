@@ -1,40 +1,31 @@
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import { createClient } from '@/lib/supabase/server'
+import { getCachedProjects } from '@/lib/supabase/cached'
 import { ProjectGrid } from '@/components/portfolio/project-grid'
 import { Button } from '@/components/ui/button'
-import { getTranslations, getLocale } from 'next-intl/server'
+import { getTranslations, getLocale, setRequestLocale } from 'next-intl/server'
+
+interface ProjectsPageProps {
+  params: Promise<{ locale: string }>
+}
 
 export const metadata: Metadata = {
   title: 'Projects',
   description: 'Explore my software development projects',
 }
 
-export default async function ProjectsPage() {
-  const locale = await getLocale()
+export default async function ProjectsPage({ params }: ProjectsPageProps) {
+  const { locale } = await params
+  setRequestLocale(locale)
   const t = await getTranslations('projects')
-  const supabase = await createClient()
 
-  // Get projects with relations and translations
-  const { data: projects, error } = await supabase
-    .from('projects')
-    .select(`
-      *,
-      technologies:project_technologies(
-        technology:technologies(*)
-      ),
-      tags:project_tags(
-        tag:tags(*)
-      ),
-      translations:project_translations(*)
-    `)
-    .eq('is_active', true)
-    .order('display_order', { ascending: true })
-    .order('created_at', { ascending: false })
-
-  if (error) {
-    console.error('Error fetching projects:', error)
+  // Get projects with relations and translations from the cached layer
+  let projects: any[] = []
+  try {
+    projects = await getCachedProjects()
+  } catch (error) {
+    console.error('Error fetching projects from cache:', error)
     notFound()
   }
 

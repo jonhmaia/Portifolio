@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { revalidateTag } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
 import type { ProjectQueryResponse, ProjectTranslation, Technology, Tag } from '@/lib/types/database'
 
@@ -237,6 +238,11 @@ export async function PUT(
       }
     }
 
+    revalidateTag('projects', 'default')
+    if ((project as any)?.slug) {
+      revalidateTag(`project-${(project as any).slug}`, 'default')
+    }
+
     return NextResponse.json({ data: project })
   } catch (error) {
     console.error('Error updating project:', error)
@@ -268,6 +274,8 @@ export async function DELETE(
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 500 })
     }
+
+    revalidateTag('projects', 'default')
 
     return NextResponse.json({ message: 'Project deleted successfully' })
   } catch (error) {

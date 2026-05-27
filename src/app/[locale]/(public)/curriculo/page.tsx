@@ -6,12 +6,12 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
-import { getTranslations, getLocale } from 'next-intl/server'
+import { getTranslations, getLocale, setRequestLocale } from 'next-intl/server'
 import { cn } from '@/lib/utils'
 
-// Novas importações para dados dinâmicos
-import { createClient } from '@/lib/supabase/server'
+import { getCachedResumeData, getCachedHomepageData } from '@/lib/supabase/cached'
 import { MarkdownRenderer } from '@/components/blog/markdown-renderer'
+import iconImg from '@/app/icon.png'
 
 interface ResumePageProps {
   params: Promise<{ locale: string }>
@@ -27,28 +27,29 @@ export async function generateMetadata({ params }: ResumePageProps): Promise<Met
   }
 }
 
-export default async function ResumePage() {
-  const locale = await getLocale()
+export default async function ResumePage({ params }: ResumePageProps) {
+  const { locale } = await params
+  setRequestLocale(locale)
   const t = await getTranslations('resume')
   
   // Define o caminho do PDF baseado no idioma
   const pdfPath = locale === 'en' ? '/curriculo-en.pdf' : '/curriculo-pt.pdf'
 
-  // Busca dados dinâmicos do currículo no Supabase
+  // Busca dados dinâmicos do currículo e homepage no Supabase usando o cached layer
   let resumeDbData: any = null
+  let dbHome: any = null
   try {
-    const supabase = await createClient()
-    const { data } = await (supabase as any)
-      .from('resume_data')
-      .select('*')
-      .eq('language', locale)
-      .maybeSingle()
-    if (data) {
-      resumeDbData = data
-    }
+    const [resumeData, homeData] = await Promise.all([
+      getCachedResumeData(locale),
+      getCachedHomepageData()
+    ])
+    resumeDbData = resumeData
+    dbHome = homeData
   } catch (err) {
     console.error('Erro ao ler dados de currículo do banco, usando fallback:', err)
   }
+
+  const avatarUrl = dbHome?.avatar_url || iconImg
 
   return (
     <div className="container py-12 md:py-16 max-w-4xl">
@@ -57,7 +58,7 @@ export default async function ResumePage() {
       <div className="flex flex-col md:flex-row gap-8 items-start mb-12">
         <div className="relative h-32 w-32 md:h-40 md:w-40 flex-shrink-0 rounded-full overflow-hidden border-4 border-muted">
           <Image
-            src="/foto.jpeg"
+            src={avatarUrl}
             alt="João Marcos"
             fill
             className="object-cover"

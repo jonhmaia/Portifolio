@@ -1,13 +1,12 @@
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
-import { createClient } from '@/lib/supabase/server'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Separator } from '@/components/ui/separator'
 import { MarkdownRenderer } from '@/components/blog/markdown-renderer'
-import { getLocale, getTranslations } from 'next-intl/server'
+import { getLocale, getTranslations, setRequestLocale } from 'next-intl/server'
 import { Link } from '@/navigation'
 import { 
   ArrowLeft, 
@@ -20,22 +19,43 @@ import {
   Facebook
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { cache } from 'react'
+import { getCachedArticleBySlug, getCachedSitemapArticles } from '@/lib/supabase/cached'
+import { ViewCounter } from '@/components/blog/view-counter'
+import { routing } from '@/i18n/routing'
 
 interface ArticlePageProps {
-  params: Promise<{ slug: string }>
+  params: Promise<{ slug: string; locale: string }>
+}
+
+// Request-scoped cache to deduplicate fetches between metadata generation and rendering
+const getArticle = cache(async (slug: string) => {
+  try {
+    return await getCachedArticleBySlug(slug)
+  } catch (error) {
+    console.error('Error loading article by slug:', error)
+    return null
+  }
+})
+
+export async function generateStaticParams() {
+  try {
+    const articles = (await getCachedSitemapArticles()) as any[]
+    return routing.locales.flatMap((locale) =>
+      articles.map((article) => ({
+        locale,
+        slug: article.slug,
+      }))
+    )
+  } catch (error) {
+    console.error('Error generating static params for blog:', error)
+    return []
+  }
 }
 
 export async function generateMetadata({ params }: ArticlePageProps): Promise<Metadata> {
-  const { slug } = await params
-  const locale = await getLocale()
-  const supabase = await createClient()
-
-  const { data: article } = await supabase
-    .from('articles')
-    .select('title, summary, meta_description, cover_image_url, translations:article_translations(*)')
-    .eq('slug', slug)
-    .eq('status', 'published')
-    .single()
+  const { slug, locale } = await params
+  const article = await getArticle(slug)
 
   if (!article) {
     return { title: locale === 'en' ? 'Article not found' : 'Artigo não encontrado' }
@@ -81,31 +101,14 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
 }
 
 export default async function ArticlePage({ params }: ArticlePageProps) {
-  const { slug } = await params
-  const locale = await getLocale()
+  const { slug, locale } = await params
+  setRequestLocale(locale)
   const t = await getTranslations('blogArticle')
-  const supabase = await createClient()
 
-  // Get article with relations
-  const { data: articleData, error } = await supabase
-    .from('articles')
-    .select(`
-      *,
-      author:profiles(*),
-      category:categories(*, translations:category_translations(*)),
-      tags:article_tags(
-        tag:tags(*)
-      ),
-      projects:article_projects(
-        project:projects(id, title, slug, cover_image_url)
-      ),
-      translations:article_translations(*)
-    `)
-    .eq('slug', slug)
-    .eq('status', 'published')
-    .single()
+  // Get article with relations from the cached layer
+  const articleData = await getArticle(slug)
 
-  if (error || !articleData) {
+  if (!articleData) {
     notFound()
   }
 
@@ -142,8 +145,8 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
       currentCategory.description || article.category.description
   }
 
-  // Increment view count
-  await (supabase.rpc as any)('increment_article_views', { article_id: article.id })
+  // Render client-side view counter instead of server-side mutation
+  const renderViewCounter = <ViewCounter id={article.id} type="article" />
 
   const authorInitials = article.author?.full_name
     ?.split(' ')
@@ -162,6 +165,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
   return (
     <article className="container py-12 md:py-16">
+      {renderViewCounter}
       {/* Back button */}
       <Link
         href="/blog"

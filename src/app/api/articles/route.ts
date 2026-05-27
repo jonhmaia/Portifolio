@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { revalidateTag } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
 import { calculateReadingTime } from '@/lib/utils/reading-time'
 import type { ArticleQueryResponse, ArticleTranslation, Tag } from '@/lib/types/database'
@@ -185,6 +186,8 @@ export async function POST(request: NextRequest) {
       }))
       await supabase.from('article_projects').insert(articleProjects)
     }
+
+    revalidateTag('articles', 'default')
 
     return NextResponse.json({ data: article }, { status: 201 })
   } catch (error) {
