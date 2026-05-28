@@ -5,7 +5,6 @@ import { ArticleCard } from '@/components/blog/article-card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { FileText } from 'lucide-react'
 import { getLocale, getTranslations, setRequestLocale } from 'next-intl/server'
-import { FlowingLights } from '@/components/ui/flowing-lights'
 
 export const metadata: Metadata = {
   title: 'Blog',
@@ -122,7 +121,6 @@ export default async function BlogPage({ params, searchParams }: BlogPageProps) 
 
   return (
     <div className="relative min-h-screen pt-24 md:pt-32 pb-12 flex flex-col">
-      <FlowingLights />
       <div className="container relative z-10 flex-1 animate-in fade-in duration-500 max-w-6xl mx-auto">
         <div className="bg-black/20 backdrop-blur-md shadow-2xl rounded-3xl p-8 md:p-12 border-none">
           {/* Header */}

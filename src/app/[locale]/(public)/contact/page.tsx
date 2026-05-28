@@ -26,7 +26,6 @@ function createContactSchema(t: (key: string) => string) {
 
 type ContactFormData = z.infer<ReturnType<typeof createContactSchema>>
 
-import { FlowingLights } from '@/components/ui/flowing-lights'
 
 export default function ContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -120,7 +119,6 @@ export default function ContactPage() {
 
   return (
     <div className="relative min-h-[calc(100vh-80px)] py-16 md:py-24 flex flex-col justify-center">
-      <FlowingLights />
       <div className="container relative z-10 animate-in fade-in duration-500 max-w-6xl mx-auto px-4 sm:px-6">
         <div className="bg-card backdrop-blur-xl shadow-2xl border border-border/50 rounded-3xl p-6 sm:p-10 md:p-16 text-card-foreground">
           {/* Header */}

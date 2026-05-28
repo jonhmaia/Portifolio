@@ -28,6 +28,7 @@ import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Separator } from '@/components/ui/separator'
+import { PdfUploader } from '@/components/admin'
 
 // Importando mensagens locais para usar como fallback e dados iniciais
 import ptMessages from '@/messages/pt-BR.json'
@@ -72,6 +73,7 @@ interface ResumeData {
   education: Education[]
   skills: SkillGroup[]
   languages: Language[]
+  pdf_url?: string | null
 }
 
 const emptyResumeState = (): ResumeData => ({
@@ -81,7 +83,8 @@ const emptyResumeState = (): ResumeData => ({
   featured_projects: [],
   education: [],
   skills: [],
-  languages: []
+  languages: [],
+  pdf_url: ''
 })
 
 // Mapeamento das mensagens estáticas para preencher dados iniciais se o banco de dados estiver vazio
@@ -168,7 +171,8 @@ const mapStaticMessagesToResume = (resumeMsg: any): ResumeData => {
     featured_projects,
     education,
     skills,
-    languages
+    languages,
+    pdf_url: ''
   }
 }
 
@@ -203,7 +207,8 @@ export default function ResumeAdminPage() {
               featured_projects: row.featured_projects || [],
               education: row.education || [],
               skills: row.skills || [],
-              languages: row.languages || []
+              languages: row.languages || [],
+              pdf_url: row.pdf_url || ''
             }
             if (row.language === 'pt-BR') {
               setPtData(parsed)
@@ -252,6 +257,7 @@ export default function ResumeAdminPage() {
           education: targetData.education,
           skills: targetData.skills,
           languages: targetData.languages,
+          pdf_url: targetData.pdf_url || null,
           updated_at: new Date().toISOString()
         }, { onConflict: 'language' })
 
@@ -578,6 +584,15 @@ function ResumeFormSection({
               value={data.role}
               onChange={(e) => updateField(lang, 'role', e.target.value)}
               placeholder="Ex: N8N Expert | Software Engineer | RPA | Python | AI Engineer"
+            />
+          </div>
+          
+          <div className="space-y-2">
+            <Label>Currículo em PDF Anexo (Para os usuários baixarem)</Label>
+            <PdfUploader
+              value={data.pdf_url}
+              onChange={(url) => updateField(lang, 'pdf_url', url)}
+              folder={`resumes/${lang}`}
             />
           </div>
           <div className="space-y-2">

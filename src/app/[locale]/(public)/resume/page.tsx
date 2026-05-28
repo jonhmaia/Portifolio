@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getTranslations, getLocale, setRequestLocale } from 'next-intl/server'
-import { getCachedProfile } from '@/lib/supabase/cached'
+import { getCachedProfile, getCachedResumeData } from '@/lib/supabase/cached'
 import type { Profile } from '@/lib/types/database'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -41,12 +41,18 @@ export default async function ResumePage({ params }: ResumePageProps) {
   setRequestLocale(locale)
   const t = await getTranslations('resume')
 
-  // Get profile data from the cached layer
+  // Get profile and resume data from the cached layer
   let profile: Profile | null = null
+  let resumeData: any = null
   try {
-    profile = (await getCachedProfile()) as Profile
+    const [profileRes, resumeRes] = await Promise.all([
+      getCachedProfile(),
+      getCachedResumeData(locale)
+    ])
+    profile = profileRes as Profile
+    resumeData = resumeRes
   } catch (error) {
-    console.error('Error fetching profile from cache:', error)
+    console.error('Error fetching profile or resume from cache:', error)
     notFound()
   }
 
@@ -269,7 +275,7 @@ export default async function ResumePage({ params }: ResumePageProps) {
             {/* Download Button */}
             <div className="flex justify-center pt-8">
               <Button size="lg" className="gap-2" asChild>
-                <a href={locale === 'en' ? '/curriculo-en.pdf' : '/curriculo-pt.pdf'} download={locale === 'en' ? 'resume.pdf' : 'curriculo.pdf'}>
+                <a href={resumeData?.pdf_url || (locale === 'en' ? '/curriculo-en.pdf' : '/curriculo-pt.pdf')} download={locale === 'en' ? 'resume.pdf' : 'curriculo.pdf'}>
                   <Download className="h-4 w-4" />
                   {t('downloadResume')}
                 </a>

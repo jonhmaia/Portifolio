@@ -32,9 +32,6 @@ export default async function ResumePage({ params }: ResumePageProps) {
   setRequestLocale(locale)
   const t = await getTranslations('resume')
   
-  // Define o caminho do PDF baseado no idioma
-  const pdfPath = locale === 'en' ? '/curriculo-en.pdf' : '/curriculo-pt.pdf'
-
   // Busca dados dinâmicos do currículo e homepage no Supabase usando o cached layer
   let resumeDbData: any = null
   let dbHome: any = null
@@ -48,6 +45,9 @@ export default async function ResumePage({ params }: ResumePageProps) {
   } catch (err) {
     console.error('Erro ao ler dados de currículo do banco, usando fallback:', err)
   }
+
+  // Define o caminho do PDF baseado no idioma (com fallback para os PDFs locais da pasta public)
+  const pdfPath = resumeDbData?.pdf_url || (locale === 'en' ? '/curriculo-en.pdf' : '/curriculo-pt.pdf')
 
   const avatarUrl = dbHome?.avatar_url || iconImg
 

@@ -1,6 +1,5 @@
 import { Metadata } from 'next'
 import { Crown } from 'lucide-react'
-import { FlowingLights } from '@/components/ui/flowing-lights'
 import { getCachedProjects } from '@/lib/supabase/cached'
 import { getTranslations, getLocale, setRequestLocale } from 'next-intl/server'
 import { ProjectGrid } from '@/components/portfolio/project-grid'
@@ -60,17 +59,8 @@ export default async function ProjectsPage({ params }: ProjectsPageProps) {
     }) || []
 
   return (
-    <div className="min-h-screen bg-background transition-colors duration-500 relative overflow-hidden selection:bg-primary/30">
+    <div className="min-h-screen bg-transparent transition-colors duration-500 relative selection:bg-primary/30">
       
-      {/* Background Animation & Gradient */}
-      <div className="fixed inset-0 pointer-events-none">
-        <div className="absolute top-[-20%] right-[-10%] w-[600px] h-[600px] rounded-full bg-primary/5 dark:bg-primary/10 blur-[120px]" />
-        <div className="absolute bottom-[-20%] left-[-10%] w-[500px] h-[500px] rounded-full bg-blue-500/5 dark:bg-blue-500/10 blur-[100px]" />
-      </div>
-      <div className="opacity-60 fixed inset-0 pointer-events-none z-0">
-        <FlowingLights />
-      </div>
-
       {/* Header Section */}
       <section className="relative pt-32 pb-20 px-6 md:px-12 z-10">
         <div className="container mx-auto text-center max-w-5xl space-y-8">

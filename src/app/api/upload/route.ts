@@ -26,13 +26,20 @@ export async function POST(request: NextRequest) {
     }
 
     // Validate bucket name
-    const validBuckets = ['projects', 'blog', 'avatars']
+    const validBuckets = ['projects', 'blog', 'avatars', 'resumes']
     if (!validBuckets.includes(bucket)) {
       return NextResponse.json({ error: 'Invalid bucket' }, { status: 400 })
     }
 
     // Validate file type
-    const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml']
+    const validTypes = [
+      'image/jpeg',
+      'image/png',
+      'image/gif',
+      'image/webp',
+      'image/svg+xml',
+      'application/pdf'
+    ]
     if (!validTypes.includes(file.type)) {
       return NextResponse.json({ error: 'Invalid file type' }, { status: 400 })
     }
