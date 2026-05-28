@@ -44,11 +44,6 @@ export function ImageUploader({
       return
     }
 
-    // Validate file size (5MB)
-    if (file.size > 5 * 1024 * 1024) {
-      toast.error('Arquivo muito grande. Máximo: 5MB')
-      return
-    }
 
     setIsUploading(true)
 
@@ -194,7 +189,7 @@ export function ImageUploader({
             <>
               <ImageIcon className="h-8 w-8" />
               <p className="text-sm text-center px-4">{placeholder}</p>
-              <p className="text-xs">JPG, PNG, GIF, WebP ou SVG (max 5MB)</p>
+              <p className="text-xs">JPG, PNG, GIF, WebP ou SVG</p>
             </>
           )}
         </div>

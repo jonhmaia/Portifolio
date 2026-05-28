@@ -141,10 +141,6 @@ export function GalleryManager({
         toast.error(`${file.name}: Tipo inválido`)
         return false
       }
-      if (file.size > 5 * 1024 * 1024) {
-        toast.error(`${file.name}: Muito grande (max 5MB)`)
-        return false
-      }
       return true
     })
 

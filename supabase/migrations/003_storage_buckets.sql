@@ -11,7 +11,7 @@ VALUES (
     'projects',
     'projects',
     true,
-    5242880, -- 5MB
+    NULL, -- No limit (free/livre)
     ARRAY['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml']
 ) ON CONFLICT (id) DO NOTHING;
 
@@ -21,7 +21,7 @@ VALUES (
     'blog',
     'blog',
     true,
-    5242880, -- 5MB
+    NULL, -- No limit (free/livre)
     ARRAY['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml']
 ) ON CONFLICT (id) DO NOTHING;
 
