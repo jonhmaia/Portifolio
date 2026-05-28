@@ -64,32 +64,26 @@ export const getCachedProjects = unstable_cache(
   { revalidate: CACHE_REVALIDATE_TIME, tags: ['projects'] }
 )
 
-export const getCachedProjectBySlug = (slug: string) => {
-  return unstable_cache(
-    async (s: string) => {
-      const supabase = createPublicClient()
-      const { data, error } = await supabase
-        .from('projects')
-        .select(`
-          *,
-          technologies:project_technologies(
-            technology:technologies(*)
-          ),
-          tags:project_tags(
-            tag:tags(*)
-          ),
-          images:project_images(*),
-          translations:project_translations(*)
-        `)
-        .eq('slug', s)
-        .eq('is_active', true)
-        .single()
-      if (error) throw error
-      return data
-    },
-    ['project-detail', slug],
-    { revalidate: CACHE_REVALIDATE_TIME, tags: ['projects', `project-${slug}`] }
-  )(slug)
+export const getCachedProjectBySlug = async (slug: string) => {
+  const supabase = createPublicClient()
+  const { data, error } = await supabase
+    .from('projects')
+    .select(`
+      *,
+      technologies:project_technologies(
+        technology:technologies(*)
+      ),
+      tags:project_tags(
+        tag:tags(*)
+      ),
+      images:project_images(*),
+      translations:project_translations(*)
+    `)
+    .eq('slug', slug)
+    .eq('is_active', true)
+    .single()
+  if (error) throw error
+  return data
 }
 
 export const getCachedSitemapProjects = unstable_cache(
@@ -133,33 +127,27 @@ export const getCachedArticles = unstable_cache(
   { revalidate: CACHE_REVALIDATE_TIME, tags: ['articles'] }
 )
 
-export const getCachedArticleBySlug = (slug: string) => {
-  return unstable_cache(
-    async (s: string) => {
-      const supabase = createPublicClient()
-      const { data, error } = await supabase
-        .from('articles')
-        .select(`
-          *,
-          author:profiles(*),
-          category:categories(*, translations:category_translations(*)),
-          tags:article_tags(
-            tag:tags(*)
-          ),
-          projects:article_projects(
-            project:projects(id, title, slug, cover_image_url)
-          ),
-          translations:article_translations(*)
-        `)
-        .eq('slug', s)
-        .eq('status', 'published')
-        .single()
-      if (error) throw error
-      return data
-    },
-    ['article-detail', slug],
-    { revalidate: CACHE_REVALIDATE_TIME, tags: ['articles', `article-${slug}`] }
-  )(slug)
+export const getCachedArticleBySlug = async (slug: string) => {
+  const supabase = createPublicClient()
+  const { data, error } = await supabase
+    .from('articles')
+    .select(`
+      *,
+      author:profiles(*),
+      category:categories(*, translations:category_translations(*)),
+      tags:article_tags(
+        tag:tags(*)
+      ),
+      projects:article_projects(
+        project:projects(id, title, slug, cover_image_url)
+      ),
+      translations:article_translations(*)
+    `)
+    .eq('slug', slug)
+    .eq('status', 'published')
+    .single()
+  if (error) throw error
+  return data
 }
 
 export const getCachedSitemapArticles = unstable_cache(

@@ -267,6 +267,12 @@
       "completed": "Completed",
       "paused": "Paused",
       "archived": "Archived"
+    },
+    "tabs": {
+      "details": "Details",
+      "diagrams": "Architecture & Diagrams",
+      "downloads": "Files & Downloads",
+      "gallery": "Gallery"
     }
   },
   "auth": {

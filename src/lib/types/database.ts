@@ -160,6 +160,8 @@ export interface ProjectTranslation {
   short_description: string | null
   full_description: string | null
   meta_description: string | null
+  diagrams?: any[] | null
+  downloads?: any[] | null
   created_at: string
   updated_at: string
 }
@@ -276,6 +278,8 @@ export interface ProjectTranslationInput {
   short_description?: string | null
   full_description?: string | null
   meta_description?: string | null
+  diagrams?: any[] | null
+  downloads?: any[] | null
 }
 
 export interface ArticleTranslationInput {

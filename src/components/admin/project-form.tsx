@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { useForm } from 'react-hook-form'
+import { useForm, useFieldArray } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { 
@@ -22,8 +22,13 @@ import {
   Database,
   Cpu,
   Layers,
-  Wrench
+  Wrench,
+  Plus,
+  Trash2,
+  UploadCloud,
+  Download
 } from 'lucide-react'
+import { MermaidRenderer } from '@/components/ui/mermaid-renderer'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
@@ -52,10 +57,19 @@ import type { Project, Technology, Tag, ProjectTranslation, ProjectImage } from 
 // Schema de tradução
 const translationSchema = z.object({
   title: z.string().min(1, 'Título é obrigatório'),
-  subtitle: z.string().optional(),
-  short_description: z.string().optional(),
-  full_description: z.string().optional(),
-  meta_description: z.string().optional(),
+  subtitle: z.string().optional().nullable(),
+  short_description: z.string().optional().nullable(),
+  full_description: z.string().optional().nullable(),
+  meta_description: z.string().optional().nullable(),
+  diagrams: z.array(z.object({
+    title: z.string().min(1, 'Título do diagrama é obrigatório'),
+    code: z.string().min(1, 'Código Mermaid é obrigatório')
+  })).optional(),
+  downloads: z.array(z.object({
+    label: z.string().min(1, 'Nome do arquivo é obrigatório'),
+    file_url: z.string().min(1, 'Link do arquivo é obrigatório'),
+    description: z.string().optional().nullable()
+  })).optional(),
 })
 
 // Schema do formulário
@@ -96,6 +110,8 @@ export function ProjectForm({ project, technologies, tags }: ProjectFormProps) {
   // IA States
   const [isTranslating, setIsTranslating] = useState<Record<string, boolean>>({})
   const [isTranslatingAll, setIsTranslatingAll] = useState(false)
+  const [isTranslatingDiagram, setIsTranslatingDiagram] = useState<Record<number, boolean>>({})
+  const [isTranslatingAllDiagrams, setIsTranslatingAllDiagrams] = useState(false)
   const [isGeneratingSeo, setIsGeneratingSeo] = useState(false)
   const [isSuggestingTags, setIsSuggestingTags] = useState(false)
   const [isPreviewOpen, setIsPreviewOpen] = useState(false)
@@ -136,12 +152,16 @@ export function ProjectForm({ project, technologies, tags }: ProjectFormProps) {
     short_description: project.translations.pt.short_description ?? undefined,
     full_description: project.translations.pt.full_description ?? undefined,
     meta_description: project.translations.pt.meta_description ?? undefined,
+    diagrams: project.translations.pt.diagrams ?? [],
+    downloads: project.translations.pt.downloads ?? [],
   } : {
     title: project?.title || '',
     subtitle: project?.subtitle ?? undefined,
     short_description: project?.short_description ?? undefined,
     full_description: project?.full_description ?? undefined,
     meta_description: project?.meta_description ?? undefined,
+    diagrams: [],
+    downloads: [],
   }
 
   const existingEnTranslation: any = project?.translations?.en ? {
@@ -150,12 +170,16 @@ export function ProjectForm({ project, technologies, tags }: ProjectFormProps) {
     short_description: project.translations.en.short_description ?? undefined,
     full_description: project.translations.en.full_description ?? undefined,
     meta_description: project.translations.en.meta_description ?? undefined,
+    diagrams: project.translations.en.diagrams ?? [],
+    downloads: project.translations.en.downloads ?? [],
   } : {
     title: '',
     subtitle: undefined,
     short_description: undefined,
     full_description: undefined,
     meta_description: undefined,
+    diagrams: [],
+    downloads: [],
   }
 
   const form = useForm<FormData>({
@@ -174,6 +198,64 @@ export function ProjectForm({ project, technologies, tags }: ProjectFormProps) {
       },
     },
   })
+
+  const { fields: ptDiagrams, append: appendPtDiagram, remove: removePtDiagram } = useFieldArray({
+    control: form.control,
+    name: 'translations.pt.diagrams',
+  })
+
+  const { fields: ptDownloads, append: appendPtDownload, remove: removePtDownload } = useFieldArray({
+    control: form.control,
+    name: 'translations.pt.downloads',
+  })
+
+  const { fields: enDiagrams, append: appendEnDiagram, remove: removeEnDiagram } = useFieldArray({
+    control: form.control,
+    name: 'translations.en.diagrams',
+  })
+
+  const { fields: enDownloads, append: appendEnDownload, remove: removeEnDownload } = useFieldArray({
+    control: form.control,
+    name: 'translations.en.downloads',
+  })
+
+  const [isUploading, setIsUploading] = useState<Record<string, boolean>>({})
+
+  const handleFileUpload = async (lang: 'pt' | 'en', index: number, event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files
+    if (!files || files.length === 0) return
+    const file = files[0]
+
+    const uploadKey = `${lang}-${index}`
+    setIsUploading(prev => ({ ...prev, [uploadKey]: true }))
+
+    try {
+      const formData = new FormData()
+      formData.append('file', file)
+      formData.append('bucket', 'projects')
+      formData.append('folder', 'downloads')
+
+      const res = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      })
+
+      const json = await res.json()
+      if (!res.ok) throw new Error(json.error || 'Erro no upload')
+
+      form.setValue(`translations.${lang}.downloads.${index}.file_url`, json.data.url)
+      
+      const currentLabel = form.getValues(`translations.${lang}.downloads.${index}.label`)
+      if (!currentLabel) {
+        form.setValue(`translations.${lang}.downloads.${index}.label`, file.name)
+      }
+      toast.success('Arquivo enviado com sucesso!')
+    } catch (error: any) {
+      toast.error(error.message || 'Erro ao enviar arquivo')
+    } finally {
+      setIsUploading(prev => ({ ...prev, [uploadKey]: false }))
+    }
+  }
 
   const handleTitleChange = (lang: 'pt' | 'en', value: string) => {
     form.setValue(`translations.${lang}.title`, value)
@@ -262,6 +344,98 @@ export function ProjectForm({ project, technologies, tags }: ProjectFormProps) {
       toast.error('Ocorreu um erro durante a tradução em lote.')
     } finally {
       setIsTranslatingAll(false)
+    }
+  }
+
+  const handleTranslateDiagram = async (index: number) => {
+    const ptDiagram = form.getValues(`translations.pt.diagrams.${index}`)
+    if (!ptDiagram || !ptDiagram.code) {
+      toast.error('Escreva o código do diagrama correspondente em Português primeiro para traduzir.')
+      return
+    }
+
+    setIsTranslatingDiagram(prev => ({ ...prev, [index]: true }))
+    try {
+      const res = await fetch('/api/admin/ai', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          action: 'translate_diagram', 
+          title: ptDiagram.title || '', 
+          code: ptDiagram.code 
+        })
+      })
+
+      const json = await res.json()
+      if (!res.ok) throw new Error(json.error || 'Erro na tradução do diagrama')
+
+      const translatedData = json.data
+      
+      form.setValue(`translations.en.diagrams.${index}.title`, translatedData.title)
+      form.setValue(`translations.en.diagrams.${index}.code`, translatedData.code)
+
+      toast.success('Diagrama traduzido com sucesso pela IA!')
+    } catch (error: any) {
+      toast.error(error.message || 'Erro ao traduzir diagrama com IA')
+    } finally {
+      setIsTranslatingDiagram(prev => ({ ...prev, [index]: false }))
+    }
+  }
+
+  const handleTranslateAllDiagrams = async () => {
+    const ptDiags = form.getValues('translations.pt.diagrams') || []
+    if (ptDiags.length === 0) {
+      toast.error('Nenhum diagrama em Português preenchido para traduzir.')
+      return
+    }
+
+    setIsTranslatingAllDiagrams(true)
+    let successCount = 0
+    try {
+      for (let index = 0; index < ptDiags.length; index++) {
+        const ptDiag = ptDiags[index]
+        if (!ptDiag.code) continue
+
+        setIsTranslatingDiagram(prev => ({ ...prev, [index]: true }))
+        
+        try {
+          const res = await fetch('/api/admin/ai', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+              action: 'translate_diagram', 
+              title: ptDiag.title || '', 
+              code: ptDiag.code 
+            })
+          })
+
+          const json = await res.json()
+          if (res.ok && json.data) {
+            const translatedData = json.data
+            
+            const currentEnDiagrams = form.getValues('translations.en.diagrams') || []
+            if (index < currentEnDiagrams.length) {
+              form.setValue(`translations.en.diagrams.${index}.title`, translatedData.title)
+              form.setValue(`translations.en.diagrams.${index}.code`, translatedData.code)
+            } else {
+              appendEnDiagram({
+                title: translatedData.title,
+                code: translatedData.code
+              })
+            }
+            successCount++
+          }
+        } catch (e) {
+          console.error(`Erro ao traduzir diagrama no index ${index}`, e)
+        } finally {
+          setIsTranslatingDiagram(prev => ({ ...prev, [index]: false }))
+        }
+      }
+      toast.success(`Tradução concluída! ${successCount} diagramas traduzidos.`);
+    } catch (error) {
+      toast.error('Ocorreu um erro ao traduzir todos os diagramas.')
+    } finally {
+      setIsTranslatingAllDiagrams(false)
     }
   }
 
@@ -382,6 +556,8 @@ export function ProjectForm({ project, technologies, tags }: ProjectFormProps) {
             short_description: data.translations.pt.short_description || null,
             full_description: data.translations.pt.full_description || null,
             meta_description: data.translations.pt.meta_description || null,
+            diagrams: data.translations.pt.diagrams || [],
+            downloads: data.translations.pt.downloads || [],
           },
           en: data.translations.en?.title ? {
             title: data.translations.en.title,
@@ -389,6 +565,8 @@ export function ProjectForm({ project, technologies, tags }: ProjectFormProps) {
             short_description: data.translations.en.short_description || null,
             full_description: data.translations.en.full_description || null,
             meta_description: data.translations.en.meta_description || null,
+            diagrams: data.translations.en.diagrams || [],
+            downloads: data.translations.en.downloads || [],
           } : null,
         },
       }
@@ -650,20 +828,28 @@ export function ProjectForm({ project, technologies, tags }: ProjectFormProps) {
         <div className="lg:col-span-2 space-y-6">
           <Tabs defaultValue="basic" className="w-full space-y-6">
             {/* Tabs Selector - Premium Design */}
-            <TabsList className="grid w-full grid-cols-4 h-11 items-center justify-center p-1 bg-muted/50 border border-border/30 rounded-xl">
-              <TabsTrigger value="basic" className="flex items-center justify-center gap-2 rounded-lg h-9 font-medium text-sm transition-all focus-visible:outline-none data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm border-none">
+            <TabsList className="grid w-full grid-cols-3 sm:grid-cols-6 h-auto sm:h-11 items-center justify-center p-1 bg-muted/50 border border-border/30 rounded-xl gap-1 sm:gap-0">
+              <TabsTrigger value="basic" className="flex items-center justify-center gap-2 rounded-lg h-9 font-medium text-sm transition-all focus-visible:outline-none data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm border-none flex-1">
                 <Settings className="h-4 w-4" />
                 <span className="hidden sm:inline">Geral</span>
               </TabsTrigger>
-              <TabsTrigger value="content" className="flex items-center justify-center gap-2 rounded-lg h-9 font-medium text-sm transition-all focus-visible:outline-none data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm border-none">
+              <TabsTrigger value="content" className="flex items-center justify-center gap-2 rounded-lg h-9 font-medium text-sm transition-all focus-visible:outline-none data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm border-none flex-1">
                 <Globe className="h-4 w-4" />
                 <span className="hidden sm:inline">Textos</span>
               </TabsTrigger>
-              <TabsTrigger value="media" className="flex items-center justify-center gap-2 rounded-lg h-9 font-medium text-sm transition-all focus-visible:outline-none data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm border-none">
+              <TabsTrigger value="diagrams" className="flex items-center justify-center gap-2 rounded-lg h-9 font-medium text-sm transition-all focus-visible:outline-none data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm border-none flex-1">
+                <Code2 className="h-4 w-4" />
+                <span className="hidden sm:inline">Diagramas</span>
+              </TabsTrigger>
+              <TabsTrigger value="downloads" className="flex items-center justify-center gap-2 rounded-lg h-9 font-medium text-sm transition-all focus-visible:outline-none data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm border-none flex-1">
+                <Wrench className="h-4 w-4" />
+                <span className="hidden sm:inline">Downloads</span>
+              </TabsTrigger>
+              <TabsTrigger value="media" className="flex items-center justify-center gap-2 rounded-lg h-9 font-medium text-sm transition-all focus-visible:outline-none data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm border-none flex-1">
                 <ImageIcon className="h-4 w-4" />
                 <span className="hidden sm:inline">Mídias</span>
               </TabsTrigger>
-              <TabsTrigger value="tech" className="flex items-center justify-center gap-2 rounded-lg h-9 font-medium text-sm transition-all focus-visible:outline-none data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm border-none">
+              <TabsTrigger value="tech" className="flex items-center justify-center gap-2 rounded-lg h-9 font-medium text-sm transition-all focus-visible:outline-none data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm border-none flex-1">
                 <Bookmark className="h-4 w-4" />
                 <span className="hidden sm:inline">Tecnologias</span>
               </TabsTrigger>
@@ -799,6 +985,479 @@ export function ProjectForm({ project, technologies, tags }: ProjectFormProps) {
                       <TranslationFields lang="en" />
                     </TabsContent>
                   </Tabs>
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            {/* Tab: Diagramas */}
+            <TabsContent value="diagrams" className="space-y-6 outline-none">
+              <Card className="border-border/60 shadow-xl shadow-black/5 rounded-2xl bg-card/50 backdrop-blur-md overflow-hidden">
+                <CardHeader className="flex flex-row items-center justify-between border-b border-border/30 pb-5 space-y-0">
+                  <div className="space-y-1">
+                    <CardTitle className="text-xl font-bold flex items-center gap-2">
+                      <Code2 className="h-5 w-5 text-indigo-500" />
+                      Diagramas de Arquitetura (Mermaid)
+                    </CardTitle>
+                    <CardDescription>Gerencie diagramas Mermaid e fluxos visuais do projeto</CardDescription>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    {activeTab === 'en' && ptDiagrams.length > 0 && (
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        className="text-xs gap-1 border-indigo-500/30 text-indigo-500 hover:bg-indigo-50 dark:hover:bg-indigo-950/30 rounded-xl transition-all"
+                        onClick={handleTranslateAllDiagrams}
+                        disabled={isTranslatingAllDiagrams}
+                      >
+                        {isTranslatingAllDiagrams ? (
+                          <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                        ) : (
+                          <Sparkles className="h-3.5 w-3.5" />
+                        )}
+                        Traduzir todos de PT-BR com IA
+                      </Button>
+                    )}
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      className="text-xs gap-1 hover:text-primary rounded-xl"
+                      onClick={() => {
+                        const list = activeTab === 'pt' ? ptDiagrams : enDiagrams
+                        const append = activeTab === 'pt' ? appendPtDiagram : appendEnDiagram
+                        append({ title: `Diagrama #${list.length + 1}`, code: `graph TB\n  Start --> End` })
+                      }}
+                    >
+                      <Plus className="h-3.5 w-3.5" />
+                      Adicionar Diagrama
+                    </Button>
+                  </div>
+                </CardHeader>
+                <CardContent className="pt-6 space-y-6">
+                  {/* Language Selector */}
+                  <div className="flex justify-center">
+                    <div className="bg-muted/50 border border-border/30 p-1 rounded-xl grid grid-cols-2 w-72 h-10 items-center">
+                      <Button
+                        type="button"
+                        variant={activeTab === 'pt' ? 'secondary' : 'ghost'}
+                        className="h-8 text-xs font-semibold rounded-lg"
+                        onClick={() => setActiveTab('pt')}
+                      >
+                        🇧🇷 Português
+                      </Button>
+                      <Button
+                        type="button"
+                        variant={activeTab === 'en' ? 'secondary' : 'ghost'}
+                        className="h-8 text-xs font-semibold rounded-lg"
+                        onClick={() => setActiveTab('en')}
+                      >
+                        🇺🇸 Inglês
+                      </Button>
+                    </div>
+                  </div>
+
+                  {/* PT-BR Diagrams List */}
+                  {activeTab === 'pt' && (
+                    <div className="space-y-6">
+                      {ptDiagrams.map((field, index) => (
+                        <div key={field.id} className="border border-border/40 p-5 rounded-2xl bg-muted/5 space-y-4 shadow-sm relative group/item">
+                          <div className="flex items-center justify-between border-b border-border/20 pb-3">
+                            <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Diagrama #{index + 1}</span>
+                            <Button
+                              type="button"
+                              variant="ghost"
+                              size="icon"
+                              className="h-8 w-8 text-destructive hover:bg-destructive/10 rounded-xl"
+                              onClick={() => removePtDiagram(index)}
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          </div>
+                          <div className="grid md:grid-cols-2 gap-5">
+                            <div className="space-y-4">
+                              <div className="space-y-2">
+                                <Label htmlFor={`pt-diagram-title-${index}`} className="text-xs font-semibold text-foreground">Título do Diagrama</Label>
+                                <Input
+                                  id={`pt-diagram-title-${index}`}
+                                  {...form.register(`translations.pt.diagrams.${index}.title` as const)}
+                                  placeholder="Ex: Camada de Cliente e BaaS"
+                                  className="rounded-xl h-10"
+                                />
+                              </div>
+                              <div className="space-y-2">
+                                <Label htmlFor={`pt-diagram-code-${index}`} className="text-xs font-semibold text-foreground">Código Mermaid</Label>
+                                <Textarea
+                                  id={`pt-diagram-code-${index}`}
+                                  {...form.register(`translations.pt.diagrams.${index}.code` as const)}
+                                  placeholder="graph TB&#10;  A[Frontend] --> B[Backend]"
+                                  rows={8}
+                                  className="font-mono text-xs leading-relaxed rounded-xl"
+                                />
+                              </div>
+                            </div>
+                            <div className="border border-border/30 rounded-xl p-4 bg-muted/10 flex flex-col justify-between max-h-[300px] overflow-auto">
+                              <div className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider mb-2">Live Preview Sandbox</div>
+                              <div className="flex-1 flex items-center justify-center min-h-[150px]">
+                                {form.watch(`translations.pt.diagrams.${index}.code`) ? (
+                                  <div className="w-full scale-90 origin-center">
+                                    <MermaidRenderer chart={form.watch(`translations.pt.diagrams.${index}.code`) || ''} />
+                                  </div>
+                                ) : (
+                                  <span className="text-xs text-muted-foreground italic">Escreva o código Mermaid para visualizar.</span>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                      {ptDiagrams.length === 0 && (
+                        <div className="text-center py-10 border border-dashed border-border/40 rounded-2xl bg-muted/5">
+                          <Code2 className="h-10 w-10 text-muted-foreground/30 mx-auto mb-3" />
+                          <p className="text-sm text-muted-foreground">Nenhum diagrama adicionado em Português.</p>
+                          <Button
+                            type="button"
+                            variant="link"
+                            size="sm"
+                            className="text-indigo-500 font-semibold mt-2"
+                            onClick={() => appendPtDiagram({ title: 'Fluxo Geral', code: `graph LR\n  A --> B` })}
+                          >
+                            Criar Primeiro Diagrama
+                          </Button>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {/* EN Diagrams List */}
+                  {activeTab === 'en' && (
+                    <div className="space-y-6">
+                      {enDiagrams.map((field, index) => (
+                        <div key={field.id} className="border border-border/40 p-5 rounded-2xl bg-muted/5 space-y-4 shadow-sm relative group/item">
+                          <div className="flex items-center justify-between border-b border-border/20 pb-3">
+                            <div className="flex items-center gap-3">
+                              <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Diagrama #{index + 1}</span>
+                              {ptDiagrams[index] && (
+                                <Button
+                                  type="button"
+                                  variant="ghost"
+                                  size="sm"
+                                  className="h-7 text-[11px] gap-1 text-indigo-500 hover:text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-950/30 rounded-lg px-2 transition-all"
+                                  onClick={() => handleTranslateDiagram(index)}
+                                  disabled={isTranslatingDiagram[index]}
+                                >
+                                  {isTranslatingDiagram[index] ? (
+                                    <Loader2 className="h-3 w-3 animate-spin" />
+                                  ) : (
+                                    <Sparkles className="h-3 w-3" />
+                                  )}
+                                  Traduzir do Português com IA
+                                </Button>
+                              )}
+                            </div>
+                            <Button
+                              type="button"
+                              variant="ghost"
+                              size="icon"
+                              className="h-8 w-8 text-destructive hover:bg-destructive/10 rounded-xl"
+                              onClick={() => removeEnDiagram(index)}
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          </div>
+                          <div className="grid md:grid-cols-2 gap-5">
+                            <div className="space-y-4">
+                              <div className="space-y-2">
+                                <Label htmlFor={`en-diagram-title-${index}`} className="text-xs font-semibold text-foreground">Título do Diagrama (EN)</Label>
+                                <Input
+                                  id={`en-diagram-title-${index}`}
+                                  {...form.register(`translations.en.diagrams.${index}.title` as const)}
+                                  placeholder="Ex: Client & BaaS Layer"
+                                  className="rounded-xl h-10"
+                                />
+                              </div>
+                              <div className="space-y-2">
+                                <Label htmlFor={`en-diagram-code-${index}`} className="text-xs font-semibold text-foreground">Código Mermaid (EN)</Label>
+                                <Textarea
+                                  id={`en-diagram-code-${index}`}
+                                  {...form.register(`translations.en.diagrams.${index}.code` as const)}
+                                  placeholder="graph TB&#10;  A[Frontend] --> B[Backend]"
+                                  rows={8}
+                                  className="font-mono text-xs leading-relaxed rounded-xl"
+                                />
+                              </div>
+                            </div>
+                            <div className="border border-border/30 rounded-xl p-4 bg-muted/10 flex flex-col justify-between max-h-[300px] overflow-auto">
+                              <div className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider mb-2">Live Preview Sandbox</div>
+                              <div className="flex-1 flex items-center justify-center min-h-[150px]">
+                                {form.watch(`translations.en.diagrams.${index}.code`) ? (
+                                  <div className="w-full scale-90 origin-center">
+                                    <MermaidRenderer chart={form.watch(`translations.en.diagrams.${index}.code`) || ''} />
+                                  </div>
+                                ) : (
+                                  <span className="text-xs text-muted-foreground italic">Escreva o código Mermaid para visualizar.</span>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                      {enDiagrams.length === 0 && (
+                        <div className="text-center py-10 border border-dashed border-border/40 rounded-2xl bg-muted/5">
+                          <Code2 className="h-10 w-10 text-muted-foreground/30 mx-auto mb-3" />
+                          <p className="text-sm text-muted-foreground">Nenhum diagrama adicionado em Inglês.</p>
+                          <Button
+                            type="button"
+                            variant="link"
+                            size="sm"
+                            className="text-indigo-500 font-semibold mt-2"
+                            onClick={() => appendEnDiagram({ title: 'Overall Flow', code: `graph LR\n  A --> B` })}
+                          >
+                            Criar Primeiro Diagrama (EN)
+                          </Button>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            {/* Tab: Downloads */}
+            <TabsContent value="downloads" className="space-y-6 outline-none">
+              <Card className="border-border/60 shadow-xl shadow-black/5 rounded-2xl bg-card/50 backdrop-blur-md overflow-hidden">
+                <CardHeader className="flex flex-row items-center justify-between border-b border-border/30 pb-5 space-y-0">
+                  <div className="space-y-1">
+                    <CardTitle className="text-xl font-bold flex items-center gap-2">
+                      <Download className="h-5 w-5 text-indigo-500" />
+                      Arquivos para Download
+                    </CardTitle>
+                    <CardDescription>Disponibilize códigos-fonte, fluxos de IA, PDFs ou outros assets para download</CardDescription>
+                  </div>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    className="text-xs gap-1 hover:text-primary rounded-xl"
+                    onClick={() => {
+                      const append = activeTab === 'pt' ? appendPtDownload : appendEnDownload
+                      append({ label: '', file_url: '', description: '' })
+                    }}
+                  >
+                    <Plus className="h-3.5 w-3.5" />
+                    Adicionar Arquivo
+                  </Button>
+                </CardHeader>
+                <CardContent className="pt-6 space-y-6">
+                  {/* Language Selector */}
+                  <div className="flex justify-center">
+                    <div className="bg-muted/50 border border-border/30 p-1 rounded-xl grid grid-cols-2 w-72 h-10 items-center">
+                      <Button
+                        type="button"
+                        variant={activeTab === 'pt' ? 'secondary' : 'ghost'}
+                        className="h-8 text-xs font-semibold rounded-lg"
+                        onClick={() => setActiveTab('pt')}
+                      >
+                        🇧🇷 Português
+                      </Button>
+                      <Button
+                        type="button"
+                        variant={activeTab === 'en' ? 'secondary' : 'ghost'}
+                        className="h-8 text-xs font-semibold rounded-lg"
+                        onClick={() => setActiveTab('en')}
+                      >
+                        🇺🇸 Inglês
+                      </Button>
+                    </div>
+                  </div>
+
+                  {/* PT-BR Downloads List */}
+                  {activeTab === 'pt' && (
+                    <div className="space-y-6">
+                      {ptDownloads.map((field, index) => (
+                        <div key={field.id} className="border border-border/40 p-5 rounded-2xl bg-muted/5 space-y-4 shadow-sm relative group/item">
+                          <div className="flex items-center justify-between border-b border-border/20 pb-3">
+                            <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider font-mono">Download #{index + 1}</span>
+                            <Button
+                              type="button"
+                              variant="ghost"
+                              size="icon"
+                              className="h-8 w-8 text-destructive hover:bg-destructive/10 rounded-xl"
+                              onClick={() => removePtDownload(index)}
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          </div>
+                          
+                          <div className="grid md:grid-cols-2 gap-4">
+                            <div className="space-y-2">
+                              <Label htmlFor={`pt-download-label-${index}`} className="text-xs font-semibold text-foreground">Nome do Botão / Rótulo</Label>
+                              <Input
+                                id={`pt-download-label-${index}`}
+                                {...form.register(`translations.pt.downloads.${index}.label` as const)}
+                                placeholder="Ex: Baixar Código do Agente (JSON)"
+                                className="rounded-xl h-10"
+                              />
+                            </div>
+                            
+                            <div className="space-y-2">
+                              <Label className="text-xs font-semibold text-foreground">Enviar Arquivo ou URL</Label>
+                              <div className="flex gap-2">
+                                <Input
+                                  {...form.register(`translations.pt.downloads.${index}.file_url` as const)}
+                                  placeholder="Link do arquivo no Supabase ou externo"
+                                  className="rounded-xl h-10 font-mono text-xs flex-1"
+                                />
+                                <div className="relative">
+                                  <input
+                                    type="file"
+                                    id={`pt-upload-input-${index}`}
+                                    className="hidden"
+                                    onChange={(e) => handleFileUpload('pt', index, e)}
+                                    disabled={isUploading[`pt-${index}`]}
+                                  />
+                                  <Button
+                                    type="button"
+                                    variant="outline"
+                                    className="rounded-xl h-10 text-xs px-3 gap-1 hover:border-indigo-500/40 hover:bg-indigo-500/5"
+                                    asChild
+                                  >
+                                    <label htmlFor={`pt-upload-input-${index}`} className="cursor-pointer flex items-center justify-center">
+                                      {isUploading[`pt-${index}`] ? (
+                                        <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                                      ) : (
+                                        <UploadCloud className="h-4 w-4" />
+                                      )}
+                                      Upload
+                                    </label>
+                                  </Button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="space-y-2">
+                            <Label htmlFor={`pt-download-desc-${index}`} className="text-xs font-semibold text-foreground">Descrição do Arquivo (Opcional)</Label>
+                            <Input
+                              id={`pt-download-desc-${index}`}
+                              {...form.register(`translations.pt.downloads.${index}.description` as const)}
+                              placeholder="Ex: Arquivo completo contendo todos os nós e credenciais normalizados para n8n."
+                              className="rounded-xl h-10"
+                            />
+                          </div>
+                        </div>
+                      ))}
+                      {ptDownloads.length === 0 && (
+                        <div className="text-center py-10 border border-dashed border-border/40 rounded-2xl bg-muted/5">
+                          <Download className="h-10 w-10 text-muted-foreground/30 mx-auto mb-3" />
+                          <p className="text-sm text-muted-foreground">Nenhum arquivo para download anexado em Português.</p>
+                          <Button
+                            type="button"
+                            variant="link"
+                            size="sm"
+                            className="text-indigo-500 font-semibold mt-2"
+                            onClick={() => appendPtDownload({ label: '', file_url: '', description: '' })}
+                          >
+                            Anexar Primeiro Arquivo
+                          </Button>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {/* EN Downloads List */}
+                  {activeTab === 'en' && (
+                    <div className="space-y-6">
+                      {enDownloads.map((field, index) => (
+                        <div key={field.id} className="border border-border/40 p-5 rounded-2xl bg-muted/5 space-y-4 shadow-sm relative group/item">
+                          <div className="flex items-center justify-between border-b border-border/20 pb-3">
+                            <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider font-mono">Download #{index + 1}</span>
+                            <Button
+                              type="button"
+                              variant="ghost"
+                              size="icon"
+                              className="h-8 w-8 text-destructive hover:bg-destructive/10 rounded-xl"
+                              onClick={() => removeEnDownload(index)}
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          </div>
+                          
+                          <div className="grid md:grid-cols-2 gap-4">
+                            <div className="space-y-2">
+                              <Label htmlFor={`en-download-label-${index}`} className="text-xs font-semibold text-foreground">Nome do Botão / Rótulo (EN)</Label>
+                              <Input
+                                id={`en-download-label-${index}`}
+                                {...form.register(`translations.en.downloads.${index}.label` as const)}
+                                placeholder="Ex: Download n8n Flow (JSON)"
+                                className="rounded-xl h-10"
+                              />
+                            </div>
+                            
+                            <div className="space-y-2">
+                              <Label className="text-xs font-semibold text-foreground">Enviar Arquivo ou URL (EN)</Label>
+                              <div className="flex gap-2">
+                                <Input
+                                  {...form.register(`translations.en.downloads.${index}.file_url` as const)}
+                                  placeholder="Link do arquivo no Supabase ou externo"
+                                  className="rounded-xl h-10 font-mono text-xs flex-1"
+                                />
+                                <div className="relative">
+                                  <input
+                                    type="file"
+                                    id={`en-upload-input-${index}`}
+                                    className="hidden"
+                                    onChange={(e) => handleFileUpload('en', index, e)}
+                                    disabled={isUploading[`en-${index}`]}
+                                  />
+                                  <Button
+                                    type="button"
+                                    variant="outline"
+                                    className="rounded-xl h-10 text-xs px-3 gap-1 hover:border-indigo-500/40 hover:bg-indigo-500/5"
+                                    asChild
+                                  >
+                                    <label htmlFor={`en-upload-input-${index}`} className="cursor-pointer flex items-center justify-center">
+                                      {isUploading[`en-${index}`] ? (
+                                        <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                                      ) : (
+                                        <UploadCloud className="h-4 w-4" />
+                                      )}
+                                      Upload
+                                    </label>
+                                  </Button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="space-y-2">
+                            <Label htmlFor={`en-download-desc-${index}`} className="text-xs font-semibold text-foreground">Descrição do Arquivo (Opcional - EN)</Label>
+                            <Input
+                              id={`en-download-desc-${index}`}
+                              {...form.register(`translations.en.downloads.${index}.description` as const)}
+                              placeholder="Ex: Full flow file with n8n workflow nodes."
+                              className="rounded-xl h-10"
+                            />
+                          </div>
+                        </div>
+                      ))}
+                      {enDownloads.length === 0 && (
+                        <div className="text-center py-10 border border-dashed border-border/40 rounded-2xl bg-muted/5">
+                          <Download className="h-10 w-10 text-muted-foreground/30 mx-auto mb-3" />
+                          <p className="text-sm text-muted-foreground">Nenhum arquivo para download anexado em Inglês.</p>
+                          <Button
+                            type="button"
+                            variant="link"
+                            size="sm"
+                            className="text-indigo-500 font-semibold mt-2"
+                            onClick={() => appendEnDownload({ label: '', file_url: '', description: '' })}
+                          >
+                            Anexar Primeiro Arquivo (EN)
+                          </Button>
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </CardContent>
               </Card>
             </TabsContent>

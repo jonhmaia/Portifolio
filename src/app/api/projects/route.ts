@@ -163,6 +163,8 @@ export async function POST(request: NextRequest) {
       short_description: translations.pt.short_description || null,
       full_description: translations.pt.full_description || null,
       meta_description: translations.pt.meta_description || null,
+      diagrams: translations.pt.diagrams || [],
+      downloads: translations.pt.downloads || [],
     })
 
     // Add EN translation if provided
@@ -175,6 +177,8 @@ export async function POST(request: NextRequest) {
         short_description: translations.en.short_description || null,
         full_description: translations.en.full_description || null,
         meta_description: translations.en.meta_description || null,
+        diagrams: translations.en.diagrams || [],
+        downloads: translations.en.downloads || [],
       })
     }
 

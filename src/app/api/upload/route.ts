@@ -38,9 +38,25 @@ export async function POST(request: NextRequest) {
       'image/gif',
       'image/webp',
       'image/svg+xml',
-      'application/pdf'
+      'application/pdf',
+      'application/json',
+      'application/zip',
+      'application/x-zip-compressed',
+      'application/x-rar-compressed',
+      'text/plain',
+      'text/markdown',
+      'text/javascript',
+      'text/html',
+      'text/css',
+      'application/octet-stream',
+      'application/msword',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      'application/vnd.ms-excel',
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      'application/vnd.ms-powerpoint',
+      'application/vnd.openxmlformats-officedocument.presentationml.presentation'
     ]
-    if (!validTypes.includes(file.type)) {
+    if (!validTypes.includes(file.type) && !file.name.endsWith('.json') && !file.name.endsWith('.zip')) {
       return NextResponse.json({ error: 'Invalid file type' }, { status: 400 })
     }
 

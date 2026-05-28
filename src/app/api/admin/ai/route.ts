@@ -151,6 +151,60 @@ Retorne apenas o JSON traduzido:`
       }
     }
 
+    if (action === 'translate_diagram') {
+      const { title, code } = body
+      if (!code) {
+        return NextResponse.json({ error: 'Código do diagrama não informado' }, { status: 400 })
+      }
+
+      const prompt = `Você é um especialista em Mermaid e traduções técnicas de arquitetura de software.
+Traduza o seguinte título do diagrama e o código Mermaid associado de Português para Inglês (Estados Unidos).
+
+Título do Diagrama: ${title || 'Sem título'}
+
+Código Mermaid original:
+${code}
+
+Instruções Cruciais de Tradução:
+1. Traduza o título do diagrama para inglês de forma profissional e concisa.
+2. Traduza APENAS as strings de texto visíveis/rótulos/labels dentro dos nós, subgrafos, notas ou textos de conexões no código Mermaid.
+   Por exemplo:
+   - \`A[Tela de Login]\` deve se tornar \`A[Login Screen]\`
+   - \`B["Banco de Dados"]\` deve se tornar \`B["Database"]\`
+   - \`subgraph "Gerenciamento de Leads"\` deve se tornar \`subgraph "Lead Management"\`
+   - \`A -- "envia credenciais" --> B\` deve se tornar \`A -- "sends credentials" --> B\`
+3. NÃO altere IDs de nós, conexões, setas, definições de estilos ou classes.
+   Por exemplo:
+   - \`A --> B\` deve continuar \`A --> B\`
+   - \`A:::client\` deve continuar \`A:::client\`
+   - \`classDef client fill:#f9f;\` deve continuar idêntico.
+4. Mantenha toda a sintaxe do Mermaid perfeitamente intacta para que ela continue renderizando sem erros de sintaxe.
+5. Você DEVE responder estritamente com um objeto JSON válido. Não inclua blocos de código Markdown (como \`\`\`json ... \`\`\`), não adicione nenhuma introdução ou explicação. A resposta deve conter exatamente esta estrutura:
+{
+  "title": "translated title",
+  "code": "translated mermaid code"
+}
+
+Retorne apenas o JSON:`
+
+      const result = await model.invoke(prompt)
+      const rawText = result.content.toString().trim()
+      
+      // Limpar possíveis formatações de bloco de código do modelo
+      const cleanJson = rawText.replace(/^```json\s*/i, '').replace(/```$/, '').trim()
+
+      try {
+        const translatedDiagram = JSON.parse(cleanJson)
+        return NextResponse.json({ data: translatedDiagram })
+      } catch (parseError) {
+        console.error('Erro ao analisar JSON retornado pela OpenAI:', rawText, parseError)
+        return NextResponse.json({ 
+          error: 'Falha ao processar o formato da resposta gerada pela IA. Tente novamente.',
+          raw: rawText
+        }, { status: 500 })
+      }
+    }
+
     return NextResponse.json({ error: 'Ação não suportada' }, { status: 400 })
   } catch (error) {
     console.error('Erro no processamento da rota de IA:', error)
