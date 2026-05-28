@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { useForm, useFieldArray } from 'react-hook-form'
+import { useForm, useFieldArray, UseFormReturn } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { 
@@ -88,6 +88,193 @@ const formSchema = z.object({
 })
 
 type FormData = z.infer<typeof formSchema>
+
+interface TranslationFieldsProps {
+  lang: 'pt' | 'en'
+  form: UseFormReturn<FormData>
+  isTranslating: Record<string, boolean>
+  handleTranslateField: (field: 'title' | 'subtitle' | 'short_description' | 'full_description' | 'meta_description') => void
+  handleTitleChange: (lang: 'pt' | 'en', value: string) => void
+}
+
+function TranslationFields({
+  lang,
+  form,
+  isTranslating,
+  handleTranslateField,
+  handleTitleChange
+}: TranslationFieldsProps) {
+  const isRequired = lang === 'pt'
+  const prefix = `translations.${lang}` as const
+
+  return (
+    <div className="space-y-6">
+      <div className="space-y-2">
+        <div className="flex items-center justify-between">
+          <Label htmlFor={`${lang}-title`}>
+            Título {isRequired && '*'}
+          </Label>
+          {lang === 'en' && (
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              className="h-7 text-xs gap-1 hover:text-primary"
+              onClick={() => handleTranslateField('title')}
+              disabled={isTranslating['title']}
+            >
+              {isTranslating['title'] ? (
+                <Loader2 className="h-3.5 w-3.5 animate-spin" />
+              ) : (
+                <Sparkles className="h-3.5 w-3.5" />
+              )}
+              Traduzir com IA
+            </Button>
+          )}
+        </div>
+        <Input
+          id={`${lang}-title`}
+          {...form.register(`${prefix}.title`)}
+          onChange={(e) => {
+            form.register(`${prefix}.title`).onChange(e)
+            handleTitleChange(lang, e.target.value)
+          }}
+          placeholder={lang === 'pt' ? 'Nome do projeto' : 'Project name'}
+        />
+        {form.formState.errors.translations?.[lang]?.title && (
+          <p className="text-sm text-destructive">
+            {form.formState.errors.translations[lang]?.title?.message}
+          </p>
+        )}
+      </div>
+
+      <div className="space-y-2">
+        <div className="flex items-center justify-between">
+          <Label htmlFor={`${lang}-subtitle`}>
+            Subtítulo
+          </Label>
+          {lang === 'en' && (
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              className="h-7 text-xs gap-1 hover:text-primary"
+              onClick={() => handleTranslateField('subtitle')}
+              disabled={isTranslating['subtitle']}
+            >
+              {isTranslating['subtitle'] ? (
+                <Loader2 className="h-3.5 w-3.5 animate-spin" />
+              ) : (
+                <Sparkles className="h-3.5 w-3.5" />
+              )}
+              Traduzir com IA
+            </Button>
+          )}
+        </div>
+        <Input
+          id={`${lang}-subtitle`}
+          {...form.register(`${prefix}.subtitle`)}
+          placeholder={lang === 'pt' ? 'Uma breve linha sobre o projeto' : 'A brief line about the project'}
+        />
+      </div>
+
+      <div className="space-y-2">
+        <div className="flex items-center justify-between">
+          <Label htmlFor={`${lang}-short_description`}>
+            Descrição Curta
+          </Label>
+          {lang === 'en' && (
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              className="h-7 text-xs gap-1 hover:text-primary"
+              onClick={() => handleTranslateField('short_description')}
+              disabled={isTranslating['short_description']}
+            >
+              {isTranslating['short_description'] ? (
+                <Loader2 className="h-3.5 w-3.5 animate-spin" />
+              ) : (
+                <Sparkles className="h-3.5 w-3.5" />
+              )}
+              Traduzir com IA
+            </Button>
+          )}
+        </div>
+        <Textarea
+          id={`${lang}-short_description`}
+          {...form.register(`${prefix}.short_description`)}
+          placeholder={lang === 'pt' ? 'Descrição resumida que aparece nos cards de listagem' : 'Summary shown on list cards'}
+          rows={2}
+        />
+      </div>
+
+      <div className="space-y-2">
+        <div className="flex items-center justify-between">
+          <Label htmlFor={`${lang}-full_description`}>
+            Descrição Completa (Markdown)
+          </Label>
+          {lang === 'en' && (
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              className="h-7 text-xs gap-1 hover:text-primary"
+              onClick={() => handleTranslateField('full_description')}
+              disabled={isTranslating['full_description']}
+            >
+              {isTranslating['full_description'] ? (
+                <Loader2 className="h-3.5 w-3.5 animate-spin" />
+              ) : (
+                <Sparkles className="h-3.5 w-3.5" />
+              )}
+              Traduzir com IA
+            </Button>
+          )}
+        </div>
+        <Textarea
+          id={`${lang}-full_description`}
+          {...form.register(`${prefix}.full_description`)}
+          placeholder={lang === 'pt' ? 'Descrição detalhada do projeto...' : 'Detailed project description...'}
+          rows={12}
+          className="font-mono text-sm leading-relaxed"
+        />
+      </div>
+
+      <div className="space-y-2 border-t pt-4 mt-4">
+        <div className="flex items-center justify-between">
+          <Label htmlFor={`${lang}-meta_description`} className="text-muted-foreground">
+            Meta Descrição (SEO)
+          </Label>
+          {lang === 'en' && (
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              className="h-7 text-xs gap-1 hover:text-primary"
+              onClick={() => handleTranslateField('meta_description')}
+              disabled={isTranslating['meta_description']}
+            >
+              {isTranslating['meta_description'] ? (
+                <Loader2 className="h-3.5 w-3.5 animate-spin" />
+              ) : (
+                <Sparkles className="h-3.5 w-3.5" />
+              )}
+              Traduzir com IA
+            </Button>
+          )}
+        </div>
+        <Textarea
+          id={`${lang}-meta_description`}
+          {...form.register(`${prefix}.meta_description`)}
+          placeholder={lang === 'pt' ? 'Descrição resumida para os mecanismos de busca (Google)' : 'SEO search engine description'}
+          rows={2}
+          className="text-xs"
+        />
+      </div>
+    </div>
+  )
+}
 
 interface ProjectFormProps {
   project?: Project & {
@@ -595,176 +782,7 @@ export function ProjectForm({ project, technologies, tags }: ProjectFormProps) {
     }
   }
 
-  // Componente para campos de tradução
-  const TranslationFields = ({ lang }: { lang: 'pt' | 'en' }) => {
-    const isRequired = lang === 'pt'
-    const prefix = `translations.${lang}` as const
 
-    return (
-      <div className="space-y-6">
-        <div className="space-y-2">
-          <div className="flex items-center justify-between">
-            <Label htmlFor={`${lang}-title`}>
-              Título {isRequired && '*'}
-            </Label>
-            {lang === 'en' && (
-              <Button
-                type="button"
-                variant="ghost"
-                size="sm"
-                className="h-7 text-xs gap-1 hover:text-primary"
-                onClick={() => handleTranslateField('title')}
-                disabled={isTranslating['title']}
-              >
-                {isTranslating['title'] ? (
-                  <Loader2 className="h-3.5 w-3.5 animate-spin" />
-                ) : (
-                  <Sparkles className="h-3.5 w-3.5" />
-                )}
-                Traduzir com IA
-              </Button>
-            )}
-          </div>
-          <Input
-            id={`${lang}-title`}
-            {...form.register(`${prefix}.title`)}
-            onChange={(e) => handleTitleChange(lang, e.target.value)}
-            placeholder={lang === 'pt' ? 'Nome do projeto' : 'Project name'}
-          />
-          {form.formState.errors.translations?.[lang]?.title && (
-            <p className="text-sm text-destructive">
-              {form.formState.errors.translations[lang]?.title?.message}
-            </p>
-          )}
-        </div>
-
-        <div className="space-y-2">
-          <div className="flex items-center justify-between">
-            <Label htmlFor={`${lang}-subtitle`}>
-              Subtítulo
-            </Label>
-            {lang === 'en' && (
-              <Button
-                type="button"
-                variant="ghost"
-                size="sm"
-                className="h-7 text-xs gap-1 hover:text-primary"
-                onClick={() => handleTranslateField('subtitle')}
-                disabled={isTranslating['subtitle']}
-              >
-                {isTranslating['subtitle'] ? (
-                  <Loader2 className="h-3.5 w-3.5 animate-spin" />
-                ) : (
-                  <Sparkles className="h-3.5 w-3.5" />
-                )}
-                Traduzir com IA
-              </Button>
-            )}
-          </div>
-          <Input
-            id={`${lang}-subtitle`}
-            {...form.register(`${prefix}.subtitle`)}
-            placeholder={lang === 'pt' ? 'Uma breve linha sobre o projeto' : 'A brief line about the project'}
-          />
-        </div>
-
-        <div className="space-y-2">
-          <div className="flex items-center justify-between">
-            <Label htmlFor={`${lang}-short_description`}>
-              Descrição Curta
-            </Label>
-            {lang === 'en' && (
-              <Button
-                type="button"
-                variant="ghost"
-                size="sm"
-                className="h-7 text-xs gap-1 hover:text-primary"
-                onClick={() => handleTranslateField('short_description')}
-                disabled={isTranslating['short_description']}
-              >
-                {isTranslating['short_description'] ? (
-                  <Loader2 className="h-3.5 w-3.5 animate-spin" />
-                ) : (
-                  <Sparkles className="h-3.5 w-3.5" />
-                )}
-                Traduzir com IA
-              </Button>
-            )}
-          </div>
-          <Textarea
-            id={`${lang}-short_description`}
-            {...form.register(`${prefix}.short_description`)}
-            placeholder={lang === 'pt' ? 'Descrição resumida que aparece nos cards de listagem' : 'Summary shown on list cards'}
-            rows={2}
-          />
-        </div>
-
-        <div className="space-y-2">
-          <div className="flex items-center justify-between">
-            <Label htmlFor={`${lang}-full_description`}>
-              Descrição Completa (Markdown)
-            </Label>
-            {lang === 'en' && (
-              <Button
-                type="button"
-                variant="ghost"
-                size="sm"
-                className="h-7 text-xs gap-1 hover:text-primary"
-                onClick={() => handleTranslateField('full_description')}
-                disabled={isTranslating['full_description']}
-              >
-                {isTranslating['full_description'] ? (
-                  <Loader2 className="h-3.5 w-3.5 animate-spin" />
-                ) : (
-                  <Sparkles className="h-3.5 w-3.5" />
-                )}
-                Traduzir com IA
-              </Button>
-            )}
-          </div>
-          <Textarea
-            id={`${lang}-full_description`}
-            {...form.register(`${prefix}.full_description`)}
-            placeholder={lang === 'pt' ? 'Descrição detalhada do projeto...' : 'Detailed project description...'}
-            rows={12}
-            className="font-mono text-sm leading-relaxed"
-          />
-        </div>
-
-        <div className="space-y-2 border-t pt-4 mt-4">
-          <div className="flex items-center justify-between">
-            <Label htmlFor={`${lang}-meta_description`} className="text-muted-foreground">
-              Meta Descrição (SEO)
-            </Label>
-            {lang === 'en' && (
-              <Button
-                type="button"
-                variant="ghost"
-                size="sm"
-                className="h-7 text-xs gap-1 hover:text-primary"
-                onClick={() => handleTranslateField('meta_description')}
-                disabled={isTranslating['meta_description']}
-              >
-                {isTranslating['meta_description'] ? (
-                  <Loader2 className="h-3.5 w-3.5 animate-spin" />
-                ) : (
-                  <Sparkles className="h-3.5 w-3.5" />
-                )}
-                Traduzir com IA
-              </Button>
-            )}
-          </div>
-          <Textarea
-            id={`${lang}-meta_description`}
-            {...form.register(`${prefix}.meta_description`)}
-            placeholder={lang === 'pt' ? 'Descrição resumida para os mecanismos de busca (Google)' : 'SEO search engine description'}
-            rows={2}
-            className="text-xs"
-          />
-        </div>
-      </div>
-    )
-  }
 
   // Filtragem de Tecnologias & Tags baseadas nas pesquisas
   const filteredTechnologies = availableTechnologies.filter((tech) =>
@@ -979,10 +997,22 @@ export function ProjectForm({ project, technologies, tags }: ProjectFormProps) {
                       </TabsTrigger>
                     </TabsList>
                     <TabsContent value="pt" className="outline-none">
-                      <TranslationFields lang="pt" />
+                      <TranslationFields
+                        lang="pt"
+                        form={form}
+                        isTranslating={isTranslating}
+                        handleTranslateField={handleTranslateField}
+                        handleTitleChange={handleTitleChange}
+                      />
                     </TabsContent>
                     <TabsContent value="en" className="outline-none">
-                      <TranslationFields lang="en" />
+                      <TranslationFields
+                        lang="en"
+                        form={form}
+                        isTranslating={isTranslating}
+                        handleTranslateField={handleTranslateField}
+                        handleTitleChange={handleTitleChange}
+                      />
                     </TabsContent>
                   </Tabs>
                 </CardContent>
