@@ -172,7 +172,7 @@ export default async function ResumePage({ params }: ResumePageProps) {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Code className="h-5 w-5" />
-                  {t('skills')}
+                  {t('skills.title')}
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -194,7 +194,7 @@ export default async function ResumePage({ params }: ResumePageProps) {
             {/* Languages */}
             <Card className="border-border/50 shadow-sm">
               <CardHeader>
-                <CardTitle>{t('languages')}</CardTitle>
+                <CardTitle>{t('languages.title')}</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-2">
@@ -215,7 +215,7 @@ export default async function ResumePage({ params }: ResumePageProps) {
             <section>
               <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
                 <Briefcase className="h-5 w-5" />
-                {t('experience')}
+                {t('experience.title')}
               </h2>
               <div className="space-y-6">
                 {experience.map((exp, index) => (
@@ -249,7 +249,7 @@ export default async function ResumePage({ params }: ResumePageProps) {
             <section>
               <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
                 <GraduationCap className="h-5 w-5" />
-                {t('education')}
+                {t('education.title')}
               </h2>
               <div className="space-y-6">
                 {education.map((edu, index) => (
