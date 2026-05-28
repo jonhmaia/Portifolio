@@ -59,19 +59,15 @@ export default async function Home({ params }: HomeProps) {
               {/* Lado Esquerdo - Foto de Perfil, Nome e Redes Sociais */}
               <div className="md:col-span-4 flex flex-col items-center text-center space-y-6 md:sticky md:top-24">
                 
-                {/* Profile Image com Glass & Glow */}
+                {/* Profile Image */}
                 <div className="relative group cursor-pointer">
-                  <div className="absolute inset-0 bg-[#00ffcc] opacity-0 group-hover:opacity-30 blur-2xl rounded-full transition-opacity duration-500" />
-                  
-                  <div className="relative h-36 w-36 md:h-44 md:w-44 rounded-full p-[3px] bg-gradient-to-tr from-[#00ffcc]/40 via-white/10 to-[#1a1a24] group-hover:from-[#00ffcc] group-hover:to-[#2dd4bf] transition-all duration-300 shadow-[0_0_15px_rgba(0,255,204,0.1)] group-hover:shadow-[0_0_30px_rgba(0,255,204,0.3)]">
-                    <div className="relative w-full h-full rounded-full overflow-hidden bg-[#1a1a24]">
-                      <Image
-                        src={avatarUrl}
-                        alt={name}
-                        fill
-                        className="object-cover transform transition-transform duration-500 group-hover:scale-105"
-                      />
-                    </div>
+                  <div className="relative h-36 w-36 md:h-44 md:w-44 rounded-full border border-border overflow-hidden">
+                    <Image
+                      src={avatarUrl}
+                      alt={name}
+                      fill
+                      className="object-cover transform transition-transform duration-500 group-hover:scale-105"
+                    />
                   </div>
                 </div>
  
@@ -89,7 +85,7 @@ export default async function Home({ params }: HomeProps) {
                 <div className="flex gap-4 items-center justify-center pt-2">
                   <a 
                     href={`mailto:${email}`} 
-                    className="p-3 rounded-full border border-border hover:border-[#00ffcc]/80 hover:text-[#00ffcc] bg-background/50 hover:bg-[#00ffcc]/10 text-muted-foreground transition-all duration-300 hover:scale-105"
+                    className="p-3 rounded-full border border-border hover:border-[#00ffcc] hover:text-[#00ffcc] bg-background hover:bg-muted text-muted-foreground transition-all duration-300 hover:scale-105"
                     title="E-mail"
                   >
                     <Mail className="h-5 w-5" />
@@ -99,7 +95,7 @@ export default async function Home({ params }: HomeProps) {
                     href={githubUrl} 
                     target="_blank" 
                     rel="noopener noreferrer" 
-                    className="p-3 rounded-full border border-border hover:border-[#00ffcc]/80 hover:text-[#00ffcc] bg-background/50 hover:bg-[#00ffcc]/10 text-muted-foreground transition-all duration-300 hover:scale-105"
+                    className="p-3 rounded-full border border-border hover:border-[#00ffcc] hover:text-[#00ffcc] bg-background hover:bg-muted text-muted-foreground transition-all duration-300 hover:scale-105"
                     title="GitHub"
                   >
                     <svg className="h-5 w-5 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -111,7 +107,7 @@ export default async function Home({ params }: HomeProps) {
                     href={linkedinUrl} 
                     target="_blank" 
                     rel="noopener noreferrer" 
-                    className="p-3 rounded-full border border-border hover:border-[#00ffcc]/80 hover:text-[#00ffcc] bg-background/50 hover:bg-[#00ffcc]/10 text-muted-foreground transition-all duration-300 hover:scale-105"
+                    className="p-3 rounded-full border border-border hover:border-[#00ffcc] hover:text-[#00ffcc] bg-background hover:bg-muted text-muted-foreground transition-all duration-300 hover:scale-105"
                     title="LinkedIn"
                   >
                     <svg className="h-5 w-5 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -135,12 +131,12 @@ export default async function Home({ params }: HomeProps) {
                   {aboutSubtitle}
                 </h2>
                 
-                <div className="space-y-6 text-muted-foreground/90 text-base md:text-lg leading-relaxed font-light">
+                <div className="space-y-6 text-muted-foreground/90 text-base md:text-lg leading-relaxed font-light text-justify">
                   {bioMarkdown ? (
                     <ReactMarkdown
                       components={{
                         p: ({ children }) => (
-                          <p className="text-muted-foreground/90 text-base md:text-lg leading-relaxed font-light mb-6 last:mb-0">
+                          <p className="text-muted-foreground/90 text-base md:text-lg leading-relaxed font-light mb-6 last:mb-0 text-justify">
                             {children}
                           </p>
                         ),

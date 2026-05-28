@@ -64,8 +64,6 @@ export function BioWrapper({ children }: { children: ReactNode }) {
       transition={{ duration: 0.8 }}
       className="mt-16 md:mt-20 max-w-5xl mx-auto py-8 md:py-12 relative overflow-hidden text-left group transition-colors duration-500"
     >
-      <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-3xl -z-10 opacity-50 group-hover:opacity-100 transition-opacity duration-700" />
-      <div className="absolute bottom-0 left-0 w-64 h-64 bg-orange-500/10 rounded-full blur-3xl -z-10 opacity-50 group-hover:opacity-100 transition-opacity duration-700" />
       {children}
     </motion.div>
   )

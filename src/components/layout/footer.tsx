@@ -144,7 +144,7 @@ export function Footer() {
           </div>
 
           {/* Bottom Right Box: Brand */}
-          <div className={`rounded-3xl p-6 md:p-8 flex flex-col items-center justify-center gap-4 ${glassCardClasses} ${glassCardHoverClasses}`}>
+          <div className="p-6 md:p-8 flex flex-col items-center justify-center gap-4">
             <span className="relative z-10 text-muted-foreground/80 dark:text-white/40 text-[10px] md:text-xs font-semibold uppercase tracking-wider">
               Conheça minha empresa
             </span>
@@ -155,7 +155,7 @@ export function Footer() {
               className="relative z-10 w-32 h-32 md:w-40 md:h-40 transition-transform duration-500 hover:scale-110 hover:rotate-3"
             >
               <Image 
-                src="/LOGO.svg" 
+                src="/maia-logo.png" 
                 alt="Maia Inteligência" 
                 fill
                 className="object-contain drop-shadow-[0_0_20px_rgba(0,255,204,0.4)]"
