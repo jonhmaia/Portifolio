@@ -5,7 +5,6 @@ import { Link } from '@/navigation'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
-import { Separator } from '@/components/ui/separator'
 import { Carousel } from '@/components/ui/simple-carousel'
 import { 
   ArrowLeft, 
@@ -16,9 +15,12 @@ import {
   FileText,
   Code2,
   Download,
-  Image as ImageIcon
+  Image as ImageIcon,
+  Hash,
+  Cpu,
 } from 'lucide-react'
 import { MarkdownRenderer } from '@/components/blog/markdown-renderer'
+import { ColorPill } from '@/components/portfolio/color-pill'
 import { MermaidRenderer } from '@/components/ui/mermaid-renderer'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { getTranslations, getLocale, setRequestLocale } from 'next-intl/server'
@@ -150,165 +152,143 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   }
 
   return (
-    <article className="container py-12 md:py-16 min-h-screen">
+    <article className="container py-12 md:py-16 flex flex-col lg:min-h-[calc(100dvh-4rem)] lg:overflow-y-auto">
       {renderViewCounter}
       {/* Back button */}
       <Link
         href="/projetos"
-        className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary mb-8 transition-colors group"
+        className="inline-flex shrink-0 items-center gap-2 text-muted-foreground hover:text-primary mb-8 transition-colors group"
       >
         <ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" />
         {t('backToProjects')}
       </Link>
 
-      <div className="grid lg:grid-cols-12 gap-8 lg:gap-12">
-        {/* Left Column - Sidebar & Metadata (approx 33%) */}
-        <div className="lg:col-span-4 space-y-6">
-          {/* Cover Image - Now framed elegantly as a device mockup */}
-          {project.cover_image_url && (
-            <div className="relative aspect-video rounded-2xl overflow-hidden border border-border/40 shadow-xl shadow-black/10 group p-1.5 bg-card/30 backdrop-blur-sm">
-              <div className="relative w-full h-full rounded-xl overflow-hidden">
-                <Image
-                  src={project.cover_image_url}
-                  alt={project.title}
-                  fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-105"
-                  priority
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
-              </div>
-            </div>
-          )}
-
-          {/* Actions Card - Conditional: Only shown if at least one URL exists */}
-          {(project.deploy_url || project.repo_url) && (
-            <Card className="border-border/50 bg-card/40 backdrop-blur-md rounded-2xl overflow-hidden shadow-xl shadow-black/5">
-              <CardContent className="p-4 space-y-3">
-                {project.deploy_url && (
-                  <Button asChild className="w-full font-semibold shadow-md rounded-xl" size="lg">
-                    <a href={project.deploy_url} target="_blank" rel="noopener noreferrer">
-                      <ExternalLink className="mr-2 h-4 w-4" />
-                      {t('viewDemo')}
-                    </a>
-                  </Button>
-                )}
-                {project.repo_url && (
-                  <Button asChild variant="outline" className="w-full font-medium rounded-xl border-border/60 hover:bg-muted/40" size="lg">
-                    <a href={project.repo_url} target="_blank" rel="noopener noreferrer">
-                      <Github className="mr-2 h-4 w-4" />
-                      {t('viewCode')}
-                    </a>
-                  </Button>
-                )}
-              </CardContent>
-            </Card>
-          )}
-
-          {/* Info Card */}
-          <Card className="border-border/50 bg-card/40 backdrop-blur-md rounded-2xl overflow-hidden shadow-xl shadow-black/5">
-            <CardContent className="p-5 space-y-5">
-              {/* Status */}
-              <div>
-                <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2.5">{t('statusLabel')}</h3>
-                <Badge 
-                  variant="outline" 
-                  className={`px-3 py-1 text-sm font-medium rounded-lg ${statusColors[project.status as keyof typeof statusColors]}`}
-                >
-                  {statusLabels[project.status as keyof typeof statusLabels]}
-                </Badge>
-              </div>
-
-              <div className="border-b border-border/15" />
-
-              {/* Date */}
-              <div>
-                <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2.5">{t('createdAt')}</h3>
-                <div className="flex items-center gap-2.5 text-sm font-medium text-foreground">
-                  <Calendar className="h-4 w-4 text-primary" />
-                  {new Date(project.created_at).toLocaleDateString(locale === 'en' ? 'en-US' : 'pt-BR', {
-                    day: 'numeric',
-                    month: 'long',
-                    year: 'numeric',
-                  })}
+      <div className="flex flex-col flex-1 min-h-0 gap-8">
+        {/* Meta bar — cover isolated left, details on the right */}
+        <div className="shrink-0 rounded-xl border border-border/40 bg-card/30 backdrop-blur-md overflow-hidden">
+          <div className="flex flex-col sm:flex-row">
+            {project.cover_image_url && (
+              <div className="shrink-0 w-full sm:w-52 md:w-60 lg:w-72 p-3 sm:p-4 border-b sm:border-b-0 sm:border-r border-border/30 bg-muted/10">
+                <div className="relative aspect-video w-full rounded-xl overflow-hidden border border-border/40 shadow-lg ring-1 ring-white/5">
+                  <Image
+                    src={project.cover_image_url}
+                    alt={project.title}
+                    fill
+                    className="object-cover"
+                    priority
+                  />
                 </div>
               </div>
+            )}
 
-              <div className="border-b border-border/15" />
+            <div className="flex flex-1 flex-col justify-center gap-3 p-3 md:p-4 min-w-0">
+              <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+                {(project.deploy_url || project.repo_url) && (
+                  <div className="flex shrink-0 gap-2">
+                    {project.deploy_url && (
+                      <Button asChild size="sm" className="h-8 rounded-lg text-xs font-semibold shadow-sm">
+                        <a href={project.deploy_url} target="_blank" rel="noopener noreferrer">
+                          <ExternalLink className="h-3.5 w-3.5" />
+                          {t('viewDemo')}
+                        </a>
+                      </Button>
+                    )}
+                    {project.repo_url && (
+                      <Button asChild variant="outline" size="sm" className="h-8 rounded-lg text-xs font-medium border-border/50">
+                        <a href={project.repo_url} target="_blank" rel="noopener noreferrer">
+                          <Github className="h-3.5 w-3.5" />
+                          {t('viewCode')}
+                        </a>
+                      </Button>
+                    )}
+                  </div>
+                )}
 
-              {/* Views */}
-              <div>
-                <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2.5">{t('views')}</h3>
-                <div className="flex items-center gap-2.5 text-sm font-medium text-foreground">
-                  <Eye className="h-4 w-4 text-primary" />
-                  {project.views_count}
-                </div>
+                {(project.deploy_url || project.repo_url) && (
+                  <div className="hidden sm:block h-8 w-px bg-border/40 shrink-0" />
+                )}
+
+                <dl className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
+                  <div className="flex items-center gap-2">
+                    <dt className="sr-only">{t('statusLabel')}</dt>
+                    <dd>
+                      <Badge
+                        variant="outline"
+                        className={`h-6 px-2 text-[11px] font-medium rounded-md ${statusColors[project.status as keyof typeof statusColors]}`}
+                      >
+                        {statusLabels[project.status as keyof typeof statusLabels]}
+                      </Badge>
+                    </dd>
+                  </div>
+                  <div className="flex items-center gap-1.5 text-muted-foreground">
+                    <dt className="sr-only">{t('createdAt')}</dt>
+                    <Calendar className="h-3.5 w-3.5 shrink-0 text-primary" />
+                    <dd className="text-xs font-medium text-foreground">
+                      <time dateTime={project.created_at}>
+                        {new Date(project.created_at).toLocaleDateString(locale === 'en' ? 'en-US' : 'pt-BR', {
+                          day: 'numeric',
+                          month: 'short',
+                          year: 'numeric',
+                        })}
+                      </time>
+                    </dd>
+                  </div>
+                  <div className="flex items-center gap-1.5 text-muted-foreground">
+                    <dt className="sr-only">{t('views')}</dt>
+                    <Eye className="h-3.5 w-3.5 shrink-0 text-primary" />
+                    <dd className="text-xs font-medium text-foreground">{project.views_count}</dd>
+                  </div>
+                </dl>
               </div>
-            </CardContent>
-          </Card>
 
-          {/* Technologies Card */}
-          {project.technologies && project.technologies.length > 0 && (
-            <Card className="border-border/50 bg-card/40 backdrop-blur-md rounded-2xl overflow-hidden shadow-xl shadow-black/5">
-              <CardContent className="p-5">
-                <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">{t('technologies')}</h3>
-                <div className="flex flex-wrap gap-2">
+              {project.technologies && project.technologies.length > 0 && (
+                <div className="flex flex-wrap items-center gap-2 min-w-0">
+                  <span className="text-[10px] font-semibold uppercase tracking-wide text-muted-foreground mr-0.5 shrink-0">
+                    {t('technologies')}
+                  </span>
                   {project.technologies.map((tech: any) => (
-                    <div
+                    <ColorPill
                       key={tech.id}
-                      className="inline-flex items-center px-2.5 py-1.5 rounded-xl text-xs font-semibold border bg-background/50 backdrop-blur-sm transition-all hover:bg-muted/30"
-                      style={{
-                        borderColor: `${tech.color_hex}30`,
-                        color: tech.color_hex,
-                      }}
-                    >
-                      <div 
-                        className="w-1.5 h-1.5 rounded-full mr-2" 
-                        style={{ backgroundColor: tech.color_hex }}
-                      />
-                      {tech.name}
-                    </div>
+                      label={tech.name}
+                      color={tech.color_hex || '#38BDF8'}
+                      icon={Cpu}
+                    />
                   ))}
                 </div>
-              </CardContent>
-            </Card>
-          )}
+              )}
 
-          {/* Tags Card */}
-          {project.tags && project.tags.length > 0 && (
-            <Card className="border-border/50 bg-card/40 backdrop-blur-md rounded-2xl overflow-hidden shadow-xl shadow-black/5">
-              <CardContent className="p-5">
-                <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">{t('tags')}</h3>
-                <div className="flex flex-wrap gap-2">
+              {project.tags && project.tags.length > 0 && (
+                <div className="flex flex-wrap items-center gap-2 min-w-0">
+                  <span className="text-[10px] font-semibold uppercase tracking-wide text-muted-foreground mr-0.5 shrink-0">
+                    {t('tags')}
+                  </span>
                   {project.tags.map((tag: any) => (
-                    <Badge
+                    <ColorPill
                       key={tag.id}
-                      variant="outline"
-                      className="hover:bg-muted/40 transition-colors rounded-lg px-2.5 py-1 text-xs border-border/60"
-                      style={{ borderColor: tag.color_hex ? `${tag.color_hex}40` : undefined, color: tag.color_hex }}
-                    >
-                      #{tag.name}
-                    </Badge>
+                      label={tag.name}
+                      color={tag.color_hex || '#F97316'}
+                      icon={Hash}
+                    />
                   ))}
                 </div>
-              </CardContent>
-            </Card>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Header */}
+        <div className="shrink-0 space-y-2 border-b pb-5">
+          <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-foreground">
+            {project.title}
+          </h1>
+          {project.subtitle && (
+            <p className="text-sm md:text-base text-muted-foreground font-light leading-relaxed">
+              {project.subtitle}
+            </p>
           )}
         </div>
 
-        {/* Right Column - Main Content (approx 66%) */}
-        <div className="lg:col-span-8 space-y-10">
-          {/* Header */}
-          <div className="space-y-4 border-b pb-8">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-foreground">
-              {project.title}
-            </h1>
-            {project.subtitle && (
-              <p className="text-xl md:text-2xl text-muted-foreground font-light leading-relaxed">
-                {project.subtitle}
-              </p>
-            )}
-          </div>
-
+        <div className="flex flex-col flex-1 min-h-0">
           {(() => {
             const hasDiagrams = Array.isArray(project.diagrams) && project.diagrams.length > 0
             const hasDownloads = Array.isArray(project.downloads) && project.downloads.length > 0
@@ -321,10 +301,10 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               : 'md:grid-cols-2'
 
             return (
-              <Tabs defaultValue="details" className="w-full space-y-8">
+              <Tabs defaultValue="details" className="w-full flex flex-col flex-1 min-h-0 gap-8">
                 {/* Responsive Glassmorphic Tab Selector list - shown only if more than 1 tab is active */}
                 {activeTabsCount > 1 && (
-                  <TabsList className={`flex flex-wrap md:grid w-full ${gridColsClass} h-auto md:h-11 p-1 bg-muted/40 border border-border/30 rounded-2xl gap-1 md:gap-0`}>
+                  <TabsList className={`shrink-0 flex flex-wrap md:grid w-full ${gridColsClass} h-auto md:h-11 p-1 bg-muted/40 border border-border/30 rounded-2xl gap-1 md:gap-0`}>
                     <TabsTrigger value="details" className="rounded-lg h-9 gap-2 flex-1 justify-center">
                       <FileText className="h-4 w-4" />
                       {t('tabs.details')}
@@ -354,7 +334,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                 )}
 
                 {/* Content: Details */}
-                <TabsContent value="details" className="outline-none space-y-6">
+                <TabsContent value="details" className="scroll-panel outline-none space-y-6 flex-1 min-h-0 overflow-y-auto overscroll-contain pr-1 lg:pr-2 lg:max-h-[calc(100dvh-18rem)]">
                   {project.full_description && (
                     <MarkdownRenderer content={project.full_description} />
                   )}
@@ -362,7 +342,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
                 {/* Content: Diagrams */}
                 {hasDiagrams && (
-                  <TabsContent value="diagrams" className="outline-none space-y-8 animate-in fade-in-50 duration-300">
+                  <TabsContent value="diagrams" className="scroll-panel outline-none space-y-8 animate-in fade-in-50 duration-300 flex-1 min-h-0 overflow-y-auto overscroll-contain pr-1 lg:pr-2 lg:max-h-[calc(100dvh-18rem)]">
                     <div className="grid gap-6">
                       {project.diagrams.map((diag: any, index: number) => (
                         <Card key={index} className="border-border/50 bg-card/40 backdrop-blur-md rounded-2xl overflow-hidden p-6 space-y-4">
@@ -379,7 +359,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
                 {/* Content: Downloads */}
                 {hasDownloads && (
-                  <TabsContent value="downloads" className="outline-none space-y-6 animate-in fade-in-50 duration-300">
+                  <TabsContent value="downloads" className="scroll-panel outline-none space-y-6 animate-in fade-in-50 duration-300 flex-1 min-h-0 overflow-y-auto overscroll-contain pr-1 lg:pr-2 lg:max-h-[calc(100dvh-18rem)]">
                     <div className="grid gap-4 sm:grid-cols-2">
                       {project.downloads.map((file: any, index: number) => {
                         const ext = file.file_url.split('.').pop()?.toUpperCase() || 'FILE'
@@ -414,15 +394,16 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
                 {/* Content: Gallery */}
                 {hasGallery && (
-                  <TabsContent value="gallery" className="outline-none space-y-6 animate-in fade-in-50 duration-300">
-                    <div className="flex items-center gap-2 mb-4 border-b pb-3 border-border/20">
+                  <TabsContent value="gallery" className="outline-none space-y-6 animate-in fade-in-50 duration-300 overflow-visible lg:flex-none">
+                    <div className="flex items-center gap-2 border-b pb-3 border-border/20">
                       <h2 className="text-2xl font-bold tracking-tight">{t('gallery')}</h2>
                       <Badge variant="secondary" className="rounded-full px-2.5">
                         {project.images.length}
                       </Badge>
                     </div>
-                    <Carousel 
-                      images={project.images.sort((a: any, b: any) => a.display_order - b.display_order)} 
+                    <Carousel
+                      fit="contain"
+                      images={project.images.sort((a: any, b: any) => a.display_order - b.display_order)}
                       className="shadow-2xl rounded-2xl overflow-hidden"
                     />
                   </TabsContent>

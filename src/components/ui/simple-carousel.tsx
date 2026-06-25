@@ -14,9 +14,11 @@ interface CarouselProps {
     caption?: string | null
   }[]
   className?: string
+  /** cover = crop to aspect-video; contain = show full image at natural height */
+  fit?: 'cover' | 'contain'
 }
 
-export function Carousel({ images, className }: CarouselProps) {
+export function Carousel({ images, className, fit = 'cover' }: CarouselProps) {
   const [currentIndex, setCurrentIndex] = React.useState(0)
   const [direction, setDirection] = React.useState(0)
 
@@ -54,9 +56,16 @@ export function Carousel({ images, className }: CarouselProps) {
 
   if (!images.length) return null
 
+  const showFullImage = fit === 'contain'
+
   return (
     <div className={cn("relative group overflow-hidden rounded-xl border border-border bg-background", className)}>
-      <div className="relative aspect-video w-full overflow-hidden">
+      <div
+        className={cn(
+          "relative w-full overflow-hidden",
+          showFullImage ? "bg-muted/10" : "aspect-video"
+        )}
+      >
         <AnimatePresence initial={false} custom={direction}>
           <motion.div
             key={currentIndex}
@@ -81,17 +90,32 @@ export function Carousel({ images, className }: CarouselProps) {
                 paginate(-1)
               }
             }}
-            className="absolute inset-0 w-full h-full"
+            className={cn(
+              showFullImage ? "relative w-full" : "absolute inset-0 w-full h-full"
+            )}
           >
-            <Image
-              src={images[currentIndex].image_url}
-              alt={images[currentIndex].caption || ""}
-              fill
-              className="object-cover"
-              priority
-            />
+            {showFullImage ? (
+              <Image
+                src={images[currentIndex].image_url}
+                alt={images[currentIndex].caption || ""}
+                width={0}
+                height={0}
+                sizes="100vw"
+                className="block w-full h-auto"
+                style={{ width: '100%', height: 'auto' }}
+                priority
+              />
+            ) : (
+              <Image
+                src={images[currentIndex].image_url}
+                alt={images[currentIndex].caption || ""}
+                fill
+                className="object-cover"
+                priority
+              />
+            )}
             {images[currentIndex].caption && (
-              <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
+              <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent pointer-events-none">
                 <p className="text-white text-sm font-medium">{images[currentIndex].caption}</p>
               </div>
             )}
@@ -120,7 +144,12 @@ export function Carousel({ images, className }: CarouselProps) {
       </div>
 
       {/* Indicators */}
-      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+      <div
+        className={cn(
+          "absolute left-1/2 -translate-x-1/2 flex gap-2 z-10",
+          showFullImage ? "bottom-3" : "bottom-4"
+        )}
+      >
         {images.map((_, index) => (
           <button
             key={index}

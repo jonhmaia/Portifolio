@@ -125,9 +125,27 @@ export default async function ResumePage({ params }: ResumePageProps) {
             <MarkdownRenderer content={resumeDbData.summary} />
           ) : (
             <>
-              <p className="mb-4" dangerouslySetInnerHTML={{ __html: t.raw('professionalSummary.p1') }} />
-              <p className="mb-4" dangerouslySetInnerHTML={{ __html: t.raw('professionalSummary.p2') }} />
-              <p dangerouslySetInnerHTML={{ __html: t.raw('professionalSummary.p3') }} />
+              <p className="mb-4">
+                {t.rich('professionalSummary.p1', {
+                  emphasis: (chunks) => (
+                    <span className="text-foreground font-semibold">{chunks}</span>
+                  ),
+                })}
+              </p>
+              <p className="mb-4">
+                {t.rich('professionalSummary.p2', {
+                  emphasis: (chunks) => (
+                    <span className="text-foreground font-semibold">{chunks}</span>
+                  ),
+                })}
+              </p>
+              <p>
+                {t.rich('professionalSummary.p3', {
+                  emphasis: (chunks) => (
+                    <span className="text-foreground font-semibold">{chunks}</span>
+                  ),
+                })}
+              </p>
             </>
           )}
         </div>
