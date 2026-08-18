@@ -33,7 +33,7 @@ function HeaderContent() {
     { index: '04', name: tNav('resume'), href: '/curriculo' },
   ]
 
-  const isResume = pathname === '/curriculo' || pathname === '/resume'
+  const isResume = pathname === '/curriculo'
 
   return (
     <header className={cn(
