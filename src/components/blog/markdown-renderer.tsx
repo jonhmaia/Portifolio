@@ -1,16 +1,20 @@
 'use client'
 
-import type { ComponentPropsWithoutRef, JSX } from 'react'
+import { Fragment, useMemo, type ComponentPropsWithoutRef, type JSX } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import rehypeHighlight from 'rehype-highlight'
+import { useLocale } from 'next-intl'
 import { cn } from '@/lib/utils'
 import { MermaidRenderer } from '@/components/ui/mermaid-renderer'
+import { ArticleTodayBadge } from '@/components/blog/article-today-badge'
+import { parseMarkdownSegments } from '@/lib/markdown/article-shortcodes'
 import styles from './editorial.module.css'
 
 interface MarkdownRendererProps {
   content: string
   className?: string
+  locale?: string
 }
 
 type MarkdownDomProps<T extends keyof JSX.IntrinsicElements> =
@@ -46,151 +50,202 @@ function prepareMarkdownContent(content: string) {
   return content.replace(/<emphasis>([\s\S]*?)<\/emphasis>/gi, '**$1**')
 }
 
-export function MarkdownRenderer({ content, className }: MarkdownRendererProps) {
-  const preparedContent = prepareMarkdownContent(content)
+type ImageSize = 'small' | 'medium' | 'large'
+
+const IMAGE_SIZE_ALIASES: Record<string, ImageSize> = {
+  small: 'small',
+  sm: 'small',
+  pequeno: 'small',
+  p: 'small',
+  medium: 'medium',
+  md: 'medium',
+  medio: 'medium',
+  médio: 'medium',
+  m: 'medium',
+  large: 'large',
+  lg: 'large',
+  grande: 'large',
+  l: 'large',
+}
+
+const IMAGE_WRAP_CLASS: Record<ImageSize, string | undefined> = {
+  small: styles.richImageWrapSmall,
+  medium: styles.richImageWrapMedium,
+  large: undefined,
+}
+
+function parseImageAlt(alt?: string | null): { caption: string; size: ImageSize } {
+  if (!alt) return { caption: '', size: 'large' }
+
+  const pipeIndex = alt.indexOf('|')
+  if (pipeIndex === -1) {
+    return { caption: alt.trim(), size: 'large' }
+  }
+
+  const caption = alt.slice(0, pipeIndex).trim()
+  const sizeToken = alt.slice(pipeIndex + 1).trim().toLowerCase()
+  const size = IMAGE_SIZE_ALIASES[sizeToken] ?? 'large'
+
+  return { caption, size }
+}
+
+const markdownComponents = {
+  h1: ({ children, ...props }: MarkdownDomProps<'h1'>) => (
+    <h1 className={styles.richH1} {...omitMarkdownProps(props)}>
+      {children}
+    </h1>
+  ),
+  h2: ({ children, ...props }: MarkdownDomProps<'h2'>) => (
+    <h2 className={styles.richH2} {...omitMarkdownProps(props)}>
+      {children}
+    </h2>
+  ),
+  h3: ({ children, ...props }: MarkdownDomProps<'h3'>) => (
+    <h3 className={styles.richH3} {...omitMarkdownProps(props)}>
+      {children}
+    </h3>
+  ),
+  p: ({ children, ...props }: MarkdownDomProps<'p'>) => (
+    <p className={styles.richParagraph} {...omitMarkdownProps(props)}>
+      {children}
+    </p>
+  ),
+  strong: ({ children, ...props }: MarkdownDomProps<'strong'>) => (
+    <strong className={styles.richStrong} {...omitMarkdownProps(props)}>
+      {children}
+    </strong>
+  ),
+  a: ({ children, href, ...props }: MarkdownDomProps<'a'>) => (
+    <a
+      href={href}
+      target={href?.startsWith('http') ? '_blank' : undefined}
+      rel={href?.startsWith('http') ? 'noopener noreferrer' : undefined}
+      className={styles.richLink}
+      {...omitMarkdownProps(props)}
+    >
+      {children}
+    </a>
+  ),
+  ul: ({ children, ...props }: MarkdownDomProps<'ul'>) => (
+    <ul className={styles.richList} {...omitMarkdownProps(props)}>
+      {children}
+    </ul>
+  ),
+  ol: ({ children, ...props }: MarkdownDomProps<'ol'>) => (
+    <ol className={styles.richList} {...omitMarkdownProps(props)}>
+      {children}
+    </ol>
+  ),
+  li: ({ children, ...props }: MarkdownDomProps<'li'>) => (
+    <li className={styles.richListItem} {...omitMarkdownProps(props)}>
+      {children}
+    </li>
+  ),
+  blockquote: ({ children, ...props }: MarkdownDomProps<'blockquote'>) => (
+    <blockquote className={styles.richQuote} {...omitMarkdownProps(props)}>
+      {children}
+    </blockquote>
+  ),
+  code: ({ children, className, inline, ...props }: MarkdownDomProps<'code'>) => {
+    const match = /language-(\w+)/.exec(className || '')
+    const isMermaid = match && match[1] === 'mermaid'
+
+    if (isMermaid) {
+      return <MermaidRenderer chart={String(children)} />
+    }
+
+    const isInline = inline ?? !className
+    if (isInline) {
+      return (
+        <code className={styles.richInlineCode} {...omitMarkdownProps(props)}>
+          {children}
+        </code>
+      )
+    }
+    return (
+      <code className={cn(styles.richCode, className)} {...omitMarkdownProps(props)}>
+        {children}
+      </code>
+    )
+  },
+  pre: ({ children, ...props }: MarkdownDomProps<'pre'>) => (
+    <pre className={styles.richPre} {...omitMarkdownProps(props)}>
+      {children}
+    </pre>
+  ),
+  img: ({ src, alt, ...props }: MarkdownDomProps<'img'>) => {
+    const { caption, size } = parseImageAlt(alt)
+
+    return (
+      <span className={cn(styles.richImageWrap, IMAGE_WRAP_CLASS[size])}>
+        {/* Markdown images have author-defined dimensions and remote origins. */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={src}
+          alt={caption}
+          className={styles.richImage}
+          {...omitMarkdownProps(props)}
+        />
+        {caption && <span className={styles.richCaption}>{caption}</span>}
+      </span>
+    )
+  },
+  hr: (props: MarkdownDomProps<'hr'>) => (
+    <hr className={styles.richRule} {...omitMarkdownProps(props)} />
+  ),
+  table: ({ children, ...props }: MarkdownDomProps<'table'>) => (
+    <div className={styles.richTableWrap}>
+      <table className={styles.richTable} {...omitMarkdownProps(props)}>
+        {children}
+      </table>
+    </div>
+  ),
+  th: ({ children, ...props }: MarkdownDomProps<'th'>) => (
+    <th className={styles.richTh} {...omitMarkdownProps(props)}>
+      {children}
+    </th>
+  ),
+  td: ({ children, ...props }: MarkdownDomProps<'td'>) => (
+    <td className={styles.richTd} {...omitMarkdownProps(props)}>
+      {children}
+    </td>
+  ),
+}
+
+function RichMarkdownBlock({ content }: { content: string }) {
+  if (!content.trim()) return null
+
+  return (
+    <ReactMarkdown
+      remarkPlugins={[remarkGfm]}
+      rehypePlugins={[rehypeHighlight]}
+      components={markdownComponents}
+    >
+      {content}
+    </ReactMarkdown>
+  )
+}
+
+export function MarkdownRenderer({ content, className, locale }: MarkdownRendererProps) {
+  const defaultLocale = useLocale()
+  const activeLocale = locale ?? defaultLocale
+
+  const segments = useMemo(() => {
+    const preparedContent = prepareMarkdownContent(content)
+    return parseMarkdownSegments(preparedContent)
+  }, [content])
 
   return (
     <div className={cn(styles.richText, className)}>
-      <ReactMarkdown
-        remarkPlugins={[remarkGfm]}
-        rehypePlugins={[rehypeHighlight]}
-        components={{
-          h1: ({ children, ...props }: MarkdownDomProps<'h1'>) => (
-            <h1 className={styles.richH1} {...omitMarkdownProps(props)}>
-              {children}
-            </h1>
-          ),
-          h2: ({ children, ...props }: MarkdownDomProps<'h2'>) => (
-            <h2 className={styles.richH2} {...omitMarkdownProps(props)}>
-              {children}
-            </h2>
-          ),
-          h3: ({ children, ...props }: MarkdownDomProps<'h3'>) => (
-            <h3 className={styles.richH3} {...omitMarkdownProps(props)}>
-              {children}
-            </h3>
-          ),
-          p: ({ children, ...props }: MarkdownDomProps<'p'>) => (
-            <p className={styles.richParagraph} {...omitMarkdownProps(props)}>
-              {children}
-            </p>
-          ),
-          strong: ({ children, ...props }: MarkdownDomProps<'strong'>) => (
-            <strong className={styles.richStrong} {...omitMarkdownProps(props)}>
-              {children}
-            </strong>
-          ),
-          a: ({ children, href, ...props }: MarkdownDomProps<'a'>) => (
-            <a
-              href={href}
-              target={href?.startsWith('http') ? '_blank' : undefined}
-              rel={href?.startsWith('http') ? 'noopener noreferrer' : undefined}
-              className={styles.richLink}
-              {...omitMarkdownProps(props)}
-            >
-              {children}
-            </a>
-          ),
-          ul: ({ children, ...props }: MarkdownDomProps<'ul'>) => (
-            <ul className={styles.richList} {...omitMarkdownProps(props)}>
-              {children}
-            </ul>
-          ),
-          ol: ({ children, ...props }: MarkdownDomProps<'ol'>) => (
-            <ol className={styles.richList} {...omitMarkdownProps(props)}>
-              {children}
-            </ol>
-          ),
-          li: ({ children, ...props }: MarkdownDomProps<'li'>) => (
-            <li className={styles.richListItem} {...omitMarkdownProps(props)}>
-              {children}
-            </li>
-          ),
-          blockquote: ({ children, ...props }: MarkdownDomProps<'blockquote'>) => (
-            <blockquote
-              className={styles.richQuote}
-              {...omitMarkdownProps(props)}
-            >
-              {children}
-            </blockquote>
-          ),
-          code: ({ children, className, inline, ...props }: MarkdownDomProps<'code'>) => {
-            const match = /language-(\w+)/.exec(className || '')
-            const isMermaid = match && match[1] === 'mermaid'
-
-            if (isMermaid) {
-              return <MermaidRenderer chart={String(children)} />
-            }
-
-            const isInline = inline ?? !className
-            if (isInline) {
-              return (
-                <code
-                  className={styles.richInlineCode}
-                  {...omitMarkdownProps(props)}
-                >
-                  {children}
-                </code>
-              )
-            }
-            return (
-              <code className={cn(styles.richCode, className)} {...omitMarkdownProps(props)}>
-                {children}
-              </code>
-            )
-          },
-          pre: ({ children, ...props }: MarkdownDomProps<'pre'>) => (
-            <pre
-              className={styles.richPre}
-              {...omitMarkdownProps(props)}
-            >
-              {children}
-            </pre>
-          ),
-          img: ({ src, alt, ...props }: MarkdownDomProps<'img'>) => (
-            <span className={styles.richImageWrap}>
-              {/* Markdown images have author-defined dimensions and remote origins. */}
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={src}
-                alt={alt || ''}
-                className={styles.richImage}
-                {...omitMarkdownProps(props)}
-              />
-              {alt && (
-                <span className={styles.richCaption}>
-                  {alt}
-                </span>
-              )}
-            </span>
-          ),
-          hr: (props: MarkdownDomProps<'hr'>) => (
-            <hr className={styles.richRule} {...omitMarkdownProps(props)} />
-          ),
-          table: ({ children, ...props }: MarkdownDomProps<'table'>) => (
-            <div className={styles.richTableWrap}>
-              <table className={styles.richTable} {...omitMarkdownProps(props)}>
-                {children}
-              </table>
-            </div>
-          ),
-          th: ({ children, ...props }: MarkdownDomProps<'th'>) => (
-            <th
-              className={styles.richTh}
-              {...omitMarkdownProps(props)}
-            >
-              {children}
-            </th>
-          ),
-          td: ({ children, ...props }: MarkdownDomProps<'td'>) => (
-            <td className={styles.richTd} {...omitMarkdownProps(props)}>
-              {children}
-            </td>
-          ),
-        }}
-      >
-        {preparedContent}
-      </ReactMarkdown>
+      {segments.map((segment, index) => (
+        <Fragment key={`${segment.type}-${index}`}>
+          {segment.type === 'today-badge' ? (
+            <ArticleTodayBadge locale={activeLocale} />
+          ) : (
+            <RichMarkdownBlock content={segment.content} />
+          )}
+        </Fragment>
+      ))}
     </div>
   )
 }

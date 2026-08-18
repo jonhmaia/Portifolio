@@ -39,6 +39,7 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { toast } from 'sonner'
 import { slugify } from '@/lib/utils/slugify'
 import { MarkdownRenderer } from '@/components/blog/markdown-renderer'
+import { ImageUploader } from '@/components/admin/image-uploader'
 import { articleFormSchema, type ArticleFormInput } from '@/lib/validations/article'
 import type { Article, Category, Tag, Project, ArticleTranslation } from '@/lib/types/database'
 
@@ -193,7 +194,10 @@ function TranslationFields({
           <TabsContent value="preview" className="mt-0 outline-none">
             <div className="min-h-[400px] border rounded-lg p-6 bg-background max-h-[600px] overflow-y-auto prose-custom">
               {watchContent ? (
-                <MarkdownRenderer content={watchContent} />
+                <MarkdownRenderer
+                  content={watchContent}
+                  locale={lang === 'en' ? 'en' : 'pt-BR'}
+                />
               ) : (
                 <p className="text-muted-foreground text-center py-8">
                   {lang === 'pt' ? 'Nenhum conteúdo para visualizar' : 'No content to preview'}
@@ -572,7 +576,11 @@ export function ArticleForm({ article, categories, tags, projects }: ArticleForm
                 <CardHeader className="flex flex-row items-center justify-between space-y-0">
                   <div>
                     <CardTitle>Conteúdo Escrito</CardTitle>
-                    <CardDescription>Escreva o artigo técnico em markdown e traduza com a IA</CardDescription>
+                    <CardDescription>
+                      Markdown: imagens com <code className="text-xs">![legenda|small](url)</code>, badge de
+                      hoje com <code className="text-xs">::today::</code> ou{' '}
+                      <code className="text-xs">&lt;today /&gt;</code>.
+                    </CardDescription>
                   </div>
                   <div className="flex gap-2">
                     <Button
@@ -673,15 +681,44 @@ export function ArticleForm({ article, categories, tags, projects }: ArticleForm
                       </p>
                     )}
                   </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle>Imagem de Capa</CardTitle>
+                  <CardDescription>
+                    Aparece no topo do artigo e nos cards do blog. JPG, PNG, GIF ou WebP.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <ImageUploader
+                    value={form.watch('cover_image_url') || null}
+                    onChange={(url) =>
+                      form.setValue('cover_image_url', url || '', {
+                        shouldDirty: true,
+                        shouldValidate: true,
+                      })
+                    }
+                    bucket="blog"
+                    folder="covers"
+                    aspectRatio="video"
+                    placeholder="Arraste ou clique para enviar a capa do artigo"
+                  />
 
                   <div className="space-y-2">
-                    <Label htmlFor="cover_image_url">URL da Imagem de Capa</Label>
+                    <Label htmlFor="cover_image_url">Ou cole a URL da imagem</Label>
                     <Input
                       id="cover_image_url"
                       {...form.register('cover_image_url')}
-                      placeholder="https://sua-imagem-aqui.png"
+                      placeholder="https://seu-projeto.supabase.co/storage/v1/object/public/blog/covers/..."
                       type="url"
                     />
+                    {form.formState.errors.cover_image_url && (
+                      <p className="text-sm text-destructive">
+                        {form.formState.errors.cover_image_url.message}
+                      </p>
+                    )}
                   </div>
                 </CardContent>
               </Card>

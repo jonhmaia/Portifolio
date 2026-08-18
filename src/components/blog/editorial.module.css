@@ -8,6 +8,7 @@
   --editorial-secondary: #4da3ff;
   --editorial-muted-dark: #96998f;
   --editorial-muted-light: #5e6159;
+  --editorial-prose: #242620;
   --editorial-line-dark: rgba(239, 238, 231, 0.16);
   --editorial-line-light: rgba(9, 10, 9, 0.16);
   --editorial-ease: cubic-bezier(0.16, 1, 0.3, 1);
@@ -1243,22 +1244,28 @@
 }
 
 .richText {
-  color: #242620;
+  color: var(--editorial-prose, #242620);
   font-size: clamp(1.05rem, 1.28vw, 1.18rem);
   font-weight: 390;
   line-height: 1.76;
 }
 
 .blogPage .richText,
-.articlePage .richText,
 .richTextOnDark {
   color: #fff;
 }
 
 .blogPage .richText :is(.richH1, .richH2, .richH3, .richStrong, .richLink),
-.articlePage .richText :is(.richH1, .richH2, .richH3, .richStrong, .richLink),
 .richTextOnDark :is(.richH1, .richH2, .richH3, .richStrong, .richLink) {
   color: #fff;
+}
+
+.articlePaper .richText {
+  color: var(--editorial-prose);
+}
+
+.articlePaper .richText :is(.richH1, .richH2, .richH3, .richStrong, .richLink) {
+  color: var(--editorial-ink);
 }
 
 .richH1,
@@ -1392,6 +1399,16 @@
   margin: 3rem 0;
 }
 
+.richImageWrapSmall {
+  margin-inline: auto;
+  max-width: 40%;
+}
+
+.richImageWrapMedium {
+  margin-inline: auto;
+  max-width: 70%;
+}
+
 .richImage {
   border: 1px solid var(--editorial-line-light);
   border-radius: 1.5rem;
@@ -1409,6 +1426,60 @@
   letter-spacing: 0.04em;
   margin-top: 0.75rem;
   text-align: center;
+}
+
+.richTodayBadge {
+  align-items: center;
+  background: rgba(77, 163, 255, 0.08);
+  border: 1px solid rgba(77, 163, 255, 0.32);
+  color: var(--editorial-ink);
+  display: inline-flex;
+  flex-wrap: wrap;
+  font-family: var(--font-mono), "JetBrains Mono", monospace;
+  gap: 0.55rem;
+  letter-spacing: 0.08em;
+  margin: 1.75rem 0;
+  padding: 0.5rem 0.8rem;
+  text-transform: uppercase;
+  vertical-align: middle;
+}
+
+.richTodayBadgeDot {
+  background: var(--editorial-acid, #4da3ff);
+  border-radius: 50%;
+  box-shadow: 0 0 0.65rem rgba(77, 163, 255, 0.45);
+  flex: 0 0 auto;
+  height: 0.45rem;
+  width: 0.45rem;
+}
+
+.richTodayBadgeLabel {
+  color: var(--editorial-acid, #4da3ff);
+  font-size: 0.62rem;
+  font-weight: 600;
+}
+
+.richTodayBadgeSep {
+  color: rgba(9, 10, 9, 0.28);
+  font-size: 0.58rem;
+}
+
+.richTodayBadgeDate {
+  color: var(--editorial-ink);
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: none;
+}
+
+@media (max-width: 780px) {
+  .richImageWrapSmall {
+    max-width: 70%;
+  }
+
+  .richImageWrapMedium {
+    max-width: 90%;
+  }
 }
 
 .richRule {
