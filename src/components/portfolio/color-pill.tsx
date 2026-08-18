@@ -1,5 +1,7 @@
+import type { CSSProperties } from 'react'
 import type { LucideIcon } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import styles from './portfolio.module.css'
 
 function hexWithAlpha(hex: string, alpha: number) {
   const normalized = hex.replace('#', '')
@@ -17,24 +19,18 @@ interface ColorPillProps {
   className?: string
 }
 
-export function ColorPill({ label, color = '#38BDF8', icon: Icon, className }: ColorPillProps) {
+export function ColorPill({ label, color = '#4da3ff', icon: Icon, className }: ColorPillProps) {
   return (
     <span
-      className={cn(
-        'inline-flex items-center gap-2 rounded-full border-2 px-2.5 py-1 text-[11px] font-bold leading-none',
-        className
-      )}
+      className={cn(styles.colorPill, className)}
       style={{
-        borderColor: color,
-        color,
-        backgroundColor: hexWithAlpha(color, 0.1),
-      }}
+        '--pill-color': color,
+        '--pill-background': hexWithAlpha(color, 0.1),
+        '--pill-icon-background': hexWithAlpha(color, 0.2),
+      } as CSSProperties}
     >
-      <span
-        className="flex size-5 shrink-0 items-center justify-center rounded-md"
-        style={{ backgroundColor: hexWithAlpha(color, 0.2) }}
-      >
-        <Icon className="size-3" strokeWidth={2.5} />
+      <span className={styles.colorPillIcon}>
+        <Icon size={12} strokeWidth={2.2} />
       </span>
       {label}
     </span>

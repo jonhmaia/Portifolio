@@ -43,13 +43,13 @@
     },
     "about": {
       "title": "SOBRE",
-      "subtitle": "Conheça um pouco sobre mim"
+      "subtitle": "Um pouco sobre mim"
     },
     "bio": {
-      "p1": "Profissional com sólida atuação em <emphasis>Engenharia de Software e Produtos Digitais</emphasis>, combinando a robustez do desenvolvimento Full Stack (Python/Node/C) com a agilidade de estratégias Low-Code (Bubble/n8n). Especialista em transformar tecnologia em vantagem competitiva, atuando estrategicamente na interseção entre Engenharia de Vendas, Desenvolvimento de Produto e Inteligência Artificial.",
-      "p2": "Coautor de pesquisa científica em <emphasis>IA Generativa e NLP (WebMedia 2025)</emphasis>, com competência comprovada em Liderança Técnica (Head of Tech) e execução de projetos de alta complexidade. Histórico de sucesso na arquitetura de plataformas para nichos regulados (Fintech e LegalTech), promovendo alinhamento entre visão de negócio e execução técnica para garantir entregas escaláveis e orientadas a ROI.",
-      "p3": "Reconhecido pela forte capacidade de implementar <emphasis>Engenharia de Receita</emphasis>, orquestrando ecossistemas de automação e integração (n8n) que otimizam funis de vendas e reduziram o tempo de deploy de clientes em 99% (de horas para segundos). Expertise em Fine-Tuning de LLMs, Governança de Dados e Observabilidade, traduzindo demandas complexas em sistemas resilientes.",
-      "p4": "Possui experiência prática e habilidade para otimizar processos operacionais através de <emphasis>Hiperautomação e Agentes Autônomos</emphasis>, implementando melhores práticas de segurança e desenvolvendo métricas de desempenho para monitorar a eficiência operacional."
+      "p1": "Apaixonado por tecnologia, atuando há 6 anos na área de desenvolvimento de software com o objetivo de solucionar problemas e oferecer produtos de tecnologia que satisfaçam a jornada dos clientes, onde o <emphasis>código se encontra com a criatividade</emphasis>.",
+      "p2": "Como Desenvolvedor, não entrego apenas código; entrego a solução de um problema. Durante minha carreira construí plataformas de alta performance para diversos modelos de negócios, unindo a robustez que grandes operações exigem com a velocidade explosiva de uma Startup. O objetivo? Escalar rápido, com segurança e foco absoluto na <emphasis>Solução</emphasis>.",
+      "p3": "No fim das contas, a eficaz engenharia se traduz em eficiência e escala. Tenho a bagagem de quem pesquisa a <emphasis>Inteligência Artificial</emphasis> na teoria com o pragmatismo de quem precisa gerar impacto no dia a dia. Menos promessa, mais velocidade e resultado.",
+      "p4": "Não importa quão sofisticada a engenharia é; sem criatividade tudo é um problema impossível."
     },
     "techSkills": {
       "title": "Habilidades Técnicas",

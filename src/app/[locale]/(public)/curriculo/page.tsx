@@ -11,7 +11,6 @@ import { cn } from '@/lib/utils'
 
 import { getCachedResumeData, getCachedHomepageData } from '@/lib/supabase/cached'
 import { MarkdownRenderer } from '@/components/blog/markdown-renderer'
-import iconImg from '@/app/icon.png'
 
 interface ResumePageProps {
   params: Promise<{ locale: string }>
@@ -49,7 +48,7 @@ export default async function ResumePage({ params }: ResumePageProps) {
   // Define o caminho do PDF baseado no idioma (com fallback para os PDFs locais da pasta public)
   const pdfPath = resumeDbData?.pdf_url || (locale === 'en' ? '/curriculo-en.pdf' : '/curriculo-pt.pdf')
 
-  const avatarUrl = dbHome?.avatar_url || iconImg
+  const avatarUrl = dbHome?.avatar_url || '/joao-maia.jpg'
 
   return (
     <div className="container py-12 md:py-16 max-w-4xl">
@@ -168,7 +167,7 @@ export default async function ResumePage({ params }: ResumePageProps) {
                 )} />
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2">
                   <h3 className="text-xl font-bold">{exp.role}</h3>
-                  <span className="text-sm text-muted-foreground bg-secondary px-2 py-1 rounded">{exp.period}</span>
+                  <span className="text-sm text-muted-foreground bg-muted px-2 py-1 rounded">{exp.period}</span>
                 </div>
                 <p className="text-primary/80 font-medium mb-4">{exp.company}</p>
                 <ul className="list-disc list-outside ml-4 space-y-2 text-muted-foreground">
@@ -185,7 +184,7 @@ export default async function ResumePage({ params }: ResumePageProps) {
                 <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-primary ring-4 ring-background" />
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2">
                   <h3 className="text-xl font-bold">{t('experience.watrix.role')}</h3>
-                  <span className="text-sm text-muted-foreground bg-secondary px-2 py-1 rounded">{t('experience.watrix.period')}</span>
+                  <span className="text-sm text-muted-foreground bg-muted px-2 py-1 rounded">{t('experience.watrix.period')}</span>
                 </div>
                 <p className="text-primary/80 font-medium mb-4">{t('experience.watrix.company')}</p>
                 <ul className="list-disc list-outside ml-4 space-y-2 text-muted-foreground">
@@ -201,7 +200,7 @@ export default async function ResumePage({ params }: ResumePageProps) {
                 <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-muted ring-4 ring-background" />
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2">
                   <h3 className="text-xl font-bold">{t('experience.flexOn.role')}</h3>
-                  <span className="text-sm text-muted-foreground bg-secondary px-2 py-1 rounded">{t('experience.flexOn.period')}</span>
+                  <span className="text-sm text-muted-foreground bg-muted px-2 py-1 rounded">{t('experience.flexOn.period')}</span>
                 </div>
                 <p className="text-primary/80 font-medium mb-4">{t('experience.flexOn.company')}</p>
                 <ul className="list-disc list-outside ml-4 space-y-2 text-muted-foreground">
@@ -216,7 +215,7 @@ export default async function ResumePage({ params }: ResumePageProps) {
                 <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-muted ring-4 ring-background" />
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2">
                   <h3 className="text-xl font-bold">{t('experience.ceia.role')}</h3>
-                  <span className="text-sm text-muted-foreground bg-secondary px-2 py-1 rounded">{t('experience.ceia.period')}</span>
+                  <span className="text-sm text-muted-foreground bg-muted px-2 py-1 rounded">{t('experience.ceia.period')}</span>
                 </div>
                 <p className="text-primary/80 font-medium mb-4">{t('experience.ceia.company')}</p>
                 <ul className="list-disc list-outside ml-4 space-y-2 text-muted-foreground">

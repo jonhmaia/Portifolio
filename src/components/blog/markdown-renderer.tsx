@@ -1,10 +1,12 @@
 'use client'
 
+import type { ComponentPropsWithoutRef, JSX } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import rehypeHighlight from 'rehype-highlight'
 import { cn } from '@/lib/utils'
 import { MermaidRenderer } from '@/components/ui/mermaid-renderer'
+import styles from './editorial.module.css'
 
 interface MarkdownRendererProps {
   content: string
@@ -12,7 +14,7 @@ interface MarkdownRendererProps {
 }
 
 type MarkdownDomProps<T extends keyof JSX.IntrinsicElements> =
-  React.ComponentPropsWithoutRef<T> & {
+  ComponentPropsWithoutRef<T> & {
     node?: unknown
     index?: unknown
     ordered?: unknown
@@ -30,6 +32,12 @@ function omitMarkdownProps<T extends Record<string, unknown>>({
   depth: _depth,
   ...props
 }: T) {
+  void _node
+  void _index
+  void _ordered
+  void _checked
+  void _inline
+  void _depth
   return props
 }
 
@@ -42,33 +50,33 @@ export function MarkdownRenderer({ content, className }: MarkdownRendererProps) 
   const preparedContent = prepareMarkdownContent(content)
 
   return (
-    <div className={cn('prose-custom', className)}>
+    <div className={cn(styles.richText, className)}>
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         rehypePlugins={[rehypeHighlight]}
         components={{
           h1: ({ children, ...props }: MarkdownDomProps<'h1'>) => (
-            <h1 className="text-3xl font-bold mt-8 mb-4 first:mt-0" {...omitMarkdownProps(props)}>
+            <h1 className={styles.richH1} {...omitMarkdownProps(props)}>
               {children}
             </h1>
           ),
           h2: ({ children, ...props }: MarkdownDomProps<'h2'>) => (
-            <h2 className="text-2xl font-bold mt-8 mb-4" {...omitMarkdownProps(props)}>
+            <h2 className={styles.richH2} {...omitMarkdownProps(props)}>
               {children}
             </h2>
           ),
           h3: ({ children, ...props }: MarkdownDomProps<'h3'>) => (
-            <h3 className="text-xl font-bold mt-6 mb-3" {...omitMarkdownProps(props)}>
+            <h3 className={styles.richH3} {...omitMarkdownProps(props)}>
               {children}
             </h3>
           ),
           p: ({ children, ...props }: MarkdownDomProps<'p'>) => (
-            <p className="mb-4 leading-7" {...omitMarkdownProps(props)}>
+            <p className={styles.richParagraph} {...omitMarkdownProps(props)}>
               {children}
             </p>
           ),
           strong: ({ children, ...props }: MarkdownDomProps<'strong'>) => (
-            <strong className="text-foreground font-semibold" {...omitMarkdownProps(props)}>
+            <strong className={styles.richStrong} {...omitMarkdownProps(props)}>
               {children}
             </strong>
           ),
@@ -77,30 +85,30 @@ export function MarkdownRenderer({ content, className }: MarkdownRendererProps) 
               href={href}
               target={href?.startsWith('http') ? '_blank' : undefined}
               rel={href?.startsWith('http') ? 'noopener noreferrer' : undefined}
-              className="text-primary hover:underline"
+              className={styles.richLink}
               {...omitMarkdownProps(props)}
             >
               {children}
             </a>
           ),
           ul: ({ children, ...props }: MarkdownDomProps<'ul'>) => (
-            <ul className="list-disc list-inside mb-4 space-y-2" {...omitMarkdownProps(props)}>
+            <ul className={styles.richList} {...omitMarkdownProps(props)}>
               {children}
             </ul>
           ),
           ol: ({ children, ...props }: MarkdownDomProps<'ol'>) => (
-            <ol className="list-decimal list-inside mb-4 space-y-2" {...omitMarkdownProps(props)}>
+            <ol className={styles.richList} {...omitMarkdownProps(props)}>
               {children}
             </ol>
           ),
           li: ({ children, ...props }: MarkdownDomProps<'li'>) => (
-            <li className="leading-7" {...omitMarkdownProps(props)}>
+            <li className={styles.richListItem} {...omitMarkdownProps(props)}>
               {children}
             </li>
           ),
           blockquote: ({ children, ...props }: MarkdownDomProps<'blockquote'>) => (
             <blockquote
-              className="border-l-4 border-primary pl-4 italic text-muted-foreground my-4"
+              className={styles.richQuote}
               {...omitMarkdownProps(props)}
             >
               {children}
@@ -118,7 +126,7 @@ export function MarkdownRenderer({ content, className }: MarkdownRendererProps) 
             if (isInline) {
               return (
                 <code
-                  className="bg-muted px-1.5 py-0.5 rounded text-sm font-mono"
+                  className={styles.richInlineCode}
                   {...omitMarkdownProps(props)}
                 >
                   {children}
@@ -126,54 +134,56 @@ export function MarkdownRenderer({ content, className }: MarkdownRendererProps) 
               )
             }
             return (
-              <code className={cn('font-mono text-sm', className)} {...omitMarkdownProps(props)}>
+              <code className={cn(styles.richCode, className)} {...omitMarkdownProps(props)}>
                 {children}
               </code>
             )
           },
           pre: ({ children, ...props }: MarkdownDomProps<'pre'>) => (
             <pre
-              className="bg-muted p-4 rounded-lg overflow-x-auto my-4 border border-border"
+              className={styles.richPre}
               {...omitMarkdownProps(props)}
             >
               {children}
             </pre>
           ),
           img: ({ src, alt, ...props }: MarkdownDomProps<'img'>) => (
-            <span className="block my-6">
+            <span className={styles.richImageWrap}>
+              {/* Markdown images have author-defined dimensions and remote origins. */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={src}
                 alt={alt || ''}
-                className="rounded-lg border border-border max-w-full h-auto"
+                className={styles.richImage}
                 {...omitMarkdownProps(props)}
               />
               {alt && (
-                <span className="block text-sm text-muted-foreground text-center mt-2">
+                <span className={styles.richCaption}>
                   {alt}
                 </span>
               )}
             </span>
           ),
           hr: (props: MarkdownDomProps<'hr'>) => (
-            <hr className="my-8 border-border" {...omitMarkdownProps(props)} />
+            <hr className={styles.richRule} {...omitMarkdownProps(props)} />
           ),
           table: ({ children, ...props }: MarkdownDomProps<'table'>) => (
-            <div className="overflow-x-auto my-4">
-              <table className="w-full border-collapse border border-border" {...omitMarkdownProps(props)}>
+            <div className={styles.richTableWrap}>
+              <table className={styles.richTable} {...omitMarkdownProps(props)}>
                 {children}
               </table>
             </div>
           ),
           th: ({ children, ...props }: MarkdownDomProps<'th'>) => (
             <th
-              className="border border-border bg-muted px-4 py-2 text-left font-semibold"
+              className={styles.richTh}
               {...omitMarkdownProps(props)}
             >
               {children}
             </th>
           ),
           td: ({ children, ...props }: MarkdownDomProps<'td'>) => (
-            <td className="border border-border px-4 py-2" {...omitMarkdownProps(props)}>
+            <td className={styles.richTd} {...omitMarkdownProps(props)}>
               {children}
             </td>
           ),

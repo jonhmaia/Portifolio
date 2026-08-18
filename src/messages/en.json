@@ -43,13 +43,13 @@
     },
     "about": {
       "title": "ABOUT",
-      "subtitle": "Get to know me"
+      "subtitle": "A bit about me"
     },
     "bio": {
-      "p1": "Professional with strong experience in <emphasis>Software Engineering and Digital Products</emphasis>, combining the robustness of Full Stack development (Python/Node/C) with the agility of Low-Code strategies (Bubble/n8n). Specialized in turning technology into competitive advantage, acting strategically at the intersection of Sales Engineering, Product Development and Artificial Intelligence.",
-      "p2": "Co-author of scientific research in <emphasis>Generative AI and NLP (WebMedia 2025)</emphasis>, with proven capability in Technical Leadership (Head of Tech) and execution of high-complexity projects. Track record in architecting platforms for regulated niches (Fintech and LegalTech), aligning business vision with technical execution to deliver scalable, ROI-driven outcomes.",
-      "p3": "Recognized for a strong ability to implement <emphasis>Revenue Engineering</emphasis>, orchestrating automation and integration ecosystems (n8n) that optimize sales funnels and reduced customer deployment time by 99% (from hours to seconds). Experienced in LLM fine-tuning, Data Governance and Observability, translating complex demands into resilient systems.",
-      "p4": "Hands-on experience optimizing operational processes through <emphasis>Hyperautomation and Autonomous Agents</emphasis>, implementing security best practices and developing performance metrics to monitor operational efficiency."
+      "p1": "Passionate about technology, I have been working in software development for 6 years with the goal of solving problems and delivering products that serve the customer journey, where <emphasis>code meets creativity</emphasis>.",
+      "p2": "As a developer, I don't just ship code; I deliver the solution to a problem. Throughout my career I have built high-performance platforms for different business models, combining the robustness large operations demand with the explosive speed of a startup. The goal? Scale fast, with security and absolute focus on the <emphasis>solution</emphasis>.",
+      "p3": "In the end, effective engineering becomes efficiency and scale. I bring the background of someone who researches <emphasis>Artificial Intelligence</emphasis> in theory and the pragmatism of someone who needs to generate impact every day. Less promise, more speed and results.",
+      "p4": "It doesn't matter how sophisticated the engineering is; without creativity, everything is an impossible problem."
     },
     "techSkills": {
       "title": "Technical Skills",

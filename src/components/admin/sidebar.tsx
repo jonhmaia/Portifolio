@@ -8,10 +8,10 @@ import {
   FileText,
   Tag,
   Layers,
-  Code2,
   ChevronLeft,
   Menu,
 } from 'lucide-react'
+import { BrandLogo } from '@/components/brand/logo'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { useState } from 'react'
@@ -37,14 +37,9 @@ function SidebarContent() {
     <div className="flex flex-col h-full">
       {/* Logo */}
       <div className="p-6 border-b border-border/50">
-        <Link href="/admin" className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-            <Code2 className="h-6 w-6" />
-          </div>
-          <div>
-            <span className="font-bold text-lg">Admin</span>
-            <p className="text-xs text-muted-foreground">{t('controlPanel')}</p>
-          </div>
+        <Link href="/admin" className="flex flex-col items-start gap-2" aria-label="Maia Admin">
+          <BrandLogo className="h-7 w-auto" />
+          <p className="text-xs text-muted-foreground">{t('controlPanel')}</p>
         </Link>
       </div>
 

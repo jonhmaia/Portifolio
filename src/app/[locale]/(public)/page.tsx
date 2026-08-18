@@ -1,200 +1,92 @@
-import Image from 'next/image'
-import { Mail } from 'lucide-react'
-import { getTranslations, getLocale, setRequestLocale } from 'next-intl/server'
-import { Link } from '@/navigation'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { getCachedHomepageData, getCachedSkills } from '@/lib/supabase/cached'
-import ReactMarkdown from 'react-markdown'
-import iconImg from '@/app/icon.png'
-
-import { TechSkills } from '@/components/home/tech-skills'
-import { HeroWrapper, AnimatedElement, BioWrapper } from '@/components/home/wrappers'
+import { GridCursor } from '@/components/home/grid-cursor'
+import { ImmersiveHero } from '@/components/home/immersive-hero'
+import { HomeExperience } from '@/components/home/home-experience'
+import styles from '@/components/blog/editorial.module.css'
 
 interface HomeProps {
   params: Promise<{ locale: string }>
 }
 
+const fallbackSkills = [
+  'Python', 'TypeScript', 'React', 'Next.js', 'Node.js', 'Django', 'PostgreSQL', 'Supabase',
+  'Docker', 'n8n', 'LLMs', 'RAG', 'Agentes de IA', 'Observabilidade', 'Bubble', 'Flutter',
+].map((name, index) => ({ id: `fallback-${index}`, name }))
+
 export default async function Home({ params }: HomeProps) {
   const { locale } = await params
   setRequestLocale(locale)
   const t = await getTranslations('home')
+  const isEnglish = locale === 'en'
+  const hasSupabaseEnvironment = Boolean(
+    process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  )
 
-  // Fetch homepage data and skills in parallel using the cached layer
   const [dbHome, dbSkills] = (await Promise.all([
-    getCachedHomepageData().catch((err) => {
-      console.error('Error fetching homepage data from cache:', err);
-      return null;
+    (hasSupabaseEnvironment ? getCachedHomepageData() : Promise.resolve(null)).catch((error) => {
+      console.error('Error fetching homepage data from cache:', error)
+      return null
     }),
-    getCachedSkills().catch((err) => {
-      console.error('Error fetching skills from cache:', err);
-      return [];
-    })
-  ])) as [any, any[]]
+    (hasSupabaseEnvironment ? getCachedSkills() : Promise.resolve([])).catch((error) => {
+      console.error('Error fetching skills from cache:', error)
+      return []
+    }),
+  ])) as [Record<string, any> | null, Array<Record<string, any>>]
 
-  // Determine dynamic fields or fallbacks
-  const isEn = locale === 'en'
-  const name = dbHome?.[isEn ? 'name_en' : 'name_pt'] || t('hero.title')
-  const location = dbHome?.[isEn ? 'location_en' : 'location_pt'] || t('hero.location')
-  const role = dbHome?.[isEn ? 'role_en' : 'role_pt'] || t('hero.role')
-  const aboutTitle = dbHome?.[isEn ? 'about_title_en' : 'about_title_pt'] || t('about.title')
-  const aboutSubtitle = dbHome?.[isEn ? 'about_subtitle_en' : 'about_subtitle_pt'] || t('about.subtitle')
-  const avatarUrl = dbHome?.avatar_url || iconImg
+  const name = dbHome?.[isEnglish ? 'name_en' : 'name_pt'] || t('hero.title')
+  const location = dbHome?.[isEnglish ? 'location_en' : 'location_pt'] || t('hero.location')
+  const role = dbHome?.[isEnglish ? 'role_en' : 'role_pt'] || t('hero.role')
+  const aboutTitle = dbHome?.[isEnglish ? 'about_title_en' : 'about_title_pt'] || t('about.title')
+  const aboutSubtitle = t('about.subtitle')
+  const avatarUrl = '/joao-maia.jpg'
   const email = dbHome?.email || 'contato@maiainteligencia.com'
   const githubUrl = dbHome?.github_url || 'https://github.com/jonhmaia'
   const linkedinUrl = dbHome?.linkedin_url || 'https://www.linkedin.com/in/joaomarcosmaia'
-  
-  // Bio content (Markdown string)
-  const bioMarkdown = dbHome?.[isEn ? 'bio_en' : 'bio_pt']
+  const fallbackBio = isEnglish
+    ? `Passionate about technology, I have been working in software development for **6 years** with one goal: solve problems and deliver products that serve the customer journey — where **code meets creativity**.
+
+As a developer, I don't just ship code; I deliver the solution to a problem. Throughout my career I have built high-performance platforms for different business models, combining the robustness large operations demand with the explosive speed of a startup. The goal? Scale fast, with security and absolute focus on the **solution**.
+
+In the end, effective engineering becomes efficiency and scale. I bring the background of someone who researches **Artificial Intelligence** in theory and the pragmatism of someone who needs to generate impact every day. Less promise, more speed and results.
+
+It doesn't matter how sophisticated the engineering is; without creativity, everything is an impossible problem.`
+    : `Apaixonado por tecnologia, atuando há **6 anos** na área de desenvolvimento de software com o objetivo de solucionar problemas e oferecer produtos de tecnologia que satisfaçam a jornada dos clientes, onde o **código se encontra com a criatividade**.
+
+Como Desenvolvedor, não entrego apenas código; entrego a solução de um problema. Durante minha carreira construí plataformas de alta performance para diversos modelos de negócios, unindo a robustez que grandes operações exigem com a velocidade explosiva de uma Startup. O objetivo? Escalar rápido, com segurança e foco absoluto na **Solução**.
+
+No fim das contas, a eficaz engenharia se traduz em eficiência e escala. Tenho a bagagem de quem pesquisa a **Inteligência Artificial** na teoria com o pragmatismo de quem precisa gerar impacto no dia a dia. Menos promessa, mais velocidade e resultado.
+
+Não importa quão sofisticada a engenharia é; sem criatividade tudo é um problema impossível.`
+
+  const skills = dbSkills.length
+    ? dbSkills.map((skill) => ({
+        id: skill.id,
+        name: skill.name,
+        icon_type: skill.icon_type,
+        icon_value: skill.icon_value,
+      }))
+    : fallbackSkills
 
   return (
-    <div className="flex flex-col min-h-screen relative">
-      
-      {/* Bio & Skills Section */}
-      <HeroWrapper>
-        
-        {/* Seção Sobre (2 colunas dentro do BioWrapper) */}
-        <div className="w-full">
-          <BioWrapper>
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-start">
-              
-              {/* Lado Esquerdo - Foto de Perfil, Nome e Redes Sociais */}
-              <div className="md:col-span-4 flex flex-col items-center text-center space-y-6 md:sticky md:top-24">
-                
-                {/* Profile Image */}
-                <div className="relative group cursor-pointer">
-                  <div className="relative h-36 w-36 md:h-44 md:w-44 rounded-full border border-border overflow-hidden">
-                    <Image
-                      src={avatarUrl}
-                      alt={name}
-                      fill
-                      className="object-cover transform transition-transform duration-500 group-hover:scale-105"
-                    />
-                  </div>
-                </div>
- 
-                {/* Nome */}
-                <div className="space-y-1">
-                  <h3 className="text-2xl font-bold tracking-wider text-foreground">
-                    {name}
-                  </h3>
-                  <p className="text-xs text-muted-foreground tracking-widest uppercase">
-                    {location}
-                  </p>
-                </div>
- 
-                {/* Redes Sociais com ícones minimalistas */}
-                <div className="flex gap-4 items-center justify-center pt-2">
-                  <a 
-                    href={`mailto:${email}`} 
-                    className="p-3 rounded-full border border-border hover:border-[#00ffcc] hover:text-[#00ffcc] bg-background hover:bg-muted text-muted-foreground transition-all duration-300 hover:scale-105"
-                    title="E-mail"
-                  >
-                    <Mail className="h-5 w-5" />
-                  </a>
-                  
-                  <a 
-                    href={githubUrl} 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="p-3 rounded-full border border-border hover:border-[#00ffcc] hover:text-[#00ffcc] bg-background hover:bg-muted text-muted-foreground transition-all duration-300 hover:scale-105"
-                    title="GitHub"
-                  >
-                    <svg className="h-5 w-5 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
-                    </svg>
-                  </a>
-                  
-                  <a 
-                    href={linkedinUrl} 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="p-3 rounded-full border border-border hover:border-[#00ffcc] hover:text-[#00ffcc] bg-background hover:bg-muted text-muted-foreground transition-all duration-300 hover:scale-105"
-                    title="LinkedIn"
-                  >
-                    <svg className="h-5 w-5 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0z"/>
-                    </svg>
-                  </a>
-                </div>
- 
-              </div>
- 
-              {/* Lado Direito - Bio Detalhada */}
-              <div className="md:col-span-8 flex flex-col text-left space-y-6">
-                
-                {/* Cabeçalho do Sobre */}
-                <div className="flex items-center gap-2 text-[#00ffcc] font-bold tracking-wider text-xs md:text-sm uppercase">
-                  <span className="h-2 w-2 bg-[#00ffcc] rounded-full inline-block" />
-                  {aboutTitle}
-                </div>
-                
-                <h2 className="text-3xl md:text-4xl font-extrabold text-foreground tracking-tight leading-tight">
-                  {aboutSubtitle}
-                </h2>
-                
-                <div className="space-y-6 text-muted-foreground/90 text-base md:text-lg leading-relaxed font-light text-justify">
-                  {bioMarkdown ? (
-                    <ReactMarkdown
-                      components={{
-                        p: ({ children }) => (
-                          <p className="text-muted-foreground/90 text-base md:text-lg leading-relaxed font-light mb-6 last:mb-0 text-justify">
-                            {children}
-                          </p>
-                        ),
-                        strong: ({ children }) => (
-                          <span className="text-foreground font-semibold dark:text-white dark:font-medium">
-                            {children}
-                          </span>
-                        ),
-                      }}
-                    >
-                      {bioMarkdown}
-                    </ReactMarkdown>
-                  ) : (
-                    <>
-                      <p>
-                        {t.rich('bio.p1', {
-                          emphasis: (chunks) => (
-                            <span className="text-foreground font-semibold dark:text-white dark:font-medium">{chunks}</span>
-                          ),
-                        })}
-                      </p>
-                      <p>
-                        {t.rich('bio.p2', {
-                          emphasis: (chunks) => (
-                            <span className="text-foreground font-semibold dark:text-white dark:font-medium">{chunks}</span>
-                          ),
-                        })}
-                      </p>
-                      <p>
-                        {t.rich('bio.p3', {
-                          emphasis: (chunks) => (
-                            <span className="text-foreground font-semibold dark:text-white dark:font-medium">{chunks}</span>
-                          ),
-                        })}
-                      </p>
-                      <p>
-                        {t.rich('bio.p4', {
-                          emphasis: (chunks) => (
-                            <span className="text-foreground font-semibold dark:text-white dark:font-medium">{chunks}</span>
-                          ),
-                        })}
-                      </p>
-                    </>
-                  )}
-                </div>
-                
-              </div>
-              
-            </div>
-          </BioWrapper>
-        </div>
- 
-        {/* Tech Skills Section */}
-        <AnimatedElement className="w-full pt-16">
-          <TechSkills initialSkills={(dbSkills as any) || []} />
-        </AnimatedElement>
-        
-      </HeroWrapper>
-    </div>
+    <main className={`${styles.blogPage} ${styles.homePage}`}>
+      <GridCursor />
+      <div className={styles.shell}>
+        <ImmersiveHero locale={locale} name={name} role={role} location={location} />
+        <HomeExperience
+          locale={locale}
+          name={name}
+          aboutTitle={aboutTitle}
+          aboutSubtitle={aboutSubtitle}
+          bioMarkdown={fallbackBio}
+          avatarUrl={avatarUrl}
+          email={email}
+          githubUrl={githubUrl}
+          linkedinUrl={linkedinUrl}
+          location={location}
+          skills={skills}
+        />
+      </div>
+    </main>
   )
 }

@@ -1,10 +1,9 @@
 import { Suspense } from 'react'
-import { Metadata } from 'next'
+import type { Metadata } from 'next'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { getCachedArticles } from '@/lib/supabase/cached'
 import { ArticleCard } from '@/components/blog/article-card'
-import { Skeleton } from '@/components/ui/skeleton'
-import { FileText } from 'lucide-react'
-import { getLocale, getTranslations, setRequestLocale } from 'next-intl/server'
+import styles from '@/components/blog/editorial.module.css'
 
 export const metadata: Metadata = {
   title: 'Blog',
@@ -27,63 +26,75 @@ async function ArticlesGrid({ category, tag, locale }: { category?: string; tag?
   }
 
   if (category) {
-    articlesData = articlesData.filter((a: any) => a.category?.slug === category)
+    articlesData = articlesData.filter((article: any) => article.category?.slug === category)
   }
 
-  // Transform and filter articles
-  let articles =
-    (articlesData as any)?.map((article: any) => {
-      const translations = (article.translations || []) as Array<{ language: string; title?: string; summary?: string; content?: string; meta_description?: string }>
-      const ptTranslation = translations.find((tr) => tr.language === 'pt-BR')
-      const enTranslation = translations.find((tr) => tr.language === 'en')
-      const currentTranslation = locale === 'en' ? enTranslation || ptTranslation : ptTranslation
+  let articles = articlesData.map((article: any) => {
+    const translations = (article.translations || []) as Array<{
+      language: string
+      title?: string
+      summary?: string
+      content?: string
+      meta_description?: string
+    }>
+    const ptTranslation = translations.find((translation) => translation.language === 'pt-BR')
+    const enTranslation = translations.find((translation) => translation.language === 'en')
+    const currentTranslation = locale === 'en' ? enTranslation || ptTranslation : ptTranslation
 
-      const categoryTranslations = (article.category?.translations || []) as Array<{ language: string; name?: string; description?: string | null }>
-      const ptCategory = categoryTranslations.find((tr) => tr.language === 'pt-BR')
-      const enCategory = categoryTranslations.find((tr) => tr.language === 'en')
-      const currentCategory = locale === 'en' ? enCategory || ptCategory : ptCategory
+    const categoryTranslations = (article.category?.translations || []) as Array<{
+      language: string
+      name?: string
+      description?: string | null
+    }>
+    const ptCategory = categoryTranslations.find((translation) => translation.language === 'pt-BR')
+    const enCategory = categoryTranslations.find((translation) => translation.language === 'en')
+    const currentCategory = locale === 'en' ? enCategory || ptCategory : ptCategory
 
-      return {
-        ...article,
-        tags: (article.tags as any)?.map((at: { tag: { slug?: string } | null }) => at.tag).filter(Boolean) || [],
-        title: currentTranslation?.title || (article as any).title,
-        summary: currentTranslation?.summary || (article as any).summary,
-        content: currentTranslation?.content || (article as any).content,
-        meta_description: currentTranslation?.meta_description || (article as any).meta_description,
-        category: article.category
-          ? {
-              ...article.category,
-              name: currentCategory?.name || (article.category as any).name,
-              description: currentCategory?.description || (article.category as any).description,
-            }
-          : null,
-      }
-    }) || []
+    return {
+      ...article,
+      tags: (article.tags as Array<{ tag: { slug?: string } | null }> | undefined)
+        ?.map((articleTag) => articleTag.tag)
+        .filter(Boolean) || [],
+      title: currentTranslation?.title || article.title,
+      summary: currentTranslation?.summary || article.summary,
+      content: currentTranslation?.content || article.content,
+      meta_description: currentTranslation?.meta_description || article.meta_description,
+      category: article.category
+        ? {
+            ...article.category,
+            name: currentCategory?.name || article.category.name,
+            description: currentCategory?.description || article.category.description,
+          }
+        : null,
+    }
+  })
 
   if (tag) {
-    articles = articles.filter((a: any) =>
-      a.tags?.some((t: { slug?: string }) => t.slug === tag)
+    articles = articles.filter((article: any) =>
+      article.tags?.some((articleTag: { slug?: string }) => articleTag.slug === tag)
     )
   }
 
   if (articles.length === 0) {
     return (
-      <div className="text-center py-16">
-        <FileText className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-        <h3 className="text-lg font-semibold mb-2">{t('empty.title')}</h3>
-        <p className="text-muted-foreground">
-          {category || tag
-            ? t('empty.filtered')
-            : t('empty.default')}
-        </p>
+      <div className={styles.articleGrid}>
+        <div className={styles.emptyState} role="status">
+          <span className={styles.emptyIndex}>00 / EMPTY FEED</span>
+          <div>
+            <h2 className={styles.emptyTitle}>{t('empty.title')}</h2>
+            <p className={styles.emptyCopy}>
+              {category || tag ? t('empty.filtered') : t('empty.default')}
+            </p>
+          </div>
+        </div>
       </div>
     )
   }
 
   return (
-    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      {articles.map((article: any) => (
-        <ArticleCard key={article.id} article={article} />
+    <div className={styles.articleGrid}>
+      {articles.map((article: any, index: number) => (
+        <ArticleCard key={article.id} article={article} index={index} locale={locale} />
       ))}
     </div>
   )
@@ -91,21 +102,14 @@ async function ArticlesGrid({ category, tag, locale }: { category?: string; tag?
 
 function ArticlesLoading() {
   return (
-    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      {[1, 2, 3, 4, 5, 6].map((i) => (
-        <div key={i} className="rounded-2xl border-none bg-black/40 overflow-hidden shadow-xl">
-          <Skeleton className="aspect-[16/10] w-full" />
-          <div className="p-4 space-y-3">
-            <Skeleton className="h-6 w-3/4" />
-            <Skeleton className="h-4 w-full" />
-            <Skeleton className="h-4 w-2/3" />
-            <div className="flex justify-between items-center pt-2">
-              <div className="flex items-center gap-2">
-                <Skeleton className="h-6 w-6 rounded-full" />
-                <Skeleton className="h-4 w-20" />
-              </div>
-              <Skeleton className="h-4 w-16" />
-            </div>
+    <div className={styles.articleGrid} aria-label="Carregando artigos" aria-busy="true">
+      {[0, 1, 2].map((index) => (
+        <div className={styles.loadingCard} key={index}>
+          <div className={styles.loadingMedia} />
+          <div className={styles.loadingBody}>
+            <div className={styles.loadingLine} />
+            <div className={styles.loadingLine} />
+            <div className={styles.loadingLine} />
           </div>
         </div>
       ))}
@@ -118,25 +122,55 @@ export default async function BlogPage({ params, searchParams }: BlogPageProps) 
   setRequestLocale(locale)
   const { category, tag } = await searchParams
   const t = await getTranslations('blog')
+  const isEnglish = locale === 'en'
+  const activeFilter = category || tag
 
   return (
-    <div className="relative min-h-screen pt-24 md:pt-32 pb-12 flex flex-col">
-      <div className="container relative z-10 flex-1 animate-in fade-in duration-500 max-w-6xl mx-auto">
-        <div className="bg-black/20 backdrop-blur-md shadow-2xl rounded-3xl p-8 md:p-12 border-none">
-          {/* Header */}
-          <div className="max-w-2xl mx-auto text-center mb-16">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight text-white uppercase drop-shadow-lg">{t('title')}</h1>
-            <p className="text-white/60 text-lg md:text-xl leading-relaxed font-light">
-              {t('subtitle')}
-            </p>
+    <main className={styles.blogPage}>
+      <div className={styles.shell}>
+        <header className={styles.masthead}>
+          <div className={styles.kicker}>
+            {isEnglish ? 'Independent field notes' : 'Caderno independente'}
           </div>
 
-      {/* Articles Grid */}
-      <Suspense fallback={<ArticlesLoading />}>
-        <ArticlesGrid category={category} tag={tag} locale={locale} />
-      </Suspense>
-        </div>
+          <div className={styles.titleBlock}>
+            <h1 className={styles.title} aria-label={`${t('title')} — ${isEnglish ? 'Field notes' : 'Notas de campo'}`}>
+              <span>{t('title')}</span>
+              <span className={styles.titleGhost} aria-hidden="true">
+                {isEnglish ? 'Field notes' : 'Notas de campo'}
+              </span>
+            </h1>
+          </div>
+
+          <div className={styles.mastheadMeta} aria-label={isEnglish ? 'Topics' : 'Temas'}>
+            <span className={styles.feedCount}>CODE / AI</span>
+            <span className={styles.mastheadMetaLine} aria-hidden="true" />
+            <span className={styles.feedCount}>SYSTEMS / PRODUCT</span>
+          </div>
+
+          <p className={styles.mastheadAside}>{t('subtitle')}</p>
+        </header>
+
+        <section aria-labelledby="latest-notes">
+          <div className={styles.feedHeader}>
+            <h2 className={styles.sectionLabel} id="latest-notes">
+              {isEnglish ? 'Latest notes' : 'Últimas notas'}
+            </h2>
+            <div className={styles.feedTools}>
+              <span className={styles.feedCount}>{isEnglish ? 'Selected writing / 2026' : 'Escritos selecionados / 2026'}</span>
+              {activeFilter && (
+                <span className={styles.filterChip} title={activeFilter}>
+                  {category ? 'CATEGORY' : 'TAG'} / {activeFilter}
+                </span>
+              )}
+            </div>
+          </div>
+
+          <Suspense fallback={<ArticlesLoading />}>
+            <ArticlesGrid category={category} tag={tag} locale={locale} />
+          </Suspense>
+        </section>
       </div>
-    </div>
+    </main>
   )
 }

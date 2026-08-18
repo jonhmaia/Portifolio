@@ -2,68 +2,73 @@ import { MetadataRoute } from 'next'
 import { createClient } from '@/lib/supabase/server'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://joaomarcos.dev'
-  const supabase = await createClient()
+  const baseUrl = (process.env.NEXT_PUBLIC_SITE_URL || 'https://joaomarcos.dev').replace(/\/$/, '')
+  const now = new Date()
+  const staticPaths = [
+    ['', 1, 'monthly'],
+    ['/projetos', 0.9, 'weekly'],
+    ['/blog', 0.9, 'weekly'],
+    ['/curriculo', 0.75, 'monthly'],
+    ['/contact', 0.75, 'monthly'],
+    ['/en', 0.9, 'monthly'],
+    ['/en/projects', 0.85, 'weekly'],
+    ['/en/blog', 0.85, 'weekly'],
+    ['/en/resume', 0.7, 'monthly'],
+    ['/en/contact', 0.7, 'monthly'],
+  ] as const
 
-  // Static pages
-  const staticPages: MetadataRoute.Sitemap = [
-    {
-      url: baseUrl,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 1,
-    },
-    {
-      url: `${baseUrl}/portfolio`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/blog`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/about`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/contact`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-  ]
-
-  // Fetch projects
-  const { data: projects } = await supabase
-    .from('projects')
-    .select('slug, updated_at')
-    .eq('is_active', true)
-
-  const projectPages: MetadataRoute.Sitemap = ((projects as any) || []).map((project: { slug: string; updated_at: string }) => ({
-    url: `${baseUrl}/portfolio/${project.slug}`,
-    lastModified: new Date(project.updated_at),
-    changeFrequency: 'monthly' as const,
-    priority: 0.8,
+  const staticPages: MetadataRoute.Sitemap = staticPaths.map(([path, priority, changeFrequency]) => ({
+    url: `${baseUrl}${path}`,
+    lastModified: now,
+    changeFrequency,
+    priority,
   }))
 
-  // Fetch articles
-  const { data: articles } = await supabase
-    .from('articles')
-    .select('slug, updated_at')
-    .eq('status', 'published')
+  const hasSupabaseEnvironment = Boolean(
+    process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  )
+  if (!hasSupabaseEnvironment) return staticPages
 
-  const articlePages: MetadataRoute.Sitemap = ((articles as any) || []).map((article: { slug: string; updated_at: string }) => ({
-    url: `${baseUrl}/blog/${article.slug}`,
-    lastModified: new Date(article.updated_at),
-    changeFrequency: 'monthly' as const,
-    priority: 0.8,
-  }))
+  try {
+    const supabase = await createClient()
+    const [{ data: projects }, { data: articles }] = await Promise.all([
+      supabase.from('projects').select('slug, updated_at').eq('is_active', true),
+      supabase.from('articles').select('slug, updated_at').eq('status', 'published'),
+    ])
 
-  return [...staticPages, ...projectPages, ...articlePages]
+    const projectPages: MetadataRoute.Sitemap = (projects || []).flatMap((project) => [
+      {
+        url: `${baseUrl}/projetos/${project.slug}`,
+        lastModified: new Date(project.updated_at),
+        changeFrequency: 'monthly' as const,
+        priority: 0.8,
+      },
+      {
+        url: `${baseUrl}/en/projects/${project.slug}`,
+        lastModified: new Date(project.updated_at),
+        changeFrequency: 'monthly' as const,
+        priority: 0.75,
+      },
+    ])
+
+    const articlePages: MetadataRoute.Sitemap = (articles || []).flatMap((article) => [
+      {
+        url: `${baseUrl}/blog/${article.slug}`,
+        lastModified: new Date(article.updated_at),
+        changeFrequency: 'monthly' as const,
+        priority: 0.8,
+      },
+      {
+        url: `${baseUrl}/en/blog/${article.slug}`,
+        lastModified: new Date(article.updated_at),
+        changeFrequency: 'monthly' as const,
+        priority: 0.75,
+      },
+    ])
+
+    return [...staticPages, ...projectPages, ...articlePages]
+  } catch (error) {
+    console.error('Unable to enrich sitemap with dynamic content:', error)
+    return staticPages
+  }
 }

@@ -1,0 +1,19 @@
+---
+description: Logo oficial Maia — wordmark padrão do portfólio
+alwaysApply: true
+---
+
+# Marca Maia
+
+O logo oficial do projeto é o wordmark **maia** (minúsculas, branco, geométrico arredondado).
+
+- Fonte: `logo.svg` na raiz (arquivo original)
+- Asset web: `public/logo.png` (recorte com fundo transparente)
+- Componente: `BrandLogo` em `src/components/brand/logo.tsx`
+
+## Uso
+
+- Sempre renderize via `BrandLogo`. Não recrie o wordmark em texto, ícone Lucide ou SVG paralelo.
+- Não use `public/maia-logo.png`, `image.png` nem as iniciais **JM** como marca visual.
+- O logo vai em fundos escuros (`#090a09` / preto). Não inverta cores nem aplique o hover lima do layout antigo.
+- `src/app/icon.png` é o retrato/avatar de João Marcos, não o logo da marca.

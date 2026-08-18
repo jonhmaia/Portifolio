@@ -1,34 +1,22 @@
-import { Metadata } from 'next'
-import { notFound } from 'next/navigation'
-import Image from 'next/image'
-import { Badge } from '@/components/ui/badge'
-import { Card, CardContent } from '@/components/ui/card'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Separator } from '@/components/ui/separator'
-import { MarkdownRenderer } from '@/components/blog/markdown-renderer'
-import { getLocale, getTranslations, setRequestLocale } from 'next-intl/server'
-import { Link } from '@/navigation'
-import { 
-  ArrowLeft, 
-  Calendar, 
-  Clock, 
-  Eye,
-  Share2,
-  Twitter,
-  Linkedin,
-  Facebook
-} from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import type { CSSProperties } from 'react'
 import { cache } from 'react'
-import { getCachedArticleBySlug, getCachedSitemapArticles } from '@/lib/supabase/cached'
+import type { Metadata } from 'next'
+import Image from 'next/image'
+import { notFound } from 'next/navigation'
+import { ArrowLeft, CalendarDays, Clock, Eye } from 'lucide-react'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
+import { Link } from '@/navigation'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { MarkdownRenderer } from '@/components/blog/markdown-renderer'
 import { ViewCounter } from '@/components/blog/view-counter'
+import { getCachedArticleBySlug, getCachedSitemapArticles } from '@/lib/supabase/cached'
 import { routing } from '@/i18n/routing'
+import styles from '@/components/blog/editorial.module.css'
 
 interface ArticlePageProps {
   params: Promise<{ slug: string; locale: string }>
 }
 
-// Request-scoped cache to deduplicate fetches between metadata generation and rendering
 const getArticle = cache(async (slug: string) => {
   try {
     return await getCachedArticleBySlug(slug)
@@ -66,14 +54,17 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
     summary: string | null
     meta_description: string | null
     cover_image_url: string | null
-    translations?: Array<{ language: string; title?: string; meta_description?: string | null; summary?: string | null }>
+    translations?: Array<{
+      language: string
+      title?: string
+      meta_description?: string | null
+      summary?: string | null
+    }>
   }
-
-  const translations = (articleData.translations || []) as Array<{ language: string; title?: string; meta_description?: string | null; summary?: string | null }>
-  const ptTranslation = translations.find((tr) => tr.language === 'pt-BR')
-  const enTranslation = translations.find((tr) => tr.language === 'en')
+  const translations = articleData.translations || []
+  const ptTranslation = translations.find((translation) => translation.language === 'pt-BR')
+  const enTranslation = translations.find((translation) => translation.language === 'en')
   const currentTranslation = locale === 'en' ? enTranslation || ptTranslation : ptTranslation
-
   const title = currentTranslation?.title || articleData.title
   const description =
     currentTranslation?.meta_description ||
@@ -104,27 +95,32 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   const { slug, locale } = await params
   setRequestLocale(locale)
   const t = await getTranslations('blogArticle')
-
-  // Get article with relations from the cached layer
   const articleData = await getArticle(slug)
 
   if (!articleData) {
     notFound()
   }
 
-  // Type assertion for the data
   const typedArticleData = articleData as any
-
-  // Transform the data
   const article = {
     ...typedArticleData,
-    tags: (typedArticleData.tags as Array<{ tag: unknown }> | null)?.map((at) => at.tag).filter(Boolean) || [],
-    projects: (typedArticleData.projects as Array<{ project: unknown }> | null)?.map((ap) => ap.project).filter(Boolean) || [],
+    tags: (typedArticleData.tags as Array<{ tag: unknown }> | null)
+      ?.map((articleTag) => articleTag.tag)
+      .filter(Boolean) || [],
+    projects: (typedArticleData.projects as Array<{ project: unknown }> | null)
+      ?.map((articleProject) => articleProject.project)
+      .filter(Boolean) || [],
   }
 
-  const translations = (article.translations || []) as Array<{ language: string; title?: string; summary?: string | null; content?: string; meta_description?: string | null }>
-  const ptTranslation = translations.find((tr) => tr.language === 'pt-BR')
-  const enTranslation = translations.find((tr) => tr.language === 'en')
+  const translations = (article.translations || []) as Array<{
+    language: string
+    title?: string
+    summary?: string | null
+    content?: string
+    meta_description?: string | null
+  }>
+  const ptTranslation = translations.find((translation) => translation.language === 'pt-BR')
+  const enTranslation = translations.find((translation) => translation.language === 'en')
   const currentTranslation = locale === 'en' ? enTranslation || ptTranslation : ptTranslation
 
   if (currentTranslation) {
@@ -134,206 +130,214 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     article.meta_description = currentTranslation.meta_description || article.meta_description
   }
 
-  const categoryTranslations = (article.category?.translations || []) as Array<{ language: string; name?: string; description?: string | null }>
-  const ptCategory = categoryTranslations.find((tr) => tr.language === 'pt-BR')
-  const enCategory = categoryTranslations.find((tr) => tr.language === 'en')
+  const categoryTranslations = (article.category?.translations || []) as Array<{
+    language: string
+    name?: string
+    description?: string | null
+  }>
+  const ptCategory = categoryTranslations.find((translation) => translation.language === 'pt-BR')
+  const enCategory = categoryTranslations.find((translation) => translation.language === 'en')
   const currentCategory = locale === 'en' ? enCategory || ptCategory : ptCategory
 
   if (article.category && currentCategory) {
     article.category.name = currentCategory.name || article.category.name
-    article.category.description =
-      currentCategory.description || article.category.description
+    article.category.description = currentCategory.description || article.category.description
   }
 
-  // Render client-side view counter instead of server-side mutation
-  const renderViewCounter = <ViewCounter id={article.id} type="article" />
-
+  const isEnglish = locale === 'en'
+  const copy = isEnglish
+    ? {
+        article: 'Journal entry',
+        writtenBy: 'Written by',
+        date: 'Published',
+        reading: 'Reading time',
+        views: 'Views',
+        minutes: 'min read',
+        topics: 'Topics / index',
+        related: 'Related projects',
+        project: 'View project',
+        author: 'About the author',
+      }
+    : {
+        article: 'Entrada do caderno',
+        writtenBy: 'Escrito por',
+        date: 'Publicado',
+        reading: 'Tempo de leitura',
+        views: 'Visualizações',
+        minutes: 'min de leitura',
+        topics: 'Tópicos / índice',
+        related: 'Projetos relacionados',
+        project: 'Ver projeto',
+        author: 'Sobre o autor',
+      }
   const authorInitials = article.author?.full_name
     ?.split(' ')
-    .map((n: string) => n[0])
+    .map((name: string) => name[0])
     .slice(0, 2)
     .join('')
     .toUpperCase() || 'AU'
-
   const publishedDate = article.published_at
-    ? new Date(article.published_at).toLocaleDateString(locale === 'en' ? 'en-US' : 'pt-BR', {
+    ? new Intl.DateTimeFormat(isEnglish ? 'en-US' : 'pt-BR', {
         day: 'numeric',
         month: 'long',
         year: 'numeric',
-      })
+      }).format(new Date(article.published_at))
     : null
+  const categoryStyle = article.category
+    ? ({ '--category-color': article.category.color_hex } as CSSProperties)
+    : undefined
 
   return (
-    <article className="container py-12 md:py-16">
-      {renderViewCounter}
-      {/* Back button */}
-      <Link
-        href="/blog"
-        className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground mb-8 transition-colors"
-      >
-        <ArrowLeft className="h-4 w-4" />
-        {t('back')}
-      </Link>
+    <article className={styles.articlePage}>
+      <ViewCounter id={article.id} type="article" />
 
-      <div className="max-w-4xl mx-auto">
-        {/* Category Badge */}
-        {article.category && (
-          <Badge
-            className="mb-4"
-            style={{
-              backgroundColor: article.category.color_hex,
-              color: '#fff',
-            }}
-          >
-            {article.category.name}
-          </Badge>
-        )}
+      <header className={styles.articleHero}>
+        <div className={`${styles.shell} ${styles.articleHeroGrid}`}>
+          <Link href="/blog" className={styles.backLink}>
+            <ArrowLeft aria-hidden="true" size={15} />
+            {t('back')}
+          </Link>
 
-        {/* Title */}
-        <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
-          {article.title}
-        </h1>
-
-        {/* Meta Info */}
-        <div className="flex flex-wrap items-center gap-6 mb-8 text-muted-foreground">
-          {/* Author */}
-          <div className="flex items-center gap-3">
-            <Avatar className="h-10 w-10">
-              <AvatarImage src={article.author?.avatar_url || undefined} />
-              <AvatarFallback>{authorInitials}</AvatarFallback>
-            </Avatar>
-            <div>
-              <p className="font-medium text-foreground">
-                {article.author?.full_name || 'Autor'}
-              </p>
-              {publishedDate && (
-                <p className="text-sm">{publishedDate}</p>
-              )}
-            </div>
+          <div className={styles.articleCategory} style={categoryStyle}>
+            {article.category?.name || copy.article}
           </div>
 
-          <Separator orientation="vertical" className="h-8" />
+          <h1 className={styles.articleTitle}>{article.title}</h1>
 
-          {/* Reading Time */}
-          {article.reading_time_minutes && (
-            <div className="flex items-center gap-2">
-              <Clock className="h-4 w-4" />
-              <span>{article.reading_time_minutes} min de leitura</span>
+          {article.summary && <p className={styles.articleLead}>{article.summary}</p>}
+
+          <div className={styles.articleMetaRail}>
+            <div className={styles.articleAuthorMini}>
+              <Avatar className={styles.articleAvatar}>
+                <AvatarImage src={article.author?.avatar_url || undefined} />
+                <AvatarFallback className={styles.articleAvatarFallback}>{authorInitials}</AvatarFallback>
+              </Avatar>
+              <div>
+                <span className={styles.articleMetaLabel}>{copy.writtenBy}</span>
+                <div className={styles.articleAuthorName}>{article.author?.full_name || (isEnglish ? 'Author' : 'Autor')}</div>
+              </div>
             </div>
-          )}
 
-          {/* Views */}
-          <div className="flex items-center gap-2">
-            <Eye className="h-4 w-4" />
-            <span>{article.views_count} visualizações</span>
+            {publishedDate && (
+              <div className={styles.articleMetaItem}>
+                <span className={styles.articleMetaLabel}>{copy.date}</span>
+                <div className={styles.articleMetaValue}>
+                  <CalendarDays aria-hidden="true" size={13} /> {publishedDate}
+                </div>
+              </div>
+            )}
+
+            {article.reading_time_minutes && (
+              <div className={styles.articleMetaItem}>
+                <span className={styles.articleMetaLabel}>{copy.reading}</span>
+                <div className={styles.articleMetaValue}>
+                  <Clock aria-hidden="true" size={13} /> {article.reading_time_minutes} {copy.minutes}
+                </div>
+              </div>
+            )}
+
+            <div className={styles.articleMetaItem}>
+              <span className={styles.articleMetaLabel}>{copy.views}</span>
+              <div className={styles.articleMetaValue}>
+                <Eye aria-hidden="true" size={13} /> {article.views_count ?? 0}
+              </div>
+            </div>
           </div>
         </div>
+      </header>
 
-        {/* Cover Image */}
-        {article.cover_image_url && (
-          <div className="relative aspect-video rounded-xl overflow-hidden border border-border mb-10">
+      {article.cover_image_url && (
+        <div className={styles.articleCoverShell}>
+          <div className={styles.articleCover}>
             <Image
               src={article.cover_image_url}
               alt={article.title}
               fill
-              className="object-cover"
               priority
+              sizes="(max-width: 780px) 100vw, 92vw"
+              className={styles.articleCoverImage}
             />
           </div>
-        )}
-
-        {/* Tags */}
-        {article.tags && article.tags.length > 0 && (
-          <div className="flex flex-wrap gap-2 mb-10">
-            {article.tags.map((tag: any) => (
-              <Link key={tag.id} href={`/blog?tag=${tag.slug}` as any}>
-                <Badge variant="secondary" className="hover:bg-accent">
-                  #{tag.name}
-                </Badge>
-              </Link>
-            ))}
-          </div>
-        )}
-
-        {/* Content */}
-        <div className="mb-12">
-          <MarkdownRenderer content={article.content} />
         </div>
+      )}
 
-        <Separator className="my-10" />
+      <div className={styles.articlePaper}>
+        <div className={`${styles.shell} ${styles.articleBodyGrid}`}>
+          <aside className={styles.articleAside} aria-label={copy.topics}>
+            <div className={styles.asideLabel}>{copy.topics}</div>
+            {article.tags.length > 0 && (
+              <nav className={styles.articleTagList} aria-label={isEnglish ? 'Filter blog by tag' : 'Filtrar blog por tag'}>
+                {article.tags.map((tag: any) => (
+                  <Link className={styles.tagLink} key={tag.id} href={`/blog?tag=${tag.slug}` as any}>
+                    #{tag.name}
+                  </Link>
+                ))}
+              </nav>
+            )}
+          </aside>
 
-        {/* Related Projects */}
-        {article.projects && article.projects.length > 0 && (
-          <div className="mb-10">
-            <h2 className="text-2xl font-bold mb-6">Projetos Relacionados</h2>
-            <div className="grid gap-4 sm:grid-cols-2">
-              {article.projects.map((project: any) => (
-                <Link key={project.id} href={`/projetos/${project.slug}` as any}>
-                  <Card className="hover:shadow-md transition-shadow">
-                    <CardContent className="p-4 flex items-center gap-4">
-                      {project.cover_image_url && (
-                        <div className="relative w-20 h-20 rounded-lg overflow-hidden shrink-0">
-                          <Image
-                            src={project.cover_image_url}
-                            alt={project.title}
-                            fill
-                            className="object-cover"
-                          />
-                        </div>
-                      )}
-                      <div>
-                        <h3 className="font-semibold hover:text-primary transition-colors">
-                          {project.title}
-                        </h3>
-                        <p className="text-sm text-muted-foreground">
-                          Ver projeto →
-                        </p>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </Link>
-              ))}
-            </div>
+          <div className={styles.articleContent}>
+            <MarkdownRenderer content={article.content || ''} />
           </div>
-        )}
 
-        {/* Author Card */}
-        {article.author && (
-          <Card className="bg-muted/50">
-            <CardContent className="p-6">
-              <div className="flex items-start gap-4">
-                <Avatar className="h-16 w-16">
-                  <AvatarImage src={article.author.avatar_url || undefined} />
-                  <AvatarFallback className="text-xl">{authorInitials}</AvatarFallback>
-                </Avatar>
-                <div>
-                  <h3 className="font-bold text-lg">{article.author.full_name}</h3>
-                  {article.author.bio && (
-                    <p className="text-muted-foreground mt-1">
-                      {article.author.bio}
-                    </p>
-                  )}
-                  <div className="flex gap-2 mt-3">
-                    {article.author.github_url && (
-                      <Button asChild variant="ghost" size="sm">
-                        <a href={article.author.github_url} target="_blank" rel="noopener noreferrer">
-                          GitHub
-                        </a>
-                      </Button>
-                    )}
-                    {article.author.linkedin_url && (
-                      <Button asChild variant="ghost" size="sm">
-                        <a href={article.author.linkedin_url} target="_blank" rel="noopener noreferrer">
-                          LinkedIn
-                        </a>
-                      </Button>
-                    )}
-                  </div>
+          <div className={styles.articleAfterword}>
+            {article.projects.length > 0 && (
+              <section className={styles.relatedSection} aria-labelledby="related-projects">
+                <div className={styles.relatedHeader}>
+                  <h2 className={styles.relatedTitle} id="related-projects">
+                    {copy.related}
+                  </h2>
+                  <span className={styles.asideLabel}>{String(article.projects.length).padStart(2, '0')} / SELECTED</span>
                 </div>
-              </div>
-            </CardContent>
-          </Card>
-        )}
+
+                <div className={styles.relatedGrid}>
+                  {article.projects.map((project: any, index: number) => (
+                    <Link className={styles.projectLink} key={project.id} href={`/projetos/${project.slug}` as any}>
+                      <div className={styles.projectImage} aria-hidden={!project.cover_image_url}>
+                        {project.cover_image_url && (
+                          <Image src={project.cover_image_url} alt="" fill sizes="112px" />
+                        )}
+                      </div>
+                      <div className={styles.projectCopy}>
+                        <span className={styles.relatedIndex}>{String(index + 1).padStart(2, '0')} / PROJECT</span>
+                        <h3 className={styles.projectTitle}>{project.title}</h3>
+                        <span className={styles.projectCta}>{copy.project} ↗</span>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </section>
+            )}
+
+            {article.author && (
+              <section className={styles.authorPanel} aria-labelledby="article-author">
+                <Avatar className={styles.authorPortrait}>
+                  <AvatarImage src={article.author.avatar_url || undefined} />
+                  <AvatarFallback className={styles.authorPortraitFallback}>{authorInitials}</AvatarFallback>
+                </Avatar>
+
+                <div>
+                  <p className={styles.authorHeading}>{copy.author}</p>
+                  <h2 className={styles.authorNameLarge} id="article-author">{article.author.full_name}</h2>
+                  {article.author.bio && <p className={styles.authorBio}>{article.author.bio}</p>}
+                </div>
+
+                <div className={styles.authorLinks}>
+                  {article.author.github_url && (
+                    <a className={styles.authorLink} href={article.author.github_url} target="_blank" rel="noopener noreferrer">
+                      GitHub ↗
+                    </a>
+                  )}
+                  {article.author.linkedin_url && (
+                    <a className={styles.authorLink} href={article.author.linkedin_url} target="_blank" rel="noopener noreferrer">
+                      LinkedIn ↗
+                    </a>
+                  )}
+                </div>
+              </section>
+            )}
+          </div>
+        </div>
       </div>
     </article>
   )

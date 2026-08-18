@@ -1,0 +1,98 @@
+.footer {
+  position: relative;
+  z-index: 10;
+  overflow: hidden;
+  padding: clamp(5rem, 9vw, 9rem) clamp(1rem, 2.1vw, 2rem) 1.2rem;
+  color: #efeee7;
+  background: #090a09;
+  border-top: 1px solid rgba(239,238,231,.14);
+}
+
+.top {
+  display: grid;
+  grid-template-columns: minmax(20rem, 2fr) minmax(9rem, .6fr) minmax(11rem, .7fr);
+  gap: clamp(2.5rem, 8vw, 10rem);
+  padding-bottom: clamp(5rem, 10vw, 10rem);
+}
+
+.label {
+  color: rgba(239,238,231,.45);
+  font-family: var(--font-mono), monospace;
+  font-size: .61rem;
+  line-height: 1.35;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.statement h2 {
+  max-width: 50rem;
+  margin-top: 1.5rem;
+  font-size: clamp(2rem, 4vw, 4.8rem);
+  font-weight: 410;
+  line-height: .98;
+  letter-spacing: -.055em;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: .75rem;
+}
+
+.column > p { margin-bottom: .85rem; }
+.column a { position: relative; display: inline-flex; align-items: center; gap: .45rem; color: rgba(239,238,231,.68); font-size: .78rem; transition: color .25s ease, transform .3s cubic-bezier(.16,1,.3,1); }
+.column a::after { content: ""; position: absolute; left: 0; right: 0; bottom: -.18rem; height: 1px; background: #4da3ff; transform: scaleX(0); transform-origin: right; transition: transform .3s ease; }
+.column a:hover { color: #efeee7; transform: translateX(.25rem); }
+.column a:hover::after { transform: scaleX(1); transform-origin: left; }
+.column svg { width: .75rem; height: .75rem; }
+
+.wordmark {
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  padding: 0 0 1.4rem;
+  border-bottom: 1px solid rgba(239,238,231,.14);
+}
+
+.wordmarkLogo {
+  width: min(38rem, 72vw);
+  height: auto;
+  transition: opacity .35s ease, transform .55s cubic-bezier(.16,1,.3,1);
+}
+
+.wordmark:hover .wordmarkLogo {
+  opacity: .82;
+  transform: translateY(-.35rem);
+}
+
+.bottom {
+  display: grid;
+  grid-template-columns: 1fr auto auto auto;
+  align-items: center;
+  gap: clamp(1rem, 4vw, 4rem);
+  padding-top: 1.15rem;
+  color: rgba(239,238,231,.42);
+  font-family: var(--font-mono), monospace;
+  font-size: .56rem;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+}
+
+.availability { display: flex; align-items: center; gap: .55rem; }
+.availability i { width: .46rem; height: .46rem; border-radius: 50%; background: #4da3ff; box-shadow: 0 0 .8rem rgba(77,163,255,.7); }
+.bottom a:hover { color: #4da3ff; }
+
+@media (max-width: 760px) {
+  .top { grid-template-columns: 1fr 1fr; }
+  .statement { grid-column: 1 / -1; }
+  .wordmarkLogo { width: min(22rem, 86vw); }
+  .bottom { grid-template-columns: 1fr auto; }
+  .bottom > span:nth-child(2) { display: none; }
+}
+
+@media (max-width: 440px) {
+  .top { grid-template-columns: 1fr; }
+  .statement { grid-column: 1; }
+  .bottom { grid-template-columns: 1fr; }
+}
