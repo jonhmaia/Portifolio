@@ -1,7 +1,7 @@
 import { getTranslations } from 'next-intl/server'
 import { MarkdownRenderer } from '@/components/blog/markdown-renderer'
 import editorialStyles from '@/components/blog/editorial.module.css'
-import { getCachedHomepageData, getCachedProfile, getCachedResumeData } from '@/lib/supabase/cached'
+import { getCachedHomepageData, getCachedResumeData } from '@/lib/supabase/cached'
 import {
   ResumeDocument,
   type ResumeEducation,
@@ -29,7 +29,7 @@ export async function ResumeView({ locale }: ResumeViewProps) {
   const t = await getTranslations('resume')
   const isEnglish = locale === 'en'
 
-  const [resumeDbData, homepageData, profile] = await Promise.all([
+  const [resumeDbData, homepageData] = await Promise.all([
     getCachedResumeData(locale).catch((error) => {
       console.error('Error fetching resume data from cache:', error)
       return null
@@ -38,15 +38,10 @@ export async function ResumeView({ locale }: ResumeViewProps) {
       console.error('Error fetching homepage data from cache:', error)
       return null
     }),
-    getCachedProfile().catch((error) => {
-      console.error('Error fetching profile from cache:', error)
-      return null
-    }),
   ])
 
   const name =
     homepageData?.[isEnglish ? 'name_en' : 'name_pt'] ||
-    profile?.full_name ||
     'João Marcos'
   const role = resumeDbData?.role || homepageData?.[isEnglish ? 'role_en' : 'role_pt'] || t('role')
   const avatar = '/joao-maia.jpg'
@@ -92,12 +87,11 @@ export async function ResumeView({ locale }: ResumeViewProps) {
       skills={skills.length > 0 ? skills : fallbackSkills(t, isEnglish)}
       languages={languages.length > 0 ? languages : fallbackLanguages(t)}
       contact={{
-        email: profile?.email || homepageData?.email || DEFAULT_EMAIL,
+        email: homepageData?.email || DEFAULT_EMAIL,
         phone: DEFAULT_PHONE,
         location: homepageData?.[isEnglish ? 'location_en' : 'location_pt'] || (isEnglish ? 'Goiânia, Brazil' : 'Goiânia, GO'),
-        website: profile?.website_url || undefined,
-        linkedin: profile?.linkedin_url || homepageData?.linkedin_url || DEFAULT_LINKEDIN,
-        github: profile?.github_url || homepageData?.github_url || DEFAULT_GITHUB,
+        linkedin: homepageData?.linkedin_url || DEFAULT_LINKEDIN,
+        github: homepageData?.github_url || DEFAULT_GITHUB,
       }}
       labels={{
         documentLabel: t('document.documentLabel'),

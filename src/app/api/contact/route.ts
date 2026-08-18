@@ -1,5 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 
+const CONTACT_WEBHOOK_URL =
+  process.env.WEBHOOK_CONTACT_URL ||
+  'https://n8n.maiainteligencia.cloud/webhook/95af1c1e-61a7-486f-a6d7-2d9054beb11e'
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
@@ -14,19 +18,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const webhookUrl = process.env.WEBHOOK_CONTACT_URL
-
-    if (!webhookUrl) {
-      console.error('[Contact API] WEBHOOK_CONTACT_URL environment variable is not set')
-      return NextResponse.json(
-        { error: 'Erro interno do servidor.' },
-        { status: 500 }
-      )
-    }
-
-    console.log('[Contact API] Sending request to webhook...')
-
-    const webhookResponse = await fetch(webhookUrl, {
+    const webhookResponse = await fetch(CONTACT_WEBHOOK_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -38,6 +30,8 @@ export async function POST(request: NextRequest) {
         subject,
         message,
         locale: locale || 'pt-BR',
+        source: 'portfolio-contact',
+        submittedAt: new Date().toISOString(),
       }),
     })
 

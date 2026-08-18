@@ -158,12 +158,13 @@ export default function ContactPage() {
 
             <div className={styles.infoList}>
               {contactInfo.map((info) => {
+                const accessibleName = `${info.label}: ${info.value}`
                 const rowContent = (
                   <>
                     <span className={styles.infoIcon} aria-hidden="true">
                       <info.icon size={17} strokeWidth={1.8} />
                     </span>
-                    <span>
+                    <span className={styles.infoCopy}>
                       <span className={styles.infoLabel}>{info.label}</span>
                       <span className={styles.infoValue}>{info.value}</span>
                     </span>
@@ -178,13 +179,15 @@ export default function ContactPage() {
                     className={styles.infoRow}
                     href={info.href}
                     key={info.label}
+                    aria-label={accessibleName}
+                    title={info.value}
                     target={info.href.startsWith('http') ? '_blank' : undefined}
                     rel={info.href.startsWith('http') ? 'noopener noreferrer' : undefined}
                   >
                     {rowContent}
                   </a>
                 ) : (
-                  <div className={styles.infoRow} key={info.label}>
+                  <div className={styles.infoRow} key={info.label} aria-label={accessibleName} title={info.value}>
                     {rowContent}
                   </div>
                 )

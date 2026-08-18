@@ -2,7 +2,7 @@ import { MetadataRoute } from 'next'
 import { getCachedSitemapArticles, getCachedSitemapProjects } from '@/lib/supabase/cached'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = (process.env.NEXT_PUBLIC_SITE_URL || 'https://joaomarcos.dev').replace(/\/$/, '')
+  const baseUrl = (process.env.NEXT_PUBLIC_SITE_URL || 'https://www.devjoaomarcos.com').replace(/\/$/, '')
   const now = new Date()
   const staticPaths = [
     ['', 1, 'monthly'],

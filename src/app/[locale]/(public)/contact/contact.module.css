@@ -544,6 +544,47 @@ a.infoRow:hover {
     padding-top: clamp(3rem, 8vw, 5rem);
   }
 
+  .infoHeading {
+    margin-bottom: 1.6rem;
+  }
+
+  .infoList {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.65rem;
+    border-top: 0;
+  }
+
+  .infoRow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 0;
+    padding: 0;
+    border-bottom: 0;
+  }
+
+  .infoCopy,
+  .infoArrow {
+    display: none;
+  }
+
+  .infoIcon {
+    width: 3.15rem;
+    height: 3.15rem;
+  }
+
+  a.infoRow:hover {
+    background: transparent;
+    padding: 0;
+  }
+
+  a.infoRow:hover .infoIcon,
+  a.infoRow:focus-visible .infoIcon {
+    background: var(--contact-acid);
+    color: var(--contact-ink);
+  }
+
   .statusGroup {
     margin-top: 3rem;
   }
@@ -564,14 +605,6 @@ a.infoRow:hover {
 
   .paperPanel {
     border-radius: 1.5rem 1.5rem 0 0;
-  }
-
-  .infoRow {
-    grid-template-columns: 2.5rem minmax(0, 1fr);
-  }
-
-  .infoArrow {
-    display: none;
   }
 
   .statusGroup,

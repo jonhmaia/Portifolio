@@ -201,7 +201,7 @@ export const getCachedProfile = unstable_cache(
     const { data, error } = await supabase
       .from('profiles')
       .select('*')
-      .single()
+      .maybeSingle()
     if (error) throw error
     return data
   },

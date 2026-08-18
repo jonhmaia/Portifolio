@@ -39,7 +39,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params
   const metadataBase = new URL(
-    (process.env.NEXT_PUBLIC_SITE_URL || 'https://joaomarcos.dev').replace(/\/$/, ''),
+    (process.env.NEXT_PUBLIC_SITE_URL || 'https://www.devjoaomarcos.com').replace(/\/$/, ''),
   )
   const isEnglish = locale === 'en'
   const title = isEnglish
