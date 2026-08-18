@@ -2,6 +2,7 @@ import { getTranslations } from 'next-intl/server'
 import { MarkdownRenderer } from '@/components/blog/markdown-renderer'
 import editorialStyles from '@/components/blog/editorial.module.css'
 import { getCachedHomepageData, getCachedResumeData } from '@/lib/supabase/cached'
+import type { HomepageData, ResumeData } from '@/lib/types/database'
 import {
   ResumeDocument,
   type ResumeEducation,
@@ -33,11 +34,11 @@ export async function ResumeView({ locale }: ResumeViewProps) {
     getCachedResumeData(locale).catch((error) => {
       console.error('Error fetching resume data from cache:', error)
       return null
-    }),
+    }) as Promise<ResumeData | null>,
     getCachedHomepageData().catch((error) => {
       console.error('Error fetching homepage data from cache:', error)
       return null
-    }),
+    }) as Promise<HomepageData | null>,
   ])
 
   const name =

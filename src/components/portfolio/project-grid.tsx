@@ -74,7 +74,7 @@ export function ProjectGrid({ projects, locale = 'pt-BR' }: ProjectGridProps) {
   useGSAP(
     (_context, contextSafe) => {
       const track = trackRef.current
-      if (!track) return
+      if (!track || !contextSafe) return
 
       updateMetrics()
 

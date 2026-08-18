@@ -222,6 +222,54 @@ export interface HomepageData {
   updated_at: string
 }
 
+export interface ResumeData {
+  id: number
+  language: Language
+  role: string
+  summary: string
+  experiences: ResumeExperience[]
+  featured_projects: ResumeProject[]
+  education: ResumeEducation[]
+  skills: ResumeSkillGroup[]
+  languages: ResumeLanguage[]
+  pdf_url: string | null
+  created_at: string
+  updated_at: string
+}
+
+type ResumeExperience = {
+  company: string
+  role: string
+  period: string
+  items: string[]
+}
+
+type ResumeProject = {
+  title: string
+  subtitle?: string
+  description: string
+  techs: string[]
+}
+
+type ResumeEducation = {
+  institution: string
+  degree: string
+  period: string
+  description?: string
+  href?: string
+  badge?: string
+}
+
+type ResumeSkillGroup = {
+  title: string
+  tags: string[]
+}
+
+type ResumeLanguage = {
+  name: string
+  level: string
+}
+
 // Skill table
 export interface Skill {
   id: number
@@ -400,6 +448,12 @@ export interface Database {
         Row: HomepageData
         Insert: Partial<Omit<HomepageData, 'created_at' | 'updated_at'>> & { id?: number; created_at?: string; updated_at?: string }
         Update: Partial<Omit<HomepageData, 'id'>>
+        Relationships: NoRelationships
+      }
+      resume_data: {
+        Row: ResumeData
+        Insert: Omit<ResumeData, 'id' | 'created_at' | 'updated_at'> & { id?: number; created_at?: string; updated_at?: string; pdf_url?: string | null }
+        Update: Partial<Omit<ResumeData, 'id'>>
         Relationships: NoRelationships
       }
       skills: {
