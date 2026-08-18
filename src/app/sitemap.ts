@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next'
-import { createClient } from '@/lib/supabase/server'
+import { getCachedSitemapArticles, getCachedSitemapProjects } from '@/lib/supabase/cached'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = (process.env.NEXT_PUBLIC_SITE_URL || 'https://joaomarcos.dev').replace(/\/$/, '')
@@ -30,13 +30,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   if (!hasSupabaseEnvironment) return staticPages
 
   try {
-    const supabase = await createClient()
-    const [{ data: projects }, { data: articles }] = await Promise.all([
-      supabase.from('projects').select('slug, updated_at').eq('is_active', true),
-      supabase.from('articles').select('slug, updated_at').eq('status', 'published'),
+    const [projects, articles] = await Promise.all([
+      getCachedSitemapProjects(),
+      getCachedSitemapArticles(),
     ])
 
-    const projectPages: MetadataRoute.Sitemap = (projects || []).flatMap((project) => [
+    const projectPages: MetadataRoute.Sitemap = projects.flatMap((project) => [
       {
         url: `${baseUrl}/projetos/${project.slug}`,
         lastModified: new Date(project.updated_at),
@@ -51,7 +50,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       },
     ])
 
-    const articlePages: MetadataRoute.Sitemap = (articles || []).flatMap((article) => [
+    const articlePages: MetadataRoute.Sitemap = articles.flatMap((article) => [
       {
         url: `${baseUrl}/blog/${article.slug}`,
         lastModified: new Date(article.updated_at),

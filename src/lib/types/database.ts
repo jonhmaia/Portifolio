@@ -299,6 +299,9 @@ export interface TagTranslationInput {
   name: string
 }
 
+// Empty relationships keep Supabase client generics valid (avoids `never` row inference).
+type NoRelationships = []
+
 // Database schema type for Supabase client
 export interface Database {
   public: {
@@ -307,86 +310,103 @@ export interface Database {
         Row: Profile
         Insert: Omit<Profile, 'created_at' | 'updated_at'> & { created_at?: string; updated_at?: string }
         Update: Partial<Omit<Profile, 'id'>>
+        Relationships: NoRelationships
       }
       technologies: {
         Row: Technology
         Insert: Omit<Technology, 'id' | 'created_at'> & { id?: number; created_at?: string }
         Update: Partial<Omit<Technology, 'id'>>
+        Relationships: NoRelationships
       }
       projects: {
         Row: Project
         Insert: Omit<Project, 'id' | 'created_at' | 'updated_at' | 'views_count'> & { id?: number; created_at?: string; updated_at?: string; views_count?: number }
         Update: Partial<Omit<Project, 'id'>>
+        Relationships: NoRelationships
       }
       project_technologies: {
         Row: ProjectTechnology
         Insert: ProjectTechnology
         Update: Partial<ProjectTechnology>
+        Relationships: NoRelationships
       }
       project_images: {
         Row: ProjectImage
         Insert: Omit<ProjectImage, 'id' | 'created_at'> & { id?: number; created_at?: string }
         Update: Partial<Omit<ProjectImage, 'id'>>
+        Relationships: NoRelationships
       }
       tags: {
         Row: Tag
         Insert: Omit<Tag, 'id' | 'created_at'> & { id?: number; created_at?: string }
         Update: Partial<Omit<Tag, 'id'>>
+        Relationships: NoRelationships
       }
       project_tags: {
         Row: ProjectTag
         Insert: ProjectTag
         Update: Partial<ProjectTag>
+        Relationships: NoRelationships
       }
       categories: {
         Row: Category
         Insert: Omit<Category, 'id' | 'created_at'> & { id?: number; created_at?: string }
         Update: Partial<Omit<Category, 'id'>>
+        Relationships: NoRelationships
       }
       articles: {
         Row: Article
         Insert: Omit<Article, 'id' | 'created_at' | 'updated_at' | 'views_count' | 'reading_time_minutes'> & { id?: number; created_at?: string; updated_at?: string; views_count?: number; reading_time_minutes?: number }
         Update: Partial<Omit<Article, 'id'>>
+        Relationships: NoRelationships
       }
       article_tags: {
         Row: ArticleTag
         Insert: ArticleTag
         Update: Partial<ArticleTag>
+        Relationships: NoRelationships
       }
       article_projects: {
         Row: ArticleProject
         Insert: ArticleProject
         Update: Partial<ArticleProject>
+        Relationships: NoRelationships
       }
       project_translations: {
         Row: ProjectTranslation
         Insert: Omit<ProjectTranslation, 'id' | 'created_at' | 'updated_at'> & { id?: number; created_at?: string; updated_at?: string }
         Update: Partial<Omit<ProjectTranslation, 'id'>>
+        Relationships: NoRelationships
       }
       article_translations: {
         Row: ArticleTranslation
         Insert: Omit<ArticleTranslation, 'id' | 'created_at' | 'updated_at'> & { id?: number; created_at?: string; updated_at?: string }
         Update: Partial<Omit<ArticleTranslation, 'id'>>
+        Relationships: NoRelationships
       }
       category_translations: {
         Row: CategoryTranslation
         Insert: Omit<CategoryTranslation, 'id' | 'created_at' | 'updated_at'> & { id?: number; created_at?: string; updated_at?: string }
         Update: Partial<Omit<CategoryTranslation, 'id'>>
+        Relationships: NoRelationships
       }
       tag_translations: {
         Row: TagTranslation
         Insert: Omit<TagTranslation, 'id' | 'created_at' | 'updated_at'> & { id?: number; created_at?: string; updated_at?: string }
         Update: Partial<Omit<TagTranslation, 'id'>>
+        Relationships: NoRelationships
       }
       homepage_data: {
         Row: HomepageData
         Insert: Partial<Omit<HomepageData, 'created_at' | 'updated_at'>> & { id?: number; created_at?: string; updated_at?: string }
         Update: Partial<Omit<HomepageData, 'id'>>
+        Relationships: NoRelationships
       }
       skills: {
         Row: Skill
         Insert: Omit<Skill, 'id' | 'created_at' | 'updated_at'> & { id?: number; created_at?: string; updated_at?: string }
         Update: Partial<Omit<Skill, 'id'>>
+        Relationships: NoRelationships
       }
     }
     Views: {
@@ -400,6 +420,9 @@ export interface Database {
       article_status: ArticleStatus
       technology_category: TechnologyCategory
       language: Language
+    }
+    CompositeTypes: {
+      [_ in never]: never
     }
   }
 }

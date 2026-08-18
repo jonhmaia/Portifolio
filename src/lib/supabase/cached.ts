@@ -86,15 +86,17 @@ export const getCachedProjectBySlug = async (slug: string) => {
   return data
 }
 
+type SitemapSlugRow = { slug: string; updated_at: string }
+
 export const getCachedSitemapProjects = unstable_cache(
-  async () => {
+  async (): Promise<SitemapSlugRow[]> => {
     const supabase = createPublicClient()
     const { data, error } = await supabase
       .from('projects')
       .select('slug, updated_at')
       .eq('is_active', true)
     if (error) throw error
-    return data || []
+    return (data as SitemapSlugRow[] | null) || []
   },
   ['sitemap-projects'],
   { revalidate: CACHE_REVALIDATE_TIME, tags: ['projects'] }
@@ -151,14 +153,14 @@ export const getCachedArticleBySlug = async (slug: string) => {
 }
 
 export const getCachedSitemapArticles = unstable_cache(
-  async () => {
+  async (): Promise<SitemapSlugRow[]> => {
     const supabase = createPublicClient()
     const { data, error } = await supabase
       .from('articles')
       .select('slug, updated_at')
       .eq('status', 'published')
     if (error) throw error
-    return data || []
+    return (data as SitemapSlugRow[] | null) || []
   },
   ['sitemap-articles'],
   { revalidate: CACHE_REVALIDATE_TIME, tags: ['articles'] }
