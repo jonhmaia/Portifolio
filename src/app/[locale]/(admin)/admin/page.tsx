@@ -1,10 +1,12 @@
 import { Suspense } from 'react'
 import { createClient } from '@/lib/supabase/server'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { FolderKanban, FileText, Eye, Tag, ArrowUpRight, TrendingUp } from 'lucide-react'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { FolderKanban, FileText, Eye, Tag, ArrowUpRight } from 'lucide-react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
+import { AdminPageHeader } from '@/components/admin/admin-page-header'
+import { getProjectStatusClass, getArticleStatusClass } from '@/lib/admin/status-colors'
 
 async function DashboardStats() {
   const supabase = await createClient()
@@ -46,32 +48,24 @@ async function DashboardStats() {
       value: projectsCount || 0,
       icon: FolderKanban,
       href: '/admin/projects',
-      color: 'text-blue-500',
-      bgColor: 'bg-blue-500/10',
     },
     {
       title: 'Total de Artigos',
       value: articlesCount || 0,
       icon: FileText,
       href: '/admin/articles',
-      color: 'text-green-500',
-      bgColor: 'bg-green-500/10',
     },
     {
       title: 'Total de Tags',
       value: tagsCount || 0,
       icon: Tag,
       href: '/admin/tags',
-      color: 'text-purple-500',
-      bgColor: 'bg-purple-500/10',
     },
     {
       title: 'Visualizações',
       value: totalViews,
       icon: Eye,
       href: '#',
-      color: 'text-orange-500',
-      bgColor: 'bg-orange-500/10',
     },
   ]
 
@@ -102,19 +96,17 @@ async function DashboardStats() {
       {/* Stats Grid */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         {stats.map((stat) => (
-          <Card key={stat.title}>
+          <Card key={stat.title} className="jm-admin__stat-card">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
-                {stat.title}
-              </CardTitle>
-              <div className={`p-2 rounded-lg ${stat.bgColor}`}>
-                <stat.icon className={`h-4 w-4 ${stat.color}`} />
+              <CardTitle className="jm-admin__stat-label">{stat.title}</CardTitle>
+              <div className="jm-admin__stat-icon">
+                <stat.icon className="h-4 w-4" />
               </div>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{stat.value}</div>
+              <div className="jm-admin__stat-value">{stat.value}</div>
               {stat.href !== '#' && (
-                <Link href={stat.href} className="text-xs text-muted-foreground hover:text-foreground flex items-center gap-1 mt-1">
+                <Link href={stat.href} className="font-mono text-[0.55rem] uppercase tracking-wider text-muted-foreground hover:text-primary flex items-center gap-1 mt-2">
                   Ver todos
                   <ArrowUpRight className="h-3 w-3" />
                 </Link>
@@ -127,11 +119,11 @@ async function DashboardStats() {
       {/* Recent Content */}
       <div className="grid gap-6 lg:grid-cols-2">
         {/* Recent Projects */}
-        <Card>
+        <Card className="jm-admin__stat-card">
           <CardHeader className="flex flex-row items-center justify-between">
             <div>
-              <CardTitle>Projetos Recentes</CardTitle>
-              <CardDescription>Últimos projetos adicionados</CardDescription>
+              <CardTitle className="text-base font-semibold tracking-tight">Projetos Recentes</CardTitle>
+              <p className="text-sm text-muted-foreground mt-1">Últimos projetos adicionados</p>
             </div>
             <Button asChild variant="outline" size="sm">
               <Link href="/admin/projects/new">Novo Projeto</Link>
@@ -139,12 +131,12 @@ async function DashboardStats() {
           </CardHeader>
           <CardContent>
             {recentProjectsList.length > 0 ? (
-              <div className="space-y-3">
+              <div className="divide-y divide-border/50">
                 {recentProjectsList.map((project) => (
                   <Link
                     key={project.id}
                     href={`/admin/projects/${project.id}/edit`}
-                    className="flex items-center justify-between p-3 rounded-lg hover:bg-accent transition-colors"
+                    className="jm-admin__list-item"
                   >
                     <div>
                       <p className="font-medium">{project.title}</p>
@@ -152,13 +144,7 @@ async function DashboardStats() {
                         {new Date(project.created_at).toLocaleDateString('pt-BR')}
                       </p>
                     </div>
-                    <span className={`text-xs px-2 py-1 rounded-full ${
-                      project.status === 'concluido' 
-                        ? 'bg-green-500/10 text-green-500' 
-                        : project.status === 'dev'
-                        ? 'bg-blue-500/10 text-blue-500'
-                        : 'bg-yellow-500/10 text-yellow-500'
-                    }`}>
+                    <span className={getProjectStatusClass(project.status)}>
                       {project.status}
                     </span>
                   </Link>
@@ -172,12 +158,11 @@ async function DashboardStats() {
           </CardContent>
         </Card>
 
-        {/* Recent Articles */}
-        <Card>
+        <Card className="jm-admin__stat-card">
           <CardHeader className="flex flex-row items-center justify-between">
             <div>
-              <CardTitle>Artigos Recentes</CardTitle>
-              <CardDescription>Últimos artigos criados</CardDescription>
+              <CardTitle className="text-base font-semibold tracking-tight">Artigos Recentes</CardTitle>
+              <p className="text-sm text-muted-foreground mt-1">Últimos artigos criados</p>
             </div>
             <Button asChild variant="outline" size="sm">
               <Link href="/admin/articles/new">Novo Artigo</Link>
@@ -185,12 +170,12 @@ async function DashboardStats() {
           </CardHeader>
           <CardContent>
             {recentArticlesList.length > 0 ? (
-              <div className="space-y-3">
+              <div className="divide-y divide-border/50">
                 {recentArticlesList.map((article) => (
                   <Link
                     key={article.id}
                     href={`/admin/articles/${article.id}/edit`}
-                    className="flex items-center justify-between p-3 rounded-lg hover:bg-accent transition-colors"
+                    className="jm-admin__list-item"
                   >
                     <div>
                       <p className="font-medium">{article.title}</p>
@@ -198,11 +183,7 @@ async function DashboardStats() {
                         {new Date(article.created_at).toLocaleDateString('pt-BR')}
                       </p>
                     </div>
-                    <span className={`text-xs px-2 py-1 rounded-full ${
-                      article.status === 'published'
-                        ? 'bg-green-500/10 text-green-500'
-                        : 'bg-yellow-500/10 text-yellow-500'
-                    }`}>
+                    <span className={getArticleStatusClass(article.status)}>
                       {article.status === 'published' ? 'Publicado' : 'Rascunho'}
                     </span>
                   </Link>
@@ -258,10 +239,11 @@ function StatsLoading() {
 export default function AdminDashboardPage() {
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold">Dashboard</h1>
-        <p className="text-muted-foreground">Visão geral do seu portfólio e blog</p>
-      </div>
+      <AdminPageHeader
+        index="02 — Dashboard"
+        title="Dashboard"
+        description="Visão geral do seu portfólio e blog"
+      />
 
       <Suspense fallback={<StatsLoading />}>
         <DashboardStats />

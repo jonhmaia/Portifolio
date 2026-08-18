@@ -90,14 +90,18 @@ type LanguageSelectorProps = {
   className?: string
   showLabel?: boolean
   contentClassName?: string
+  itemClassName?: string
   modal?: boolean
+  variant?: 'nav' | 'panel'
 }
 
 export function LanguageSelector({
   className,
   showLabel = false,
   contentClassName,
+  itemClassName,
   modal = true,
+  variant = 'nav',
 }: LanguageSelectorProps) {
   const pathname = usePathname()
   const router = useRouter()
@@ -116,13 +120,19 @@ export function LanguageSelector({
 
   const currentLanguage = languages.find((l) => l.code === locale)
 
+  const isPanel = variant === 'panel'
+
   return (
     <DropdownMenu modal={modal}>
       <DropdownMenuTrigger asChild>
         <Button
           variant="ghost"
           size="sm"
-          className={cn('gap-2 hover:bg-accent', className)}
+          className={cn(
+            'gap-2',
+            isPanel ? 'jm-menu-panel__lang hover:bg-black/10' : 'jm-nav__lang-btn',
+            className,
+          )}
           disabled={isPending}
         >
           {currentLanguage && (
@@ -133,27 +143,36 @@ export function LanguageSelector({
           </span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className={cn('w-48', contentClassName)}>
-        {languages.map((lang) => (
-          <DropdownMenuItem
-            key={lang.code}
-            onClick={() => handleLanguageChange(lang.code)}
-            className={`flex items-center gap-3 cursor-pointer transition-colors ${
-              locale === lang.code 
-                ? 'bg-accent font-semibold' 
-                : 'hover:bg-accent/50'
-            }`}
-          >
-            <lang.flag className="w-6 h-4 rounded-[2px] object-cover shadow-sm flex-shrink-0 border border-border/10" />
-            <div className="flex flex-col flex-1">
-              <span className="text-sm font-medium leading-tight">{lang.name}</span>
-              <span className="text-xs text-muted-foreground">{lang.country}</span>
-            </div>
-            {locale === lang.code && (
-              <span className="text-xs text-primary ml-auto">✓</span>
-            )}
-          </DropdownMenuItem>
-        ))}
+      <DropdownMenuContent
+        align="end"
+        className={cn('w-48 jm-nav__lang-menu', contentClassName)}
+      >
+        {languages.map((lang) => {
+          const isActive = locale === lang.code
+
+          return (
+            <DropdownMenuItem
+              key={lang.code}
+              onClick={() => handleLanguageChange(lang.code)}
+              className={cn(
+                'flex items-center gap-3 transition-colors jm-nav__lang-item',
+                isActive && 'jm-nav__lang-item--active font-semibold',
+                itemClassName,
+              )}
+            >
+              <lang.flag className="w-6 h-4 rounded-[2px] object-cover shadow-sm flex-shrink-0 border border-border/10" />
+              <div className="flex flex-col flex-1">
+                <span className="text-sm font-medium leading-tight">{lang.name}</span>
+                <span className={cn('text-xs jm-nav__lang-item-country')}>{lang.country}</span>
+              </div>
+              {isActive && (
+                <span className="text-xs ml-auto" aria-hidden="true">
+                  ✓
+                </span>
+              )}
+            </DropdownMenuItem>
+          )
+        })}
       </DropdownMenuContent>
     </DropdownMenu>
   )

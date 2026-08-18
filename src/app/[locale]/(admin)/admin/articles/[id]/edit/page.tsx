@@ -2,6 +2,7 @@ import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { ArticleForm } from '@/components/admin/article-form'
+import { AdminPageHeader } from '@/components/admin/admin-page-header'
 import type { Article, ArticleTranslation } from '@/lib/types/database'
 
 export const metadata: Metadata = {
@@ -93,10 +94,11 @@ export default async function EditArticlePage({ params }: EditArticlePageProps) 
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold">Editar Artigo</h1>
-        <p className="text-muted-foreground">Atualize o conteúdo do artigo em ambos os idiomas</p>
-      </div>
+      <AdminPageHeader
+        index="04 — Artigos"
+        title="Editar Artigo"
+        description="Atualize o conteúdo do artigo em ambos os idiomas"
+      />
 
       <ArticleForm
         article={article}

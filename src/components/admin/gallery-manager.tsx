@@ -70,7 +70,7 @@ function SortableImageItem({ image, onRemove, onCaptionChange }: SortableImageIt
       ref={setNodeRef}
       style={style}
       className={cn(
-        'relative bg-card border border-border rounded-lg overflow-hidden',
+        'relative bg-card border border-border overflow-hidden',
         isDragging && 'opacity-50 z-50'
       )}
     >

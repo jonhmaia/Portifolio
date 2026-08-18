@@ -9,6 +9,8 @@ import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { ImageUploader } from '@/components/admin/image-uploader'
+import { AdminPageHeader } from '@/components/admin/admin-page-header'
+import { BRAND_COLOR_HEX } from '@/lib/admin/status-colors'
 import {
   Table,
   TableBody,
@@ -81,7 +83,7 @@ const defaultHomepageData: HomepageData = {
 const defaultSkillData = {
   name: '',
   progress: 80,
-  color: '#3ECF8E',
+  color: BRAND_COLOR_HEX,
   icon_type: 'url' as 'url' | 'embed' | 'upload',
   icon_value: '',
 }
@@ -327,12 +329,11 @@ export default function AdminHomePage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Página Inicial</h1>
-          <p className="text-muted-foreground">Gerencie o conteúdo estático do seu perfil, biografias e as habilidades técnicas.</p>
-        </div>
-      </div>
+      <AdminPageHeader
+        index="01 — Home"
+        title="Página Inicial"
+        description="Gerencie o conteúdo estático do seu perfil, biografias e as habilidades técnicas."
+      />
 
       <Tabs defaultValue="texts" className="w-full">
         <TabsList className="grid w-full grid-cols-2 max-w-[400px]">
@@ -581,7 +582,7 @@ export default function AdminHomePage() {
                   Nenhuma habilidade cadastrada no momento. Clique no botão acima para adicionar.
                 </div>
               ) : (
-                <div className="border rounded-lg overflow-hidden">
+                <div className="jm-admin__table-wrap overflow-hidden">
                   <Table>
                     <TableHeader>
                       <TableRow>
@@ -724,7 +725,7 @@ export default function AdminHomePage() {
                     <Input
                       value={skillForm.color}
                       onChange={(e) => setSkillForm(prev => ({ ...prev, color: e.target.value }))}
-                      placeholder="#3ECF8E"
+                      placeholder={BRAND_COLOR_HEX}
                       className="flex-1 font-mono"
                     />
                   </div>

@@ -42,6 +42,8 @@ import {
 import { toast } from 'sonner'
 import { slugify } from '@/lib/utils/slugify'
 import type { Technology, TechnologyCategory } from '@/lib/types/database'
+import { AdminPageHeader } from '@/components/admin/admin-page-header'
+import { BRAND_COLOR_HEX } from '@/lib/admin/status-colors'
 
 const categoryLabels: Record<TechnologyCategory, string> = {
   language: 'Linguagem',
@@ -89,7 +91,7 @@ const defaultFormData = {
   name: '',
   slug: '',
   icon_class: '',
-  color_hex: '#3B82F6',
+  color_hex: BRAND_COLOR_HEX,
   category: 'other' as TechnologyCategory,
   is_active: true,
 }
@@ -197,17 +199,17 @@ export default function AdminTechnologiesPage() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-bold">Tecnologias</h1>
-          <p className="text-muted-foreground">Gerencie as tecnologias dos projetos</p>
-        </div>
-        <Button onClick={openNewDialog}>
-          <Plus className="mr-2 h-4 w-4" />
-          Nova Tecnologia
-        </Button>
-      </div>
+      <AdminPageHeader
+        index="06 — Tecnologias"
+        title="Tecnologias"
+        description="Gerencie as tecnologias dos projetos"
+        action={
+          <Button onClick={openNewDialog}>
+            <Plus className="mr-2 h-4 w-4" />
+            Nova Tecnologia
+          </Button>
+        }
+      />
 
       {/* Search */}
       <div className="flex items-center gap-4">
@@ -223,7 +225,7 @@ export default function AdminTechnologiesPage() {
       </div>
 
       {/* Table */}
-      <div className="border rounded-lg">
+      <div className="jm-admin__table-wrap">
         <Table>
           <TableHeader>
             <TableRow>
@@ -382,7 +384,7 @@ export default function AdminTechnologiesPage() {
                 <Input
                   value={formData.color_hex}
                   onChange={(e) => setFormData((prev) => ({ ...prev, color_hex: e.target.value }))}
-                  placeholder="#3B82F6"
+                  placeholder={BRAND_COLOR_HEX}
                   className="flex-1"
                 />
               </div>

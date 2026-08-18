@@ -1,6 +1,7 @@
 import { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
 import { ProjectForm } from '@/components/admin/project-form'
+import { AdminPageHeader } from '@/components/admin/admin-page-header'
 
 export const metadata: Metadata = {
   title: 'Novo Projeto | Admin',
@@ -17,10 +18,11 @@ export default async function NewProjectPage() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold">Novo Projeto</h1>
-        <p className="text-muted-foreground">Adicione um novo projeto ao seu portfólio</p>
-      </div>
+      <AdminPageHeader
+        index="03 — Projetos"
+        title="Novo Projeto"
+        description="Adicione um novo projeto ao seu portfólio"
+      />
 
       <ProjectForm
         technologies={technologies || []}

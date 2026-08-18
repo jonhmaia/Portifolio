@@ -29,6 +29,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Separator } from '@/components/ui/separator'
 import { PdfUploader } from '@/components/admin'
+import { AdminPageHeader } from '@/components/admin/admin-page-header'
 
 // Importando mensagens locais para usar como fallback e dados iniciais
 import ptMessages from '@/messages/pt-BR.json'
@@ -351,14 +352,12 @@ export default function ResumeAdminPage() {
   }
 
   return (
-    <div className="p-6 space-y-6 max-w-5xl mx-auto">
-      {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 border-b border-border/50 pb-6">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Editor de Currículo</h1>
-          <p className="text-muted-foreground mt-1">Gerencie seu currículo profissional dinamicamente nos dois idiomas com inteligência artificial.</p>
-        </div>
-      </div>
+    <div className="space-y-6 max-w-5xl">
+      <AdminPageHeader
+        index="05 — Currículo"
+        title="Editor de Currículo"
+        description="Gerencie seu currículo profissional dinamicamente nos dois idiomas com inteligência artificial."
+      />
 
       <Tabs defaultValue="pt-BR" className="w-full">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6 border-b border-border/40 pb-2">
@@ -627,14 +626,14 @@ function ResumeFormSection({
             <p className="text-muted-foreground text-sm text-center py-6">Nenhuma experiência adicionada.</p>
           ) : (
             data.experiences.map((exp, expIdx) => (
-              <div key={expIdx} className="space-y-4 p-5 rounded-2xl bg-muted/40 border border-border/50 relative group/card">
+              <div key={expIdx} className="space-y-4 p-5 border border-border/50 bg-muted/20 relative group/card">
                 
                 {/* Actions: Reordenar / Deletar */}
                 <div className="absolute top-4 right-4 flex items-center gap-1 opacity-80 group-hover/card:opacity-100 transition-opacity">
                   <Button 
                     variant="ghost" 
                     size="icon" 
-                    className="h-8 w-8 rounded-full"
+                    className="h-8 w-8"
                     onClick={() => moveItem(lang, 'experiences', expIdx, 'up')}
                     disabled={expIdx === 0}
                   >
@@ -643,7 +642,7 @@ function ResumeFormSection({
                   <Button 
                     variant="ghost" 
                     size="icon" 
-                    className="h-8 w-8 rounded-full"
+                    className="h-8 w-8"
                     onClick={() => moveItem(lang, 'experiences', expIdx, 'down')}
                     disabled={expIdx === data.experiences.length - 1}
                   >
@@ -652,7 +651,7 @@ function ResumeFormSection({
                   <Button 
                     variant="ghost" 
                     size="icon" 
-                    className="h-8 w-8 text-destructive hover:text-destructive hover:bg-destructive/10 rounded-full"
+                    className="h-8 w-8 text-destructive hover:text-destructive hover:bg-destructive/10"
                     onClick={() => removeExperience(expIdx)}
                   >
                     <Trash2 className="h-4 w-4" />
@@ -748,14 +747,14 @@ function ResumeFormSection({
             <p className="text-muted-foreground text-sm text-center py-6">Nenhum projeto em destaque adicionado.</p>
           ) : (
             data.featured_projects.map((proj, projIdx) => (
-              <div key={projIdx} className="space-y-4 p-5 rounded-2xl bg-muted/40 border border-border/50 relative group/card">
+              <div key={projIdx} className="space-y-4 p-5 border border-border/50 bg-muted/20 relative group/card">
                 
                 {/* Actions: Reordenar / Deletar */}
                 <div className="absolute top-4 right-4 flex items-center gap-1 opacity-80 group-hover/card:opacity-100 transition-opacity">
                   <Button 
                     variant="ghost" 
                     size="icon" 
-                    className="h-8 w-8 rounded-full"
+                    className="h-8 w-8"
                     onClick={() => moveItem(lang, 'featured_projects', projIdx, 'up')}
                     disabled={projIdx === 0}
                   >
@@ -764,7 +763,7 @@ function ResumeFormSection({
                   <Button 
                     variant="ghost" 
                     size="icon" 
-                    className="h-8 w-8 rounded-full"
+                    className="h-8 w-8"
                     onClick={() => moveItem(lang, 'featured_projects', projIdx, 'down')}
                     disabled={projIdx === data.featured_projects.length - 1}
                   >
@@ -773,7 +772,7 @@ function ResumeFormSection({
                   <Button 
                     variant="ghost" 
                     size="icon" 
-                    className="h-8 w-8 text-destructive hover:text-destructive hover:bg-destructive/10 rounded-full"
+                    className="h-8 w-8 text-destructive hover:text-destructive hover:bg-destructive/10"
                     onClick={() => removeProject(projIdx)}
                   >
                     <Trash2 className="h-4 w-4" />
@@ -845,14 +844,14 @@ function ResumeFormSection({
             <p className="text-muted-foreground text-sm text-center py-6">Nenhuma formação adicionada.</p>
           ) : (
             data.education.map((edu, eduIdx) => (
-              <div key={eduIdx} className="space-y-4 p-5 rounded-2xl bg-muted/40 border border-border/50 relative group/card">
+              <div key={eduIdx} className="space-y-4 p-5 border border-border/50 bg-muted/20 relative group/card">
                 
                 {/* Actions */}
                 <div className="absolute top-4 right-4 flex items-center gap-1 opacity-80 group-hover/card:opacity-100 transition-opacity">
                   <Button 
                     variant="ghost" 
                     size="icon" 
-                    className="h-8 w-8 rounded-full"
+                    className="h-8 w-8"
                     onClick={() => moveItem(lang, 'education', eduIdx, 'up')}
                     disabled={eduIdx === 0}
                   >
@@ -861,7 +860,7 @@ function ResumeFormSection({
                   <Button 
                     variant="ghost" 
                     size="icon" 
-                    className="h-8 w-8 rounded-full"
+                    className="h-8 w-8"
                     onClick={() => moveItem(lang, 'education', eduIdx, 'down')}
                     disabled={eduIdx === data.education.length - 1}
                   >
@@ -870,7 +869,7 @@ function ResumeFormSection({
                   <Button 
                     variant="ghost" 
                     size="icon" 
-                    className="h-8 w-8 text-destructive hover:text-destructive hover:bg-destructive/10 rounded-full"
+                    className="h-8 w-8 text-destructive hover:text-destructive hover:bg-destructive/10"
                     onClick={() => removeEducation(eduIdx)}
                   >
                     <Trash2 className="h-4 w-4" />
@@ -941,14 +940,14 @@ function ResumeFormSection({
             <p className="text-muted-foreground text-sm text-center py-6">Nenhum grupo de competência adicionado.</p>
           ) : (
             data.skills.map((skill, skillIdx) => (
-              <div key={skillIdx} className="space-y-4 p-5 rounded-2xl bg-muted/40 border border-border/50 relative group/card">
+              <div key={skillIdx} className="space-y-4 p-5 border border-border/50 bg-muted/20 relative group/card">
                 
                 {/* Actions */}
                 <div className="absolute top-4 right-4 flex items-center gap-1 opacity-80 group-hover/card:opacity-100 transition-opacity">
                   <Button 
                     variant="ghost" 
                     size="icon" 
-                    className="h-8 w-8 rounded-full"
+                    className="h-8 w-8"
                     onClick={() => moveItem(lang, 'skills', skillIdx, 'up')}
                     disabled={skillIdx === 0}
                   >
@@ -957,7 +956,7 @@ function ResumeFormSection({
                   <Button 
                     variant="ghost" 
                     size="icon" 
-                    className="h-8 w-8 rounded-full"
+                    className="h-8 w-8"
                     onClick={() => moveItem(lang, 'skills', skillIdx, 'down')}
                     disabled={skillIdx === data.skills.length - 1}
                   >
@@ -966,7 +965,7 @@ function ResumeFormSection({
                   <Button 
                     variant="ghost" 
                     size="icon" 
-                    className="h-8 w-8 text-destructive hover:text-destructive hover:bg-destructive/10 rounded-full"
+                    className="h-8 w-8 text-destructive hover:text-destructive hover:bg-destructive/10"
                     onClick={() => removeSkillGroup(skillIdx)}
                   >
                     <Trash2 className="h-4 w-4" />
@@ -1018,14 +1017,14 @@ function ResumeFormSection({
             <p className="text-muted-foreground text-sm text-center py-6">Nenhum idioma adicionado.</p>
           ) : (
             data.languages.map((item, langIdx) => (
-              <div key={langIdx} className="space-y-4 p-5 rounded-2xl bg-muted/40 border border-border/50 relative group/card">
+              <div key={langIdx} className="space-y-4 p-5 border border-border/50 bg-muted/20 relative group/card">
                 
                 {/* Actions */}
                 <div className="absolute top-4 right-4 flex items-center gap-1 opacity-80 group-hover/card:opacity-100 transition-opacity">
                   <Button 
                     variant="ghost" 
                     size="icon" 
-                    className="h-8 w-8 rounded-full"
+                    className="h-8 w-8"
                     onClick={() => moveItem(lang, 'languages', langIdx, 'up')}
                     disabled={langIdx === 0}
                   >
@@ -1034,7 +1033,7 @@ function ResumeFormSection({
                   <Button 
                     variant="ghost" 
                     size="icon" 
-                    className="h-8 w-8 rounded-full"
+                    className="h-8 w-8"
                     onClick={() => moveItem(lang, 'languages', langIdx, 'down')}
                     disabled={langIdx === data.languages.length - 1}
                   >
@@ -1043,7 +1042,7 @@ function ResumeFormSection({
                   <Button 
                     variant="ghost" 
                     size="icon" 
-                    className="h-8 w-8 text-destructive hover:text-destructive hover:bg-destructive/10 rounded-full"
+                    className="h-8 w-8 text-destructive hover:text-destructive hover:bg-destructive/10"
                     onClick={() => removeLanguage(langIdx)}
                   >
                     <Trash2 className="h-4 w-4" />

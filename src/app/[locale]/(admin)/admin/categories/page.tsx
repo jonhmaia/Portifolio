@@ -35,6 +35,8 @@ import { Label } from '@/components/ui/label'
 import { toast } from 'sonner'
 import { slugify } from '@/lib/utils/slugify'
 import type { Category, CategoryTranslation } from '@/lib/types/database'
+import { AdminPageHeader } from '@/components/admin/admin-page-header'
+import { BRAND_COLOR_HEX } from '@/lib/admin/status-colors'
 
 interface CategoryWithTranslations extends Category {
   translations?: {
@@ -93,7 +95,7 @@ interface FormData {
 
 const defaultFormData: FormData = {
   slug: '',
-  color_hex: '#10B981',
+  color_hex: BRAND_COLOR_HEX,
   display_order: 0,
   translations: {
     pt: { name: '', description: '' },
@@ -244,17 +246,17 @@ export default function AdminCategoriesPage() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-bold">Categorias</h1>
-          <p className="text-muted-foreground">Gerencie as categorias de artigos</p>
-        </div>
-        <Button onClick={openNewDialog}>
-          <Plus className="mr-2 h-4 w-4" />
-          Nova Categoria
-        </Button>
-      </div>
+      <AdminPageHeader
+        index="08 — Categorias"
+        title="Categorias"
+        description="Gerencie as categorias de artigos"
+        action={
+          <Button onClick={openNewDialog}>
+            <Plus className="mr-2 h-4 w-4" />
+            Nova Categoria
+          </Button>
+        }
+      />
 
       {/* Search */}
       <div className="flex items-center gap-4">
@@ -270,7 +272,7 @@ export default function AdminCategoriesPage() {
       </div>
 
       {/* Table */}
-      <div className="border rounded-lg">
+      <div className="jm-admin__table-wrap">
         <Table>
           <TableHeader>
             <TableRow>
@@ -409,7 +411,7 @@ export default function AdminCategoriesPage() {
                   <Input
                     value={formData.color_hex}
                     onChange={(e) => setFormData((prev) => ({ ...prev, color_hex: e.target.value }))}
-                    placeholder="#10B981"
+                    placeholder={BRAND_COLOR_HEX}
                     className="flex-1"
                   />
                 </div>

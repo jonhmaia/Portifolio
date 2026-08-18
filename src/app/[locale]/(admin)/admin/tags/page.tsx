@@ -34,6 +34,8 @@ import { Label } from '@/components/ui/label'
 import { toast } from 'sonner'
 import { slugify } from '@/lib/utils/slugify'
 import type { Tag, TagTranslation } from '@/lib/types/database'
+import { AdminPageHeader } from '@/components/admin/admin-page-header'
+import { BRAND_COLOR_HEX } from '@/lib/admin/status-colors'
 
 interface TagWithTranslations extends Tag {
   translations?: {
@@ -90,7 +92,7 @@ interface FormData {
 
 const defaultFormData: FormData = {
   slug: '',
-  color_hex: '#8B5CF6',
+  color_hex: BRAND_COLOR_HEX,
   translations: {
     pt: { name: '' },
     en: { name: '' },
@@ -213,17 +215,17 @@ export default function AdminTagsPage() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-bold">Tags</h1>
-          <p className="text-muted-foreground">Gerencie as tags para projetos e artigos</p>
-        </div>
-        <Button onClick={openNewDialog}>
-          <Plus className="mr-2 h-4 w-4" />
-          Nova Tag
-        </Button>
-      </div>
+      <AdminPageHeader
+        index="07 — Tags"
+        title="Tags"
+        description="Gerencie as tags para projetos e artigos"
+        action={
+          <Button onClick={openNewDialog}>
+            <Plus className="mr-2 h-4 w-4" />
+            Nova Tag
+          </Button>
+        }
+      />
 
       {/* Search */}
       <div className="flex items-center gap-4">
@@ -239,7 +241,7 @@ export default function AdminTagsPage() {
       </div>
 
       {/* Table */}
-      <div className="border rounded-lg">
+      <div className="jm-admin__table-wrap">
         <Table>
           <TableHeader>
             <TableRow>
@@ -371,7 +373,7 @@ export default function AdminTagsPage() {
                   <Input
                     value={formData.color_hex}
                     onChange={(e) => setFormData((prev) => ({ ...prev, color_hex: e.target.value }))}
-                    placeholder="#8B5CF6"
+                    placeholder={BRAND_COLOR_HEX}
                     className="flex-1"
                   />
                 </div>

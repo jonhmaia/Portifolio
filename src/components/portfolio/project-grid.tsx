@@ -103,27 +103,12 @@ export function ProjectGrid({ projects, locale = 'pt-BR' }: ProjectGridProps) {
 
       const onScroll = () => updateMetrics()
       const onResize = () => updateMetrics()
-      const onWheel = (event: WheelEvent) => {
-        if (event.ctrlKey) return
-        const mostlyVertical = Math.abs(event.deltaY) > Math.abs(event.deltaX)
-        if (!mostlyVertical) return
-
-        const maxScroll = track.scrollWidth - track.clientWidth
-        const atStart = track.scrollLeft <= 0 && event.deltaY < 0
-        const atEnd = track.scrollLeft >= maxScroll - 1 && event.deltaY > 0
-        if (maxScroll <= 0 || atStart || atEnd) return
-
-        event.preventDefault()
-        track.scrollLeft += event.deltaY
-      }
 
       track.addEventListener('scroll', onScroll, { passive: true })
-      track.addEventListener('wheel', onWheel, { passive: false })
       window.addEventListener('resize', onResize)
 
       return () => {
         track.removeEventListener('scroll', onScroll)
-        track.removeEventListener('wheel', onWheel)
         window.removeEventListener('resize', onResize)
       }
     },

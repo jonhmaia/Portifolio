@@ -2,6 +2,7 @@ import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { ProjectForm } from '@/components/admin/project-form'
+import { AdminPageHeader } from '@/components/admin/admin-page-header'
 import type { Project, ProjectTranslation, ProjectImage } from '@/lib/types/database'
 
 export const metadata: Metadata = {
@@ -96,10 +97,11 @@ export default async function EditProjectPage({ params }: EditProjectPageProps) 
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold">Editar Projeto</h1>
-        <p className="text-muted-foreground">Atualize as informações do projeto em ambos os idiomas</p>
-      </div>
+      <AdminPageHeader
+        index="03 — Projetos"
+        title="Editar Projeto"
+        description="Atualize as informações do projeto em ambos os idiomas"
+      />
 
       <ProjectForm
         project={project}

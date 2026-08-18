@@ -33,19 +33,14 @@ import {
 import { Skeleton } from '@/components/ui/skeleton'
 import { toast } from 'sonner'
 import type { Project } from '@/lib/types/database'
+import { AdminPageHeader } from '@/components/admin/admin-page-header'
+import { getProjectStatusClass } from '@/lib/admin/status-colors'
 
 const statusLabels: Record<string, string> = {
   dev: 'Em Desenvolvimento',
   concluido: 'Concluído',
   pausado: 'Pausado',
   arquivado: 'Arquivado',
-}
-
-const statusColors: Record<string, string> = {
-  dev: 'bg-blue-500/10 text-blue-600 border-blue-500/20',
-  concluido: 'bg-green-500/10 text-green-600 border-green-500/20',
-  pausado: 'bg-yellow-500/10 text-yellow-600 border-yellow-500/20',
-  arquivado: 'bg-gray-500/10 text-gray-600 border-gray-500/20',
 }
 
 async function fetchProjects() {
@@ -104,19 +99,19 @@ export default function AdminProjectsPage() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-bold">Projetos</h1>
-          <p className="text-muted-foreground">Gerencie seus projetos do portfólio</p>
-        </div>
-        <Button asChild>
-          <Link href="/admin/projects/new">
-            <Plus className="mr-2 h-4 w-4" />
-            Novo Projeto
-          </Link>
-        </Button>
-      </div>
+      <AdminPageHeader
+        index="03 — Projetos"
+        title="Projetos"
+        description="Gerencie seus projetos do portfólio"
+        action={
+          <Button asChild>
+            <Link href="/admin/projects/new">
+              <Plus className="mr-2 h-4 w-4" />
+              Novo Projeto
+            </Link>
+          </Button>
+        }
+      />
 
       {/* Search */}
       <div className="flex items-center gap-4">
@@ -132,7 +127,7 @@ export default function AdminProjectsPage() {
       </div>
 
       {/* Table */}
-      <div className="border rounded-lg">
+      <div className="jm-admin__table-wrap">
         <Table>
           <TableHeader>
             <TableRow>
@@ -178,9 +173,9 @@ export default function AdminProjectsPage() {
                     </div>
                   </TableCell>
                   <TableCell>
-                    <Badge variant="outline" className={statusColors[project.status]}>
+                    <span className={getProjectStatusClass(project.status)}>
                       {statusLabels[project.status]}
-                    </Badge>
+                    </span>
                   </TableCell>
                   <TableCell>
                     {project.is_featured ? (

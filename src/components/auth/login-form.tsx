@@ -80,7 +80,7 @@ export function LoginForm() {
   }
 
   return (
-    <Card className="border-border/50 shadow-lg">
+    <Card className="jm-admin-login__card">
       <CardHeader className="space-y-1 pb-4" />
       <form onSubmit={handleSubmit(onSubmit)}>
         <CardContent className="space-y-4">

@@ -98,7 +98,7 @@ function HeaderContent() {
                   <LanguageSelector
                     showLabel
                     modal={false}
-                    className="jm-menu-panel__lang hover:bg-black/10"
+                    variant="panel"
                     contentClassName="z-[80]"
                   />
                   <SheetClose asChild>

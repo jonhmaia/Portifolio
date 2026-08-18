@@ -35,7 +35,7 @@
   scroll-padding-inline: var(--gallery-inline);
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
-  touch-action: pan-x;
+  touch-action: pan-y pan-x;
   cursor: grab;
 }
 

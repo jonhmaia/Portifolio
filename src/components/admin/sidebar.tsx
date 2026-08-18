@@ -23,57 +23,51 @@ function SidebarContent() {
   const t = useTranslations('admin.sidebar')
 
   const navigation = [
-    { name: t('home'), href: '/admin/home', icon: Home },
-    { name: t('dashboard'), href: '/admin', icon: LayoutDashboard },
-    { name: t('projects'), href: '/admin/projects', icon: FolderKanban },
-    { name: t('articles'), href: '/admin/articles', icon: FileText },
-    { name: t('resume'), href: '/admin/curriculo', icon: FileText },
-    { name: t('technologies'), href: '/admin/technologies', icon: Layers },
-    { name: t('tags'), href: '/admin/tags', icon: Tag },
-    { name: t('categories'), href: '/admin/categories', icon: Layers },
+    { name: t('home'), href: '/admin/home', icon: Home, index: '01' },
+    { name: t('dashboard'), href: '/admin', icon: LayoutDashboard, index: '02' },
+    { name: t('projects'), href: '/admin/projects', icon: FolderKanban, index: '03' },
+    { name: t('articles'), href: '/admin/articles', icon: FileText, index: '04' },
+    { name: t('resume'), href: '/admin/curriculo', icon: FileText, index: '05' },
+    { name: t('technologies'), href: '/admin/technologies', icon: Layers, index: '06' },
+    { name: t('tags'), href: '/admin/tags', icon: Tag, index: '07' },
+    { name: t('categories'), href: '/admin/categories', icon: Layers, index: '08' },
   ]
 
   return (
-    <div className="flex flex-col h-full">
-      {/* Logo */}
-      <div className="p-6 border-b border-border/50">
+    <div className="flex flex-col h-full jm-admin__sidebar">
+      <div className="jm-admin__sidebar-brand">
         <Link href="/admin" className="flex flex-col items-start gap-2" aria-label="Maia Admin">
           <BrandLogo className="h-7 w-auto" />
-          <p className="text-xs text-muted-foreground">{t('controlPanel')}</p>
+          <p className="jm-admin__sidebar-label">{t('controlPanel')}</p>
         </Link>
       </div>
 
-      {/* Navigation */}
-      <nav className="flex-1 p-4 space-y-1">
+      <nav className="jm-admin__nav">
         {navigation.map((item) => {
-          const isActive = pathname === item.href || 
+          const isActive =
+            pathname === item.href ||
             (item.href !== '/admin' && pathname.startsWith(item.href))
-          
+
           return (
             <Link
               key={item.name}
               href={item.href as any}
               className={cn(
-                'flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors',
-                isActive
-                  ? 'bg-primary text-primary-foreground'
-                  : 'text-muted-foreground hover:text-foreground hover:bg-accent'
+                'jm-admin__nav-link',
+                isActive && 'jm-admin__nav-link--active'
               )}
             >
-              <item.icon className="h-5 w-5" />
+              <item.icon />
               {item.name}
+              <span className="jm-admin__nav-index">{item.index}</span>
             </Link>
           )
         })}
       </nav>
 
-      {/* Back to site */}
-      <div className="p-4 border-t border-border/50">
-        <Link
-          href="/"
-          className="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
-        >
-          <ChevronLeft className="h-5 w-5" />
+      <div className="jm-admin__sidebar-footer">
+        <Link href="/" className="jm-admin__nav-link">
+          <ChevronLeft />
           {t('backToSite')}
         </Link>
       </div>
@@ -87,21 +81,19 @@ export function AdminSidebar() {
 
   return (
     <>
-      {/* Mobile Sidebar Trigger */}
       <Sheet open={open} onOpenChange={setOpen}>
         <SheetTrigger asChild className="lg:hidden fixed top-4 left-4 z-50">
-          <Button variant="outline" size="icon">
+          <Button variant="outline" size="icon" className="jm-admin__menu-trigger">
             <Menu className="h-5 w-5" />
           </Button>
         </SheetTrigger>
-        <SheetContent side="left" className="w-64 p-0">
+        <SheetContent side="left" className="w-64 p-0 jm-admin">
           <SheetTitle className="sr-only">{t('navigationMenu')}</SheetTitle>
           <SidebarContent />
         </SheetContent>
       </Sheet>
 
-      {/* Desktop Sidebar */}
-      <aside className="hidden lg:flex lg:flex-col lg:fixed lg:inset-y-0 lg:w-64 bg-card border-r border-border/50">
+      <aside className="hidden lg:flex lg:flex-col lg:fixed lg:inset-y-0 lg:w-64 jm-admin__sidebar">
         <SidebarContent />
       </aside>
     </>

@@ -10,7 +10,6 @@ type ScrollConditions = {
 export function setupHomeScroll(root: HTMLElement, conditions: ScrollConditions) {
   if (conditions.reduceMotion) return
 
-  const isMobile = Boolean(conditions.isMobile)
   const headers = root.querySelectorAll<HTMLElement>('[data-scroll="feed-header"]')
   const aboutHeading = root.querySelector<HTMLElement>('[data-scroll="about-heading"]')
   const bio = root.querySelector<HTMLElement>('[data-scroll="bio"]')
@@ -56,26 +55,16 @@ export function setupHomeScroll(root: HTMLElement, conditions: ScrollConditions)
   }
 
   if (bio) {
-    bio.querySelectorAll('p').forEach((paragraph) => {
-      SplitText.create(paragraph, {
-        type: 'words',
-        aria: 'auto',
-        autoSplit: true,
-        onSplit(self) {
-          gsap.set(self.words, { opacity: 0.16 })
-          return gsap.to(self.words, {
-            opacity: 1,
-            stagger: 0.08,
-            ease: 'none',
-            scrollTrigger: {
-              trigger: paragraph,
-              start: 'top 78%',
-              end: 'bottom 45%',
-              scrub: 0.6,
-            },
-          })
-        },
-      })
+    gsap.from(bio, {
+      autoAlpha: 0,
+      y: 18,
+      duration: 0.85,
+      ease: 'power2.out',
+      scrollTrigger: {
+        trigger: bio,
+        start: 'top 85%',
+        toggleActions: 'play none none reverse',
+      },
     })
   }
 
@@ -83,23 +72,32 @@ export function setupHomeScroll(root: HTMLElement, conditions: ScrollConditions)
     const image = photoWrap.querySelector('img')
     if (image) {
       gsap.set(image, { scale: 1.15, transformOrigin: '50% 18%' })
-      const timeline = gsap.timeline({
+
+      gsap.from(image, {
+        autoAlpha: 0,
+        duration: 0.9,
+        ease: 'power2.out',
         scrollTrigger: {
           trigger: photoWrap,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: true,
+          start: 'top 85%',
+          toggleActions: 'play none none reverse',
         },
       })
-      timeline.fromTo(image, { yPercent: -12 }, { yPercent: 12, ease: 'none' }, 0)
-      if (!isMobile) {
-        timeline.fromTo(
-          image,
-          { filter: 'blur(16px)' },
-          { filter: 'blur(0px)', ease: 'none', duration: 0.3 },
-          0,
-        )
-      }
+
+      gsap.fromTo(
+        image,
+        { yPercent: -12 },
+        {
+          yPercent: 12,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: photoWrap,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: true,
+          },
+        },
+      )
     }
   }
 

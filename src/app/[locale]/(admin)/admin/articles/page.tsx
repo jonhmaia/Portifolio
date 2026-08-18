@@ -6,7 +6,6 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { Plus, Pencil, Trash2, Eye, Search, MoreHorizontal } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Badge } from '@/components/ui/badge'
 import {
   Table,
   TableBody,
@@ -33,15 +32,12 @@ import {
 import { Skeleton } from '@/components/ui/skeleton'
 import { toast } from 'sonner'
 import type { Article } from '@/lib/types/database'
+import { AdminPageHeader } from '@/components/admin/admin-page-header'
+import { getArticleStatusClass } from '@/lib/admin/status-colors'
 
 const statusLabels: Record<string, string> = {
   draft: 'Rascunho',
   published: 'Publicado',
-}
-
-const statusColors: Record<string, string> = {
-  draft: 'bg-yellow-500/10 text-yellow-600 border-yellow-500/20',
-  published: 'bg-green-500/10 text-green-600 border-green-500/20',
 }
 
 async function fetchArticles() {
@@ -100,19 +96,19 @@ export default function AdminArticlesPage() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-bold">Artigos</h1>
-          <p className="text-muted-foreground">Gerencie os artigos do seu blog</p>
-        </div>
-        <Button asChild>
-          <Link href="/admin/articles/new">
-            <Plus className="mr-2 h-4 w-4" />
-            Novo Artigo
-          </Link>
-        </Button>
-      </div>
+      <AdminPageHeader
+        index="04 — Artigos"
+        title="Artigos"
+        description="Gerencie os artigos do seu blog"
+        action={
+          <Button asChild>
+            <Link href="/admin/articles/new">
+              <Plus className="mr-2 h-4 w-4" />
+              Novo Artigo
+            </Link>
+          </Button>
+        }
+      />
 
       {/* Search */}
       <div className="flex items-center gap-4">
@@ -128,7 +124,7 @@ export default function AdminArticlesPage() {
       </div>
 
       {/* Table */}
-      <div className="border rounded-lg">
+      <div className="jm-admin__table-wrap">
         <Table>
           <TableHeader>
             <TableRow>
@@ -174,9 +170,9 @@ export default function AdminArticlesPage() {
                     </div>
                   </TableCell>
                   <TableCell>
-                    <Badge variant="outline" className={statusColors[article.status]}>
+                    <span className={getArticleStatusClass(article.status)}>
                       {statusLabels[article.status]}
-                    </Badge>
+                    </span>
                   </TableCell>
                   <TableCell>
                     {article.reading_time_minutes ? `${article.reading_time_minutes} min` : '-'}

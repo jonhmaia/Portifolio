@@ -1,6 +1,7 @@
 import { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
 import { ArticleForm } from '@/components/admin/article-form'
+import { AdminPageHeader } from '@/components/admin/admin-page-header'
 
 export const metadata: Metadata = {
   title: 'Novo Artigo | Admin',
@@ -18,10 +19,11 @@ export default async function NewArticlePage() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold">Novo Artigo</h1>
-        <p className="text-muted-foreground">Escreva um novo artigo para o blog</p>
-      </div>
+      <AdminPageHeader
+        index="04 — Artigos"
+        title="Novo Artigo"
+        description="Escreva um novo artigo para o blog"
+      />
 
       <ArticleForm
         categories={categories || []}

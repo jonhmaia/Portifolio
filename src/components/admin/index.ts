@@ -1,5 +1,6 @@
 export { AdminSidebar } from './sidebar'
 export { AdminHeader } from './header'
+export { AdminPageHeader } from './admin-page-header'
 export { ProjectForm } from './project-form'
 export { ArticleForm } from './article-form'
 export { ImageUploader } from './image-uploader'
