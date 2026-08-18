@@ -28,7 +28,7 @@ export async function EmptyFeed({ filter }: EmptyFeedProps) {
         </h2>
 
         <p className={styles.emptyCopy}>
-          {isFiltered ? t('empty.filtered', { filter }) : t('empty.default')}
+          {filter ? t('empty.filtered', { filter }) : t('empty.default')}
         </p>
 
         {!isFiltered && (
