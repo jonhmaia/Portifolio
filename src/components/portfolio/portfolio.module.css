@@ -616,7 +616,7 @@
 /* Project detail */
 .caseHeader {
   padding-top: clamp(7.5rem, 12vw, 10rem);
-  padding-bottom: clamp(3rem, 6vw, 6rem);
+  padding-bottom: clamp(1.5rem, 3vw, 2.75rem);
 }
 
 .backLink {
@@ -649,30 +649,76 @@
 }
 
 .detailHero {
-  padding-bottom: clamp(5rem, 9vw, 9rem);
+  padding-bottom: clamp(3.25rem, 6vw, 6rem);
 }
 
 .detailTitle {
-  max-width: 92rem;
-  margin-top: clamp(3rem, 6vw, 5.5rem);
+  max-width: 54rem;
+  margin-top: clamp(1.6rem, 3.2vw, 2.8rem);
   color: var(--portfolio-paper);
-  font-size: clamp(3.7rem, 11vw, 11.5rem);
-  font-weight: 900;
-  letter-spacing: -0.09em;
-  line-height: 0.75;
-  overflow-wrap: anywhere;
+  font-size: clamp(2.15rem, 4.4vw, 4.35rem);
+  font-weight: 850;
+  letter-spacing: -0.055em;
+  line-height: 0.94;
+  overflow-wrap: break-word;
+  text-wrap: balance;
   text-transform: uppercase;
 }
 
 .detailIntro {
+  position: relative;
+  isolation: isolate;
   display: grid;
-  grid-template-columns: minmax(12rem, 0.36fr) minmax(0, 0.64fr);
-  gap: clamp(2rem, 6vw, 8rem);
-  align-items: start;
-  margin-top: clamp(4rem, 7vw, 7rem);
+  grid-template-columns: minmax(0, 1fr);
+  align-items: stretch;
+  margin-top: clamp(2.4rem, 4.5vw, 4.25rem);
+}
+
+.detailIntroHasCover {
+  overflow: hidden;
+  min-height: clamp(22rem, 42vw, 34rem);
+  border: 1px solid var(--portfolio-line);
+}
+
+.detailIntroHasCover::after {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(9, 10, 9, 0.12) 0%, rgba(9, 10, 9, 0.42) 42%, rgba(9, 10, 9, 0.88) 100%),
+    linear-gradient(to top, rgba(9, 10, 9, 0.35), transparent 42%);
+  content: "";
+  pointer-events: none;
+}
+
+.detailCover {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  overflow: hidden;
+  background: #171914;
+}
+
+.detailCoverImage {
+  object-fit: cover;
+  object-position: center;
+}
+
+.detailIntroCopy {
+  position: relative;
+  z-index: 2;
+  max-width: 46rem;
+  justify-self: end;
+  padding: clamp(1.5rem, 3.2vw, 3rem);
+}
+
+.detailIntroHasCover .detailIntroCopy {
+  align-self: end;
 }
 
 .detailIntroLabel {
+  display: block;
+  margin-bottom: 1rem;
   color: var(--portfolio-acid);
   font-family: var(--portfolio-mono);
   font-size: 0.65rem;
@@ -744,59 +790,6 @@
   background: var(--portfolio-secondary);
   color: var(--portfolio-ink);
   transform: translateY(-0.2rem);
-}
-
-.heroMedia {
-  position: relative;
-  overflow: hidden;
-  width: calc(100% - clamp(1rem, 3vw, 3rem) * 2);
-  max-width: 106rem;
-  margin-inline: auto;
-  aspect-ratio: 16 / 9;
-  min-height: 24rem;
-  background: #171914;
-}
-
-.heroMediaImage {
-  object-fit: cover;
-}
-
-.heroMediaFallback {
-  display: grid;
-  position: absolute;
-  inset: 0;
-  place-items: center;
-  background:
-    radial-gradient(circle at 72% 18%, rgba(77, 163, 255, 0.22), transparent 31%),
-    linear-gradient(145deg, #21241b, #0d0e0c);
-  color: rgba(239, 238, 231, 0.12);
-  font-size: clamp(10rem, 31vw, 32rem);
-  font-weight: 900;
-  line-height: 0.7;
-}
-
-.heroMedia::after {
-  position: absolute;
-  inset: 0;
-  border: 1px solid rgba(239, 238, 231, 0.22);
-  box-shadow: inset 0 0 0 1rem rgba(9, 10, 9, 0.08);
-  content: "";
-  pointer-events: none;
-}
-
-.heroMediaCaption {
-  position: absolute;
-  z-index: 2;
-  right: 1.1rem;
-  bottom: 1rem;
-  padding: 0.5rem 0.7rem;
-  background: rgba(9, 10, 9, 0.78);
-  color: var(--portfolio-paper);
-  font-family: var(--portfolio-mono);
-  font-size: 0.55rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  backdrop-filter: blur(0.8rem);
 }
 
 .factsBand {
@@ -914,6 +907,8 @@
 }
 
 .tabList {
+  position: relative !important;
+  isolation: isolate;
   display: grid !important;
   grid-auto-columns: minmax(9rem, 1fr);
   grid-auto-flow: column;
@@ -921,12 +916,27 @@
   height: auto !important;
   margin-bottom: clamp(4rem, 7vw, 7rem);
   padding: 0 !important;
+  overflow: hidden;
   border: 1px solid rgba(9, 10, 9, 0.23);
   border-radius: 0 !important;
   background: transparent !important;
 }
 
+.tabIndicator {
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  background: var(--portfolio-acid);
+  pointer-events: none;
+  will-change: transform;
+}
+
 .tabTrigger {
+  position: relative;
+  z-index: 1;
   min-height: 4.25rem !important;
   border: 0 !important;
   border-right: 1px solid rgba(9, 10, 9, 0.23) !important;
@@ -935,6 +945,7 @@
   color: rgba(9, 10, 9, 0.58) !important;
   font-size: 0.6rem !important;
   box-shadow: none !important;
+  transition: color 180ms ease !important;
 }
 
 .tabTrigger:last-child {
@@ -942,7 +953,7 @@
 }
 
 .tabTrigger[data-state="active"] {
-  background: var(--portfolio-acid) !important;
+  background: transparent !important;
   color: var(--portfolio-ink) !important;
 }
 
@@ -953,6 +964,26 @@
 
 .tabContent {
   margin-top: 0 !important;
+}
+
+.tabContent[data-state="inactive"] {
+  display: none;
+}
+
+.tabContent[data-state="active"] {
+  animation: caseTabIn 0.52s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+@keyframes caseTabIn {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 0.5rem, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
 }
 
 .editorialSection {
@@ -1379,13 +1410,25 @@
   }
 
   .archiveHeadingRow,
-  .detailIntro,
   .editorialSection {
     gap: 2rem;
   }
 
   .sectionMarker {
     position: static;
+  }
+
+  .detailIntroHasCover {
+    min-height: 26rem;
+  }
+
+  .detailIntroHasCover::after {
+    background: linear-gradient(to top, rgba(9, 10, 9, 0.92) 0%, rgba(9, 10, 9, 0.4) 46%, rgba(9, 10, 9, 0.16) 100%);
+  }
+
+  .detailIntroCopy {
+    max-width: none;
+    justify-self: stretch;
   }
 
   .factsGrid {
@@ -1410,7 +1453,7 @@
     border-bottom: 1px solid rgba(9, 10, 9, 0.23) !important;
   }
 
-  .tabTrigger:nth-child(even) {
+  .tabTrigger:nth-of-type(even) {
     border-right: 0 !important;
   }
 
@@ -1479,13 +1522,10 @@
   }
 
   .detailTitle {
-    font-size: clamp(3.25rem, 18vw, 6rem);
-  }
-
-  .heroMedia {
-    width: calc(100% - 2rem);
-    min-height: 20rem;
-    aspect-ratio: 0.88 / 1;
+    max-width: none;
+    font-size: clamp(1.9rem, 8.4vw, 2.7rem);
+    letter-spacing: -0.045em;
+    line-height: 1;
   }
 
   .factsGrid {
@@ -1542,5 +1582,13 @@
   .primaryAction:hover,
   .secondaryAction:hover {
     transform: none;
+  }
+
+  .tabTrigger {
+    transition-duration: 0.01ms !important;
+  }
+
+  .tabContent[data-state="active"] {
+    animation: none;
   }
 }

@@ -13,7 +13,8 @@
     "toggleTheme": "Toggle theme"
   },
   "a11y": {
-    "navigationMenu": "Navigation menu"
+    "navigationMenu": "Navigation menu",
+    "closeMenu": "Close menu"
   },
   "footer": {
     "description": "Full Stack developer passionate about building modern, scalable web solutions. Specialized in React, Node.js and Python.",
@@ -196,6 +197,27 @@
         "name": "English",
         "level": "Intermediate"
       }
+    },
+    "document": {
+      "documentLabel": "Resume / 2026",
+      "profileLabel": "Profile",
+      "portraitMark": "CV / 2026",
+      "currentFocus": "Available for new projects",
+      "summaryEyebrow": "Positioning",
+      "summaryHeadline": "Code, product and systems that scale.",
+      "experienceEyebrow": "Track",
+      "projectsEyebrow": "Selection",
+      "educationEyebrow": "Archive",
+      "skillsEyebrow": "Toolkit",
+      "languagesEyebrow": "Record",
+      "contact": "Contact",
+      "ctaEyebrow": "Next chapter",
+      "ctaHeadline": "Let’s build something that deserves to exist.",
+      "ctaBody": "Digital products, AI and automation that turn complexity into scale.",
+      "email": "Email",
+      "phone": "Phone",
+      "location": "Location",
+      "practiceLine": "Software / AI / Automation"
     }
   },
   "contact": {
@@ -300,10 +322,22 @@
   "blog": {
     "title": "Blog",
     "subtitle": "Articles about web development, programming, technology and practical tips for developers.",
+    "topics": {
+      "practice": "CODE / AI SYSTEMS / CASES",
+      "life": "TIPS / LIFESTYLE",
+      "items": ["CODE", "AI SYSTEMS", "CASES", "TIPS", "LIFESTYLE"]
+    },
     "empty": {
-      "title": "No articles found",
-      "filtered": "Try removing the filters to see more articles.",
-      "default": "Articles will be published here soon."
+      "index": "In composition / Vol. 01",
+      "indexFiltered": "No match / Cut",
+      "title": "An open notebook",
+      "titleFiltered": "Nothing in this cut",
+      "default": "The first notes — code, AI systems, cases, tips and lifestyle — are still being set. While the feed is off-press, the project archive is already live.",
+      "filtered": "No notes match the “{filter}” cut. Clear the filter to return to the full notebook, or browse the projects.",
+      "upcoming": "Upcoming subjects",
+      "projects": "View projects",
+      "contact": "Get in touch",
+      "clear": "View all notes"
     }
   },
   "validation": {

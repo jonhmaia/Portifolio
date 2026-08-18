@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { revalidateTag } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
+import { revalidateProjectContent } from '@/lib/cache/projects'
 import type { ProjectQueryResponse, ProjectTranslation, Technology, Tag } from '@/lib/types/database'
 
 // GET /api/projects - List all projects
@@ -211,7 +211,7 @@ export async function POST(request: NextRequest) {
       await supabase.from('project_images').insert(projectImages)
     }
 
-    revalidateTag('projects', 'default')
+    revalidateProjectContent((project as { slug?: string } | null)?.slug)
 
     return NextResponse.json({ data: project }, { status: 201 })
   } catch (error) {

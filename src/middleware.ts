@@ -43,6 +43,13 @@ function getSupabaseEnv() {
 
 export async function middleware(request: NextRequest) {
   const response = intlMiddleware(request)
+  const locale = getLocaleFromPathname(request.nextUrl.pathname)
+  const pathname = stripLocaleFromPathname(request.nextUrl.pathname)
+  const requiresAuthSession = pathname.startsWith('/admin') || pathname === '/auth/login'
+
+  if (!requiresAuthSession) {
+    return response
+  }
 
   const env = getSupabaseEnv()
   if (!env) {
@@ -78,9 +85,6 @@ export async function middleware(request: NextRequest) {
   const {
     data: { user },
   } = await supabase.auth.getUser()
-
-  const locale = getLocaleFromPathname(request.nextUrl.pathname)
-  const pathname = stripLocaleFromPathname(request.nextUrl.pathname)
 
   // Protected admin routes
   if (pathname.startsWith('/admin')) {

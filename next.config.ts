@@ -11,6 +11,7 @@ const nextConfig: NextConfig = {
     root: projectRoot,
   },
   images: {
+    minimumCacheTTL: 60 * 60 * 24 * 31,
     remotePatterns: [
       {
         protocol: 'https',

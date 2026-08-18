@@ -22,7 +22,8 @@ import { MarkdownRenderer } from '@/components/blog/markdown-renderer'
 import { ViewCounter } from '@/components/blog/view-counter'
 import { Carousel } from '@/components/ui/simple-carousel'
 import { MermaidRenderer } from '@/components/ui/mermaid-renderer'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Tabs, TabsContent, TabsTrigger } from '@/components/ui/tabs'
+import { CaseStudyTabList } from '@/components/portfolio/case-study-tab-list'
 import { getCachedProjectBySlug, getCachedSitemapProjects } from '@/lib/supabase/cached'
 import { routing } from '@/i18n/routing'
 import styles from './portfolio.module.css'
@@ -204,9 +205,21 @@ export async function ProjectCaseStudy({ params }: ProjectPageProps) {
         <div className={styles.shell}>
           <h1 className={styles.detailTitle}>{project.title}</h1>
 
-          <div className={styles.detailIntro}>
-            <span className={styles.detailIntroLabel}>{labels.overview} ↘</span>
-            <div>
+          <div className={`${styles.detailIntro} ${project.cover_image_url ? styles.detailIntroHasCover : ''}`}>
+            {project.cover_image_url && (
+              <div className={styles.detailCover}>
+                <Image
+                  src={project.cover_image_url}
+                  alt={project.title}
+                  fill
+                  priority
+                  sizes="(max-width: 1728px) 94vw, 1632px"
+                  className={styles.detailCoverImage}
+                />
+              </div>
+            )}
+            <div className={styles.detailIntroCopy}>
+              <span className={styles.detailIntroLabel}>{labels.overview} ↘</span>
               {(project.short_description || project.subtitle) && (
                 <p className={styles.detailSummary}>
                   {project.short_description || project.subtitle}
@@ -246,24 +259,6 @@ export async function ProjectCaseStudy({ params }: ProjectPageProps) {
           </div>
         </div>
       </section>
-
-      <div className={styles.heroMedia}>
-        {project.cover_image_url ? (
-          <Image
-            src={project.cover_image_url}
-            alt={project.title}
-            fill
-            priority
-            className={styles.heroMediaImage}
-            sizes="(max-width: 1728px) 94vw, 1632px"
-          />
-        ) : (
-          <span className={styles.heroMediaFallback} aria-hidden="true">
-            {project.title.charAt(0)}
-          </span>
-        )}
-        <span className={styles.heroMediaCaption}>{project.title} / {date.getFullYear()}</span>
-      </div>
 
       <section className={styles.factsBand}>
         <div className={`${styles.shell} ${styles.factsGrid}`}>
@@ -344,7 +339,7 @@ export async function ProjectCaseStudy({ params }: ProjectPageProps) {
         <div className={styles.shell}>
           <Tabs defaultValue="details" className={styles.caseTabs}>
             {activeTabsCount > 1 && (
-              <TabsList className={styles.tabList} aria-label={labels.dossier}>
+              <CaseStudyTabList className={styles.tabList} aria-label={labels.dossier}>
                 <TabsTrigger value="details" className={styles.tabTrigger}>
                   <FileText size={15} />
                   {t('tabs.details')}
@@ -367,7 +362,7 @@ export async function ProjectCaseStudy({ params }: ProjectPageProps) {
                     {t('tabs.gallery')}
                   </TabsTrigger>
                 )}
-              </TabsList>
+              </CaseStudyTabList>
             )}
 
             <TabsContent value="details" className={styles.tabContent}>
@@ -390,7 +385,7 @@ export async function ProjectCaseStudy({ params }: ProjectPageProps) {
             </TabsContent>
 
             {hasDiagrams && (
-              <TabsContent value="diagrams" className={styles.tabContent}>
+              <TabsContent value="diagrams" forceMount className={styles.tabContent}>
                 <div className={styles.editorialSection}>
                   <div className={styles.sectionMarker}>
                     <span className={styles.sectionIndex}>Section / 02</span>
@@ -452,7 +447,7 @@ export async function ProjectCaseStudy({ params }: ProjectPageProps) {
             )}
 
             {hasGallery && (
-              <TabsContent value="gallery" className={styles.tabContent}>
+              <TabsContent value="gallery" forceMount className={styles.tabContent}>
                 <div className={styles.editorialSection}>
                   <div className={styles.sectionMarker}>
                     <span className={styles.sectionIndex}>Section / 04</span>

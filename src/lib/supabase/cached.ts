@@ -1,4 +1,5 @@
 import { unstable_cache } from 'next/cache'
+import { PROJECTS_CACHE_TAG, projectSlugCacheTag } from '@/lib/cache/projects'
 import { createPublicClient } from './public'
 
 // Cache duration: 5 minutes (300 seconds)
@@ -61,30 +62,38 @@ export const getCachedProjects = unstable_cache(
     return data || []
   },
   ['projects'],
-  { revalidate: CACHE_REVALIDATE_TIME, tags: ['projects'] }
+  { revalidate: CACHE_REVALIDATE_TIME, tags: [PROJECTS_CACHE_TAG] }
 )
 
-export const getCachedProjectBySlug = async (slug: string) => {
-  const supabase = createPublicClient()
-  const { data, error } = await supabase
-    .from('projects')
-    .select(`
-      *,
-      technologies:project_technologies(
-        technology:technologies(*)
-      ),
-      tags:project_tags(
-        tag:tags(*)
-      ),
-      images:project_images(*),
-      translations:project_translations(*)
-    `)
-    .eq('slug', slug)
-    .eq('is_active', true)
-    .single()
-  if (error) throw error
-  return data
-}
+export const getCachedProjectBySlug = (slug: string) =>
+  unstable_cache(
+    async (projectSlug: string) => {
+      const supabase = createPublicClient()
+      const { data, error } = await supabase
+        .from('projects')
+        .select(`
+          *,
+          technologies:project_technologies(
+            technology:technologies(*)
+          ),
+          tags:project_tags(
+            tag:tags(*)
+          ),
+          images:project_images(*),
+          translations:project_translations(*)
+        `)
+        .eq('slug', projectSlug)
+        .eq('is_active', true)
+        .single()
+      if (error) throw error
+      return data
+    },
+    ['project-by-slug', slug],
+    {
+      revalidate: 3600,
+      tags: [PROJECTS_CACHE_TAG, projectSlugCacheTag(slug)],
+    }
+  )(slug)
 
 type SitemapSlugRow = { slug: string; updated_at: string }
 
@@ -99,7 +108,7 @@ export const getCachedSitemapProjects = unstable_cache(
     return (data as SitemapSlugRow[] | null) || []
   },
   ['sitemap-projects'],
-  { revalidate: CACHE_REVALIDATE_TIME, tags: ['projects'] }
+  { revalidate: CACHE_REVALIDATE_TIME, tags: [PROJECTS_CACHE_TAG] }
 )
 
 /**

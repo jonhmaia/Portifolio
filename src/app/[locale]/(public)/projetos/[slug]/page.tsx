@@ -7,6 +7,9 @@ import {
 } from '@/components/portfolio/project-case-study'
 import 'highlight.js/styles/github-dark.css'
 
+export const revalidate = 3600
+export const dynamicParams = true
+
 export async function generateStaticParams() {
   return generateProjectStaticParams()
 }

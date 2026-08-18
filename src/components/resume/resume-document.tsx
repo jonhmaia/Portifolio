@@ -70,16 +70,17 @@ export interface ResumeLabels {
   languages: string
   download: string
   contact: string
-  metricExperiences: string
-  metricProjects: string
-  metricSkills: string
-  metricLanguages: string
   ctaEyebrow: string
   ctaHeadline: string
   ctaBody: string
   email: string
   phone: string
   location: string
+  portraitMark: string
+  educationEyebrow: string
+  skillsEyebrow: string
+  languagesEyebrow: string
+  practiceLine: string
 }
 
 interface ResumeDocumentProps {
@@ -140,13 +141,6 @@ export function ResumeDocument({
 }: ResumeDocumentProps) {
   const [firstName, ...remainingNames] = name.trim().split(/\s+/)
   const secondLine = remainingNames.join(' ') || firstName
-  const skillCount = new Set(skills.flatMap((group) => group.tags)).size
-  const metrics = [
-    { value: experiences.length, label: labels.metricExperiences },
-    { value: projects.length, label: labels.metricProjects },
-    { value: skillCount, label: labels.metricSkills },
-    { value: languages.length, label: labels.metricLanguages },
-  ]
 
   return (
     <article className={styles.resumeRoot}>
@@ -193,7 +187,7 @@ export function ResumeDocument({
                 />
               </div>
               <div className={styles.portraitCaption}>
-                <span>JM / 001</span>
+                <span>{labels.portraitMark}</span>
                 <span>{labels.profileLabel}</span>
               </div>
             </div>
@@ -243,15 +237,6 @@ export function ResumeDocument({
             <p className={styles.summaryHeadline}>{labels.summaryHeadline}</p>
             <div className={styles.summaryContent}>{summary}</div>
           </div>
-
-          <dl className={styles.metricsGrid}>
-            {metrics.map((metric) => (
-              <div className={styles.metric} key={metric.label}>
-                <dd>{numberWithLeadingZero(metric.value)}</dd>
-                <dt>{metric.label}</dt>
-              </div>
-            ))}
-          </dl>
         </div>
       </section>
 
@@ -327,7 +312,7 @@ export function ResumeDocument({
         <div className={styles.frame}>
           <div className={styles.detailsGrid}>
             <section aria-labelledby="resume-education">
-              <SectionHeading index="04A" eyebrow="Archive" title={labels.education} id="resume-education" />
+              <SectionHeading index="04A" eyebrow={labels.educationEyebrow} title={labels.education} id="resume-education" />
               <div className={styles.educationList}>
                 {education.map((item, index) => (
                   <article className={styles.educationItem} key={`${item.institution}-${item.degree}-${index}`}>
@@ -351,7 +336,7 @@ export function ResumeDocument({
             </section>
 
             <section aria-labelledby="resume-skills">
-              <SectionHeading index="04B" eyebrow="Toolkit" title={labels.skills} id="resume-skills" />
+              <SectionHeading index="04B" eyebrow={labels.skillsEyebrow} title={labels.skills} id="resume-skills" />
               <div className={styles.skillList}>
                 {skills.map((group, index) => (
                   <article className={styles.skillGroup} key={`${group.title}-${index}`}>
@@ -370,7 +355,7 @@ export function ResumeDocument({
 
           <section className={styles.languagesSection} aria-labelledby="resume-languages">
             <div className={styles.languagesHeading}>
-              <span>05 / Languages</span>
+              <span>05 / {labels.languagesEyebrow}</span>
               <h2 id="resume-languages">{labels.languages}</h2>
             </div>
             <div className={styles.languagesGrid}>
@@ -419,8 +404,8 @@ export function ResumeDocument({
             </div>
           </div>
           <div className={styles.ctaFooter}>
-            <span>João Marcos © {new Date().getFullYear()}</span>
-            <span>Software / AI / Automation</span>
+            <span>{name} © {new Date().getFullYear()}</span>
+            <span>{labels.practiceLine}</span>
           </div>
         </div>
       </section>

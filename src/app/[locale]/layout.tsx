@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import { Comfortaa, JetBrains_Mono, Montserrat, Orbitron } from 'next/font/google'
-import { headers } from 'next/headers'
 import '../globals.css'
 import { NextIntlClientProvider } from 'next-intl'
 import { getMessages, setRequestLocale } from 'next-intl/server'
@@ -38,10 +37,10 @@ export async function generateMetadata({
 }: {
   params: Promise<{ locale: string }>
 }): Promise<Metadata> {
-  const [{ locale }, requestHeaders] = await Promise.all([params, headers()])
-  const host = requestHeaders.get('x-forwarded-host') || requestHeaders.get('host') || 'localhost:8080'
-  const protocol = requestHeaders.get('x-forwarded-proto') || (host.includes('localhost') ? 'http' : 'https')
-  const metadataBase = new URL(`${protocol}://${host}`)
+  const { locale } = await params
+  const metadataBase = new URL(
+    (process.env.NEXT_PUBLIC_SITE_URL || 'https://joaomarcos.dev').replace(/\/$/, ''),
+  )
   const isEnglish = locale === 'en'
   const title = isEnglish
     ? 'João Marcos — Software, AI & Automation'

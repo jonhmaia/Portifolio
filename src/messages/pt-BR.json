@@ -13,7 +13,8 @@
     "toggleTheme": "Alternar tema"
   },
   "a11y": {
-    "navigationMenu": "Menu de navegação"
+    "navigationMenu": "Menu de navegação",
+    "closeMenu": "Fechar menu"
   },
   "footer": {
     "description": "Desenvolvedor Full Stack apaixonado por criar soluções web modernas e escaláveis. Especializado em React, Node.js e Python.",
@@ -196,6 +197,27 @@
         "name": "Inglês",
         "level": "Intermediário"
       }
+    },
+    "document": {
+      "documentLabel": "Currículo / 2026",
+      "profileLabel": "Perfil",
+      "portraitMark": "CV / 2026",
+      "currentFocus": "Disponível para novos projetos",
+      "summaryEyebrow": "Posicionamento",
+      "summaryHeadline": "Código, produto e sistemas que escalam.",
+      "experienceEyebrow": "Trajetória",
+      "projectsEyebrow": "Seleção",
+      "educationEyebrow": "Arquivo",
+      "skillsEyebrow": "Toolkit",
+      "languagesEyebrow": "Registro",
+      "contact": "Contato",
+      "ctaEyebrow": "Próximo capítulo",
+      "ctaHeadline": "Vamos construir algo que mereça existir.",
+      "ctaBody": "Produtos digitais, IA e automações que transformam complexidade em escala.",
+      "email": "Email",
+      "phone": "Telefone",
+      "location": "Local",
+      "practiceLine": "Software / IA / Automação"
     }
   },
   "contact": {
@@ -300,10 +322,22 @@
   "blog": {
     "title": "Blog",
     "subtitle": "Artigos sobre desenvolvimento web, programação, tecnologia e dicas para quem está na área de tecnologia.",
+    "topics": {
+      "practice": "CODE / AI SYSTEMS / CASES",
+      "life": "DICAS / ESTILO DE VIDA",
+      "items": ["CODE", "AI SYSTEMS", "CASES", "DICAS", "ESTILO DE VIDA"]
+    },
     "empty": {
-      "title": "Nenhum artigo encontrado",
-      "filtered": "Tente remover os filtros para ver mais artigos.",
-      "default": "Os artigos serão publicados aqui em breve."
+      "index": "Em composição / Vol. 01",
+      "indexFiltered": "Sem resultados / Recorte",
+      "title": "Caderno em aberto",
+      "titleFiltered": "Nada neste recorte",
+      "default": "As primeiras notas — código, sistemas de IA, cases, dicas e estilo de vida — ainda estão sendo compostas. Enquanto o feed não entra no ar, o arquivo de projetos já está publicado.",
+      "filtered": "Não há notas com o recorte “{filter}”. Limpe o filtro para voltar ao caderno completo, ou explore os projetos.",
+      "upcoming": "Próximas pautas",
+      "projects": "Ver projetos",
+      "contact": "Falar comigo",
+      "clear": "Ver todas as notas"
     }
   },
   "validation": {

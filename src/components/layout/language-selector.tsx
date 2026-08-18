@@ -4,8 +4,8 @@ import { useTransition } from 'react'
 import { useParams } from 'next/navigation'
 import { useLocale } from 'next-intl'
 import { usePathname, useRouter } from '@/navigation'
-import { Globe } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -86,7 +86,19 @@ const languages: Language[] = [
   { code: 'en', name: 'English', flag: USFlag, country: 'USA' },
 ]
 
-export function LanguageSelector() {
+type LanguageSelectorProps = {
+  className?: string
+  showLabel?: boolean
+  contentClassName?: string
+  modal?: boolean
+}
+
+export function LanguageSelector({
+  className,
+  showLabel = false,
+  contentClassName,
+  modal = true,
+}: LanguageSelectorProps) {
   const pathname = usePathname()
   const router = useRouter()
   const params = useParams()
@@ -105,21 +117,23 @@ export function LanguageSelector() {
   const currentLanguage = languages.find((l) => l.code === locale)
 
   return (
-    <DropdownMenu>
+    <DropdownMenu modal={modal}>
       <DropdownMenuTrigger asChild>
         <Button
           variant="ghost"
           size="sm"
-          className="gap-2 hover:bg-accent"
+          className={cn('gap-2 hover:bg-accent', className)}
           disabled={isPending}
         >
           {currentLanguage && (
             <currentLanguage.flag className="w-5 h-3.5 rounded-[2px] object-cover shadow-sm border border-border/10" />
           )}
-          <span className="hidden sm:inline font-medium">{currentLanguage?.name}</span>
+          <span className={cn(showLabel ? 'inline' : 'hidden sm:inline', 'font-medium')}>
+            {currentLanguage?.name}
+          </span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-48">
+      <DropdownMenuContent align="end" className={cn('w-48', contentClassName)}>
         {languages.map((lang) => (
           <DropdownMenuItem
             key={lang.code}

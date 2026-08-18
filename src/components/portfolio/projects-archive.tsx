@@ -5,6 +5,7 @@ import { getCachedProjects } from '@/lib/supabase/cached'
 import type { ProjectWithRelations } from '@/lib/types/database'
 import { ProjectGrid } from './project-grid'
 import styles from '@/components/blog/editorial.module.css'
+import gallery from './gallery.module.css'
 
 export interface ProjectsArchiveProps {
   params: Promise<{ locale: string }>
@@ -93,14 +94,14 @@ export async function ProjectsArchive({ params }: ProjectsArchiveProps) {
           </p>
         </header>
 
-        <section aria-labelledby="project-index">
+        <section className={gallery.section} aria-labelledby="project-index">
           <div className={styles.feedHeader}>
             <h2 className={styles.sectionLabel} id="project-index">
-              {isEnglish ? 'Project index' : 'Índice de projetos'}
+              {isEnglish ? 'Selected work' : 'Trabalho selecionado'}
             </h2>
             <div className={styles.feedTools}>
               <span className={styles.feedCount}>{activeFilter}</span>
-                <span className={styles.filterChip}>
+              <span className={styles.filterChip}>
                 {String(projects.length).padStart(2, '0')} / CASES
               </span>
             </div>

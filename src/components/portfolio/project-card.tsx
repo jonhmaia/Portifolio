@@ -1,8 +1,9 @@
 import type { CSSProperties } from 'react'
 import Image from 'next/image'
-import { ArrowUpRight, Eye } from 'lucide-react'
+import { ArrowUpRight, Eye, ExternalLink, Github } from 'lucide-react'
 import { Link } from '@/navigation'
-import styles from '@/components/blog/editorial.module.css'
+import type { ProjectStatus } from '@/lib/types/database'
+import styles from './gallery.module.css'
 
 export interface EditorialProject {
   id: number | string
@@ -15,6 +16,7 @@ export interface EditorialProject {
   deploy_url?: string | null
   views_count?: number | null
   is_featured?: boolean
+  status?: ProjectStatus
   created_at?: string
   isFallback?: boolean
   technologies?: Array<{ id?: number | string; name: string; color_hex?: string | null }>
@@ -24,35 +26,60 @@ export interface EditorialProject {
 interface ProjectCardProps {
   project: EditorialProject
   index?: number
+  count?: number
   locale?: string
 }
 
-export function ProjectCard({ project, index = 0, locale = 'pt-BR' }: ProjectCardProps) {
+const STATUS_COPY: Record<ProjectStatus, { en: string; pt: string }> = {
+  dev: { en: 'In development', pt: 'Em desenvolvimento' },
+  concluido: { en: 'Shipped', pt: 'Concluído' },
+  pausado: { en: 'Paused', pt: 'Pausado' },
+  arquivado: { en: 'Archived', pt: 'Arquivado' },
+}
+
+export function ProjectCard({ project, index = 0, count, locale = 'pt-BR' }: ProjectCardProps) {
   const isEnglish = locale === 'en'
-  const isFeatured = index === 0
-  const href = project.isFallback ? '/projetos' : `/projetos/${project.slug}`
+  const href = project.isFallback
+    ? '/projetos'
+    : {
+        pathname: '/projetos/[slug]' as const,
+        params: { slug: project.slug },
+      }
   const technologies = project.technologies || []
   const primaryTech = technologies[0]
   const year = project.created_at ? new Date(project.created_at).getFullYear() : null
-  const categoryStyle = primaryTech?.color_hex
-    ? ({ '--category-color': primaryTech.color_hex } as CSSProperties)
-    : undefined
+  const statusLabel = project.status
+    ? STATUS_COPY[project.status]?.[isEnglish ? 'en' : 'pt']
+    : null
+  const accent = primaryTech?.color_hex || '#4da3ff'
+  const visibleTech = technologies.slice(0, 4)
 
   return (
-    <article className={`${styles.card} ${isFeatured ? styles.featuredCard : ''}`}>
+    <article
+      className={styles.card}
+      style={{ '--card-accent': accent } as CSSProperties}
+      data-gallery-card=""
+      aria-roledescription="slide"
+      aria-label={
+        count
+          ? `${project.title}, ${index + 1} / ${count}`
+          : project.title
+      }
+    >
       <Link
-        href={href as never}
-        className={styles.mediaLink}
+        href={href}
+        className={styles.cardLink}
         aria-label={`${isEnglish ? 'Open case' : 'Abrir case'}: ${project.title}`}
       >
         <div className={styles.media}>
           {project.cover_image_url ? (
             <Image
               src={project.cover_image_url}
-              alt={project.title}
+              alt=""
               fill
-              priority={isFeatured}
-              sizes={isFeatured ? '(max-width: 780px) 100vw, 58vw' : '(max-width: 780px) 100vw, 46vw'}
+              draggable={false}
+              priority={index < 2}
+              sizes="(max-width: 860px) 82vw, 36.5rem"
               className={styles.coverImage}
             />
           ) : (
@@ -60,64 +87,97 @@ export function ProjectCard({ project, index = 0, locale = 'pt-BR' }: ProjectCar
               {project.title.charAt(0)}
             </div>
           )}
+
+          <span className={styles.frame} aria-hidden="true" />
+
+          <div className={styles.mediaChrome}>
+            <span className={styles.index}>{String(index + 1).padStart(2, '0')}</span>
+            <span className={styles.mediaArrow} aria-hidden="true">
+              <ArrowUpRight size={16} strokeWidth={1.8} />
+            </span>
+          </div>
         </div>
 
-        <span className={styles.cardIndex}>{String(index + 1).padStart(2, '0')}</span>
+        <div className={styles.body}>
+          <div className={styles.meta}>
+            {primaryTech && (
+              <span className={styles.metaLead}>
+                <span className={styles.metaDot} aria-hidden="true" />
+                {primaryTech.name}
+              </span>
+            )}
+            {year && <span>{year}</span>}
+            {statusLabel && <span>{statusLabel}</span>}
+            {project.is_featured && (
+              <span className={styles.featuredBadge}>{isEnglish ? 'Featured' : 'Destaque'}</span>
+            )}
+          </div>
 
-        {(primaryTech || project.is_featured) && (
-          <span className={styles.categoryBadge} style={categoryStyle}>
-            <span className={styles.categoryDot} aria-hidden="true" />
-            {primaryTech?.name || (isEnglish ? 'Selected' : 'Destaque')}
-          </span>
-        )}
-      </Link>
-
-      <div className={styles.cardContent}>
-        <header className={styles.cardHeader}>
-          <Link href={href as never} className={styles.cardTitleLink}>
-            <h2 className={styles.cardTitle}>{project.title}</h2>
-          </Link>
+          <h2 className={styles.title}>{project.title}</h2>
 
           {(project.short_description || project.subtitle) && (
             <p className={styles.summary}>{project.short_description || project.subtitle}</p>
           )}
 
-          {technologies.length > 0 && (
-            <div className={styles.tagList} aria-label={isEnglish ? 'Technologies' : 'Tecnologias'}>
-              {technologies.slice(0, 4).map((technology) => (
-                <span className={styles.tag} key={technology.id || technology.name}>
+          {visibleTech.length > 0 && (
+            <ul className={styles.techList} aria-label={isEnglish ? 'Technologies' : 'Tecnologias'}>
+              {visibleTech.map((technology) => (
+                <li
+                  className={styles.tech}
+                  key={technology.id || technology.name}
+                  style={{ '--tech-color': technology.color_hex || accent } as CSSProperties}
+                >
+                  <span className={styles.techDot} aria-hidden="true" />
                   {technology.name}
-                </span>
+                </li>
               ))}
-              {technologies.length > 4 && (
-                <span className={styles.tag}>+{technologies.length - 4}</span>
+              {technologies.length > visibleTech.length && (
+                <li className={styles.tech}>+{technologies.length - visibleTech.length}</li>
               )}
-            </div>
+            </ul>
           )}
-        </header>
 
-        <div className={styles.cardFooter}>
-          <div className={styles.author}>
-            <span className={styles.avatarFallback} aria-hidden="true">JM</span>
-            <span className={styles.authorName}>João Marcos</span>
-          </div>
-
-          <div className={styles.cardMeta}>
-            {year && <span className={styles.metaItem}>{year}</span>}
-            <span className={styles.metaItem}>
+          <div className={styles.footer}>
+            <span className={styles.cta}>
+              <span>{isEnglish ? 'View case' : 'Ver case'}</span>
+              <span className={styles.ctaIcon} aria-hidden="true">
+                <ArrowUpRight size={16} strokeWidth={1.8} />
+              </span>
+            </span>
+            <span className={styles.views}>
               <Eye aria-hidden="true" size={13} />
               {project.views_count ?? 0}
             </span>
           </div>
         </div>
+      </Link>
 
-        <Link href={href as never} className={styles.readLink}>
-          <span>{isEnglish ? 'View case' : 'Ver case'}</span>
-          <span className={styles.readArrow} aria-hidden="true">
-            <ArrowUpRight size={18} strokeWidth={1.7} />
-          </span>
-        </Link>
-      </div>
+      {(project.repo_url || project.deploy_url) && (
+        <div className={styles.quickLinks}>
+          {project.repo_url && (
+            <a
+              className={styles.quickLink}
+              href={project.repo_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={isEnglish ? `${project.title} repository` : `Repositório de ${project.title}`}
+            >
+              <Github size={15} strokeWidth={1.8} />
+            </a>
+          )}
+          {project.deploy_url && (
+            <a
+              className={styles.quickLink}
+              href={project.deploy_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={isEnglish ? `${project.title} live site` : `Site de ${project.title}`}
+            >
+              <ExternalLink size={15} strokeWidth={1.8} />
+            </a>
+          )}
+        </div>
+      )}
     </article>
   )
 }

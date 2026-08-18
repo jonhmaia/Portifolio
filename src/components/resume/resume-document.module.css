@@ -1,7 +1,7 @@
 .resumeRoot {
   --resume-paper: #efeee7;
   --resume-ink: #090a09;
-  --resume-accent: #ff5b3d;
+  --resume-accent: #4da3ff;
   --resume-secondary: #4da3ff;
   --resume-muted: #66665f;
   --resume-line-light: rgba(9, 10, 9, 0.18);
@@ -44,8 +44,8 @@
 
 .hero {
   display: flex;
-  min-height: max(47rem, calc(100svh - 4.5rem));
-  padding-top: clamp(2.25rem, 5vw, 4.5rem);
+  min-height: max(47rem, 100svh);
+  padding-top: clamp(6.5rem, 10vw, 8.75rem);
   padding-bottom: clamp(2.5rem, 5vw, 4rem);
 }
 
@@ -70,7 +70,6 @@
 .portraitCaption,
 .sectionMeta,
 .kicker,
-.metric dt,
 .timelineMeta time,
 .projectTopline,
 .educationTopline,
@@ -107,7 +106,7 @@
   height: 0.55rem;
   border-radius: 999px;
   background: var(--resume-accent);
-  box-shadow: 0 0 0 0 rgba(255, 91, 61, 0.45);
+  box-shadow: 0 0 0 0 rgba(77, 163, 255, 0.45);
   animation: statusPulse 2.2s ease-out infinite;
 }
 
@@ -136,7 +135,7 @@
 .heroName {
   margin: 0;
   font-size: clamp(4.15rem, 10.4vw, 10.75rem);
-  font-weight: 800;
+  font-weight: 560;
   line-height: 0.77;
   letter-spacing: -0.085em;
   text-transform: uppercase;
@@ -348,7 +347,7 @@ a.contactItem:focus-visible {
   max-width: 13ch;
   margin: 0;
   font-size: clamp(3.3rem, 7.3vw, 7.4rem);
-  font-weight: 750;
+  font-weight: 520;
   line-height: 0.86;
   letter-spacing: -0.075em;
 }
@@ -363,7 +362,7 @@ a.contactItem:focus-visible {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 82% 5%, rgba(255, 91, 61, 0.12), transparent 25%),
+    radial-gradient(circle at 82% 5%, rgba(77, 163, 255, 0.14), transparent 25%),
     linear-gradient(110deg, transparent 0 49.9%, rgba(239, 238, 231, 0.035) 50%, transparent 50.1%);
   content: '';
   pointer-events: none;
@@ -422,40 +421,6 @@ a.contactItem:focus-visible {
 .summaryContent a,
 .summaryContent :global(a) {
   color: var(--resume-accent) !important;
-}
-
-.metricsGrid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  margin: clamp(4rem, 8vw, 8rem) 0 0;
-  border-top: 1px solid var(--resume-line-dark);
-  border-bottom: 1px solid var(--resume-line-dark);
-}
-
-.metric {
-  min-width: 0;
-  padding: clamp(1.5rem, 3vw, 2.75rem) clamp(0.75rem, 2vw, 2rem);
-}
-
-.metric + .metric {
-  border-left: 1px solid var(--resume-line-dark);
-}
-
-.metric dd {
-  margin: 0;
-  color: var(--resume-paper);
-  font-size: clamp(2.6rem, 5.5vw, 6rem);
-  font-weight: 700;
-  line-height: 0.9;
-  letter-spacing: -0.075em;
-}
-
-.metric dt {
-  margin-top: 1rem;
-  color: rgba(239, 238, 231, 0.56);
-  font-size: 0.58rem;
-  font-weight: 700;
-  line-height: 1.5;
 }
 
 .timeline {
@@ -886,7 +851,7 @@ a.contactItem:focus-visible {
   max-width: 10ch;
   margin: 0;
   font-size: clamp(3.7rem, 8.7vw, 9rem);
-  font-weight: 750;
+  font-weight: 520;
   line-height: 0.83;
   letter-spacing: -0.085em;
 }
@@ -996,8 +961,8 @@ a.contactItem:focus-visible {
 }
 
 @keyframes statusPulse {
-  70% { box-shadow: 0 0 0 0.55rem rgba(255, 91, 61, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(255, 91, 61, 0); }
+  70% { box-shadow: 0 0 0 0.55rem rgba(77, 163, 255, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(77, 163, 255, 0); }
 }
 
 @media (max-width: 68rem) {
@@ -1036,7 +1001,7 @@ a.contactItem:focus-visible {
 
   .hero {
     min-height: auto;
-    padding-top: 1.5rem;
+    padding-top: 6.25rem;
   }
 
   .heroTopline {
@@ -1080,18 +1045,6 @@ a.contactItem:focus-visible {
 
   .summaryGrid {
     grid-template-columns: 1fr;
-  }
-
-  .metricsGrid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .metric:nth-child(3) {
-    border-left: 0;
-  }
-
-  .metric:nth-child(n + 3) {
-    border-top: 1px solid var(--resume-line-dark);
   }
 
   .timelineItem {

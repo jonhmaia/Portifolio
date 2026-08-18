@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { getCachedArticles } from '@/lib/supabase/cached'
 import { ArticleCard } from '@/components/blog/article-card'
+import { EmptyFeed } from '@/components/blog/empty-feed'
 import styles from '@/components/blog/editorial.module.css'
 
 export const metadata: Metadata = {
@@ -16,8 +17,6 @@ interface BlogPageProps {
 }
 
 async function ArticlesGrid({ category, tag, locale }: { category?: string; tag?: string; locale: string }) {
-  const t = await getTranslations('blog')
-
   let articlesData: any[] = []
   try {
     articlesData = await getCachedArticles()
@@ -78,15 +77,7 @@ async function ArticlesGrid({ category, tag, locale }: { category?: string; tag?
   if (articles.length === 0) {
     return (
       <div className={styles.articleGrid}>
-        <div className={styles.emptyState} role="status">
-          <span className={styles.emptyIndex}>00 / EMPTY FEED</span>
-          <div>
-            <h2 className={styles.emptyTitle}>{t('empty.title')}</h2>
-            <p className={styles.emptyCopy}>
-              {category || tag ? t('empty.filtered') : t('empty.default')}
-            </p>
-          </div>
-        </div>
+        <EmptyFeed filter={category || tag} />
       </div>
     )
   }
@@ -143,9 +134,9 @@ export default async function BlogPage({ params, searchParams }: BlogPageProps) 
           </div>
 
           <div className={styles.mastheadMeta} aria-label={isEnglish ? 'Topics' : 'Temas'}>
-            <span className={styles.feedCount}>CODE / AI</span>
+            <span className={styles.feedCount}>{t('topics.practice')}</span>
             <span className={styles.mastheadMetaLine} aria-hidden="true" />
-            <span className={styles.feedCount}>SYSTEMS / PRODUCT</span>
+            <span className={styles.feedCount}>{t('topics.life')}</span>
           </div>
 
           <p className={styles.mastheadAside}>{t('subtitle')}</p>

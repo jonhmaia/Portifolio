@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { revalidateTag } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
+import { revalidateProjectContent } from '@/lib/cache/projects'
 import type { ProjectQueryResponse, ProjectTranslation, Technology, Tag } from '@/lib/types/database'
 
 // GET /api/projects/[id] - Get a single project
@@ -116,6 +116,11 @@ export async function PUT(
     }
 
     const projectId = parseInt(id)
+    const { data: previousProject } = await supabase
+      .from('projects')
+      .select('slug')
+      .eq('id', id)
+      .maybeSingle()
 
     // Update the project (update legacy fields with PT translation)
     const { data: project, error: projectError } = await ((supabase
@@ -242,9 +247,11 @@ export async function PUT(
       }
     }
 
-    revalidateTag('projects', 'default')
-    if ((project as any)?.slug) {
-      revalidateTag(`project-${(project as any).slug}`, 'default')
+    const nextSlug = (project as { slug?: string } | null)?.slug
+    const previousSlug = (previousProject as { slug?: string } | null)?.slug
+    revalidateProjectContent(nextSlug)
+    if (previousSlug && previousSlug !== nextSlug) {
+      revalidateProjectContent(previousSlug)
     }
 
     return NextResponse.json({ data: project })
@@ -269,6 +276,12 @@ export async function DELETE(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
+    const { data: existing } = await supabase
+      .from('projects')
+      .select('slug')
+      .eq('id', id)
+      .maybeSingle()
+
     // Translations and images are deleted automatically via CASCADE
     const { error } = await supabase
       .from('projects')
@@ -279,7 +292,7 @@ export async function DELETE(
       return NextResponse.json({ error: error.message }, { status: 500 })
     }
 
-    revalidateTag('projects', 'default')
+    revalidateProjectContent((existing as { slug?: string } | null)?.slug)
 
     return NextResponse.json({ message: 'Project deleted successfully' })
   } catch (error) {

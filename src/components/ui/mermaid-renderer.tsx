@@ -25,8 +25,19 @@ interface MermaidRendererProps {
   chart: string
 }
 
+const mermaidSvgCache = new Map<string, string>()
+
+function hashChart(value: string) {
+  let hash = 0
+  for (let index = 0; index < value.length; index += 1) {
+    hash = (hash * 31 + value.charCodeAt(index)) | 0
+  }
+  return Math.abs(hash).toString(36)
+}
+
 export function MermaidRenderer({ chart }: MermaidRendererProps) {
-  const [svg, setSvg] = useState<string>('')
+  const cleanChart = chart.trim()
+  const [svg, setSvg] = useState(() => mermaidSvgCache.get(cleanChart) ?? '')
   const [error, setError] = useState<string | null>(null)
   const [isFullscreen, setIsFullscreen] = useState(false)
   const [zoom, setZoom] = useState(1)
@@ -86,17 +97,22 @@ export function MermaidRenderer({ chart }: MermaidRendererProps) {
   }
 
   useEffect(() => {
+    const cachedSvg = mermaidSvgCache.get(cleanChart)
+    if (cachedSvg) {
+      setSvg(cachedSvg)
+      setError(null)
+      return
+    }
+
     let isMounted = true
-    const id = `mermaid-${Math.floor(Math.random() * 1000000)}`
+    const id = `mermaid-${hashChart(cleanChart)}`
 
     const renderChart = async () => {
       try {
         setError(null)
-        // Sanitiza a string removendo quebras de linha adicionais nas pontas
-        const cleanChart = chart.trim()
-        
         const { svg: renderedSvg } = await mermaid.render(id, cleanChart)
-        
+        mermaidSvgCache.set(cleanChart, renderedSvg)
+
         if (isMounted) {
           setSvg(renderedSvg)
         }
@@ -113,7 +129,7 @@ export function MermaidRenderer({ chart }: MermaidRendererProps) {
     return () => {
       isMounted = false
     }
-  }, [chart])
+  }, [cleanChart])
 
   // Fecha tela cheia ao pressionar Escape
   useEffect(() => {
