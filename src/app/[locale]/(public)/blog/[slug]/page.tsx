@@ -8,10 +8,13 @@ import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { Link } from '@/navigation'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { MarkdownRenderer } from '@/components/blog/markdown-renderer'
+import { ArticleReadingSurface } from '@/components/blog/article-reading-surface'
 import { ViewCounter } from '@/components/blog/view-counter'
 import { getCachedArticleBySlug, getCachedSitemapArticles } from '@/lib/supabase/cached'
 import { routing } from '@/i18n/routing'
 import styles from '@/components/blog/editorial.module.css'
+
+const AUTHOR_PORTRAIT = '/joao-maia.jpg'
 
 interface ArticlePageProps {
   params: Promise<{ slug: string; locale: string }>
@@ -156,7 +159,6 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         topics: 'Topics / index',
         related: 'Related projects',
         project: 'View project',
-        author: 'About the author',
       }
     : {
         article: 'Entrada do caderno',
@@ -168,7 +170,6 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         topics: 'Tópicos / índice',
         related: 'Projetos relacionados',
         project: 'Ver projeto',
-        author: 'Sobre o autor',
       }
   const authorInitials = article.author?.full_name
     ?.split(' ')
@@ -207,17 +208,6 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
           {article.summary && <p className={styles.articleLead}>{article.summary}</p>}
 
           <div className={styles.articleMetaRail}>
-            <div className={styles.articleAuthorMini}>
-              <Avatar className={styles.articleAvatar}>
-                <AvatarImage src={article.author?.avatar_url || undefined} />
-                <AvatarFallback className={styles.articleAvatarFallback}>{authorInitials}</AvatarFallback>
-              </Avatar>
-              <div>
-                <span className={styles.articleMetaLabel}>{copy.writtenBy}</span>
-                <div className={styles.articleAuthorName}>{article.author?.full_name || (isEnglish ? 'Author' : 'Autor')}</div>
-              </div>
-            </div>
-
             {publishedDate && (
               <div className={styles.articleMetaItem}>
                 <span className={styles.articleMetaLabel}>{copy.date}</span>
@@ -246,22 +236,24 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         </div>
       </header>
 
-      {article.cover_image_url && (
-        <div className={styles.articleCoverShell}>
-          <div className={styles.articleCover}>
-            <Image
-              src={article.cover_image_url}
-              alt={article.title}
-              fill
-              priority
-              sizes="(max-width: 780px) 100vw, 92vw"
-              className={styles.articleCoverImage}
-            />
+      <div className={styles.articleAuthorStrip}>
+        <div className={styles.shell}>
+          <div className={styles.articleAuthorMini}>
+            <Avatar className={styles.articleAvatar}>
+              <AvatarImage src={article.author?.avatar_url || AUTHOR_PORTRAIT} />
+              <AvatarFallback className={styles.articleAvatarFallback}>{authorInitials}</AvatarFallback>
+            </Avatar>
+            <div>
+              <span className={styles.articleMetaLabel}>{copy.writtenBy}</span>
+              <div className={styles.articleAuthorName}>
+                {article.author?.full_name || (isEnglish ? 'Author' : 'Autor')}
+              </div>
+            </div>
           </div>
         </div>
-      )}
+      </div>
 
-      <div className={styles.articlePaper}>
+      <ArticleReadingSurface>
         <div className={`${styles.shell} ${styles.articleBodyGrid}`}>
           <aside className={styles.articleAside} aria-label={copy.topics}>
             <div className={styles.asideLabel}>{copy.topics}</div>
@@ -309,36 +301,9 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
               </section>
             )}
 
-            {article.author && (
-              <section className={styles.authorPanel} aria-labelledby="article-author">
-                <Avatar className={styles.authorPortrait}>
-                  <AvatarImage src={article.author.avatar_url || undefined} />
-                  <AvatarFallback className={styles.authorPortraitFallback}>{authorInitials}</AvatarFallback>
-                </Avatar>
-
-                <div>
-                  <p className={styles.authorHeading}>{copy.author}</p>
-                  <h2 className={styles.authorNameLarge} id="article-author">{article.author.full_name}</h2>
-                  {article.author.bio && <p className={styles.authorBio}>{article.author.bio}</p>}
-                </div>
-
-                <div className={styles.authorLinks}>
-                  {article.author.github_url && (
-                    <a className={styles.authorLink} href={article.author.github_url} target="_blank" rel="noopener noreferrer">
-                      GitHub ↗
-                    </a>
-                  )}
-                  {article.author.linkedin_url && (
-                    <a className={styles.authorLink} href={article.author.linkedin_url} target="_blank" rel="noopener noreferrer">
-                      LinkedIn ↗
-                    </a>
-                  )}
-                </div>
-              </section>
-            )}
           </div>
         </div>
-      </div>
+      </ArticleReadingSurface>
     </article>
   )
 }

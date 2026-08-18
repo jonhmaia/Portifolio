@@ -7,7 +7,16 @@
     "contact": "Contato"
   },
   "blogArticle": {
-    "back": "Voltar ao blog"
+    "back": "Voltar ao blog",
+    "readingPrefs": {
+      "toolbar": "Preferências de leitura",
+      "background": "Fundo",
+      "light": "Claro",
+      "dark": "Escuro",
+      "fontSize": "Fonte",
+      "increase": "Aumentar fonte",
+      "decrease": "Diminuir fonte"
+    }
   },
   "actions": {
     "toggleTheme": "Alternar tema"

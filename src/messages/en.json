@@ -7,7 +7,16 @@
     "contact": "Contact"
   },
   "blogArticle": {
-    "back": "Back to blog"
+    "back": "Back to blog",
+    "readingPrefs": {
+      "toolbar": "Reading preferences",
+      "background": "Background",
+      "light": "Light",
+      "dark": "Dark",
+      "fontSize": "Font size",
+      "increase": "Increase font size",
+      "decrease": "Decrease font size"
+    }
   },
   "actions": {
     "toggleTheme": "Toggle theme"
