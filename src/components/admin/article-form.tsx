@@ -577,8 +577,9 @@ export function ArticleForm({ article, categories, tags, projects }: ArticleForm
                   <div>
                     <CardTitle>Conteúdo Escrito</CardTitle>
                     <CardDescription>
-                      Markdown: imagens com <code className="text-xs">![legenda|small](url)</code>, badge de
-                      hoje com <code className="text-xs">::today::</code> ou{' '}
+                      Markdown: imagens com <code className="text-xs">![legenda|small](url)</code> ou sem
+                      legenda <code className="text-xs">![|small](url)</code>. GIF permitido. Badge de hoje
+                      com <code className="text-xs">::today::</code> ou{' '}
                       <code className="text-xs">&lt;today /&gt;</code>.
                     </CardDescription>
                   </div>

@@ -1,6 +1,16 @@
 'use client'
 
-import { Fragment, useMemo, type ComponentPropsWithoutRef, type JSX } from 'react'
+import {
+  Children,
+  Fragment,
+  cloneElement,
+  isValidElement,
+  useMemo,
+  type ComponentPropsWithoutRef,
+  type JSX,
+  type ReactElement,
+  type ReactNode,
+} from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import rehypeHighlight from 'rehype-highlight'
@@ -8,6 +18,11 @@ import { useLocale } from 'next-intl'
 import { cn } from '@/lib/utils'
 import { MermaidRenderer } from '@/components/ui/mermaid-renderer'
 import { ArticleTodayBadge } from '@/components/blog/article-today-badge'
+import {
+  isAnimatedImageUrl,
+  parseArticleImageAlt,
+  type ArticleImageSize,
+} from '@/lib/markdown/article-images'
 import { parseMarkdownSegments } from '@/lib/markdown/article-shortcodes'
 import styles from './editorial.module.css'
 
@@ -50,43 +65,56 @@ function prepareMarkdownContent(content: string) {
   return content.replace(/<emphasis>([\s\S]*?)<\/emphasis>/gi, '**$1**')
 }
 
-type ImageSize = 'small' | 'medium' | 'large'
-
-const IMAGE_SIZE_ALIASES: Record<string, ImageSize> = {
-  small: 'small',
-  sm: 'small',
-  pequeno: 'small',
-  p: 'small',
-  medium: 'medium',
-  md: 'medium',
-  medio: 'medium',
-  médio: 'medium',
-  m: 'medium',
-  large: 'large',
-  lg: 'large',
-  grande: 'large',
-  l: 'large',
-}
-
-const IMAGE_WRAP_CLASS: Record<ImageSize, string | undefined> = {
+const IMAGE_WRAP_CLASS: Record<ArticleImageSize, string | undefined> = {
   small: styles.richImageWrapSmall,
   medium: styles.richImageWrapMedium,
   large: undefined,
 }
 
-function parseImageAlt(alt?: string | null): { caption: string; size: ImageSize } {
-  if (!alt) return { caption: '', size: 'large' }
+type MarkdownImageProps = MarkdownDomProps<'img'> & {
+  isInline?: boolean
+}
 
-  const pipeIndex = alt.indexOf('|')
-  if (pipeIndex === -1) {
-    return { caption: alt.trim(), size: 'large' }
-  }
+function MarkdownImage({ src, alt, isInline = false, ...props }: MarkdownImageProps) {
+  const srcUrl = typeof src === 'string' ? src : ''
+  if (!srcUrl) return null
 
-  const caption = alt.slice(0, pipeIndex).trim()
-  const sizeToken = alt.slice(pipeIndex + 1).trim().toLowerCase()
-  const size = IMAGE_SIZE_ALIASES[sizeToken] ?? 'large'
+  const { caption, size } = parseArticleImageAlt(alt)
+  const showCaption = Boolean(caption) && !isInline
+  const animated = isAnimatedImageUrl(srcUrl)
 
-  return { caption, size }
+  return (
+    <span
+      className={cn(
+        styles.richImageWrap,
+        IMAGE_WRAP_CLASS[size],
+        !showCaption && styles.richImageWrapNoCaption,
+        animated && styles.richImageWrapGif,
+        isInline && styles.richImageWrapInline
+      )}
+    >
+      {/* Markdown images have author-defined dimensions and remote origins. */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        {...omitMarkdownProps(props)}
+        src={srcUrl}
+        alt={caption}
+        className={styles.richImage}
+        referrerPolicy="no-referrer"
+        loading="lazy"
+        decoding="async"
+      />
+      {showCaption ? <span className={styles.richCaption}>{caption}</span> : null}
+    </span>
+  )
+}
+
+function isWhitespaceNode(node: ReactNode) {
+  return typeof node === 'string' && !node.trim()
+}
+
+function isMarkdownImageNode(node: ReactNode): node is ReactElement<MarkdownImageProps> {
+  return isValidElement(node) && node.type === MarkdownImage
 }
 
 const markdownComponents = {
@@ -105,11 +133,23 @@ const markdownComponents = {
       {children}
     </h3>
   ),
-  p: ({ children, ...props }: MarkdownDomProps<'p'>) => (
-    <p className={styles.richParagraph} {...omitMarkdownProps(props)}>
-      {children}
-    </p>
-  ),
+  p: ({ children, ...props }: MarkdownDomProps<'p'>) => {
+    const nodes = Children.toArray(children)
+    const contentNodes = nodes.filter((node) => !isWhitespaceNode(node))
+    const imageOnly = contentNodes.length > 0 && contentNodes.every(isMarkdownImageNode)
+
+    if (imageOnly) {
+      return <>{contentNodes}</>
+    }
+
+    return (
+      <p className={styles.richParagraph} {...omitMarkdownProps(props)}>
+        {Children.map(children, (child) =>
+          isMarkdownImageNode(child) ? cloneElement(child, { isInline: true }) : child
+        )}
+      </p>
+    )
+  },
   strong: ({ children, ...props }: MarkdownDomProps<'strong'>) => (
     <strong className={styles.richStrong} {...omitMarkdownProps(props)}>
       {children}
@@ -173,23 +213,7 @@ const markdownComponents = {
       {children}
     </pre>
   ),
-  img: ({ src, alt, ...props }: MarkdownDomProps<'img'>) => {
-    const { caption, size } = parseImageAlt(alt)
-
-    return (
-      <span className={cn(styles.richImageWrap, IMAGE_WRAP_CLASS[size])}>
-        {/* Markdown images have author-defined dimensions and remote origins. */}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={src}
-          alt={caption}
-          className={styles.richImage}
-          {...omitMarkdownProps(props)}
-        />
-        {caption && <span className={styles.richCaption}>{caption}</span>}
-      </span>
-    )
-  },
+  img: MarkdownImage,
   hr: (props: MarkdownDomProps<'hr'>) => (
     <hr className={styles.richRule} {...omitMarkdownProps(props)} />
   ),
